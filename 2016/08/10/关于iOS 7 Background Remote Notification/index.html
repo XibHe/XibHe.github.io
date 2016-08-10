@@ -10,11 +10,12 @@
 如何设置Remote notifications客户端设置需要">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于iOS 7 Background Remote Notification(推送唤醒)">
-<meta property="og:url" content="http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/index.html">
+<meta property="og:url" content="http://XibHe.github.io/2016/08/10/关于iOS 7 Background Remote Notification/index.html">
 <meta property="og:site_name" content="石中剑">
 <meta property="og:description" content="Background Remote Notification简介Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。
 如何设置Remote notifications客户端设置需要">
-<meta property="og:updated_time" content="2016-08-09T15:34:39.000Z">
+<meta property="og:image" content="http://docs.jiguang.cn/client/image/Snip20131119_1.png">
+<meta property="og:updated_time" content="2016-08-10T05:16:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于iOS 7 Background Remote Notification(推送唤醒)">
 <meta name="twitter:description" content="Background Remote Notification简介Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。
@@ -77,8 +78,8 @@
     <div class="outer">
       <section id="main"><article id="post-关于iOS 7 Background Remote Notification" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/08/09/关于iOS 7 Background Remote Notification/" class="article-date">
-  <time datetime="2016-08-09T15:34:40.000Z" itemprop="datePublished">2016-08-09</time>
+    <a href="/2016/08/10/关于iOS 7 Background Remote Notification/" class="article-date">
+  <time datetime="2016-08-10T05:16:50.000Z" itemprop="datePublished">2016-08-10</time>
 </a>
     
   </div>
@@ -99,16 +100,14 @@
       
         <h1 id="Background_Remote_Notification_u7B80_u4ECB"><a href="#Background_Remote_Notification_u7B80_u4ECB" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
 <h1 id="u5982_u4F55_u8BBE_u7F6ERemote_notifications"><a href="#u5982_u4F55_u8BBE_u7F6ERemote_notifications" class="headerlink" title="如何设置Remote notifications"></a>如何设置Remote notifications</h1><h3 id="u5BA2_u6237_u7AEF_u8BBE_u7F6E"><a href="#u5BA2_u6237_u7AEF_u8BBE_u7F6E" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>需要在Xcode 中修改应用的 Capabilities 开启Remote notifications，如图：</p>
-<font color="#DC143C" size="72"> 404 </font>
-
-
+<p><img src="http://docs.jiguang.cn/client/image/Snip20131119_1.png" alt="客户端配置图"></p>
 <p>当注册了Backgroud Modes -&gt; Remote notifications 后，notification 处理函数一律切换到下面函数，后台推送代码也在此函数中调用。</p>
 <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>application:<span class="params">(<span class="variable">UIApplication</span> *)</span>application didReceiveRemoteNotification:<span class="params">(<span class="variable">NSDictionary</span> *)</span>userInfo fetchCompletionHandler:<span class="params">(void (^)</span><span class="params">(<span class="variable">UIBackgroundFetchResult</span>)</span>)completionHandler</span></span><br></pre></td></tr></table></figure>
 <p>这个函数也是iOS8之后获取远程推送调用的方法。</p>
 <h3 id="u670D_u52A1_u7AEF_u8BBE_u7F6E"><a href="#u670D_u52A1_u7AEF_u8BBE_u7F6E" class="headerlink" title="服务端设置"></a><font color="#FA8072"> 服务端设置 </font></h3><p>这个很重要，推送消息携带 content-available: 1 是Background 运行的必须参数，如果不携带此字段则与iOS7 之前版本的普通推送一样。<br>服务端payload格式:aps增加content-available字段，类似于：</p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload example:</span><br><span class="line">&#123;<span class="string">"aps"</span>:&#123;<span class="string">"alert"</span>:<span class="string">"example"</span>, <span class="string">"sound"</span>:<span class="string">"default"</span>, <span class="string">"badge"</span>: <span class="number">1</span>, <span class="string">"category"</span>:<span class="string">"reply"</span>,<span class="string">"content-available"</span>:<span class="string">"1"</span></span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
 <p>这里集成的是极光推送，参考极光推送 <font color="#FA8072"> Push API v3 </font>的文档，发现了iOS 平台上发送 APNS 通知的规范。其中支持的字段中关键字<font color="#FA8072"> content-available </font>的类型为 <font color="#FA8072"> boolean </font>。<br>如果该字段为<font color="#FA8072"> true </font> 说明是 <font color="#FA8072"> Background Remote Notification </font>，如果不携带此字段则是普通的<font color="#FA8072"> Remote Notification </font>。<br>这里需要特别注意的是服务器在配置<font color="#FA8072"> content-available: ture </font> 时的正确性。如图，后台以java为例。</p>
-<font color="#DC143C" size="72"> 404 </font>
+<font color="#DC143C" size="72"> 尚未传图 </font>
 
 <p>最后，当应用在后台挂起时，发起一个<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>。客户端获取的数据，如下:</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">userInfo = <span class="special">&#123;</span></span><br><span class="line">    "_j_msgid" = 2632357907;</span><br><span class="line">    aps =     <span class="special">&#123;</span></span><br><span class="line">        alert = "<span class="command">\U</span>6717<span class="command">\U</span>81f4<span class="command">\U</span>96c6<span class="command">\U</span>56e2<span class="command">\U</span>9738<span class="command">\U</span>5dde<span class="command">\U</span>5e02(<span class="command">\U</span>53bf<span class="command">\U</span>7ea7)<span class="command">\U</span>603b<span class="command">\U</span>4ee3<span class="command">\U</span>7406<span class="command">\U</span>5546<span class="command">\U</span>5bb6<span class="command">\U</span>60a8<span class="command">\U</span>597d<span class="command">\Uff</span>01<span class="command">\U</span>60a8<span class="command">\U</span>7684<span class="command">\U</span>5e97<span class="command">\U</span>94fa<span class="command">\U</span>53c8<span class="command">\U</span>6709<span class="command">\U</span>65b0<span class="command">\U</span>8ba2<span class="command">\U</span>5355<span class="command">\U</span>4e86<span class="command">\Uff</span>0c<span class="command">\U</span>8ba2<span class="command">\U</span>5355<span class="command">\U</span>53f73cef6682b73ca,<span class="command">\U</span>8bf7<span class="command">\U</span>53ca<span class="command">\U</span>65f6<span class="command">\U</span>767b<span class="command">\U</span>5f55<span class="command">\U</span>5546<span class="command">\U</span>57ce<span class="command">\U</span>8fdb<span class="command">\U</span>884c<span class="command">\U</span>8ba2<span class="command">\U</span>5355<span class="command">\U</span>5ba1<span class="command">\U</span>6838<span class="command">\U</span>3002";</span><br><span class="line">        badge = 1;</span><br><span class="line">        category = identifier;</span><br><span class="line">        sound = default;</span><br><span class="line">        content-available = 1;</span><br><span class="line">    <span class="special">&#125;</span>;</span><br><span class="line"><span class="special">&#125;</span></span><br></pre></td></tr></table></figure>
@@ -121,7 +120,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/" data-id="cirnn7gda0001mnf2cka4uev8" class="article-share-link" data-share="baidu" data-title="关于iOS 7 Background Remote Notification(推送唤醒)">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/08/10/关于iOS 7 Background Remote Notification/" data-id="cirog23h1000188f2najz1n7n" class="article-share-link" data-share="baidu" data-title="关于iOS 7 Background Remote Notification(推送唤醒)">分享到</a>
       
 
       
@@ -170,7 +169,7 @@
       <ul>
         
           <li>
-            <a href="/2016/08/09/关于iOS 7 Background Remote Notification/">关于iOS 7 Background Remote Notification(推送唤醒)</a>
+            <a href="/2016/08/10/关于iOS 7 Background Remote Notification/">关于iOS 7 Background Remote Notification(推送唤醒)</a>
           </li>
         
           <li>
