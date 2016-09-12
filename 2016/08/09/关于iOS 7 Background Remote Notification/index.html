@@ -14,8 +14,8 @@
 <meta property="og:site_name" content="石中剑">
 <meta property="og:description" content="Background Remote Notification简介Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。
 如何设置Remote notifications客户端设置需要">
-<meta property="og:image" content="http://docs.jiguang.cn/client/image/Snip20131119_1.png">
-<meta property="og:updated_time" content="2016-08-10T05:20:04.000Z">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/blog/image/Snip20131119_1.png">
+<meta property="og:updated_time" content="2016-09-12T02:56:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于iOS 7 Background Remote Notification(推送唤醒)">
 <meta name="twitter:description" content="Background Remote Notification简介Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。
@@ -100,7 +100,7 @@
       
         <h1 id="Background_Remote_Notification_u7B80_u4ECB"><a href="#Background_Remote_Notification_u7B80_u4ECB" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
 <h1 id="u5982_u4F55_u8BBE_u7F6ERemote_notifications"><a href="#u5982_u4F55_u8BBE_u7F6ERemote_notifications" class="headerlink" title="如何设置Remote notifications"></a>如何设置Remote notifications</h1><h3 id="u5BA2_u6237_u7AEF_u8BBE_u7F6E"><a href="#u5BA2_u6237_u7AEF_u8BBE_u7F6E" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>需要在Xcode 中修改应用的 Capabilities 开启Remote notifications，如图：</p>
-<p><img src="http://docs.jiguang.cn/client/image/Snip20131119_1.png" alt="客户端配置图"></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/Snip20131119_1.png" alt="客户端配置图"></p>
 <p>当注册了Backgroud Modes -&gt; Remote notifications 后，notification 处理函数一律切换到下面函数，后台推送代码也在此函数中调用。</p>
 <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>application:<span class="params">(<span class="variable">UIApplication</span> *)</span>application didReceiveRemoteNotification:<span class="params">(<span class="variable">NSDictionary</span> *)</span>userInfo fetchCompletionHandler:<span class="params">(void (^)</span><span class="params">(<span class="variable">UIBackgroundFetchResult</span>)</span>)completionHandler</span></span><br></pre></td></tr></table></figure>
 <p>这个函数也是iOS8之后获取远程推送调用的方法。</p>
@@ -120,7 +120,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/" data-id="cisyspnim0002vjf28whpwalh" class="article-share-link" data-share="baidu" data-title="关于iOS 7 Background Remote Notification(推送唤醒)">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/" data-id="ciszgm4ki0002h7f2e9554swp" class="article-share-link" data-share="baidu" data-title="关于iOS 7 Background Remote Notification(推送唤醒)">分享到</a>
       
 
       

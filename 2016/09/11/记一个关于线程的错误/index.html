@@ -6,23 +6,23 @@
   
   <title>记一个关于线程的错误 | 石中剑</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记一个关于线程的错误上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：
+  <meta name="description" content="上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：
 
-程序崩溃在将要消失时，控制台给出 This application is modifying the autolayout engine from a background thr">
+程序崩溃在将要消失时，控制台给出 This application is modifying the autolayout engine from a background thread,whinch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一个关于线程的错误">
 <meta property="og:url" content="http://XibHe.github.io/2016/09/11/记一个关于线程的错误/index.html">
 <meta property="og:site_name" content="石中剑">
-<meta property="og:description" content="记一个关于线程的错误上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：
+<meta property="og:description" content="上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：
 
-程序崩溃在将要消失时，控制台给出 This application is modifying the autolayout engine from a background thr">
+程序崩溃在将要消失时，控制台给出 This application is modifying the autolayout engine from a background thread,whinch">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/blog/image/997034A3-8246-4C63-A867-C968F2CCD96F.png">
-<meta property="og:updated_time" content="2016-09-11T15:44:53.000Z">
+<meta property="og:updated_time" content="2016-09-12T02:57:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一个关于线程的错误">
-<meta name="twitter:description" content="记一个关于线程的错误上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：
+<meta name="twitter:description" content="上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：
 
-程序崩溃在将要消失时，控制台给出 This application is modifying the autolayout engine from a background thr">
+程序崩溃在将要消失时，控制台给出 This application is modifying the autolayout engine from a background thread,whinch">
   
     <link rel="alternative" href="/atom.xml" title="石中剑" type="application/atom+xml">
   
@@ -101,7 +101,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="u8BB0_u4E00_u4E2A_u5173_u4E8E_u7EBF_u7A0B_u7684_u9519_u8BEF"><a href="#u8BB0_u4E00_u4E2A_u5173_u4E8E_u7EBF_u7A0B_u7684_u9519_u8BEF" class="headerlink" title="记一个关于线程的错误"></a>记一个关于线程的错误</h1><p>上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：</p>
+        <p>上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/997034A3-8246-4C63-A867-C968F2CCD96F.png" alt="控制台错误"></p>
 <p>程序崩溃在将要消失时，控制台给出<font color="#FA8072"> This application is modifying the autolayout engine from a background thread,whinch can lead to engine corruption and weird crashes.This will cause an exception in a future release. </font> 的报错。</p>
 <p>根据提示认为是后台线程在更新UI布局时，webView与JS的交互也在此时进行。交互操作会阻塞UI的显示及刷新。因此，又回到了一个老生常谈的准则上来了，<font color="#FA8072"> 要在主线程刷新UI布局 </font>。在调用本地应用于H5交互的方法时，要放到主线程中。</p>
@@ -112,7 +112,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/09/11/记一个关于线程的错误/" data-id="cisyspnij0001vjf22mh8zuup" class="article-share-link" data-share="baidu" data-title="记一个关于线程的错误">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/09/11/记一个关于线程的错误/" data-id="ciszgm4kc0001h7f23h0wrdt8" class="article-share-link" data-share="baidu" data-title="记一个关于线程的错误">分享到</a>
       
 
       
