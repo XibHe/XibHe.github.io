@@ -73,6 +73,66 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-记一个在使用Masonry时遇到的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/18/记一个在使用Masonry时遇到的问题/" class="article-date">
+  <time datetime="2016-09-18T12:35:34.000Z" itemprop="datePublished">2016-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/18/记一个在使用Masonry时遇到的问题/">记一个在使用Masonry时遇到的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="u8BB0_u4E00_u4E2A_u5728_u4F7F_u7528Masonry_u65F6_u9047_u5230_u7684_u95EE_u9898"><a href="#u8BB0_u4E00_u4E2A_u5728_u4F7F_u7528Masonry_u65F6_u9047_u5230_u7684_u95EE_u9898" class="headerlink" title="记一个在使用Masonry时遇到的问题"></a>记一个在使用Masonry时遇到的问题</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-IMG_3210.PNG" alt="IMG_3210"></p>
+<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-IMG_3211.PNG" alt="已登录"></p>
+<p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png" alt="代码"></p>
+<p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png" alt="报错"></p>
+<p>刚开始没有意识到改变UIImageView的约束导致的新旧两种约束冲突造成的问题。在一个小时未解决该问题后，放弃了使用Masonry，改为使用代码做布局。今天，再回头看看这个问题，联想到忽略了什么东西，就打开Masonry文档从头开始仔细往下看，结果就看到了这句话，</p>
+<blockquote>
+<p>Sometimes you need modify existing constraints in order to animate or remove/replace constraints. In Masonry there are a few different approaches to updating constraints.</p>
+</blockquote>
+<p>文档上列举了三种修改现有约束的方法，</p>
+<ol>
+<li><p><strong>References</strong><br>你可以引用一个特定约束条件的约束，使表达式的结果分配给一个局部变量或一个类属性。</p>
+</li>
+<li><p><strong>mas_updateConstraints</strong><br>作为一种选择，如果你只是去更新固有的约束值，你可以使用<strong>mas_updateConstraints</strong>这种便利的方法替换<strong>mas_makeConstraints</strong>。</p>
+</li>
+<li><p><strong>mas_remakeConstraints</strong><br><strong>mas_updateConstraints</strong>用于更新一组约束，但要做那些费力的超出超出常量值的约束更新。这时就需要选择<strong>mas_remakeConstraints</strong>。<br><strong>mas_remakeConstraints</strong>类似于<strong>mas_updateConstraints</strong>，但它不是更新常量值，当再次为这些已经存在约束的视图设置约束前，它会移除掉该视图上的所有约束。这就让你可以为视图设置新的约束，而不用考虑移除之前已经存在的其他约束。</p>
+</li>
+</ol>
+<p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
+<h1 id="u53C2_u8003_u6587_u6863"><a href="#u53C2_u8003_u6587_u6863" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
+<p>造成这个问题的主要原因是我没有认真看Masonry的文档，文档上说的已经很清楚了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://XibHe.github.io/2016/09/18/记一个在使用Masonry时遇到的问题/" data-id="cit8lyojb0001iycqzcz18d7z" class="article-share-link" data-share="baidu" data-title="记一个在使用Masonry时遇到的问题">分享到</a>
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-记一个关于线程的错误" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/09/11/记一个关于线程的错误/" class="article-date">
@@ -106,7 +166,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/09/11/记一个关于线程的错误/" data-id="ciszgm4kc0001h7f23h0wrdt8" class="article-share-link" data-share="baidu" data-title="记一个关于线程的错误">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/09/11/记一个关于线程的错误/" data-id="cit8lyojk0002iycqbh5e93jt" class="article-share-link" data-share="baidu" data-title="记一个关于线程的错误">分享到</a>
       
 
       
@@ -159,7 +219,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/08/21/关于cocoapod的二三事/" data-id="ciszgm4kl0003h7f2v82yxxmt" class="article-share-link" data-share="baidu" data-title="使用 cocoapods 时遇到的错误及错误的解决方案">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/08/21/关于cocoapod的二三事/" data-id="cit8lyojo0004iycqikq9rjrc" class="article-share-link" data-share="baidu" data-title="使用 cocoapods 时遇到的错误及错误的解决方案">分享到</a>
       
 
       
@@ -216,7 +276,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/" data-id="ciszgm4ki0002h7f2e9554swp" class="article-share-link" data-share="baidu" data-title="关于iOS 7 Background Remote Notification(推送唤醒)">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/" data-id="cit8lyojm0003iycq8xvd7gx6" class="article-share-link" data-share="baidu" data-title="关于iOS 7 Background Remote Notification(推送唤醒)">分享到</a>
       
 
       
@@ -279,7 +339,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/07/31/JavaScriptCore与H5交互中使用JSExport设置引用名称空间/" data-id="ciszgm4k30000h7f2us7k4oib" class="article-share-link" data-share="baidu" data-title="JavaScriptCore与H5交互中使用JSExport设置引用名称空间">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/07/31/JavaScriptCore与H5交互中使用JSExport设置引用名称空间/" data-id="cit8lyoik0000iycqnoe6818b" class="article-share-link" data-share="baidu" data-title="JavaScriptCore与H5交互中使用JSExport设置引用名称空间">分享到</a>
       
 
       
@@ -329,7 +389,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/01/16/summary/" data-id="ciszgm4kn0004h7f2l2kuo0f5" class="article-share-link" data-share="baidu" data-title="路开始的地方">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/01/16/summary/" data-id="cit8lyojr0005iycqfst70uw6" class="article-share-link" data-share="baidu" data-title="路开始的地方">分享到</a>
       
 
       
@@ -357,7 +417,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -367,6 +427,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/09/18/记一个在使用Masonry时遇到的问题/">记一个在使用Masonry时遇到的问题</a>
+          </li>
         
           <li>
             <a href="/2016/09/11/记一个关于线程的错误/">记一个关于线程的错误</a>
@@ -382,10 +446,6 @@
         
           <li>
             <a href="/2016/07/31/JavaScriptCore与H5交互中使用JSExport设置引用名称空间/">JavaScriptCore与H5交互中使用JSExport设置引用名称空间</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/16/summary/">路开始的地方</a>
           </li>
         
       </ul>
