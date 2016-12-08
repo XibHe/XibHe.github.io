@@ -16,11 +16,11 @@
 <meta property="og:description" content="使用Masonry的场景在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&amp;gt;已登录。如图所示，
 其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。如图所示，
 我的问题来了，">
-<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/2016-09-18-IMG_3210.PNG?imageView/4/w/200/q/45">
-<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/2016-09-18-IMG_3211.PNG?imageView/4/w/200/q/45">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png">
-<meta property="og:updated_time" content="2016-09-18T12:57:14.000Z">
+<meta property="og:updated_time" content="2016-12-08T12:14:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一个在使用Masonry时遇到的问题">
 <meta name="twitter:description" content="使用Masonry的场景在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&amp;gt;已登录。如图所示，
@@ -104,8 +104,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="u4F7F_u7528Masonry_u7684_u573A_u666F"><a href="#u4F7F_u7528Masonry_u7684_u573A_u666F" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-IMG_3210.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
-<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-IMG_3211.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
+        <h1 id="u4F7F_u7528Masonry_u7684_u573A_u666F"><a href="#u4F7F_u7528Masonry_u7684_u573A_u666F" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
+<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
 <p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png" alt="代码"></p>
 <p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png" alt="报错"></p>
 <p>刚开始没有意识到改变UIImageView的约束导致的新旧两种约束冲突造成的问题。在一个小时未解决该问题后，放弃了使用Masonry，改为使用代码做布局。今天，再回头看看这个问题，联想到忽略了什么东西，就打开Masonry文档从头开始仔细往下看，结果就看到了这句话，</p>
@@ -129,7 +129,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/09/18/记一个在使用Masonry时遇到的问题/" data-id="cit8mo80q0001ljcqrxyafbqo" class="article-share-link" data-share="baidu" data-title="记一个在使用Masonry时遇到的问题">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/09/18/记一个在使用Masonry时遇到的问题/" data-id="ciwgbu3oh0001o3cqm1j5m1pl" class="article-share-link" data-share="baidu" data-title="记一个在使用Masonry时遇到的问题">分享到</a>
       
 
       
