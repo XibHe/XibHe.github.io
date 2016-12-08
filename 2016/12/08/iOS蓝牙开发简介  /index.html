@@ -16,7 +16,7 @@
 总结了一下，一共有五种方式可以实现蓝牙通信">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/BLE.jpeg">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/1442301743869760.png">
-<meta property="og:updated_time" content="2016-12-08T13:49:18.000Z">
+<meta property="og:updated_time" content="2016-12-08T13:55:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="调试蓝牙扫码枪遇到的问题">
 <meta name="twitter:description" content="iOS蓝牙开发简介蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。
@@ -80,7 +80,7 @@
       <section id="main"><article id="post-iOS蓝牙开发简介  " class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/08/iOS蓝牙开发简介  /" class="article-date">
-  <time datetime="2016-12-08T13:49:18.000Z" itemprop="datePublished">2016-12-08</time>
+  <time datetime="2016-12-08T13:55:31.000Z" itemprop="datePublished">2016-12-08</time>
 </a>
     
   </div>
@@ -144,7 +144,7 @@
 <ol>
 <li>初始化数据</li>
 </ol>
-<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line"><span class="comment">[super viewDidLoad]</span>;</span><br><span class="line">   </span><br><span class="line">self.manager = <span class="comment">[<span class="comment">[CBCentralManager alloc]</span> initWithDelegate:self queue:nil]</span>;</span><br><span class="line"></span><br><span class="line">_nDevices = <span class="comment">[<span class="comment">[NSMutableArray alloc]</span>init]</span>;</span><br><span class="line">_nServices = <span class="comment">[<span class="comment">[NSMutableArray alloc]</span>init]</span>;</span><br><span class="line">_nCharacteristics = <span class="comment">[<span class="comment">[NSMutableArray alloc]</span>init]</span>;</span><br><span class="line">    </span><br><span class="line">count = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad </span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.manager</span> = [[CBCentralManager alloc] initWithDelegate:<span class="keyword">self</span> queue:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    _cbReady = <span class="literal">false</span>;</span><br><span class="line">    _nDevices = [[<span class="built_in">NSMutableArray</span> alloc]init];</span><br><span class="line">    _nServices = [[<span class="built_in">NSMutableArray</span> alloc]init];</span><br><span class="line">    _nCharacteristics = [[<span class="built_in">NSMutableArray</span> alloc]init];</span><br><span class="line">    count = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>实现蓝牙的协议方法</li>
 </ol>
@@ -194,7 +194,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/12/08/iOS蓝牙开发简介  /" data-id="ciwgf81um0006q7cqmuifzs6n" class="article-share-link" data-share="baidu" data-title="调试蓝牙扫码枪遇到的问题">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/12/08/iOS蓝牙开发简介  /" data-id="ciwgffahr0006s7cqavi20zic" class="article-share-link" data-share="baidu" data-title="调试蓝牙扫码枪遇到的问题">分享到</a>
       
 
       
