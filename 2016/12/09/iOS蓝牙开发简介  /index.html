@@ -16,10 +16,10 @@
 总结了一下，一共有五种方式可以实现蓝牙通信">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/BLE.jpeg">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/1442301743869760.png">
-<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/200/q/45">
-<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/200/q/45">
-<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/200/q/45">
-<meta property="og:updated_time" content="2016-12-09T01:30:51.000Z">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/400/q/45">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/400/q/45">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/400/q/45">
+<meta property="og:updated_time" content="2016-12-09T01:37:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="调试蓝牙扫码枪遇到的问题">
 <meta name="twitter:description" content="iOS蓝牙开发简介蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。
@@ -83,7 +83,7 @@
       <section id="main"><article id="post-iOS蓝牙开发简介  " class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/09/iOS蓝牙开发简介  /" class="article-date">
-  <time datetime="2016-12-09T01:30:51.000Z" itemprop="datePublished">2016-12-09</time>
+  <time datetime="2016-12-09T01:37:20.000Z" itemprop="datePublished">2016-12-09</time>
 </a>
     
   </div>
@@ -125,9 +125,9 @@
 <p>外设、服务、特征间的关系</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/1442301743869760.png" alt="关系图"></p>
 <h1 id="u8FDE_u63A5_u6D4B_u8BD5"><a href="#u8FDE_u63A5_u6D4B_u8BD5" class="headerlink" title="连接测试"></a>连接测试</h1><p>检测蓝牙设备的连接强度，查询一定范围内的蓝牙设备列表。可以通过一款名为LightBlue的手机端软件来确定。在开启蓝牙的状态下，打开LightBlue搜索到当前范围内的设备列表，可以点击查看当前设备的UUID以及特征和服务的UUID，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/200/q/45" alt="系统蓝牙"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/200/q/45" alt="设备列表"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/200/q/45" alt="特征和服务的UUID"></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/400/q/45" alt="系统蓝牙"></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/400/q/45" alt="设备列表"></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/400/q/45" alt="特征和服务的UUID"></p>
 <h1 id="u8FDE_u63A5_u84DD_u7259_u626B_u7801_u67AA"><a href="#u8FDE_u63A5_u84DD_u7259_u626B_u7801_u67AA" class="headerlink" title="连接蓝牙扫码枪"></a>连接蓝牙扫码枪</h1><p>项目中需要连接蓝牙扫码枪，通过扫码枪扫描商品的条码，将得到的条码值传给终端设备。终端设备根据该条码值搜索该商品的全部信息。iPad开启蓝牙，通过设置蓝牙扫描枪，连接上iPad，但发现在调试状态下，并没有调用CBCentralManager的代理方法。使用LightBlue搜索当前范围内的蓝牙设备，无法找到当前连接到iPad上的蓝牙扫描枪。蓝牙扫描枪使用的是富立叶（cilico）ci6800这款。最后，看了产品说明，发现它的蓝牙模块是蓝牙2.0 + EDR。而不是最新的蓝牙4.0。在未做任何处理的情况下，iPad端任然可以所接收到扫码枪扫描条码后的到的码值。原来是扫码枪默认开启了HID模式，在该模式下iPad默认当前通过蓝牙连接的扫码枪为一个外接键盘，因此扫描后得到码值相当于通过敲击键盘输入。</p>
 <p>这样也造成了一个问题，iPad上所有带有输入功能的操作，都无法通过点击输入框弹出软键盘。因为系统会将扫码枪当做键盘，所有软键盘的弹出或者隐藏都是通过扫码枪做操作。但事实上扫码枪并不能控制键盘的弹出。通过google找到了一种据说是可以解决该问题的方法<a href="http://stackoverflow.com/questions/3326189/show-iphone-soft-keyboard-even-though-a-hardware-keyboard-is-connected/3837131#3837131" target="_blank" rel="external">点击查看</a>。但该方法极不稳定，当扫码枪的连接状态在休眠/唤醒两种状态下来回切换时就会失效。偶尔会成功弹出键盘。</p>
 <p>最后，在联系厂家需求帮助无果的情况下，不得不停止了该款扫码枪的适配。</p>
@@ -200,7 +200,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://XibHe.github.io/2016/12/09/iOS蓝牙开发简介  /" data-id="ciwh49qn90006nrcqzb50hu34" class="article-share-link" data-share="baidu" data-title="调试蓝牙扫码枪遇到的问题">分享到</a>
+        <a data-url="http://XibHe.github.io/2016/12/09/iOS蓝牙开发简介  /" data-id="ciwh4hpzf0006q0cqasopedgi" class="article-share-link" data-share="baidu" data-title="调试蓝牙扫码枪遇到的问题">分享到</a>
       
 
       
