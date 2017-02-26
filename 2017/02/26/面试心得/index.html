@@ -6,30 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://XibHe.github.io">
-  <title>适配器模式初探 | XibHe的博客</title>
+  <title>XibHe的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="初衷解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。
-使用步骤
-第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。
-
-1234@protocol MediaHandleDelegate &amp;lt;NSObj">
+  <meta name="description" content="title:第一次面试别人的体会
+date:2017-02-26不安的开始自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="适配器模式初探">
-<meta property="og:url" content="http://XibHe.github.io/2017/02/19/适配器模式初探/index.html">
+<meta property="og:title" content="XibHe的博客">
+<meta property="og:url" content="http://XibHe.github.io/2017/02/26/面试心得/index.html">
 <meta property="og:site_name" content="XibHe的博客">
-<meta property="og:description" content="初衷解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。
-使用步骤
-第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。
-
-1234@protocol MediaHandleDelegate &amp;lt;NSObj">
-<meta property="og:updated_time" content="2017-02-26T06:55:38.000Z">
+<meta property="og:description" content="title:第一次面试别人的体会
+date:2017-02-26不安的开始自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，">
+<meta property="og:updated_time" content="2017-02-26T15:02:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="适配器模式初探">
-<meta name="twitter:description" content="初衷解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。
-使用步骤
-第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。
-
-1234@protocol MediaHandleDelegate &amp;lt;NSObj">
+<meta name="twitter:title" content="XibHe的博客">
+<meta name="twitter:description" content="title:第一次面试别人的体会
+date:2017-02-26不安的开始自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，">
   
     <link rel="alternative" href="/atom.xml" title="XibHe的博客" type="application/atom+xml">
   
@@ -155,55 +146,26 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-适配器模式初探" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-面试心得" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      适配器模式初探
-    </h1>
-  
-
-        
-        <a href="/2017/02/19/适配器模式初探/" class="archive-article-date">
-  	<time datetime="2017-02-18T20:23:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-19</time>
-</a>
-        
-      </header>
     
 <div class="article-entry" itemprop="articleBody">
 
 
 
-<h1 id="u521D_u8877"><a href="#u521D_u8877" class="headerlink" title="初衷"></a>初衷</h1><p>解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。</p>
-<h1 id="u4F7F_u7528_u6B65_u9AA4"><a href="#u4F7F_u7528_u6B65_u9AA4" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
-<li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@protocol</span> MediaHandleDelegate &lt;NSObject&gt;</span><br><span class="line"><span class="variable">@optional</span></span><br><span class="line">- (void)<span class="attribute">returnMedidaData</span>:(id)mediaData;</span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+<p>title:第一次面试别人的体会</p>
+<h2 id="date_3A2017-02-26"><a href="#date_3A2017-02-26" class="headerlink" title="date:2017-02-26"></a>date:2017-02-26</h2><h2 id="u4E0D_u5B89_u7684_u5F00_u59CB"><a href="#u4E0D_u5B89_u7684_u5F00_u59CB" class="headerlink" title="不安的开始"></a>不安的开始</h2><p>自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，分析了一下造成现阶段初级，中级iOS从业者找工作难的原因:</p>
 <ul>
-<li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
+<li>市场过度饱和，培训机构追求自身利益，在iOS开发人员相对稀缺阶段，培训了大量的从业人员，扰乱了市场正常的供需关系，导致从业人员供大于需；</li>
+<li>鱼龙混杂的从业者，很多开发者并不是科班出身，只是听说iOS开发者的薪资待遇高，才决定去培训机构学习，经过四五个月左右的强制灌输和培训机构的包装后，摇身一变成了具有两年开发经验的iOS开发者,其本身不具备计算机专业相关的基础知识；</li>
+<li>资本市场资金的收紧，导致流向互联网领域的热钱迅速减少，相比前几年互联网行业的创业潮，很多创业者张口闭口我们是颠覆者，一定会替代某某某，只要嘴炮一番就能忽悠到投资人的钱，今年的资本市场回归了理性。那些没有清晰盈利模式的初创公司迅速倒闭，相关中小互联网公司的用人需求在萎缩；</li>
+<li>市场需求的理性回归，很多培训班出身，或者工作年限不足三年，或者是一年工作经验用了三年的初中级开发者满足不了市场上很多公司对于中高级开发者相关的技术要求，于是，被市场无情的淘汰；</li>
+<li>行业内薪资待遇的降低，iOS开发已经结束了早期因从业者稀少而造成的市场红利时期，进入到了一个稳步发展的相对稳定时期。因此，薪资待遇回归到了一个正常的水准。那些早期享受到这种红利的开发者，一时间接受不了薪资待遇的降低；</li>
+<li>技术层面方面，iOS开发依托苹果提供的平台，该平台的封闭性决定了开发者所接触的技术面比较狭窄，脱离了苹果，不能完全胜任其他技术工作；</li>
 </ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAct.h</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleDelegate.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAct</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">id</span> &lt;MediaHandleDelegate&gt; _delegate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAct.m</span></span><br><span class="line"></span><br><span class="line"><span class="variable">#import</span> <span class="string">"MediaHandleAct.h"</span></span><br><span class="line"></span><br><span class="line">- (<span class="literal">void</span>)returnMedidaData:(NSString *)<span class="built_in">data</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleDelegate.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAct</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">id</span> &lt;MediaHandleDelegate&gt; _delegate;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 动态注册新的Action</span></span><br><span class="line">+ (<span class="keyword">void</span>)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(<span class="built_in">NSString</span> *) actKey;</span><br><span class="line"><span class="comment">// 获取注册的Action</span></span><br><span class="line">+ (<span class="built_in">NSDictionary</span> *)mediaHandleActions;</span><br><span class="line"><span class="comment">// 传递Action的具体执行方法</span></span><br><span class="line">- (<span class="keyword">void</span>)performActionWichController:(<span class="built_in">UIViewController</span> *)controller callbackClass:(<span class="built_in">NSObject</span> *)callbackClass;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAct.m</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleAct.h"</span></span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSMutableDictionary</span> * mediaHandleActs = <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MediaHandleAct</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(<span class="built_in">NSString</span> *)actKey</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">@synchronized</span>(<span class="keyword">self</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mediaHandleActs)</span><br><span class="line">        &#123;</span><br><span class="line">            mediaHandleActs = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">            [MediaHandleAct registerCommonAction];</span><br><span class="line">        &#125;</span><br><span class="line">        [mediaHandleActs setObject:mediaHandleAct forKey:actKey];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSDictionary</span> *)mediaHandleActions</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSDictionary</span> * acts = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">@synchronized</span>(<span class="keyword">self</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mediaHandleActs)</span><br><span class="line">        &#123;</span><br><span class="line">            mediaHandleActs = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">            [MediaHandleAct registerCommonAction];</span><br><span class="line">        &#125;</span><br><span class="line">        acts = mediaHandleActs;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> acts;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 具体的执行方法</span></span><br><span class="line">- (<span class="keyword">void</span>)performActionWichController:(<span class="built_in">UIViewController</span> *)controller callbackClass:(<span class="built_in">NSObject</span> *)callbackClass&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>synchronized   这个主要是考虑多线程的程序，这个指令可以将{ } 内的代码限制在一个线程执行，如果某个线程没有执行完，其他的线程如果需要执行就得等着。@synchronized 的作用是创建一个互斥锁，保证此时没有其它线程对self对象进行修改。这种机制确保了同一时刻对于每一个类，至多只有一个处于可执行状态，从而有效避免了类成员变量的访问冲突。一般在公用变量的时候使用，如单例模式或者操作类的static变量中使用。</p>
-<ul>
-<li>第四步: 针对不同功能的类，创建继承于MediaHandleAct的类适配器。<br>使用适配器的时候，分为类适配器和对象适配器。类适配器针对每一个数据类型或某个功能模块创建一个适配器，并继承于根适配器。</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用相册功能</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleAct.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAlbum</span> : <span class="title">MediaHandleAct</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> maxCount;   <span class="comment">// 最多可添加照片数</span></span><br><span class="line"><span class="comment">// 注册Action</span></span><br><span class="line">+ (<span class="keyword">void</span>)load;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAlbum.m</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleAlbum.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"JKImagePickerController.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAlbum</span> ()&lt;<span class="title">JKImagePickerControllerDelegate</span>&gt;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">UIViewController</span> * _parentController;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MediaHandleAlbum</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)load</span><br><span class="line">&#123;</span><br><span class="line">    [MediaHandleAct registerMediaHandleAction:[[MediaHandleAlbum alloc] init] andKey:<span class="string">@"album"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - 拍照和调用相册功能</span></span><br><span class="line">- (<span class="keyword">void</span>)performActionWichController:(<span class="built_in">UIViewController</span> *)controller callbackClass:(<span class="built_in">NSObject</span> *)callbackClass</span><br><span class="line">&#123;</span><br><span class="line">    _parentController = controller;</span><br><span class="line">    _delegate = (<span class="keyword">id</span>)callbackClass;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIActionSheet</span> *actionSheet = [[<span class="built_in">UIActionSheet</span> alloc] initWithTitle:<span class="literal">nil</span> delegate:(<span class="keyword">id</span>)<span class="keyword">self</span> cancelButtonTitle:<span class="literal">nil</span> destructiveButtonTitle:<span class="literal">nil</span> otherButtonTitles:<span class="string">@"拍照"</span>,<span class="string">@"从相册选择"</span>,<span class="string">@"取消"</span>,<span class="literal">nil</span>];</span><br><span class="line">    [actionSheet showInView:_parentController<span class="variable">.view</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - ActionSheetDelegate</span></span><br><span class="line">- (<span class="keyword">void</span>)actionSheet:(<span class="built_in">UIActionSheet</span> *)actionSheet clickedButtonAtIndex:(<span class="built_in">NSInteger</span>)buttonIndex</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">switch</span> (buttonIndex) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 拍照</span></span><br><span class="line">            <span class="built_in">UIImagePickerController</span> *picker = [[<span class="built_in">UIImagePickerController</span> alloc] init];</span><br><span class="line">            picker<span class="variable">.sourceType</span> = <span class="built_in">UIImagePickerControllerSourceTypeCamera</span>;</span><br><span class="line">            picker<span class="variable">.editing</span> = <span class="literal">YES</span>;</span><br><span class="line">            picker<span class="variable">.allowsEditing</span> = <span class="literal">YES</span>;</span><br><span class="line">            picker<span class="variable">.delegate</span> = (<span class="keyword">id</span>)<span class="keyword">self</span>;</span><br><span class="line">            [_parentController presentViewController:picker animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 调用相册</span></span><br><span class="line">            JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];</span><br><span class="line">            imagePickerController<span class="variable">.delegate</span> = (<span class="keyword">id</span>)<span class="keyword">self</span>;</span><br><span class="line">            imagePickerController<span class="variable">.showsCancelButton</span> = <span class="literal">YES</span>;</span><br><span class="line">            imagePickerController<span class="variable">.allowsMultipleSelection</span> = <span class="literal">YES</span>;</span><br><span class="line">            imagePickerController<span class="variable">.minimumNumberOfSelection</span> = <span class="number">1</span>;</span><br><span class="line">            imagePickerController<span class="variable">.maximumNumberOfSelection</span> = <span class="keyword">self</span><span class="variable">.maxCount</span>;</span><br><span class="line">            <span class="comment">//imagePickerController.selectedAssetArray = self.photosView.assetsArray;</span></span><br><span class="line">            <span class="built_in">UINavigationController</span> *navigationController = [[<span class="built_in">UINavigationController</span> alloc] initWithRootViewController:imagePickerController];</span><br><span class="line">            [_parentController presentViewController:navigationController animated:<span class="literal">YES</span> completion:<span class="literal">NULL</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - UIImagePickerControllerDelegate</span></span><br><span class="line">- (<span class="keyword">void</span>) imagePickerController: (<span class="built_in">UIImagePickerController</span>*)picker didFinishPickingMediaWithInfo: (<span class="built_in">NSDictionary</span>*) info</span><br><span class="line">&#123;</span><br><span class="line">    [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIImage</span> *edit = [info objectForKey:<span class="string">@"UIImagePickerControllerEditedImage"</span>];</span><br><span class="line">    <span class="built_in">UIImage</span> *originalImage = [info objectForKey:<span class="string">@"UIImagePickerControllerOriginalImage"</span>];</span><br><span class="line">    CLog(<span class="string">@" EditedImage %@ "</span>,<span class="built_in">NSStringFromCGSize</span>(edit<span class="variable">.size</span>));</span><br><span class="line">    CLog(<span class="string">@" OriginalImage %@ "</span>,<span class="built_in">NSStringFromCGSize</span>(originalImage<span class="variable">.size</span>));</span><br><span class="line">    <span class="built_in">UIImage</span> *aImage = edit;</span><br><span class="line">    <span class="built_in">NSData</span> * imageData = <span class="built_in">UIImageJPEGRepresentation</span>(aImage,<span class="number">0.5</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (_delegate &amp;&amp; [_delegate respondsToSelector:<span class="keyword">@selector</span>(returnMedidaData:)])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">NSArray</span> * photos = @[imageData];</span><br><span class="line">        [_delegate returnMedidaData:photos];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)imagePickerControllerDidCancel:(<span class="built_in">UIImagePickerController</span> *)picker</span><br><span class="line">&#123;</span><br><span class="line">    [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark - JKImagePickerControllerDelegate</span></span><br><span class="line">- (<span class="keyword">void</span>)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(<span class="built_in">BOOL</span>)source</span><br><span class="line">&#123;</span><br><span class="line">    [imagePicker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(<span class="built_in">NSArray</span> *)assets isSource:(<span class="built_in">BOOL</span>)source</span><br><span class="line">&#123;</span><br><span class="line">    [imagePicker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    CLog(<span class="string">@"assets == %@"</span>,assets);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> * photos = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (JKAssets * jkAssets <span class="keyword">in</span> assets)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">NSData</span> * photoData = <span class="built_in">UIImageJPEGRepresentation</span>(jkAssets<span class="variable">.photo</span>, <span class="number">0.5</span>);</span><br><span class="line">        [photos addObject:photoData];</span><br><span class="line">        CLog(<span class="string">@"groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@"</span>,jkAssets<span class="variable">.groupPropertyID</span>,jkAssets<span class="variable">.groupPropertyURL</span>,jkAssets<span class="variable">.assetPropertyURL</span>,jkAssets<span class="variable">.photo</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (_delegate &amp;&amp; [_delegate respondsToSelector:<span class="keyword">@selector</span>(returnMedidaData:)])</span><br><span class="line">    &#123;</span><br><span class="line">        [_delegate returnMedidaData:photos];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第五步: 调用适配器。</li>
-</ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] <span class="string">objectForKey:</span>@<span class="string">"album"</span>];</span><br><span class="line">album.maxCount = imageCount;</span><br><span class="line">[album <span class="string">performActionWichController:</span>self <span class="string">callbackClass:</span>self];</span><br></pre></td></tr></table></figure>
-<h1 id="u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9"><a href="#u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
-<p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
+<h2 id="u6211_u6240_u9047_u5230_u7684_u4E00_u4E2A_u4F8B_u5B50"><a href="#u6211_u6240_u9047_u5230_u7684_u4E00_u4E2A_u4F8B_u5B50" class="headerlink" title="我所遇到的一个例子"></a>我所遇到的一个例子</h2><p>带着这些不安，对于已经结束的16年，我做了一份<a href="http://xibhe.com/2017/01/15/再见！2016/" target="_blank" rel="external">总结</a>，也包括17年的一些计划。或许是心志不坚，或许是颓废太久，这种不安仍旧存在，直到上周面试了一个来公司应聘iOS开发的应聘者……</p>
+<p>周五下午，人事和我说能不能帮忙面试一下，本来是另一个项目组需要的人，但恰巧他们的负责人不在，就让我去面了。第一次面试别人还是有些紧张，好像自己第一次被别人面试一样紧张。但左等右等还是等不到人事通知我去面试，后来大概半小时后被人事告知那个来面试的人已经走了，据她说面试题只做了一半，人就走了，可能是被我们的面试题吓走了。但面试题我也看过，是四十道很基础的面试题呀！表示不解啊！本以为这次安排的面试就这样结束了，后来人事通知还有一个已经写完了面试题，在沙发区等着，于是我就开始了这次面试之旅。</p>
+<p>短暂的两分钟的沉默，我简单看了一下他的简历，上面工作经验写着三年。心里便盘算着从哪些知识点入手可以探出对方是不是真的有三年工作经验。先是让对方做了一个简单的自我介绍，然后开始对这简历问一些问题，简历上写了四个项目，每个项目所用到的技术都是一些大众化的技术，比如，网络请求库AFNetworking，图片加载库SDWebImage，数据库FMDB，刷新库MJRefresh，适配库Masonry等各种三方库的使用。</p>
 
 
 
@@ -212,25 +174,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">适配器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -281,7 +224,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://XibHe.github.io/2017/02/19/适配器模式初探/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://XibHe.github.io/2017/02/26/面试心得/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -295,18 +238,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/02/26/面试心得/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/01/15/再见！2016/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">再见! 2016!</div>
+    <a href="/2017/02/19/适配器模式初探/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">适配器模式初探</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -320,7 +254,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="适配器模式初探" data-title="适配器模式初探" data-url="http://XibHe.github.io/2017/02/19/适配器模式初探/"></div>
+	<div class="ds-thread" data-thread-key="面试心得" data-title="" data-url="http://XibHe.github.io/2017/02/26/面试心得/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
