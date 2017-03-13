@@ -22,7 +22,8 @@
 第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。
 
 1234@protocol MediaHandleDelegate &amp;lt;NSObj">
-<meta property="og:updated_time" content="2017-02-26T06:55:38.000Z">
+<meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png">
+<meta property="og:updated_time" content="2017-03-13T12:53:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="适配器模式初探">
 <meta name="twitter:description" content="初衷解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。
@@ -212,6 +213,8 @@ s.parentNode.insertBefore(hm, s);
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] <span class="string">objectForKey:</span>@<span class="string">"album"</span>];</span><br><span class="line">album.maxCount = imageCount;</span><br><span class="line">[album <span class="string">performActionWichController:</span>self <span class="string">callbackClass:</span>self];</span><br></pre></td></tr></table></figure>
 <h1 id="u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9"><a href="#u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
+<h1 id="u6CE8_u610F"><a href="#u6CE8_u610F" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
+<p>其他功能访问权限设置，<br><a href="http://stackoverflow.com/questions/38498275/ios-10-changes-in-asking-permissions-of-camera-microphone-and-photo-library-c" target="_blank" rel="external"><font color="#FA8072"> iOS 10 - Changes in asking permissions of Camera, microphone and Photo Library causing application to crash </font></a></p>
 
 
 
