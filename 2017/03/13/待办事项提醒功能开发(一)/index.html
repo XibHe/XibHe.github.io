@@ -6,17 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://XibHe.github.io">
-  <title>Archives: 2017 | XibHe的博客</title>
+  <title>待办事项提醒功能开发(一) | XibHe的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="爱苹果,爱生活。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="XibHe的博客">
-<meta property="og:url" content="http://XibHe.github.io/archives/2017/index.html">
+  <meta name="description" content="业务需求根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:
+
+新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；
+在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；
+点击保质期天数一栏，弹出用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="待办事项提醒功能开发(一)">
+<meta property="og:url" content="http://XibHe.github.io/2017/03/13/待办事项提醒功能开发(一)/index.html">
 <meta property="og:site_name" content="XibHe的博客">
-<meta property="og:description" content="爱苹果,爱生活。">
+<meta property="og:description" content="业务需求根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:
+
+新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；
+在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；
+点击保质期天数一栏，弹出用">
+<meta property="og:updated_time" content="2017-03-14T15:00:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XibHe的博客">
-<meta name="twitter:description" content="爱苹果,爱生活。">
+<meta name="twitter:title" content="待办事项提醒功能开发(一)">
+<meta name="twitter:description" content="业务需求根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:
+
+新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；
+在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；
+点击保质期天数一栏，弹出用">
   
     <link rel="alternative" href="/atom.xml" title="XibHe的博客" type="application/atom+xml">
   
@@ -150,36 +163,68 @@ s.parentNode.insertBefore(hm, s);
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-待办事项提醒功能开发(一)" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/13/待办事项提醒功能开发(一)/" class="archive-article-date">
-  	<time datetime="2017-03-13T14:50:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-13</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/13/待办事项提醒功能开发(一)/">待办事项提醒功能开发(一)</a>
+    <h1 class="article-title" itemprop="name">
+      待办事项提醒功能开发(一)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/03/13/待办事项提醒功能开发(一)/" class="archive-article-date">
+  	<time datetime="2017-03-13T14:50:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-13</time>
+</a>
+        
+      </header>
+    
+<div class="article-entry" itemprop="articleBody">
+
+
+
+<h1 id="u4E1A_u52A1_u9700_u6C42"><a href="#u4E1A_u52A1_u9700_u6C42" class="headerlink" title="业务需求"></a>业务需求</h1><p>根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:</p>
+<ul>
+<li>新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；</li>
+<li>在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；</li>
+<li>点击保质期天数一栏，弹出用于输入保质期天数的输入控件，保质期单位可以是天，月，年；</li>
+<li>如果保质期为30天以内，默认开启智能保质期提醒；如果超过30天，则关闭智能提醒，需要有手动设置结束提醒的具体时间及提醒频率；</li>
+<li>在提醒设置一栏，根据生产日期和保质期天数自动计算出到期的具体日期，用户点击时间一栏，弹出时间的选择控件用于选择触发提醒的时间点，用户也可以设置提醒频次；</li>
+</ul>
+<h1 id="u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9"><a href="#u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9" class="headerlink" title="需要考虑的技术点"></a>需要考虑的技术点</h1><p>结合需求需要考虑如下几个问题:</p>
+<ul>
+<li>本地通知的运行机制是什么？</li>
+<li>如何自定义通知的频率？</li>
+<li>如何移除到期的通知提醒？</li>
+<li>当用户编辑一个已经存在的提醒任务时，如何根据用户修改后的日期，频率等参数，更新现有的通知提醒频次，触发时间，日期等属性？</li>
+<li>当切换用户或者用户退出登录后，如何操作之前已经添加的通知提醒？</li>
+<li>通知提醒数据的持久化？</li>
+</ul>
+<h1 id="u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9"><a href="#u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9" class="headerlink" title="本地通知相关点"></a>本地通知相关点</h1><p>使用本地通知提醒用户，而本地通知有些地方在使用时需要注意,如下:</p>
+<blockquote>
+<p>1.本地通知是有操作系统统一调度的，只有在应用退出到后台或者关闭才能收到通知；<br>2.本地通知的数量是有限制的，最近的本地通知最多只能有64个，超过这个数量将被系统忽略；<br>3.如果想要移除本地通知可以调用UIApplication的cancelLocalNotification:或cancelAllLocalNotifications移除指定通知或所有通知；<br>4.通知对应的NScalendarunit属性，可以通过该属性操作提醒的频率；</p>
+</blockquote>
+<p>具体属性值如下：</p>
+<h1 id="u6B65_u9AA4_u8BF4_u660E"><a href="#u6B65_u9AA4_u8BF4_u660E" class="headerlink" title="步骤说明"></a>步骤说明</h1><p>使用sqlite3进行通知提醒相关数据的持久化。大概的思路如下：</p>
+<p>新增提醒任务:</p>
+<blockquote>
+<p>1.插入保质期提醒任务表<br>2.插入通知表<br>3.上传服务器通知提醒数据</p>
+</blockquote>
+<p>编辑提醒任务：</p>
+<blockquote>
+<p>1.更新保质期提醒任务表<br>2.更新通知表<br>3.更新通知log库<br>4.上传服务器编辑后的通知提醒数据</p>
+</blockquote>
+<p><font color="#FA8072"> 需要注意本地通知的官方文档是否有最近的跟新 </font>，待续……</p>
+
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -195,153 +240,106 @@ s.parentNode.insertBefore(hm, s);
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://XibHe.github.io/2017/03/13/待办事项提醒功能开发(一)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/26/第一次面试别人是怎样的体会/" class="archive-article-date">
-  	<time datetime="2017-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-26</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/26/第一次面试别人是怎样的体会/">第一次面试别人是怎样的体会</a>
-    </h1>
+  
+    <a href="/2017/02/26/第一次面试别人是怎样的体会/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第一次面试别人是怎样的体会</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="待办事项提醒功能开发(一)" data-title="待办事项提醒功能开发(一)" data-url="http://XibHe.github.io/2017/03/13/待办事项提醒功能开发(一)/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"xibhe"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">iOS开发没人要了</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">心得体会</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/19/适配器模式初探/" class="archive-article-date">
-  	<time datetime="2017-02-18T20:23:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/19/适配器模式初探/">适配器模式初探</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">适配器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/15/再见！2016/" class="archive-article-date">
-  	<time datetime="2017-01-15T13:25:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/15/再见！2016/">再见! 2016!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">2016</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">年终总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -364,8 +362,8 @@ s.parentNode.insertBefore(hm, s);
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
