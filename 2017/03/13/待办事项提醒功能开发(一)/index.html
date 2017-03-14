@@ -22,7 +22,7 @@
 新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；
 在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；
 点击保质期天数一栏，弹出用">
-<meta property="og:updated_time" content="2017-03-14T15:00:32.000Z">
+<meta property="og:updated_time" content="2017-03-14T15:07:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="待办事项提醒功能开发(一)">
 <meta name="twitter:description" content="业务需求根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:
@@ -206,7 +206,6 @@ s.parentNode.insertBefore(hm, s);
 <blockquote>
 <p>1.本地通知是有操作系统统一调度的，只有在应用退出到后台或者关闭才能收到通知；<br>2.本地通知的数量是有限制的，最近的本地通知最多只能有64个，超过这个数量将被系统忽略；<br>3.如果想要移除本地通知可以调用UIApplication的cancelLocalNotification:或cancelAllLocalNotifications移除指定通知或所有通知；<br>4.通知对应的NScalendarunit属性，可以通过该属性操作提醒的频率；</p>
 </blockquote>
-<p>具体属性值如下：</p>
 <h1 id="u6B65_u9AA4_u8BF4_u660E"><a href="#u6B65_u9AA4_u8BF4_u660E" class="headerlink" title="步骤说明"></a>步骤说明</h1><p>使用sqlite3进行通知提醒相关数据的持久化。大概的思路如下：</p>
 <p>新增提醒任务:</p>
 <blockquote>
