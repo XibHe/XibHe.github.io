@@ -16,7 +16,7 @@ UIBezierPathUIKit中的UIBezierPath是Core Graphics框架关于path的一个封�
 <meta property="og:site_name" content="XibHe的博客">
 <meta property="og:description" content="图形绘制iOS系统本身提供了两套绘图的框架，即UIBezierPath 和 Core Graphics。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。
 UIBezierPathUIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创">
-<meta property="og:updated_time" content="2017-04-25T13:01:48.000Z">
+<meta property="og:updated_time" content="2017-04-25T13:07:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS下的图形绘制">
 <meta name="twitter:description" content="图形绘制iOS系统本身提供了两套绘图的框架，即UIBezierPath 和 Core Graphics。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。
@@ -190,12 +190,11 @@ s.parentNode.insertBefore(hm, s);
 </ul>
 </blockquote>
 <p>这里是说 CAShapeLayer 是在其坐标系统内绘制贝塞尔曲线的。因此，使用 CAShapeLayer 需要与 UIBezierPath 一起使用。它有一个 path 属性，而 UIBezierPath 就是对 CGPathRef 类型的封装，因此这两者要配合起来用。</p>
-<h4 id="CAShapeLayer_u548CdrawRect_u7684_u6BD4_u8F83"><a href="#CAShapeLayer_u548CdrawRect_u7684_u6BD4_u8F83" class="headerlink" title="CAShapeLayer和drawRect的比较"></a>CAShapeLayer和drawRect的比较</h4><ul>
+<h3 id="CAShapeLayer_u548CdrawRect_u7684_u6BD4_u8F83"><a href="#CAShapeLayer_u548CdrawRect_u7684_u6BD4_u8F83" class="headerlink" title="CAShapeLayer和drawRect的比较"></a>CAShapeLayer和drawRect的比较</h3><ul>
 <li>drawRect ：属于 CoreGraphics 框架，占用 CPU ，性能消耗大，不建议重写</li>
-<li>CAShapeLayer ：属于 CoreAnimation 框架，通过 GPU 来渲染图形，节省性能。动画渲染直接提交给手机 GPU ，不消耗内存</li>
+<li>CAShapeLayer ：属于 CoreAnimation 框架，通过 GPU 来渲染图形，节省性能。动画渲染直接提交给手机 GPU ，不消耗内存<br>这两者各有各的用途，而不是说有了 CAShapeLayer 就不需要 drawRect。<br>温馨提示：drawRect只是一个方法而已，是 UIView 的方法，重写此方法可以完成我们的绘制图形功能。</li>
 </ul>
-<p>这两者各有各的用途，而不是说有了 CAShapeLayer 就不需要 drawRect。<br>温馨提示：drawRect只是一个方法而已，是 UIView 的方法，重写此方法可以完成我们的绘制图形功能。</p>
-<h4 id="CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB"><a href="#CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB" class="headerlink" title="CAShapeLayer与UIBezierPath的关系"></a>CAShapeLayer与UIBezierPath的关系</h4><ul>
+<h3 id="CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB"><a href="#CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB" class="headerlink" title="CAShapeLayer与UIBezierPath的关系"></a>CAShapeLayer与UIBezierPath的关系</h3><ul>
 <li>CAShapeLayer中shape代表形状的意思，所以需要形状才能生效</li>
 <li>贝塞尔曲线可以创建基于矢量的路径，而UIBezierPath类是对CGPathRef的封装</li>
 <li>贝塞尔曲线给CAShapeLayer提供路径,CAShapeLayer在提供的路径中进行渲染。路径会闭环,所以绘制出了Shape</li>
