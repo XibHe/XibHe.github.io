@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/300">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/300">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/300">
-<meta property="og:updated_time" content="2017-01-17T15:46:42.000Z">
+<meta property="og:updated_time" content="2017-05-19T19:23:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="调试蓝牙扫码枪遇到的问题">
 <meta name="twitter:description" content="iOS蓝牙开发简介蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。
@@ -171,6 +171,30 @@
     
 
 <!-- 目录内容 -->
+
+<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+<span class="btn-bg"></span>
+<span class="btn-text">文章导航</span>
+</p>
+<div id="toc-article" class="toc-article">
+<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS_u84DD_u7259_u5F00_u53D1_u7B80_u4ECB"><span class="toc-number">1.</span> <span class="toc-text">iOS蓝牙开发简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u6838_u5FC3_u6982_u5FF5"><span class="toc-number">2.</span> <span class="toc-text">核心概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u8FDE_u63A5_u6D4B_u8BD5"><span class="toc-number">3.</span> <span class="toc-text">连接测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u8FDE_u63A5_u84DD_u7259_u626B_u7801_u67AA"><span class="toc-number">4.</span> <span class="toc-text">连接蓝牙扫码枪</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u8FDE_u63A5_u84DD_u7259_u8840_u538B_u8BA1"><span class="toc-number">5.</span> <span class="toc-text">连接蓝牙血压计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u4EE3_u7801_u5B9E_u73B0_u7684_u6B65_u9AA4"><span class="toc-number">6.</span> <span class="toc-text">代码实现的步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u540E_u8BB0"><span class="toc-number">7.</span> <span class="toc-text">后记</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u53C2_u8003_u8D44_u6599"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol>
+</div>
+<script type="text/javascript">
+function showToc(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:block");
+show_toc_btn.setAttribute("style","display:none");
+};
+function showBtn(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:none");
+show_toc_btn.setAttribute("style","display:block");
+};
+</script>
 
 <!-- 目录内容结束 -->
 

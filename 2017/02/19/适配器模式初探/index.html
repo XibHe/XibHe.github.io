@@ -23,7 +23,7 @@
 
 1234@protocol MediaHandleDelegate &amp;lt;NSObj">
 <meta property="og:image" content="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png">
-<meta property="og:updated_time" content="2017-03-13T12:53:20.000Z">
+<meta property="og:updated_time" content="2017-05-19T19:21:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="适配器模式初探">
 <meta name="twitter:description" content="初衷解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。
@@ -176,6 +176,30 @@
     
 
 <!-- 目录内容 -->
+
+<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+<span class="btn-bg"></span>
+<span class="btn-text">文章导航</span>
+</p>
+<div id="toc-article" class="toc-article">
+<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u521D_u8877"><span class="toc-number">1.</span> <span class="toc-text">初衷</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u4F7F_u7528_u6B65_u9AA4"><span class="toc-number">2.</span> <span class="toc-text">使用步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9"><span class="toc-number">3.</span> <span class="toc-text">适配器模式的优缺点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u6CE8_u610F"><span class="toc-number">4.</span> <span class="toc-text">注意</span></a></li></ol>
+</div>
+<script type="text/javascript">
+function showToc(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:block");
+show_toc_btn.setAttribute("style","display:none");
+};
+function showBtn(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:none");
+show_toc_btn.setAttribute("style","display:block");
+};
+</script>
 
 <!-- 目录内容结束 -->
 
