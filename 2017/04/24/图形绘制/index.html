@@ -165,6 +165,35 @@ UIBezierPathUIKit中的UIBezierPath是Core Graphics框架关于path的一个封�
         
       </header>
     
+
+<!-- 目录内容 -->
+
+<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+<span class="btn-bg"></span>
+<span class="btn-text">文章导航</span>
+</p>
+<div id="toc-article" class="toc-article">
+<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u56FE_u5F62_u7ED8_u5236"><span class="toc-number">1.</span> <span class="toc-text">图形绘制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UIBezierPath"><span class="toc-number">1.1.</span> <span class="toc-text">UIBezierPath</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UIBezierPath+CAShapeLayer"><span class="toc-number">1.2.</span> <span class="toc-text">UIBezierPath+CAShapeLayer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAShapeLayer_u4E0EdrawRect_u7684_u5173_u7CFB"><span class="toc-number">1.3.</span> <span class="toc-text">CAShapeLayer与drawRect的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB"><span class="toc-number">1.4.</span> <span class="toc-text">CAShapeLayer与UIBezierPath的关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CoreGraphics"><span class="toc-number">2.</span> <span class="toc-text">CoreGraphics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CGContextAddArcToPoint__26amp_3B_26amp_3B_CGPathAddArcToPoint"><span class="toc-number">2.1.</span> <span class="toc-text">CGContextAddArcToPoint && CGPathAddArcToPoint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAShapedLayer_u5904_u7406"><span class="toc-number">2.2.</span> <span class="toc-text">CAShapedLayer处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u9057_u7559_u95EE_u9898"><span class="toc-number"></span> <span class="toc-text">遗留问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u53C2_u8003_u8D44_u6599"><span class="toc-number">1.</span> <span class="toc-text">参考资料</span></a></li></ol>
+</div>
+<script type="text/javascript">
+function showToc(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:block");
+show_toc_btn.setAttribute("style","display:none");
+};
+function showBtn(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:none");
+show_toc_btn.setAttribute("style","display:block");
+};
+</script>
+
+<!-- 目录内容结束 -->
+
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="u56FE_u5F62_u7ED8_u5236"><a href="#u56FE_u5F62_u7ED8_u5236" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
