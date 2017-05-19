@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="XibHe的博客">
 <meta property="og:description" content="HTTPS只是标准HTTP协议涂上一层美味的SSL/TLS加密信息。 除非出现严重错误,它可以防止人们因infamous Eve查看或修改那些构成你浏览中产生的请求；让你可以安全的在你的电脑和服务器之间发送密码、通信和信用卡信息等数据。当绿色小挂锁和字母“https”出在你的地址栏时，并不意味你所访问的网站仍是之前的，而不是已经被篡改过的，当你打开网页时这些标识至少帮助你安全地访问网页。
 1.什么">
-<meta property="og:updated_time" content="2017-05-05T07:38:15.000Z">
+<meta property="og:updated_time" content="2017-05-19T15:39:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS的工作原理(译文)">
 <meta name="twitter:description" content="HTTPS只是标准HTTP协议涂上一层美味的SSL/TLS加密信息。 除非出现严重错误,它可以防止人们因infamous Eve查看或修改那些构成你浏览中产生的请求；让你可以安全的在你的电脑和服务器之间发送密码、通信和信用卡信息等数据。当绿色小挂锁和字母“https”出在你的地址栏时，并不意味你所访问的网站仍是之前的，而不是已经被篡改过的，当你打开网页时这些标识至少帮助你安全地访问网页。
@@ -174,6 +174,30 @@ s.parentNode.insertBefore(hm, s);
     
 
 <!-- 目录内容 -->
+
+<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+<span class="btn-bg"></span>
+<span class="btn-text">文章导航</span>
+</p>
+<div id="toc-article" class="toc-article">
+<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-_u4EC0_u4E48_u662FHTTPS_u4EE5_u53CA_u5B83_u505A_u4E86_u4EC0_u4E48_3F"><span class="toc-number">1.</span> <span class="toc-text">1.什么是HTTPS以及它做了什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-_u5982_u4F55_u5EFA_u7ACBSSL_u8FDE_u63A5"><span class="toc-number">2.</span> <span class="toc-text">2.如何建立SSL连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-_u8BC1_u4E66"><span class="toc-number">3.</span> <span class="toc-text">3.证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_u4FE1_u4EFB"><span class="toc-number">3.1.</span> <span class="toc-text">3.1信任</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_u6570_u5B57_u7B7E_u540D"><span class="toc-number">3.2.</span> <span class="toc-text">3.2数字签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3_u81EA_u7B7E_u540D"><span class="toc-number">3.3.</span> <span class="toc-text">3.3自签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4_u4F60_u76F8_u4FE1_u4EC0_u4E48_uFF1F"><span class="toc-number">3.4.</span> <span class="toc-text">3.4你相信什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-_u771F_u7684_u5F88_u6709_u8DA3_u7684_u4E8B_u5B9E"><span class="toc-number">4.</span> <span class="toc-text">4.真的很有趣的事实</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1_u5496_u5561_u5E97_u53EF_u4EE5_u901A_u8FC7_u7F51_u7EDC_u76D1_u63A7_u6211_u7684HTTPS_u6D41_u91CF_u5417_3F"><span class="toc-number">4.1.</span> <span class="toc-text">4.1咖啡店可以通过网络监控我的HTTPS流量吗?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2_u6211_u7684_u516C_u53F8_u53EF_u4EE5_u901A_u8FC7_u7F51_u7EDC_u76D1_u63A7_u6211_u7684HTTPS_u6D41_u91CF_u5417_uFF1F"><span class="toc-number">4.2.</span> <span class="toc-text">4.2我的公司可以通过网络监控我的HTTPS流量吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3_u90A3_u4E48Lavabit_u548C_u8054_u90A6_u8C03_u67E5_u5C40_u600E_u4E48_u4E86_uFF1F"><span class="toc-number">4.3.</span> <span class="toc-text">4.3那么Lavabit和联邦调查局怎么了？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-_u7ED3_u8BBA"><span class="toc-number">5.</span> <span class="toc-text">5.结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u539F_u6587_u5730_u5740"><span class="toc-number">6.</span> <span class="toc-text">原文地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u53C2_u8003_u8D44_u6599"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+</div>
+<script type="text/javascript">
+function showToc(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:block");
+show_toc_btn.setAttribute("style","display:none");
+};
+function showBtn(){
+var toc_article = document.getElementById("toc-article");
+var show_toc_btn = document.getElementById("show-toc-btn");
+toc_article.setAttribute("style","display:none");
+show_toc_btn.setAttribute("style","display:block");
+};
+</script>
 
 <!-- 目录内容结束 -->
 
