@@ -173,16 +173,19 @@
 
 <!-- 目录内容结束 -->
 
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：</p>
+<div class="article-entry" itemprop="articleBody">
+
+
+
+<p>上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/997034A3-8246-4C63-A867-C968F2CCD96F.png" alt="控制台错误"></p>
 <p>程序崩溃在将要消失时，控制台给出<font color="#FA8072"> This application is modifying the autolayout engine from a background thread,whinch can lead to engine corruption and weird crashes.This will cause an exception in a future release. </font> 的报错。</p>
 <p>根据提示认为是后台线程在更新UI布局时，webView与JS的交互也在此时进行。交互操作会阻塞UI的显示及刷新。因此，又回到了一个老生常谈的准则上来了，<font color="#FA8072"> 要在主线程刷新UI布局 </font>。在调用本地应用于H5交互的方法时，要放到主线程中。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="preprocessor">#pragma mark - 跳转购物车</span></span><br><span class="line">- (<span class="keyword">void</span>)goCart:(<span class="built_in">NSString</span> *)shopNum</span><br><span class="line">&#123;</span><br><span class="line">    CLog(<span class="string">@"jsString = %@"</span>,shopNum);</span><br><span class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:ShopCartNumIsChanged object:shopNum];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">NO</span>];</span><br><span class="line">        MallHomeViewController *mallHome = [LYSingle sharedSingle]<span class="variable">.mallVC</span>;</span><br><span class="line">        [mallHome setCurrentSelectIndex:<span class="number">3</span>];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma  mark - 商品上架(未开通店铺不能上架)</span></span><br><span class="line">- (<span class="keyword">void</span>)cannotShelves</span><br><span class="line">&#123;</span><br><span class="line">    CLog(<span class="string">@"cannotShelves"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIAlertView</span> *alertView = [[<span class="built_in">UIAlertView</span> alloc] initWithTitle:<span class="string">@""</span> message:<span class="string">@"要在主线程刷新UI"</span> delegate:<span class="keyword">self</span> cancelButtonTitle:<span class="string">@"我知道了"</span> otherButtonTitles:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        [alertView show];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
+
+
 
       
     </div>

@@ -169,9 +169,11 @@
 
 <!-- 目录内容结束 -->
 
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
+<div class="article-entry" itemprop="articleBody">
+
+
+
+<p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
 <h2 id="u89E3_u51B3_u65B9_u6CD5"><a href="#u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="name">JSContext</span> *<span class="atom">context</span> = [<span class="atom">webView</span> <span class="atom">valueForKeyPath</span>:@<span class="string">"documentView.webView.mainFrame.javaScriptContext"</span>];</span><br><span class="line"><span class="atom">context</span>[@<span class="string">"jsObject"</span>] = <span class="atom">self</span>;</span><br></pre></td></tr></table></figure></p>
 <p>这句代码，从<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>webViewDidFinishLoad:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView</span></span><br></pre></td></tr></table></figure></p>
 <p>移到，<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType</span></span><br></pre></td></tr></table></figure></p>
@@ -181,7 +183,8 @@
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">点击下载</a></p>
 <h2 id="u9057_u7559_u95EE_u9898"><a href="#u9057_u7559_u95EE_u9898" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>这里只有获取购物车最新商品数量时，无法调用JS交互方法，其他的JS交互方法仍然可以调用。那么<font color="#FA8072">获取JSContext的时机是什么</font></p>
 
-      
+
+
 
       
     </div>

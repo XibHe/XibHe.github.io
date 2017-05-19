@@ -194,9 +194,11 @@ show_toc_btn.setAttribute("style","display:block");
 
 <!-- 目录内容结束 -->
 
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="u56FE_u5F62_u7ED8_u5236"><a href="#u56FE_u5F62_u7ED8_u5236" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
+<div class="article-entry" itemprop="articleBody">
+
+
+
+<h2 id="u56FE_u5F62_u7ED8_u5236"><a href="#u56FE_u5F62_u7ED8_u5236" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
 <h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>UIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创建基于矢量的路径，例如椭圆或者矩形，或者有多个直线和曲线段组成的形状。我们可以用moveToPoint: 和 addLineToPoint:方法去构建。moveToPoint:设置我们想要创建形状的起点。从这点开始，我们可以用方法addLineToPoint:去创建一个形状的线段。我们可以连续的创建line，每一个line的起点都是先前的终点，终点就是指定的点。closePath可以在最后一个点和第一个点之间画一条线段。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)drawRect:(CGRect)rect</span><br><span class="line">&#123;</span><br><span class="line">    UIColor *color = [UIColor colorWithRed:<span class="number">0</span> green:<span class="number">0.7</span> blue:<span class="number">0</span> alpha:<span class="number">1</span>];</span><br><span class="line">    [color <span class="built_in">set</span>];</span><br><span class="line"></span><br><span class="line">    UIBezierPath* aPath = [UIBezierPath bezierPath];</span><br><span class="line">    aPath.lineWidth = <span class="number">5.0</span>;</span><br><span class="line"></span><br><span class="line">    aPath.lineCapStyle = kCGLineCapRound;</span><br><span class="line">    aPath.lineJoinStyle = kCGLineCapRound;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 起点</span></span><br><span class="line">    [aPath moveToPoint:CGPointMake(<span class="number">100.0</span>, <span class="number">0.0</span>)];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绘制线条</span></span><br><span class="line">    [aPath addLineToPoint:CGPointMake(<span class="number">200.0</span>, <span class="number">40.0</span>)];</span><br><span class="line">    [aPath addLineToPoint:CGPointMake(<span class="number">160</span>, <span class="number">140</span>)];</span><br><span class="line">    [aPath addLineToPoint:CGPointMake(<span class="number">40.0</span>, <span class="number">140</span>)];</span><br><span class="line">    [aPath addLineToPoint:CGPointMake(<span class="number">0.0</span>, <span class="number">40.0</span>)];</span><br><span class="line">    [aPath closePath];<span class="comment">//第五条线通过调用closePath方法得到的</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据坐标点连线</span></span><br><span class="line">    [aPath stroke];</span><br><span class="line">    [aPath fill];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="UIBezierPath+CAShapeLayer"><a href="#UIBezierPath+CAShapeLayer" class="headerlink" title="UIBezierPath+CAShapeLayer"></a>UIBezierPath+CAShapeLayer</h3><p>CAShapeLayer 继承自 CALayer ，因此，可使用 CALayer 的所有属性。但是， CAShapeLayer 需要和贝塞尔曲线配合使用才有意义。<br>查看官网说明:</p>
@@ -253,7 +255,8 @@ show_toc_btn.setAttribute("style","display:block");
 </a></li>
 </ul>
 
-      
+
+
 
       
     </div>
