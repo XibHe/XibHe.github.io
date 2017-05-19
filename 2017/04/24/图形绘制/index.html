@@ -156,26 +156,24 @@ s.parentNode.insertBefore(hm, s);
           </div>
           <div id="js-content" class="content-ll">
             <article id="post-图形绘制" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+<div class="article-inner">
+
+<header class="article-header">
+
   
     <h1 class="article-title" itemprop="name">
       iOS下的图形绘制
     </h1>
   
 
-        
-        <a href="/2017/04/24/图形绘制/" class="archive-article-date">
+
+<a href="/2017/04/24/图形绘制/" class="archive-article-date">
   	<time datetime="2017-04-23T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-24</time>
 </a>
-        
-      </header>
-    
+
+</header>
+
 <div class="article-entry" itemprop="articleBody">
-
-
 
 <h2 id="u56FE_u5F62_u7ED8_u5236"><a href="#u56FE_u5F62_u7ED8_u5236" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
 <h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>UIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创建基于矢量的路径，例如椭圆或者矩形，或者有多个直线和曲线段组成的形状。我们可以用moveToPoint: 和 addLineToPoint:方法去构建。moveToPoint:设置我们想要创建形状的起点。从这点开始，我们可以用方法addLineToPoint:去创建一个形状的线段。我们可以连续的创建line，每一个line的起点都是先前的终点，终点就是指定的点。closePath可以在最后一个点和第一个点之间画一条线段。</p>
@@ -236,11 +234,11 @@ s.parentNode.insertBefore(hm, s);
 
 
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+
+</div>
+<div class="article-info article-info-index">
+
+
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -264,12 +262,12 @@ s.parentNode.insertBefore(hm, s);
 		</ul>
 	</div>
 
-      
 
-      
 
-      
-        
+
+
+
+
 <div class="share-btn share-icons tooltip-left">
   <div class="tooltip tooltip-east">
     <span class="tooltip-item">
@@ -319,13 +317,13 @@ s.parentNode.insertBefore(hm, s);
 </div>
 
 <div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
+
+<div class="clearfix"></div>
+</div>
+</div>
 </article>
 
-  
+
 <nav id="article-nav">
   
     <a href="/2017/04/27/HTTPS的工作原理/" id="article-nav-newer" class="article-nav-link-wrap">
@@ -350,21 +348,28 @@ s.parentNode.insertBefore(hm, s);
 
 
 
-<section id="comments">
-  <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'xibHeBlog'; // required: replace example with your forum shortname
 
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<section id="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'xibHeBlog'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>
+
 
 
           </div>

@@ -155,26 +155,24 @@ s.parentNode.insertBefore(hm, s);
           </div>
           <div id="js-content" class="content-ll">
             <article id="post-使用JSExport进行JS交互时遇到的一个问题" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+<div class="article-inner">
+
+<header class="article-header">
+
   
     <h1 class="article-title" itemprop="name">
       使用JSExport进行JS交互时遇到的一个问题
     </h1>
   
 
-        
-        <a href="/2017/05/04/使用JSExport进行JS交互时遇到的一个问题/" class="archive-article-date">
+
+<a href="/2017/05/04/使用JSExport进行JS交互时遇到的一个问题/" class="archive-article-date">
   	<time datetime="2017-05-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-04</time>
 </a>
-        
-      </header>
-    
+
+</header>
+
 <div class="article-entry" itemprop="articleBody">
-
-
 
 <p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
 <h2 id="u89E3_u51B3_u65B9_u6CD5"><a href="#u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="name">JSContext</span> *<span class="atom">context</span> = [<span class="atom">webView</span> <span class="atom">valueForKeyPath</span>:@<span class="string">"documentView.webView.mainFrame.javaScriptContext"</span>];</span><br><span class="line"><span class="atom">context</span>[@<span class="string">"jsObject"</span>] = <span class="atom">self</span>;</span><br></pre></td></tr></table></figure></p>
@@ -188,11 +186,11 @@ s.parentNode.insertBefore(hm, s);
 
 
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+
+</div>
+<div class="article-info article-info-index">
+
+
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -208,12 +206,12 @@ s.parentNode.insertBefore(hm, s);
 		</ul>
 	</div>
 
-      
 
-      
 
-      
-        
+
+
+
+
 <div class="share-btn share-icons tooltip-left">
   <div class="tooltip tooltip-east">
     <span class="tooltip-item">
@@ -263,13 +261,13 @@ s.parentNode.insertBefore(hm, s);
 </div>
 
 <div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
+
+<div class="clearfix"></div>
+</div>
+</div>
 </article>
 
-  
+
 <nav id="article-nav">
   
   
@@ -285,21 +283,28 @@ s.parentNode.insertBefore(hm, s);
 
 
 
-<section id="comments">
-  <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'xibHeBlog'; // required: replace example with your forum shortname
 
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<section id="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'xibHeBlog'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>
+
 
 
           </div>
