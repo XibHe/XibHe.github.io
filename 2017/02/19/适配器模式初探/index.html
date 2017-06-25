@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="2月 19, 2017" />
-        <meta property="article:modified_time" content="6月 22, 2017" />
+        <meta property="article:modified_time" content="6月 25, 2017" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "适配器模式初探",
     "url": "http://XibHe.github.io/2017/02/19/适配器模式初探/index.html",
     "datePublished": "2月 19, 2017",
-    "dateModified": "6月 22, 2017",
+    "dateModified": "6月 25, 2017",
     "description": "爱苹果,爱生活。",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -499,12 +499,12 @@
 <h1 id="u4F7F_u7528_u6B65_u9AA4"><a href="#u4F7F_u7528_u6B65_u9AA4" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@protocol</span> MediaHandleDelegate &lt;NSObject&gt;</span><br><span class="line"><span class="variable">@optional</span></span><br><span class="line">- (void)<span class="attribute">returnMedidaData</span>:(id)mediaData;</span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">MediaHandleDelegate</span> &lt;<span class="title">NSObject</span>&gt;</span></span><br><span class="line"><span class="keyword">@optional</span></span><br><span class="line">- (<span class="keyword">void</span>)returnMedidaData:(<span class="keyword">id</span>)mediaData;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
 </ul>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAct.h</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleDelegate.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAct</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">id</span> &lt;MediaHandleDelegate&gt; _delegate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAct.m</span></span><br><span class="line"></span><br><span class="line"><span class="variable">#import</span> <span class="string">"MediaHandleAct.h"</span></span><br><span class="line"></span><br><span class="line">- (<span class="literal">void</span>)returnMedidaData:(NSString *)<span class="built_in">data</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MediaHandleAct.m</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"MediaHandleAct.h"</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)returnMedidaData:(<span class="built_in">NSString</span> *)data&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
 </ul>
@@ -519,7 +519,7 @@
 <ul>
 <li>第五步: 调用适配器。</li>
 </ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] <span class="string">objectForKey:</span>@<span class="string">"album"</span>];</span><br><span class="line">album.maxCount = imageCount;</span><br><span class="line">[album <span class="string">performActionWichController:</span>self <span class="string">callbackClass:</span>self];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:<span class="string">@"album"</span>];</span><br><span class="line">album<span class="variable">.maxCount</span> = imageCount;</span><br><span class="line">[album performActionWichController:<span class="keyword">self</span> callbackClass:<span class="keyword">self</span>];</span><br></pre></td></tr></table></figure>
 <h1 id="u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9"><a href="#u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
 <h1 id="u6CE8_u610F"><a href="#u6CE8_u610F" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
