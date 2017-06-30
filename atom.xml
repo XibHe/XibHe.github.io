@@ -503,7 +503,7 @@
     <link href="http://XibHe.github.io/2017/02/19/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2/"/>
     <id>http://XibHe.github.io/2017/02/19/适配器模式初探/</id>
     <published>2017-02-18T20:23:06.000Z</published>
-    <updated>2017-06-25T07:33:16.000Z</updated>
+    <updated>2017-06-30T15:23:16.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="u521D_u8877"><a href="#u521D_u8877" class="headerlink" title="初衷"></a>初衷</h1><p>解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。</p>
 <h1 id="u4F7F_u7528_u6B65_u9AA4"><a href="#u4F7F_u7528_u6B65_u9AA4" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
