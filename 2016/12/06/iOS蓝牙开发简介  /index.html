@@ -540,45 +540,247 @@
 <ol>
 <li>引入 CoreBluetooth头文件</li>
 </ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;CoreBluetooth/CoreBluetooth.h&gt;</span></span></div></pre></td></tr></table></figure>
-<ol>
+<pre><code>#import &lt;CoreBluetooth/CoreBluetooth.h&gt;
+</code></pre><ol>
 <li>声明属性</li>
 </ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) CBCentralManager *manager;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) CBPeripheral *peripheral;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span> ,<span class="keyword">nonatomic</span>) CBCharacteristic *writeCharacteristic;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>,<span class="keyword">nonatomic</span>) <span class="built_in">NSMutableArray</span> *nDevices;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>,<span class="keyword">nonatomic</span>) <span class="built_in">NSMutableArray</span> *nServices;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>,<span class="keyword">nonatomic</span>) <span class="built_in">NSMutableArray</span> *nCharacteristics;</div></pre></td></tr></table></figure>
-<ol>
+<pre><code>@property (nonatomic, strong) CBCentralManager *manager;
+@property (nonatomic, strong) CBPeripheral *peripheral;
+@property (strong ,nonatomic) CBCharacteristic *writeCharacteristic;
+@property (strong,nonatomic) NSMutableArray *nDevices;
+@property (strong,nonatomic) NSMutableArray *nServices;
+@property (strong,nonatomic) NSMutableArray *nCharacteristics;
+</code></pre><ol>
 <li>遵守协议</li>
 </ol>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@interface</span> ViewController () <span class="variable">&lt;CBCentralManagerDelegate, CBPeripheralDelegate&gt;</span></div></pre></td></tr></table></figure>
-<ol>
+<pre><code>@interface ViewController () &lt;CBCentralManagerDelegate, CBPeripheralDelegate&gt;
+</code></pre><ol>
 <li>初始化数据</li>
 </ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidLoad </div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">    <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></div><div class="line">    <span class="keyword">self</span>.manager = [[CBCentralManager alloc] initWithDelegate:<span class="keyword">self</span> queue:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    _cbReady = <span class="literal">false</span>;</div><div class="line">    _nDevices = [[<span class="built_in">NSMutableArray</span> alloc]init];</div><div class="line">    _nServices = [[<span class="built_in">NSMutableArray</span> alloc]init];</div><div class="line">    _nCharacteristics = [[<span class="built_in">NSMutableArray</span> alloc]init];</div><div class="line">    count = <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
+<pre><code>- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    self.manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+
+    _cbReady = false;
+    _nDevices = [[NSMutableArray alloc]init];
+    _nServices = [[NSMutableArray alloc]init];
+    _nCharacteristics = [[NSMutableArray alloc]init];
+    count = 0;
+}
+</code></pre><ol>
 <li>实现蓝牙的协议方法</li>
 </ol>
 <ul>
 <li>(1)检查蓝牙状态</li>
 </ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)<span class="string">centralManagerDidUpdateState:</span>(CBCentralManager *)central</div><div class="line">&#123;</div><div class="line">    <span class="keyword">switch</span> (central.state) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">CBCentralManagerStatePoweredOn:</span></div><div class="line">        &#123;</div><div class="line">            [self <span class="string">updateLog:</span>@<span class="string">"蓝牙已打开,请扫描外设"</span>];</div><div class="line">            [_activity startAnimating];</div><div class="line">            [_manager <span class="string">scanForPeripheralsWithServices:</span>@[[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FFF0"</span>]]  <span class="string">options:</span>@&#123;<span class="string">CBCentralManagerScanOptionAllowDuplicatesKey :</span> <span class="meta">@YES</span> &#125;];</div><div class="line">        &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">CBCentralManagerStatePoweredOff:</span></div><div class="line">            [self <span class="string">updateLog:</span>@<span class="string">"蓝牙没有打开,请先打开蓝牙"</span>];</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"><span class="symbol">        default:</span></div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<font color="#DC143C"> 注：[_manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@”FF15”]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];中间的@[[CBUUID UUIDWithString:@”FFF0”]]是为了过滤掉其他设备，可以搜索特定标示的设备。<br> </font> 
+<pre><code>-(void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOn:
+        {
+            [self updateLog:@&quot;蓝牙已打开,请扫描外设&quot;];
+            [_activity startAnimating];
+            [_manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@&quot;FFF0&quot;]]  options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
+        }
+            break;
+        case CBCentralManagerStatePoweredOff:
+            [self updateLog:@&quot;蓝牙没有打开,请先打开蓝牙&quot;];
+            break;
+        default:
+            break;
+    }
+}
+</code></pre><font color="#DC143C"> 注：[_manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@”FF15”]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];中间的@[[CBUUID UUIDWithString:@”FFF0”]]是为了过滤掉其他设备，可以搜索特定标示的设备。<br> </font> 
 
 <ul>
 <li>（2）检测到外设后，停止扫描，连接设备</li>
 </ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查到外设后，停止扫描，连接设备</span></div><div class="line">-(<span class="keyword">void</span>)<span class="string">centralManager:</span>(CBCentralManager *)central <span class="string">didDiscoverPeripheral:</span>(CBPeripheral *)peripheral <span class="string">advertisementData:</span>(NSDictionary *)advertisementData <span class="string">RSSI:</span>(NSNumber *)RSSI</div><div class="line">&#123;</div><div class="line">    [self <span class="string">updateLog:</span>[NSString <span class="string">stringWithFormat:</span>@<span class="string">"已发现 peripheral: %@ rssi: %@, UUID: %@ advertisementData: %@ "</span>, peripheral, RSSI, peripheral.identifier, advertisementData]];</div><div class="line">    </div><div class="line">    _peripheral = peripheral;</div><div class="line">    [_manager <span class="string">connectPeripheral:</span>_peripheral <span class="string">options:</span>nil];</div><div class="line">    </div><div class="line">    [self.manager stopScan];</div><div class="line">    [_activity stopAnimating];</div><div class="line">    </div><div class="line">    BOOL replace = NO;</div><div class="line">    <span class="comment">// Match if we have this device from before</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; _nDevices.count; i++) &#123;</div><div class="line">        CBPeripheral *p = [_nDevices <span class="string">objectAtIndex:</span>i];</div><div class="line">        <span class="keyword">if</span> ([p <span class="string">isEqual:</span>peripheral]) &#123;</div><div class="line">            [_nDevices <span class="string">replaceObjectAtIndex:</span>i <span class="string">withObject:</span>peripheral];</div><div class="line">            replace = YES;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!replace) &#123;</div><div class="line">        [_nDevices <span class="string">addObject:</span>peripheral];</div><div class="line">        [_bluetoothTable reloadData];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>//查到外设后，停止扫描，连接设备
+-(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    [self updateLog:[NSString stringWithFormat:@&quot;已发现 peripheral: %@ rssi: %@, UUID: %@ advertisementData: %@ &quot;, peripheral, RSSI, peripheral.identifier, advertisementData]];
+
+    _peripheral = peripheral;
+    [_manager connectPeripheral:_peripheral options:nil];
+
+    [self.manager stopScan];
+    [_activity stopAnimating];
+
+    BOOL replace = NO;
+    // Match if we have this device from before
+    for (int i=0; i &lt; _nDevices.count; i++) {
+        CBPeripheral *p = [_nDevices objectAtIndex:i];
+        if ([p isEqual:peripheral]) {
+            [_nDevices replaceObjectAtIndex:i withObject:peripheral];
+            replace = YES;
+        }
+    }
+    if (!replace) {
+        [_nDevices addObject:peripheral];
+        [_bluetoothTable reloadData];
+    }
+}
+</code></pre><ul>
 <li>（3）连接外设后的处理</li>
 </ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//连接外设成功，开始发现服务</span></div><div class="line">- (<span class="keyword">void</span>)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"成功连接 peripheral: %@ with UUID: %@"</span>,peripheral,peripheral.identifier]);</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span> updateLog:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"成功连接 peripheral: %@ with UUID: %@"</span>,peripheral,peripheral.identifier]];</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span>.peripheral setDelegate:<span class="keyword">self</span>];</div><div class="line">    [<span class="keyword">self</span>.peripheral discoverServices:<span class="literal">nil</span>];</div><div class="line">    [<span class="keyword">self</span> updateLog:<span class="string">@"扫描服务"</span>];</div><div class="line">&#125;</div><div class="line"><span class="comment">//连接外设失败</span></div><div class="line">-(<span class="keyword">void</span>)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(<span class="built_in">NSError</span> *)error</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,error);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(<span class="keyword">void</span>)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(<span class="built_in">NSError</span> *)error</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%s,%@"</span>,__PRETTY_FUNCTION__,peripheral);</div><div class="line">    <span class="keyword">int</span> rssi = abs([peripheral.RSSI intValue]);</div><div class="line">    <span class="built_in">CGFloat</span> ci = (rssi - <span class="number">49</span>) / (<span class="number">10</span> * <span class="number">4.</span>);</div><div class="line">    <span class="built_in">NSString</span> *length = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"发现BLT4.0热点:%@,距离:%.1fm"</span>,_peripheral,pow(<span class="number">10</span>,ci)];</div><div class="line">    [<span class="keyword">self</span> updateLog:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"距离：%@"</span>, length]];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>//连接外设成功，开始发现服务
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    NSLog(@&quot;%@&quot;, [NSString stringWithFormat:@&quot;成功连接 peripheral: %@ with UUID: %@&quot;,peripheral,peripheral.identifier]);
+
+    [self updateLog:[NSString stringWithFormat:@&quot;成功连接 peripheral: %@ with UUID: %@&quot;,peripheral,peripheral.identifier]];
+
+    [self.peripheral setDelegate:self];
+    [self.peripheral discoverServices:nil];
+    [self updateLog:@&quot;扫描服务&quot;];
+}
+//连接外设失败
+-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    NSLog(@&quot;%@&quot;,error);
+}
+
+-(void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    NSLog(@&quot;%s,%@&quot;,__PRETTY_FUNCTION__,peripheral);
+    int rssi = abs([peripheral.RSSI intValue]);
+    CGFloat ci = (rssi - 49) / (10 * 4.);
+    NSString *length = [NSString stringWithFormat:@&quot;发现BLT4.0热点:%@,距离:%.1fm&quot;,_peripheral,pow(10,ci)];
+    [self updateLog:[NSString stringWithFormat:@&quot;距离：%@&quot;, length]];
+}
+</code></pre><ul>
 <li>（4）发现服务和搜索到的Characteristice</li>
 </ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//已发现服务</span></div><div class="line">-(<span class="keyword">void</span>) <span class="string">peripheral:</span>(CBPeripheral *)peripheral <span class="string">didDiscoverServices:</span>(NSError *)error&#123;</div><div class="line">    </div><div class="line">    [self <span class="string">updateLog:</span>@<span class="string">"发现服务."</span>];</div><div class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (CBService *s <span class="keyword">in</span> peripheral.services) &#123;</div><div class="line">        [self.nServices <span class="string">addObject:</span>s];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (CBService *s <span class="keyword">in</span> peripheral.services) &#123;</div><div class="line">        [self <span class="string">updateLog:</span>[NSString <span class="string">stringWithFormat:</span>@<span class="string">"%d :服务 UUID: %@(%@)"</span>,i,s.UUID.data,s.UUID]];</div><div class="line">        i++;</div><div class="line">        [peripheral <span class="string">discoverCharacteristics:</span>nil <span class="string">forService:</span>s];</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> ([s.UUID <span class="string">isEqual:</span>[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FFF0"</span>]]) &#123;</div><div class="line">            BOOL replace = NO;</div><div class="line">            <span class="comment">// Match if we have this device from before</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; _nDevices.count; i++) &#123;</div><div class="line">                CBPeripheral *p = [_nDevices <span class="string">objectAtIndex:</span>i];</div><div class="line">                <span class="keyword">if</span> ([p <span class="string">isEqual:</span>peripheral]) &#123;</div><div class="line">                    [_nDevices <span class="string">replaceObjectAtIndex:</span>i <span class="string">withObject:</span>peripheral];</div><div class="line">                    replace = YES;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (!replace) &#123;</div><div class="line">                [_nDevices <span class="string">addObject:</span>peripheral];</div><div class="line">                [_bluetoothTable reloadData];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//已搜索到Characteristics</span></div><div class="line">-(<span class="keyword">void</span>) <span class="string">peripheral:</span>(CBPeripheral *)peripheral <span class="string">didDiscoverCharacteristicsForService:</span>(CBService *)service <span class="string">error:</span>(NSError *)error&#123;</div><div class="line">    [self <span class="string">updateLog:</span>[NSString <span class="string">stringWithFormat:</span>@<span class="string">"发现特征的服务:%@ (%@)"</span>,service.UUID.data ,service.UUID]];</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (CBCharacteristic *c <span class="keyword">in</span> service.characteristics) &#123;</div><div class="line">        [self <span class="string">updateLog:</span>[NSString <span class="string">stringWithFormat:</span>@<span class="string">"特征 UUID: %@ (%@)"</span>,c.UUID.data,c.UUID]];</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> ([c.UUID <span class="string">isEqual:</span>[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FF01"</span>]]) &#123;</div><div class="line">            _writeCharacteristic = c;</div><div class="line"> &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> ([c.UUID <span class="string">isEqual:</span>[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FF02"</span>]])     &#123;</div><div class="line">            [_peripheral <span class="string">readValueForCharacteristic:</span>c];</div><div class="line">            [_peripheral <span class="string">setNotifyValue:</span>YES <span class="string">forCharacteristic:</span>c];</div><div class="line">  &#125;</div><div class="line"> &#125;   </div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)<span class="string">centralManager:</span>(CBCentralManager *)central <span class="string">didDisconnectPeripheral:</span>(CBPeripheral *)peripheral <span class="string">error:</span>(NSError *)error &#123;</div><div class="line">    [self <span class="string">updateLog:</span>[NSString <span class="string">stringWithFormat:</span>@<span class="string">"已断开与设备:[%@]的连接"</span>, peripheral.name]];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>//已发现服务
+-(void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
+
+    [self updateLog:@&quot;发现服务.&quot;];
+    int i=0;
+    for (CBService *s in peripheral.services) {
+        [self.nServices addObject:s];
+    }
+    for (CBService *s in peripheral.services) {
+        [self updateLog:[NSString stringWithFormat:@&quot;%d :服务 UUID: %@(%@)&quot;,i,s.UUID.data,s.UUID]];
+        i++;
+        [peripheral discoverCharacteristics:nil forService:s];
+
+        if ([s.UUID isEqual:[CBUUID UUIDWithString:@&quot;FFF0&quot;]]) {
+            BOOL replace = NO;
+            // Match if we have this device from before
+            for (int i=0; i &lt; _nDevices.count; i++) {
+                CBPeripheral *p = [_nDevices objectAtIndex:i];
+                if ([p isEqual:peripheral]) {
+                    [_nDevices replaceObjectAtIndex:i withObject:peripheral];
+                    replace = YES;
+                }
+            }
+            if (!replace) {
+                [_nDevices addObject:peripheral];
+                [_bluetoothTable reloadData];
+            }
+        }
+    }
+}
+
+//已搜索到Characteristics
+-(void) peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
+    [self updateLog:[NSString stringWithFormat:@&quot;发现特征的服务:%@ (%@)&quot;,service.UUID.data ,service.UUID]];
+
+    for (CBCharacteristic *c in service.characteristics) {
+        [self updateLog:[NSString stringWithFormat:@&quot;特征 UUID: %@ (%@)&quot;,c.UUID.data,c.UUID]];
+
+        if ([c.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF01&quot;]]) {
+            _writeCharacteristic = c;
+ }
+
+        if ([c.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF02&quot;]])     {
+            [_peripheral readValueForCharacteristic:c];
+            [_peripheral setNotifyValue:YES forCharacteristic:c];
+  }
+ }   
+ }
+}
+
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    [self updateLog:[NSString stringWithFormat:@&quot;已断开与设备:[%@]的连接&quot;, peripheral.name]];
+}
+</code></pre><ul>
 <li>（5）获取外设发来的数据</li>
 </ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取外设发来的数据，不论是read和notify,获取数据都是从这个方法中读取。</span></div><div class="line">- (<span class="keyword">void</span>)<span class="string">peripheral:</span>(CBPeripheral *)peripheral <span class="string">didUpdateValueForCharacteristic:</span>(CBCharacteristic *)characteristic <span class="string">error:</span>(NSError *)error</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([characteristic.UUID <span class="string">isEqual:</span>[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FF02"</span>]]) &#123;</div><div class="line">        NSData * data = characteristic.value;</div><div class="line">        Byte * resultByte = (Byte *)[data bytes];</div><div class="line">        </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;[data length];i++)</div><div class="line">            printf(<span class="string">"testByteFF02[%d] = %d\n"</span>,i,resultByte[i]);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (resultByte[<span class="number">1</span>] == <span class="number">0</span>) &#123;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (resultByte[<span class="number">1</span>] == <span class="number">1</span>) &#123;</div><div class="line">            [self <span class="string">updateLog:</span>@<span class="string">"未知错误"</span>];</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (resultByte[<span class="number">1</span>] == <span class="number">2</span>) &#123;</div><div class="line">            [self <span class="string">updateLog:</span>@<span class="string">"鉴权失败"</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ([characteristic.UUID <span class="string">isEqual:</span>[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FF04"</span>]]) &#123;</div><div class="line">        NSData * data = characteristic.value;</div><div class="line">        Byte * resultByte = (Byte *)[data bytes];</div><div class="line">        </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;[data length];i++)</div><div class="line">            printf(<span class="string">"testByteFF04[%d] = %d\n"</span>,i,resultByte[i]);&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> ([characteristic.UUID <span class="string">isEqual:</span>[CBUUID <span class="string">UUIDWithString:</span>@<span class="string">"FF05"</span>]]) &#123;</div><div class="line">        NSData * data = characteristic.value;</div><div class="line">        Byte * resultByte = (Byte *)[data bytes];</div><div class="line">        </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;[data length];i++)</div><div class="line">            printf(<span class="string">"testByteFF05[%d] = %d\n"</span>,i,resultByte[i]);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (resultByte[<span class="number">0</span>] == <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// 设备加解锁状态 0 撤防     1 设防</span></div><div class="line">            [self <span class="string">updateLog:</span>@<span class="string">"当前车辆撤防状态"</span>];</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (resultByte[<span class="number">0</span>] == <span class="number">1</span>) &#123;</div><div class="line">            <span class="comment">// 设备加解锁状态 0 撤防     1 设防</span></div><div class="line">            [self <span class="string">updateLog:</span>@<span class="string">"当前车辆设防状态"</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//中心读取外设实时数据</span></div><div class="line">- (<span class="keyword">void</span>)<span class="string">peripheral:</span>(CBPeripheral *)peripheral <span class="string">didUpdateNotificationStateForCharacteristic:</span>(CBCharacteristic *)characteristic <span class="string">error:</span>(NSError *)error &#123;</div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">        NSLog(@<span class="string">"Error changing notification state: %@"</span>, error.localizedDescription);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// Notification has started</span></div><div class="line">    <span class="keyword">if</span> (characteristic.isNotifying) &#123;</div><div class="line">        [peripheral <span class="string">readValueForCharacteristic:</span>characteristic];</div><div class="line">        </div><div class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// Notification has stopped</span></div><div class="line">        <span class="comment">// so disconnect from the peripheral</span></div><div class="line">        NSLog(@<span class="string">"Notification stopped on %@.  Disconnecting"</span>, characteristic);</div><div class="line">        [self <span class="string">updateLog:</span>[NSString <span class="string">stringWithFormat:</span>@<span class="string">"Notification stopped on %@.  Disconnecting"</span>, characteristic]];</div><div class="line">        [self.manager <span class="string">cancelPeripheralConnection:</span>self.peripheral];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//用于检测中心向外设写数据是否成功</span></div><div class="line">-(<span class="keyword">void</span>)<span class="string">peripheral:</span>(CBPeripheral *)peripheral <span class="string">didWriteValueForCharacteristic:</span>(CBCharacteristic *)characteristic <span class="string">error:</span>(NSError *)error</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">        NSLog(@<span class="string">"=======%@"</span>,error.userInfo);</div><div class="line">        [self <span class="string">updateLog:</span>[error.userInfo JSONString]];</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        NSLog(@<span class="string">"发送数据成功"</span>);</div><div class="line">        [self <span class="string">updateLog:</span>@<span class="string">"发送数据成功"</span>];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* When a write occurs, need to set off a re-read of the local CBCharacteristic to update its value */</span></div><div class="line">    [peripheral <span class="string">readValueForCharacteristic:</span>characteristic];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="u540E_u8BB0"><a href="#u540E_u8BB0" class="headerlink" title="后记"></a>后记</h1><p>厂商一般会提供一份<font color="#DC143C">蓝牙血压计通信指令控制数据格式(通讯协议) </font> 可根据该协议中定义的返回的十六进制数据，定义当前外设发送的不同数据的意义。<br>最主要是用UUID来确定你要干的事情，特征和服务的UUID都是外设定义好的。我们只需要读取，确定你要读取什么的时候，就去判断UUID是否相符。 一般来说我们使用的iPhone都是做centralManager的，蓝牙模块是peripheral的，所以我们是want datas，需要接受数据。</p>
+<pre><code>//获取外设发来的数据，不论是read和notify,获取数据都是从这个方法中读取。
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF02&quot;]]) {
+        NSData * data = characteristic.value;
+        Byte * resultByte = (Byte *)[data bytes];
+
+        for(int i=0;i&lt;[data length];i++)
+            printf(&quot;testByteFF02[%d] = %d\n&quot;,i,resultByte[i]);
+
+        if (resultByte[1] == 0) {
+        }else if (resultByte[1] == 1) {
+            [self updateLog:@&quot;未知错误&quot;];
+        }else if (resultByte[1] == 2) {
+            [self updateLog:@&quot;鉴权失败&quot;];
+        }
+    }
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF04&quot;]]) {
+        NSData * data = characteristic.value;
+        Byte * resultByte = (Byte *)[data bytes];
+
+        for(int i=0;i&lt;[data length];i++)
+            printf(&quot;testByteFF04[%d] = %d\n&quot;,i,resultByte[i]);}
+
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF05&quot;]]) {
+        NSData * data = characteristic.value;
+        Byte * resultByte = (Byte *)[data bytes];
+
+        for(int i=0;i&lt;[data length];i++)
+            printf(&quot;testByteFF05[%d] = %d\n&quot;,i,resultByte[i]);
+
+        if (resultByte[0] == 0) {
+            // 设备加解锁状态 0 撤防     1 设防
+            [self updateLog:@&quot;当前车辆撤防状态&quot;];
+        }else if (resultByte[0] == 1) {
+            // 设备加解锁状态 0 撤防     1 设防
+            [self updateLog:@&quot;当前车辆设防状态&quot;];
+        }
+    }
+}
+
+//中心读取外设实时数据
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if (error) {
+        NSLog(@&quot;Error changing notification state: %@&quot;, error.localizedDescription);
+    }
+
+    // Notification has started
+    if (characteristic.isNotifying) {
+        [peripheral readValueForCharacteristic:characteristic];
+
+    } else { // Notification has stopped
+        // so disconnect from the peripheral
+        NSLog(@&quot;Notification stopped on %@.  Disconnecting&quot;, characteristic);
+        [self updateLog:[NSString stringWithFormat:@&quot;Notification stopped on %@.  Disconnecting&quot;, characteristic]];
+        [self.manager cancelPeripheralConnection:self.peripheral];
+    }
+}
+//用于检测中心向外设写数据是否成功
+-(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    if (error) {
+        NSLog(@&quot;=======%@&quot;,error.userInfo);
+        [self updateLog:[error.userInfo JSONString]];
+    }else{
+        NSLog(@&quot;发送数据成功&quot;);
+        [self updateLog:@&quot;发送数据成功&quot;];
+    }
+
+    /* When a write occurs, need to set off a re-read of the local CBCharacteristic to update its value */
+    [peripheral readValueForCharacteristic:characteristic];
+}
+</code></pre><h1 id="u540E_u8BB0"><a href="#u540E_u8BB0" class="headerlink" title="后记"></a>后记</h1><p>厂商一般会提供一份<font color="#DC143C">蓝牙血压计通信指令控制数据格式(通讯协议) </font> 可根据该协议中定义的返回的十六进制数据，定义当前外设发送的不同数据的意义。<br>最主要是用UUID来确定你要干的事情，特征和服务的UUID都是外设定义好的。我们只需要读取，确定你要读取什么的时候，就去判断UUID是否相符。 一般来说我们使用的iPhone都是做centralManager的，蓝牙模块是peripheral的，所以我们是want datas，需要接受数据。</p>
 <ol>
 <li>判断状态为powerOn，然后执行扫描</li>
 <li>停止扫描，连接外设</li>

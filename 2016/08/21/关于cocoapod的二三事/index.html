@@ -505,15 +505,23 @@
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
         <h1 id="1-The_dependency_AFNetworking__28_3D_2-6-3_29_is_not_used_in_any_concrete_target"><a href="#1-The_dependency_AFNetworking__28_3D_2-6-3_29_is_not_used_in_any_concrete_target" class="headerlink" title="1.The dependency AFNetworking (= 2.6.3) is not used in any concrete target."></a>1.The dependency <code>AFNetworking (= 2.6.3)</code> is not used in any concrete target.</h1><p>在cocoapods version 1.0 之后，默认生成的Podfile文件类似于</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">pod</span> <span class="string">'Alamofire'</span>, <span class="string">'~&gt; 3.1.4'</span></div><div class="line">pod <span class="string">'SwiftyJSON'</span>, <span class="string">'~&gt; 2.3.2'</span></div></pre></td></tr></table></figure>
-<p>这样的默认设置。为了不发生如标题那样的错误，需要手动用 <font color="#FA8072"> target “TargetName” do end </font> 把需要 pod 的库包括进来。</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">target <span class="string">"TargetName"</span> <span class="built_in">do</span></div><div class="line">    pod <span class="string">'Alamofire'</span>, <span class="string">'~&gt; 3.1.4'</span></div><div class="line">    pod <span class="string">'SwiftyJSON'</span>, <span class="string">'~&gt; 2.3.2'</span></div><div class="line"><span class="built_in">end</span></div></pre></td></tr></table></figure>
-<h1 id="2-ios_None_of_your_spec_sources_contain_a_spec_satisfying_the_dependency_3A_IQKeyboardManager__28_7E_26gt_3B_4-0-0_29"><a href="#2-ios_None_of_your_spec_sources_contain_a_spec_satisfying_the_dependency_3A_IQKeyboardManager__28_7E_26gt_3B_4-0-0_29" class="headerlink" title="2.ios None of your spec sources contain a spec satisfying the dependency: IQKeyboardManager (~&gt; 4.0.0)."></a>2.ios None of your spec sources contain a spec satisfying the dependency: <code>IQKeyboardManager (~&gt; 4.0.0)</code>.</h1><p>报这个错误，可能是由于Cocoapods的配置库有损坏，Cocoapods建议删除本地副本重新clone。根据cocoapods官方博客的方案，在终端做出如下操作<font color="#FA8072"> (依照次序) </font></p>
+<pre><code>pod &#39;Alamofire&#39;, &#39;~&gt; 3.1.4&#39;
+pod &#39;SwiftyJSON&#39;, &#39;~&gt; 2.3.2&#39;
+</code></pre><p>这样的默认设置。为了不发生如标题那样的错误，需要手动用 <font color="#FA8072"> target “TargetName” do end </font> 把需要 pod 的库包括进来。</p>
+<pre><code>target &quot;TargetName&quot; do
+    pod &#39;Alamofire&#39;, &#39;~&gt; 3.1.4&#39;
+    pod &#39;SwiftyJSON&#39;, &#39;~&gt; 2.3.2&#39;
+end
+</code></pre><h1 id="2-ios_None_of_your_spec_sources_contain_a_spec_satisfying_the_dependency_3A_IQKeyboardManager__28_7E_26gt_3B_4-0-0_29"><a href="#2-ios_None_of_your_spec_sources_contain_a_spec_satisfying_the_dependency_3A_IQKeyboardManager__28_7E_26gt_3B_4-0-0_29" class="headerlink" title="2.ios None of your spec sources contain a spec satisfying the dependency: IQKeyboardManager (~&gt; 4.0.0)."></a>2.ios None of your spec sources contain a spec satisfying the dependency: <code>IQKeyboardManager (~&gt; 4.0.0)</code>.</h1><p>报这个错误，可能是由于Cocoapods的配置库有损坏，Cocoapods建议删除本地副本重新clone。根据cocoapods官方博客的方案，在终端做出如下操作<font color="#FA8072"> (依照次序) </font></p>
 <p>第一步:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo rm -fr ~<span class="regexp">/Library/</span>Caches<span class="regexp">/CocoaPods &amp;&amp; \</span></div></pre></td></tr></table></figure>
-<p>第二步:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo rm -fr ~/.cocoapods/repos/master</div><div class="line">gem <span class="keyword">update</span> <span class="comment">--system &amp;&amp; \</span></div><div class="line">gem <span class="keyword">update</span> &amp;&amp; \</div><div class="line">gem <span class="keyword">cleanup</span> &amp;&amp; \</div><div class="line">pod setup</div></pre></td></tr></table></figure>
-<h1 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://stackoverflow.com/questions/34556991/pod-install-displaying-error-in-cocoapods-version-1-0-0-beta-1/34558516" target="_blank" rel="external">Pod install displaying error in cocoapods version 1.0.0.beta.1</a></p>
+<pre><code>sudo rm -fr ~/Library/Caches/CocoaPods &amp;&amp; \
+</code></pre><p>第二步:</p>
+<pre><code>$ sudo rm -fr ~/.cocoapods/repos/master
+gem update --system &amp;&amp; \
+gem update &amp;&amp; \
+gem cleanup &amp;&amp; \
+pod setup
+</code></pre><h1 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://stackoverflow.com/questions/34556991/pod-install-displaying-error-in-cocoapods-version-1-0-0-beta-1/34558516" target="_blank" rel="external">Pod install displaying error in cocoapods version 1.0.0.beta.1</a></p>
 <p><a href="http://stackoverflow.com/questions/37624178/intergating-new-firebase-error-cocoapods" target="_blank" rel="external">intergating New Firebase.. error cocoapods</a></p>
 <p><a href="http://stackoverflow.com/questions/38030317/pod-repo-update-does-not-happen-error-in-cocoapods" target="_blank" rel="external">pod repo update does not happen error in cocoapods</a></p>
 <p><a href="http://blog.cocoapods.org/Repairing-Our-Broken-Specs-Repository/" target="_blank" rel="external">Repairing Our Broken Specs Repository</a></p>

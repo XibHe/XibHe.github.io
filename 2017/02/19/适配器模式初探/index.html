@@ -499,27 +499,219 @@
 <h1 id="u4F7F_u7528_u6B65_u9AA4"><a href="#u4F7F_u7528_u6B65_u9AA4" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">MediaHandleDelegate</span> &lt;<span class="title">NSObject</span>&gt;</span></div><div class="line"><span class="keyword">@optional</span></div><div class="line">- (<span class="keyword">void</span>)returnMedidaData:(<span class="keyword">id</span>)mediaData;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<pre><code class="objc">@protocol MediaHandleDelegate &lt;NSObject&gt;
+@optional
+- (void)returnMedidaData:(id)mediaData;
+@end
+</code></pre>
 <ul>
 <li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
 </ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MediaHandleAct.h</span></div><div class="line"></div><div class="line"><span class="meta">#import <span class="meta-string">"MediaHandleDelegate.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAct</span> : <span class="title">NSObject</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">id</span> &lt;MediaHandleDelegate&gt; _delegate;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MediaHandleAct.m</span></div><div class="line"></div><div class="line"><span class="meta">#import <span class="meta-string">"MediaHandleAct.h"</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)returnMedidaData:(<span class="built_in">NSString</span> *)data&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code class="objc">// MediaHandleAct.h
+
+#import &quot;MediaHandleDelegate.h&quot;
+
+@interface MediaHandleAct : NSObject
+{
+    id &lt;MediaHandleDelegate&gt; _delegate;
+}
+</code></pre>
+<pre><code class="objc">// MediaHandleAct.m
+
+#import &quot;MediaHandleAct.h&quot;
+
+- (void)returnMedidaData:(NSString *)data{
+}
+</code></pre>
 <ul>
 <li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
 </ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"MediaHandleDelegate.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAct</span> : <span class="title">NSObject</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">id</span> &lt;MediaHandleDelegate&gt; _delegate;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 动态注册新的Action</span></div><div class="line">+ (<span class="keyword">void</span>)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(<span class="built_in">NSString</span> *) actKey;</div><div class="line"><span class="comment">// 获取注册的Action</span></div><div class="line">+ (<span class="built_in">NSDictionary</span> *)mediaHandleActions;</div><div class="line"><span class="comment">// 传递Action的具体执行方法</span></div><div class="line">- (<span class="keyword">void</span>)performActionWichController:(<span class="built_in">UIViewController</span> *)controller callbackClass:(<span class="built_in">NSObject</span> *)callbackClass;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MediaHandleAct.m</span></div><div class="line"><span class="meta">#import <span class="meta-string">"MediaHandleAct.h"</span></span></div><div class="line"><span class="keyword">static</span> <span class="built_in">NSMutableDictionary</span> * mediaHandleActs = <span class="literal">nil</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MediaHandleAct</span></span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(<span class="built_in">NSString</span> *)actKey</div><div class="line">&#123;</div><div class="line">    <span class="keyword">@synchronized</span>(<span class="keyword">self</span>)&#123;</div><div class="line">        <span class="keyword">if</span> (!mediaHandleActs)</div><div class="line">        &#123;</div><div class="line">            mediaHandleActs = [<span class="built_in">NSMutableDictionary</span> dictionary];</div><div class="line">            [MediaHandleAct registerCommonAction];</div><div class="line">        &#125;</div><div class="line">        [mediaHandleActs setObject:mediaHandleAct forKey:actKey];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="built_in">NSDictionary</span> *)mediaHandleActions</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSDictionary</span> * acts = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">@synchronized</span>(<span class="keyword">self</span>)&#123;</div><div class="line">        <span class="keyword">if</span> (!mediaHandleActs)</div><div class="line">        &#123;</div><div class="line">            mediaHandleActs = [<span class="built_in">NSMutableDictionary</span> dictionary];</div><div class="line">            [MediaHandleAct registerCommonAction];</div><div class="line">        &#125;</div><div class="line">        acts = mediaHandleActs;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> acts;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 具体的执行方法</span></div><div class="line">- (<span class="keyword">void</span>)performActionWichController:(<span class="built_in">UIViewController</span> *)controller callbackClass:(<span class="built_in">NSObject</span> *)callbackClass&#123;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<pre><code class="objc">#import &lt;Foundation/Foundation.h&gt;
+#import &quot;MediaHandleDelegate.h&quot;
+
+@interface MediaHandleAct : NSObject
+{
+    id &lt;MediaHandleDelegate&gt; _delegate;
+}
+// 动态注册新的Action
++ (void)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(NSString *) actKey;
+// 获取注册的Action
++ (NSDictionary *)mediaHandleActions;
+// 传递Action的具体执行方法
+- (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass;
+@end
+</code></pre>
+<pre><code class="objc">// MediaHandleAct.m
+#import &quot;MediaHandleAct.h&quot;
+static NSMutableDictionary * mediaHandleActs = nil;
+
+@implementation MediaHandleAct
+
++ (void)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(NSString *)actKey
+{
+    @synchronized(self){
+        if (!mediaHandleActs)
+        {
+            mediaHandleActs = [NSMutableDictionary dictionary];
+            [MediaHandleAct registerCommonAction];
+        }
+        [mediaHandleActs setObject:mediaHandleAct forKey:actKey];
+    }
+}
+
++ (NSDictionary *)mediaHandleActions
+{
+    NSDictionary * acts = nil;
+    @synchronized(self){
+        if (!mediaHandleActs)
+        {
+            mediaHandleActs = [NSMutableDictionary dictionary];
+            [MediaHandleAct registerCommonAction];
+        }
+        acts = mediaHandleActs;
+    }
+
+    return acts;
+}
+// 具体的执行方法
+- (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass{
+}
+@end
+</code></pre>
 <p>synchronized   这个主要是考虑多线程的程序，这个指令可以将{ } 内的代码限制在一个线程执行，如果某个线程没有执行完，其他的线程如果需要执行就得等着。@synchronized 的作用是创建一个互斥锁，保证此时没有其它线程对self对象进行修改。这种机制确保了同一时刻对于每一个类，至多只有一个处于可执行状态，从而有效避免了类成员变量的访问冲突。一般在公用变量的时候使用，如单例模式或者操作类的static变量中使用。</p>
 <ul>
 <li>第四步: 针对不同功能的类，创建继承于MediaHandleAct的类适配器。<br>使用适配器的时候，分为类适配器和对象适配器。类适配器针对每一个数据类型或某个功能模块创建一个适配器，并继承于根适配器。</li>
 </ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 调用相册功能</span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"MediaHandleAct.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAlbum</span> : <span class="title">MediaHandleAct</span></span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> maxCount;   <span class="comment">// 最多可添加照片数</span></div><div class="line"><span class="comment">// 注册Action</span></div><div class="line">+ (<span class="keyword">void</span>)load;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MediaHandleAlbum.m</span></div><div class="line"><span class="meta">#import <span class="meta-string">"MediaHandleAlbum.h"</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"JKImagePickerController.h"</span></span></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MediaHandleAlbum</span> ()&lt;<span class="title">JKImagePickerControllerDelegate</span>&gt;</span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">UIViewController</span> * _parentController;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MediaHandleAlbum</span></span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load</div><div class="line">&#123;</div><div class="line">    [MediaHandleAct registerMediaHandleAction:[[MediaHandleAlbum alloc] init] andKey:<span class="string">@"album"</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - 拍照和调用相册功能</span></div><div class="line">- (<span class="keyword">void</span>)performActionWichController:(<span class="built_in">UIViewController</span> *)controller callbackClass:(<span class="built_in">NSObject</span> *)callbackClass</div><div class="line">&#123;</div><div class="line">    _parentController = controller;</div><div class="line">    _delegate = (<span class="keyword">id</span>)callbackClass;</div><div class="line">    </div><div class="line">    <span class="built_in">UIActionSheet</span> *actionSheet = [[<span class="built_in">UIActionSheet</span> alloc] initWithTitle:<span class="literal">nil</span> delegate:(<span class="keyword">id</span>)<span class="keyword">self</span> cancelButtonTitle:<span class="literal">nil</span> destructiveButtonTitle:<span class="literal">nil</span> otherButtonTitles:<span class="string">@"拍照"</span>,<span class="string">@"从相册选择"</span>,<span class="string">@"取消"</span>,<span class="literal">nil</span>];</div><div class="line">    [actionSheet showInView:_parentController.view];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - ActionSheetDelegate</span></div><div class="line">- (<span class="keyword">void</span>)actionSheet:(<span class="built_in">UIActionSheet</span> *)actionSheet clickedButtonAtIndex:(<span class="built_in">NSInteger</span>)buttonIndex</div><div class="line">&#123;</div><div class="line">    <span class="keyword">switch</span> (buttonIndex) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// 拍照</span></div><div class="line">            <span class="built_in">UIImagePickerController</span> *picker = [[<span class="built_in">UIImagePickerController</span> alloc] init];</div><div class="line">            picker.sourceType = <span class="built_in">UIImagePickerControllerSourceTypeCamera</span>;</div><div class="line">            picker.editing = <span class="literal">YES</span>;</div><div class="line">            picker.allowsEditing = <span class="literal">YES</span>;</div><div class="line">            picker.delegate = (<span class="keyword">id</span>)<span class="keyword">self</span>;</div><div class="line">            [_parentController presentViewController:picker animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">            </div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// 调用相册</span></div><div class="line">            JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];</div><div class="line">            imagePickerController.delegate = (<span class="keyword">id</span>)<span class="keyword">self</span>;</div><div class="line">            imagePickerController.showsCancelButton = <span class="literal">YES</span>;</div><div class="line">            imagePickerController.allowsMultipleSelection = <span class="literal">YES</span>;</div><div class="line">            imagePickerController.minimumNumberOfSelection = <span class="number">1</span>;</div><div class="line">            imagePickerController.maximumNumberOfSelection = <span class="keyword">self</span>.maxCount;</div><div class="line">            <span class="comment">//imagePickerController.selectedAssetArray = self.photosView.assetsArray;</span></div><div class="line">            <span class="built_in">UINavigationController</span> *navigationController = [[<span class="built_in">UINavigationController</span> alloc] initWithRootViewController:imagePickerController];</div><div class="line">            [_parentController presentViewController:navigationController animated:<span class="literal">YES</span> completion:<span class="literal">NULL</span>];</div><div class="line"></div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - UIImagePickerControllerDelegate</span></div><div class="line">- (<span class="keyword">void</span>) imagePickerController: (<span class="built_in">UIImagePickerController</span>*)picker didFinishPickingMediaWithInfo: (<span class="built_in">NSDictionary</span>*) info</div><div class="line">&#123;</div><div class="line">    [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    <span class="built_in">UIImage</span> *edit = [info objectForKey:<span class="string">@"UIImagePickerControllerEditedImage"</span>];</div><div class="line">    <span class="built_in">UIImage</span> *originalImage = [info objectForKey:<span class="string">@"UIImagePickerControllerOriginalImage"</span>];</div><div class="line">    <span class="built_in">CLog</span>(<span class="string">@" EditedImage %@ "</span>,<span class="built_in">NSStringFromCGSize</span>(edit.size));</div><div class="line">    <span class="built_in">CLog</span>(<span class="string">@" OriginalImage %@ "</span>,<span class="built_in">NSStringFromCGSize</span>(originalImage.size));</div><div class="line">    <span class="built_in">UIImage</span> *aImage = edit;</div><div class="line">    <span class="built_in">NSData</span> * imageData = <span class="built_in">UIImageJPEGRepresentation</span>(aImage,<span class="number">0.5</span>);</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (_delegate &amp;&amp; [_delegate respondsToSelector:<span class="keyword">@selector</span>(returnMedidaData:)])</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">NSArray</span> * photos = @[imageData];</div><div class="line">        [_delegate returnMedidaData:photos];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)imagePickerControllerDidCancel:(<span class="built_in">UIImagePickerController</span> *)picker</div><div class="line">&#123;</div><div class="line">    [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - JKImagePickerControllerDelegate</span></div><div class="line">- (<span class="keyword">void</span>)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(<span class="built_in">BOOL</span>)source</div><div class="line">&#123;</div><div class="line">    [imagePicker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(<span class="built_in">NSArray</span> *)assets isSource:(<span class="built_in">BOOL</span>)source</div><div class="line">&#123;</div><div class="line">    [imagePicker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    <span class="built_in">CLog</span>(<span class="string">@"assets == %@"</span>,assets);</div><div class="line">    <span class="built_in">NSMutableArray</span> * photos = [[<span class="built_in">NSMutableArray</span> alloc] init];</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (JKAssets * jkAssets <span class="keyword">in</span> assets)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">NSData</span> * photoData = <span class="built_in">UIImageJPEGRepresentation</span>(jkAssets.photo, <span class="number">0.5</span>);</div><div class="line">        [photos addObject:photoData];</div><div class="line">        <span class="built_in">CLog</span>(<span class="string">@"groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@"</span>,jkAssets.groupPropertyID,jkAssets.groupPropertyURL,jkAssets.assetPropertyURL,jkAssets.photo);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (_delegate &amp;&amp; [_delegate respondsToSelector:<span class="keyword">@selector</span>(returnMedidaData:)])</div><div class="line">    &#123;</div><div class="line">        [_delegate returnMedidaData:photos];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code class="objc">// 调用相册功能
+#import &lt;Foundation/Foundation.h&gt;
+#import &quot;MediaHandleAct.h&quot;
+
+@interface MediaHandleAlbum : MediaHandleAct
+@property (nonatomic, assign) NSInteger maxCount;   // 最多可添加照片数
+// 注册Action
++ (void)load;
+@end
+</code></pre>
+<pre><code class="objc">// MediaHandleAlbum.m
+#import &quot;MediaHandleAlbum.h&quot;
+#import &quot;JKImagePickerController.h&quot;
+@interface MediaHandleAlbum ()&lt;JKImagePickerControllerDelegate&gt;
+{
+    UIViewController * _parentController;
+}
+@end
+
+@implementation MediaHandleAlbum
+
++ (void)load
+{
+    [MediaHandleAct registerMediaHandleAction:[[MediaHandleAlbum alloc] init] andKey:@&quot;album&quot;];
+}
+
+#pragma mark - 拍照和调用相册功能
+- (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass
+{
+    _parentController = controller;
+    _delegate = (id)callbackClass;
+
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@&quot;拍照&quot;,@&quot;从相册选择&quot;,@&quot;取消&quot;,nil];
+    [actionSheet showInView:_parentController.view];
+}
+
+#pragma mark - ActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+        {
+            // 拍照
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            picker.editing = YES;
+            picker.allowsEditing = YES;
+            picker.delegate = (id)self;
+            [_parentController presentViewController:picker animated:YES completion:nil];
+
+            break;
+        }
+        case 1:
+        {
+            // 调用相册
+            JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
+            imagePickerController.delegate = (id)self;
+            imagePickerController.showsCancelButton = YES;
+            imagePickerController.allowsMultipleSelection = YES;
+            imagePickerController.minimumNumberOfSelection = 1;
+            imagePickerController.maximumNumberOfSelection = self.maxCount;
+            //imagePickerController.selectedAssetArray = self.photosView.assetsArray;
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+            [_parentController presentViewController:navigationController animated:YES completion:NULL];
+
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void) imagePickerController: (UIImagePickerController*)picker didFinishPickingMediaWithInfo: (NSDictionary*) info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
+    UIImage *edit = [info objectForKey:@&quot;UIImagePickerControllerEditedImage&quot;];
+    UIImage *originalImage = [info objectForKey:@&quot;UIImagePickerControllerOriginalImage&quot;];
+    CLog(@&quot; EditedImage %@ &quot;,NSStringFromCGSize(edit.size));
+    CLog(@&quot; OriginalImage %@ &quot;,NSStringFromCGSize(originalImage.size));
+    UIImage *aImage = edit;
+    NSData * imageData = UIImageJPEGRepresentation(aImage,0.5);
+
+    if (_delegate &amp;&amp; [_delegate respondsToSelector:@selector(returnMedidaData:)])
+    {
+        NSArray * photos = @[imageData];
+        [_delegate returnMedidaData:photos];
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - JKImagePickerControllerDelegate
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(BOOL)source
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
+{
+    [imagePicker dismissViewControllerAnimated:YES completion:nil];
+
+    CLog(@&quot;assets == %@&quot;,assets);
+    NSMutableArray * photos = [[NSMutableArray alloc] init];
+
+    for (JKAssets * jkAssets in assets)
+    {
+        NSData * photoData = UIImageJPEGRepresentation(jkAssets.photo, 0.5);
+        [photos addObject:photoData];
+        CLog(@&quot;groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@&quot;,jkAssets.groupPropertyID,jkAssets.groupPropertyURL,jkAssets.assetPropertyURL,jkAssets.photo);
+    }
+
+    if (_delegate &amp;&amp; [_delegate respondsToSelector:@selector(returnMedidaData:)])
+    {
+        [_delegate returnMedidaData:photos];
+    }
+
+}
+</code></pre>
 <ul>
 <li>第五步: 调用适配器。</li>
 </ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:<span class="string">@"album"</span>];</div><div class="line">album.maxCount = imageCount;</div><div class="line">[album performActionWichController:<span class="keyword">self</span> callbackClass:<span class="keyword">self</span>];</div></pre></td></tr></table></figure>
+<pre><code class="objc">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@&quot;album&quot;];
+    album.maxCount = imageCount;
+    [album performActionWichController:self callbackClass:self];
+</code></pre>
 <h1 id="u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9"><a href="#u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
 <h1 id="u6CE8_u610F"><a href="#u6CE8_u610F" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
