@@ -688,13 +688,13 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/02/19/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2/"/>
     <id>http://XibHe.github.io/2017/02/19/适配器模式初探/</id>
     <published>2017-02-18T20:23:06.000Z</published>
-    <updated>2017-07-05T12:01:40.000Z</updated>
+    <updated>2017-07-06T01:16:24.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h1><p>解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。</p>
 <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
-<pre class=" language-objc"><code class="language-objc">@protocol MediaHandleDelegate <NSObject>
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">@protocol MediaHandleDelegate <NSObject>
 @optional
 - (void)returnMedidaData:(id)mediaData;
 @end
@@ -702,7 +702,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <ul>
 <li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
 </ul>
-<pre class=" language-objc"><code class="language-objc">// MediaHandleAct.h
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.h
 
 #import "MediaHandleDelegate.h"
 
@@ -711,7 +711,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     id <MediaHandleDelegate> _delegate;
 }
 </code></pre>
-<pre class=" language-objc"><code class="language-objc">// MediaHandleAct.m
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
 
 #import "MediaHandleAct.h"
 
@@ -721,7 +721,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <ul>
 <li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
 </ul>
-<pre class=" language-objc"><code class="language-objc">#import <Foundation/Foundation.h>
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">#import <Foundation/Foundation.h>
 #import "MediaHandleDelegate.h"
 
 @interface MediaHandleAct : NSObject
@@ -736,7 +736,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 - (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass;
 @end
 </code></pre>
-<pre class=" language-objc"><code class="language-objc">// MediaHandleAct.m
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
 #import "MediaHandleAct.h"
 static NSMutableDictionary * mediaHandleActs = nil;
 
@@ -777,7 +777,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <ul>
 <li>第四步: 针对不同功能的类，创建继承于MediaHandleAct的类适配器。<br>使用适配器的时候，分为类适配器和对象适配器。类适配器针对每一个数据类型或某个功能模块创建一个适配器，并继承于根适配器。</li>
 </ul>
-<pre class=" language-objc"><code class="language-objc">// 调用相册功能
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">// 调用相册功能
 #import <Foundation/Foundation.h>
 #import "MediaHandleAct.h"
 
@@ -787,7 +787,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 + (void)load;
 @end
 </code></pre>
-<pre class=" language-objc"><code class="language-objc">// MediaHandleAlbum.m
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAlbum.m
 #import "MediaHandleAlbum.h"
 #import "JKImagePickerController.h"
 @interface MediaHandleAlbum ()<JKImagePickerControllerDelegate>
@@ -903,7 +903,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <ul>
 <li>第五步: 调用适配器。</li>
 </ul>
-<pre class=" language-objc"><code class="language-objc">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@"album"];
+<pre class=" language-language-objectivec"><code class="language-language-objectivec">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@"album"];
     album.maxCount = imageCount;
     [album performActionWichController:self callbackClass:self];
 </code></pre>
