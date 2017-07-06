@@ -106,15 +106,15 @@
     
     <content type="html"><![CDATA[<p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
-<pre class=" language-objectivec"><code class="language-objectivec">JSContext <span class="token operator">*</span>context <span class="token operator">=</span> <span class="token punctuation">[</span>webView valueForKeyPath<span class="token punctuation">:</span><span class="token string">@"documentView.webView.mainFrame.javaScriptContext"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec">JSContext <span class="token operator">*</span>context <span class="token operator">=</span> <span class="token punctuation">[</span>webView valueForKeyPath<span class="token punctuation">:</span><span class="token string">@"documentView.webView.mainFrame.javaScriptContext"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 context<span class="token punctuation">[</span><span class="token string">@"jsObject"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>这句代码，从</p>
-<pre class=" language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>webViewDidFinishLoad<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView
-</code></pre>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>webViewDidFinishLoad<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>移到，</p>
-<pre class=" language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>webView<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView shouldStartLoadWithRequest<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>request navigationType<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebViewNavigationType<span class="token punctuation">)</span>navigationType
-</code></pre>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>webView<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView shouldStartLoadWithRequest<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>request navigationType<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebViewNavigationType<span class="token punctuation">)</span>navigationType
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>该代理方法中，就能每次都调用JS与OC的交互方法。</p>
 <h2 id="JavaScriptCore使用注意"><a href="#JavaScriptCore使用注意" class="headerlink" title="JavaScriptCore使用注意"></a>JavaScriptCore使用注意</h2><p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是<font color="#FA8072">在刚开始调用此方法的线程中去执行那段JavaStript方法的代码。</font></p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>
@@ -518,9 +518,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
     
   </entry>
   
@@ -609,9 +609,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -694,15 +694,15 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">@protocol MediaHandleDelegate <NSObject>
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">@protocol MediaHandleDelegate <NSObject>
 @optional
 - (void)returnMedidaData:(id)mediaData;
 @end
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
 </ul>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.h
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.h
 
 #import "MediaHandleDelegate.h"
 
@@ -710,18 +710,18 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 {
     id <MediaHandleDelegate> _delegate;
 }
-</code></pre>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
 
 #import "MediaHandleAct.h"
 
 - (void)returnMedidaData:(NSString *)data{
 }
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
 </ul>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">#import <Foundation/Foundation.h>
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">#import <Foundation/Foundation.h>
 #import "MediaHandleDelegate.h"
 
 @interface MediaHandleAct : NSObject
@@ -735,8 +735,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 // 传递Action的具体执行方法
 - (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass;
 @end
-</code></pre>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
 #import "MediaHandleAct.h"
 static NSMutableDictionary * mediaHandleActs = nil;
 
@@ -772,12 +772,12 @@ static NSMutableDictionary * mediaHandleActs = nil;
 - (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass{
 }
 @end
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>synchronized   这个主要是考虑多线程的程序，这个指令可以将{ } 内的代码限制在一个线程执行，如果某个线程没有执行完，其他的线程如果需要执行就得等着。@synchronized 的作用是创建一个互斥锁，保证此时没有其它线程对self对象进行修改。这种机制确保了同一时刻对于每一个类，至多只有一个处于可执行状态，从而有效避免了类成员变量的访问冲突。一般在公用变量的时候使用，如单例模式或者操作类的static变量中使用。</p>
 <ul>
 <li>第四步: 针对不同功能的类，创建继承于MediaHandleAct的类适配器。<br>使用适配器的时候，分为类适配器和对象适配器。类适配器针对每一个数据类型或某个功能模块创建一个适配器，并继承于根适配器。</li>
 </ul>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">// 调用相册功能
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// 调用相册功能
 #import <Foundation/Foundation.h>
 #import "MediaHandleAct.h"
 
@@ -786,8 +786,8 @@ static NSMutableDictionary * mediaHandleActs = nil;
 // 注册Action
 + (void)load;
 @end
-</code></pre>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAlbum.m
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAlbum.m
 #import "MediaHandleAlbum.h"
 #import "JKImagePickerController.h"
 @interface MediaHandleAlbum ()<JKImagePickerControllerDelegate>
@@ -899,14 +899,14 @@ static NSMutableDictionary * mediaHandleActs = nil;
     }
 
 }
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>第五步: 调用适配器。</li>
 </ul>
-<pre class=" language-language-objectivec"><code class="language-language-objectivec">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@"album"];
+<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@"album"];
     album.maxCount = imageCount;
     [album performActionWichController:self callbackClass:self];
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h1 id="适配器模式的优缺点"><a href="#适配器模式的优缺点" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
 <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
