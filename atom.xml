@@ -1602,9 +1602,9 @@ pod setup
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="iOS" scheme="http://XibHe.github.io/tags/iOS/"/>
-    
       <category term="JavaScriptCore" scheme="http://XibHe.github.io/tags/JavaScriptCore/"/>
+    
+      <category term="iOS" scheme="http://XibHe.github.io/tags/iOS/"/>
     
       <category term="iOS与JS交互" scheme="http://XibHe.github.io/tags/iOS%E4%B8%8EJS%E4%BA%A4%E4%BA%92/"/>
     
