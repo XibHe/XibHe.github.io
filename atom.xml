@@ -106,14 +106,14 @@
     
     <content type="html"><![CDATA[<p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
-<pre><code class="objectivec">JSContext *context = [webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
-context[@&quot;jsObject&quot;] = self;
+<pre class=" language-objectivec"><code class="language-objectivec">JSContext <span class="token operator">*</span>context <span class="token operator">=</span> <span class="token punctuation">[</span>webView valueForKeyPath<span class="token punctuation">:</span><span class="token string">@"documentView.webView.mainFrame.javaScriptContext"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+context<span class="token punctuation">[</span><span class="token string">@"jsObject"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
 </code></pre>
 <p>这句代码，从</p>
-<pre><code class="objectivec">- (void)webViewDidFinishLoad:(UIWebView *)webView
+<pre class=" language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>webViewDidFinishLoad<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView
 </code></pre>
 <p>移到，</p>
-<pre><code class="objectivec">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+<pre class=" language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>webView<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView shouldStartLoadWithRequest<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>request navigationType<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebViewNavigationType<span class="token punctuation">)</span>navigationType
 </code></pre>
 <p>该代理方法中，就能每次都调用JS与OC的交互方法。</p>
 <h2 id="JavaScriptCore使用注意"><a href="#JavaScriptCore使用注意" class="headerlink" title="JavaScriptCore使用注意"></a>JavaScriptCore使用注意</h2><p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是<font color="#FA8072">在刚开始调用此方法的线程中去执行那段JavaStript方法的代码。</font></p>
@@ -518,9 +518,9 @@ context[@&quot;jsObject&quot;] = self;
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -609,9 +609,9 @@ context[@&quot;jsObject&quot;] = self;
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
     
   </entry>
   
@@ -694,7 +694,7 @@ context[@&quot;jsObject&quot;] = self;
 <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
-<pre><code class="objc">@protocol MediaHandleDelegate &lt;NSObject&gt;
+<pre class=" language-objc"><code class="language-objc">@protocol MediaHandleDelegate <NSObject>
 @optional
 - (void)returnMedidaData:(id)mediaData;
 @end
@@ -702,18 +702,18 @@ context[@&quot;jsObject&quot;] = self;
 <ul>
 <li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
 </ul>
-<pre><code class="objc">// MediaHandleAct.h
+<pre class=" language-objc"><code class="language-objc">// MediaHandleAct.h
 
-#import &quot;MediaHandleDelegate.h&quot;
+#import "MediaHandleDelegate.h"
 
 @interface MediaHandleAct : NSObject
 {
-    id &lt;MediaHandleDelegate&gt; _delegate;
+    id <MediaHandleDelegate> _delegate;
 }
 </code></pre>
-<pre><code class="objc">// MediaHandleAct.m
+<pre class=" language-objc"><code class="language-objc">// MediaHandleAct.m
 
-#import &quot;MediaHandleAct.h&quot;
+#import "MediaHandleAct.h"
 
 - (void)returnMedidaData:(NSString *)data{
 }
@@ -721,12 +721,12 @@ context[@&quot;jsObject&quot;] = self;
 <ul>
 <li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
 </ul>
-<pre><code class="objc">#import &lt;Foundation/Foundation.h&gt;
-#import &quot;MediaHandleDelegate.h&quot;
+<pre class=" language-objc"><code class="language-objc">#import <Foundation/Foundation.h>
+#import "MediaHandleDelegate.h"
 
 @interface MediaHandleAct : NSObject
 {
-    id &lt;MediaHandleDelegate&gt; _delegate;
+    id <MediaHandleDelegate> _delegate;
 }
 // 动态注册新的Action
 + (void)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(NSString *) actKey;
@@ -736,8 +736,8 @@ context[@&quot;jsObject&quot;] = self;
 - (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass;
 @end
 </code></pre>
-<pre><code class="objc">// MediaHandleAct.m
-#import &quot;MediaHandleAct.h&quot;
+<pre class=" language-objc"><code class="language-objc">// MediaHandleAct.m
+#import "MediaHandleAct.h"
 static NSMutableDictionary * mediaHandleActs = nil;
 
 @implementation MediaHandleAct
@@ -777,9 +777,9 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <ul>
 <li>第四步: 针对不同功能的类，创建继承于MediaHandleAct的类适配器。<br>使用适配器的时候，分为类适配器和对象适配器。类适配器针对每一个数据类型或某个功能模块创建一个适配器，并继承于根适配器。</li>
 </ul>
-<pre><code class="objc">// 调用相册功能
-#import &lt;Foundation/Foundation.h&gt;
-#import &quot;MediaHandleAct.h&quot;
+<pre class=" language-objc"><code class="language-objc">// 调用相册功能
+#import <Foundation/Foundation.h>
+#import "MediaHandleAct.h"
 
 @interface MediaHandleAlbum : MediaHandleAct
 @property (nonatomic, assign) NSInteger maxCount;   // 最多可添加照片数
@@ -787,10 +787,10 @@ static NSMutableDictionary * mediaHandleActs = nil;
 + (void)load;
 @end
 </code></pre>
-<pre><code class="objc">// MediaHandleAlbum.m
-#import &quot;MediaHandleAlbum.h&quot;
-#import &quot;JKImagePickerController.h&quot;
-@interface MediaHandleAlbum ()&lt;JKImagePickerControllerDelegate&gt;
+<pre class=" language-objc"><code class="language-objc">// MediaHandleAlbum.m
+#import "MediaHandleAlbum.h"
+#import "JKImagePickerController.h"
+@interface MediaHandleAlbum ()<JKImagePickerControllerDelegate>
 {
     UIViewController * _parentController;
 }
@@ -800,7 +800,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 
 + (void)load
 {
-    [MediaHandleAct registerMediaHandleAction:[[MediaHandleAlbum alloc] init] andKey:@&quot;album&quot;];
+    [MediaHandleAct registerMediaHandleAction:[[MediaHandleAlbum alloc] init] andKey:@"album"];
 }
 
 #pragma mark - 拍照和调用相册功能
@@ -809,7 +809,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
     _parentController = controller;
     _delegate = (id)callbackClass;
 
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@&quot;拍照&quot;,@&quot;从相册选择&quot;,@&quot;取消&quot;,nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择",@"取消",nil];
     [actionSheet showInView:_parentController.view];
 }
 
@@ -854,14 +854,14 @@ static NSMutableDictionary * mediaHandleActs = nil;
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
 
-    UIImage *edit = [info objectForKey:@&quot;UIImagePickerControllerEditedImage&quot;];
-    UIImage *originalImage = [info objectForKey:@&quot;UIImagePickerControllerOriginalImage&quot;];
-    CLog(@&quot; EditedImage %@ &quot;,NSStringFromCGSize(edit.size));
-    CLog(@&quot; OriginalImage %@ &quot;,NSStringFromCGSize(originalImage.size));
+    UIImage *edit = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    UIImage *originalImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    CLog(@" EditedImage %@ ",NSStringFromCGSize(edit.size));
+    CLog(@" OriginalImage %@ ",NSStringFromCGSize(originalImage.size));
     UIImage *aImage = edit;
     NSData * imageData = UIImageJPEGRepresentation(aImage,0.5);
 
-    if (_delegate &amp;&amp; [_delegate respondsToSelector:@selector(returnMedidaData:)])
+    if (_delegate && [_delegate respondsToSelector:@selector(returnMedidaData:)])
     {
         NSArray * photos = @[imageData];
         [_delegate returnMedidaData:photos];
@@ -883,17 +883,17 @@ static NSMutableDictionary * mediaHandleActs = nil;
 {
     [imagePicker dismissViewControllerAnimated:YES completion:nil];
 
-    CLog(@&quot;assets == %@&quot;,assets);
+    CLog(@"assets == %@",assets);
     NSMutableArray * photos = [[NSMutableArray alloc] init];
 
     for (JKAssets * jkAssets in assets)
     {
         NSData * photoData = UIImageJPEGRepresentation(jkAssets.photo, 0.5);
         [photos addObject:photoData];
-        CLog(@&quot;groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@&quot;,jkAssets.groupPropertyID,jkAssets.groupPropertyURL,jkAssets.assetPropertyURL,jkAssets.photo);
+        CLog(@"groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@",jkAssets.groupPropertyID,jkAssets.groupPropertyURL,jkAssets.assetPropertyURL,jkAssets.photo);
     }
 
-    if (_delegate &amp;&amp; [_delegate respondsToSelector:@selector(returnMedidaData:)])
+    if (_delegate && [_delegate respondsToSelector:@selector(returnMedidaData:)])
     {
         [_delegate returnMedidaData:photos];
     }
@@ -903,7 +903,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <ul>
 <li>第五步: 调用适配器。</li>
 </ul>
-<pre><code class="objc">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@&quot;album&quot;];
+<pre class=" language-objc"><code class="language-objc">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@"album"];
     album.maxCount = imageCount;
     [album performActionWichController:self callbackClass:self];
 </code></pre>
