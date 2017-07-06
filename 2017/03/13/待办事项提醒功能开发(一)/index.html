@@ -38,7 +38,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="XibHe">
     <meta name="description" itemprop="description" content="爱苹果,爱生活。">
-    <meta name="keywords" content="null,开源,待办事项">
+    <meta name="keywords" content="null,待办事项,开源">
 
     <!-- Site Verification -->
     
@@ -70,7 +70,7 @@
     <meta property="og:title" content="待办事项提醒功能开发(一) | XibHe&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png" />
     <meta property="og:description" content="爱苹果,爱生活。">
-    <meta property="og:article:tag" content="开源"> <meta property="og:article:tag" content="待办事项"> 
+    <meta property="og:article:tag" content="待办事项"> <meta property="og:article:tag" content="开源"> 
 
     
         <meta property="article:published_time" content="3月 13, 2017" />
@@ -345,7 +345,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#u4E1A_u52A1_u9700_u6C42"><span class="post-toc-number">1.</span> <span class="post-toc-text">业务需求</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9"><span class="post-toc-number">2.</span> <span class="post-toc-text">需要考虑的技术点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9"><span class="post-toc-number">3.</span> <span class="post-toc-text">本地通知相关点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#u6B65_u9AA4_u8BF4_u660E"><span class="post-toc-number">4.</span> <span class="post-toc-text">步骤说明</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#业务需求"><span class="post-toc-number">1.</span> <span class="post-toc-text">业务需求</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#需要考虑的技术点"><span class="post-toc-number">2.</span> <span class="post-toc-text">需要考虑的技术点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#本地通知相关点"><span class="post-toc-number">3.</span> <span class="post-toc-text">本地通知相关点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#步骤说明"><span class="post-toc-number">4.</span> <span class="post-toc-text">步骤说明</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -504,7 +504,7 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h1 id="u4E1A_u52A1_u9700_u6C42"><a href="#u4E1A_u52A1_u9700_u6C42" class="headerlink" title="业务需求"></a>业务需求</h1><p>根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:</p>
+        <h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:</p>
 <ul>
 <li>新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；</li>
 <li>在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；</li>
@@ -512,7 +512,7 @@
 <li>如果保质期为30天以内，默认开启智能保质期提醒；如果超过30天，则关闭智能提醒，需要有手动设置结束提醒的具体时间及提醒频率；</li>
 <li>在提醒设置一栏，根据生产日期和保质期天数自动计算出到期的具体日期，用户点击时间一栏，弹出时间的选择控件用于选择触发提醒的时间点，用户也可以设置提醒频次；</li>
 </ul>
-<h1 id="u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9"><a href="#u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9" class="headerlink" title="需要考虑的技术点"></a>需要考虑的技术点</h1><p>结合需求需要考虑如下几个问题:</p>
+<h1 id="需要考虑的技术点"><a href="#需要考虑的技术点" class="headerlink" title="需要考虑的技术点"></a>需要考虑的技术点</h1><p>结合需求需要考虑如下几个问题:</p>
 <ul>
 <li>本地通知的运行机制是什么？</li>
 <li>如何自定义通知的频率？</li>
@@ -521,7 +521,7 @@
 <li>当切换用户或者用户退出登录后，如何操作之前已经添加的通知提醒？</li>
 <li>通知提醒数据的持久化？</li>
 </ul>
-<h1 id="u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9"><a href="#u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9" class="headerlink" title="本地通知相关点"></a>本地通知相关点</h1><p>使用本地通知提醒用户，而本地通知有些地方在使用时需要注意,如下:</p>
+<h1 id="本地通知相关点"><a href="#本地通知相关点" class="headerlink" title="本地通知相关点"></a>本地通知相关点</h1><p>使用本地通知提醒用户，而本地通知有些地方在使用时需要注意,如下:</p>
 <blockquote>
 <p>1.本地通知是有操作系统统一调度的，只有在应用退出到后台或者关闭才能收到通知；<br>2.本地通知的数量是有限制的，最近的本地通知最多只能有64个，超过这个数量将被系统忽略；<br>3.如果想要移除本地通知可以调用UIApplication的cancelLocalNotification:或cancelAllLocalNotifications移除指定通知或所有通知；<br>4.通知对应的NScalendarunit属性，可以通过该属性操作提醒的频率；</p>
 </blockquote>
@@ -561,7 +561,7 @@
     NSCalendarCalendarUnit NS_CALENDAR_ENUM_DEPRECATED(10_7, 10_10, 4_0, 8_0, &quot;Use NSCalendarUnitCalendar instead&quot;) = NSCalendarUnitCalendar,
     NSTimeZoneCalendarUnit NS_CALENDAR_ENUM_DEPRECATED(10_7, 10_10, 4_0, 8_0, &quot;Use NSCalendarUnitTimeZone instead&quot;) = NSCalendarUnitTimeZone,
 };
-</code></pre><h1 id="u6B65_u9AA4_u8BF4_u660E"><a href="#u6B65_u9AA4_u8BF4_u660E" class="headerlink" title="步骤说明"></a>步骤说明</h1><p>使用sqlite3进行通知提醒相关数据的持久化。大概的思路如下：</p>
+</code></pre><h1 id="步骤说明"><a href="#步骤说明" class="headerlink" title="步骤说明"></a>步骤说明</h1><p>使用sqlite3进行通知提醒相关数据的持久化。大概的思路如下：</p>
 <p>新增提醒任务:</p>
 <blockquote>
 <p>1.插入保质期提醒任务表<br>2.插入通知表<br>3.插入通知log表<br>4.上传服务器通知提醒数据</p>

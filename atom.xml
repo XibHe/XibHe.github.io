@@ -105,7 +105,7 @@
     <updated>2017-06-25T07:18:18.000Z</updated>
     
     <content type="html"><![CDATA[<p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
-<h2 id="u89E3_u51B3_u65B9_u6CD5"><a href="#u89E3_u51B3_u65B9_u6CD5" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
 <pre><code class="objectivec">JSContext *context = [webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
 context[@&quot;jsObject&quot;] = self;
 </code></pre>
@@ -116,16 +116,16 @@ context[@&quot;jsObject&quot;] = self;
 <pre><code class="objectivec">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 </code></pre>
 <p>该代理方法中，就能每次都调用JS与OC的交互方法。</p>
-<h2 id="JavaScriptCore_u4F7F_u7528_u6CE8_u610F"><a href="#JavaScriptCore_u4F7F_u7528_u6CE8_u610F" class="headerlink" title="JavaScriptCore使用注意"></a>JavaScriptCore使用注意</h2><p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是<font color="#FA8072">在刚开始调用此方法的线程中去执行那段JavaStript方法的代码。</font></p>
-<h2 id="u53C2_u8003_u6587_u732E"><a href="#u53C2_u8003_u6587_u732E" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>
+<h2 id="JavaScriptCore使用注意"><a href="#JavaScriptCore使用注意" class="headerlink" title="JavaScriptCore使用注意"></a>JavaScriptCore使用注意</h2><p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是<font color="#FA8072">在刚开始调用此方法的线程中去执行那段JavaStript方法的代码。</font></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">点击下载</a></p>
-<h2 id="u9057_u7559_u95EE_u9898"><a href="#u9057_u7559_u95EE_u9898" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>这里只有获取购物车最新商品数量时，无法调用JS交互方法，其他的JS交互方法仍然可以调用。那么<font color="#FA8072">获取JSContext的时机是什么</font></p>
+<h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>这里只有获取购物车最新商品数量时，无法调用JS交互方法，其他的JS交互方法仍然可以调用。那么<font color="#FA8072">获取JSContext的时机是什么</font></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;p&gt;在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。&lt;/p&gt;
-&lt;h2 id=&quot;u89E3_u51B3_u65B9_u6CD5&quot;&gt;&lt;a href=&quot;#u89E3_u51B3_u65B9_u6CD5&quot; class=&quot;head
+&lt;h2 id=&quot;解决方法&quot;&gt;&lt;a href=&quot;#解决方法&quot; class=&quot;headerlink&quot; title=&quot;解决方法&quot;&gt;&lt;/a&gt;解决方法&lt;/h2&gt;&lt;p&gt;将
     
     </summary>
     
@@ -146,13 +146,13 @@ context[@&quot;jsObject&quot;] = self;
     <updated>2017-06-30T14:53:25.000Z</updated>
     
     <content type="html"><![CDATA[<p>HTTPS只是标准HTTP协议涂上一层美味的SSL/TLS加密信息。 除非出现严重错误,它可以防止人们因<a href="https://en.wikipedia.org/wiki/Alice_and_Bob" target="_blank" rel="external">infamous Eve</a>查看或修改那些构成你浏览中产生的请求；让你可以安全的在你的电脑和服务器之间发送密码、通信和信用卡信息等数据。当绿色小挂锁和字母“https”出在你的地址栏时，并不意味你所访问的网站仍是之前的，而不是已经被篡改过的，当你打开网页时这些标识至少帮助你安全地访问网页。</p>
-<h2 id="1-_u4EC0_u4E48_u662FHTTPS_u4EE5_u53CA_u5B83_u505A_u4E86_u4EC0_u4E48_3F"><a href="#1-_u4EC0_u4E48_u662FHTTPS_u4EE5_u53CA_u5B83_u505A_u4E86_u4EC0_u4E48_3F" class="headerlink" title="1.什么是HTTPS以及它做了什么?"></a>1.什么是HTTPS以及它做了什么?</h2><p>HTTPS是著名的HTTP协议，是在SSL / TLS(以下简称为“SSL”)加密层之上。服务器和客户端仍然通过完全相同的HTTP协议进行通信，但二者的通信是建立在一个安全的SSL连接,加密和解密请求和响应体系之上的。SSL有两个主要目的:</p>
+<h2 id="1-什么是HTTPS以及它做了什么"><a href="#1-什么是HTTPS以及它做了什么" class="headerlink" title="1.什么是HTTPS以及它做了什么?"></a>1.什么是HTTPS以及它做了什么?</h2><p>HTTPS是著名的HTTP协议，是在SSL / TLS(以下简称为“SSL”)加密层之上。服务器和客户端仍然通过完全相同的HTTP协议进行通信，但二者的通信是建立在一个安全的SSL连接,加密和解密请求和响应体系之上的。SSL有两个主要目的:</p>
 <ul>
 <li>验证你所访问的服务器的正确性</li>
 <li>确保你与服务器之间的数据通信，无论是你发送给服务器的还是服务器返回给你的信息不被篡改</li>
 </ul>
 <p>真正非常聪明的部分是任何人都可以拦截您与服务器交换的每一个消息，包括您同意使用密钥和加密策略的消息，仍然无法读取任何实际发送的数据。</p>
-<h2 id="2-_u5982_u4F55_u5EFA_u7ACBSSL_u8FDE_u63A5"><a href="#2-_u5982_u4F55_u5EFA_u7ACBSSL_u8FDE_u63A5" class="headerlink" title="2.如何建立SSL连接"></a>2.如何建立SSL连接</h2><p>通过握手建立客户端和服务器之间的SSL连接，其目的是:</p>
+<h2 id="2-如何建立SSL连接"><a href="#2-如何建立SSL连接" class="headerlink" title="2.如何建立SSL连接"></a>2.如何建立SSL连接</h2><p>通过握手建立客户端和服务器之间的SSL连接，其目的是:</p>
 <ul>
 <li>为了确实与客户端通信服务器的正确性</li>
 <li>双方已经同意一个“密码套件”，其中包括二者将用于交换数据的加密算法</li>
@@ -163,25 +163,25 @@ context[@&quot;jsObject&quot;] = self;
 <p>2.证书交换 — 现在连接已经建立起来了，服务器必须向客户端证明其身份。这是使用SSL证书来实现的，这是一个很小的类似于护照的东西。SSL证书包含各种数据，包括所有者的名称，附加的属性（例如域），证书的公钥，数字签名和有关证书有效期的信息。客户端检查隐式信任该证书，或者它被隐式信任的几个证书颁发机构（CA）之一被验证和信任。更多关于证书的要求。注意服务器还可以要求通过证书证明客户端的身份，但这通常只发生在非常敏感的应用程序中。</p>
 <p>3.密钥交换 — 客户端和服务器交换的实际消息数据的加密将使用一种对称算法来完成，该算法在发送Client Hello报文阶段已被认可。对称算法使用单个密钥进行加密和解密，与需要公钥/私钥对的不对称算法相反。双方需要就此单一的对称密钥达成一致，即使用非对称加密和服务器的公钥/私钥可以安全地实现这一过程。</p>
 <p>客户端生成用于主对称算法的随机密钥。它使用在发送Client Hello报文阶段中同意的算法和服务器的公钥（在其SSL证书上找到）对其进行加密。它将此加密密钥发送到服务器，使用服务器的私钥对其进行解密，握手会话中有趣部分就这样完成了。双方都充满乐意，如同他们正在和正确的人交谈，并且秘密地同意对对方加密他们即将发送的数据的密钥。HTTP请求和响应现在可以通过对明文消息进行加密后发送。</p>
-<h2 id="3-_u8BC1_u4E66"><a href="#3-_u8BC1_u4E66" class="headerlink" title="3.证书"></a>3.证书</h2><h3 id="3-1_u4FE1_u4EFB"><a href="#3-1_u4FE1_u4EFB" class="headerlink" title="3.1信任"></a>3.1信任</h3><p>在最基本的层次上，SSL证书只是一个文本文件，任何具有文本编辑器的人都可以创建一个。实际上，您可以创建一个证书，声称您是Google Inc.，并且你掌握域名gmail.com。如果这是事实，SSL就是一个笑话;身份验证基本上是客户端询问服务器“你是Google吗？”，服务器回复“呃，是的，这是一张纸，’我是Google’写的”，客户说“好，这是我所有的数据”。阻止这场闹剧的魔法是在数字签名中，允许一方验证另一方的纸张是否合法。<br>为什么你可能信任证书有两个明智的原因：</p>
+<h2 id="3-证书"><a href="#3-证书" class="headerlink" title="3.证书"></a>3.证书</h2><h3 id="3-1信任"><a href="#3-1信任" class="headerlink" title="3.1信任"></a>3.1信任</h3><p>在最基本的层次上，SSL证书只是一个文本文件，任何具有文本编辑器的人都可以创建一个。实际上，您可以创建一个证书，声称您是Google Inc.，并且你掌握域名gmail.com。如果这是事实，SSL就是一个笑话;身份验证基本上是客户端询问服务器“你是Google吗？”，服务器回复“呃，是的，这是一张纸，’我是Google’写的”，客户说“好，这是我所有的数据”。阻止这场闹剧的魔法是在数字签名中，允许一方验证另一方的纸张是否合法。<br>为什么你可能信任证书有两个明智的原因：</p>
 <ul>
 <li>如果它在你隐含信任证书的列表上</li>
 <li>如果能够证明它是被上述列表中的一个证书的控制器所信任</li>
 </ul>
 <p>第一个标准很容易检查。您的浏览器具有可从其中查看，添加和删除证书颁发机构(CA)可信SSL证书预先安装的列表。这些证书由一个集中的（在理论上，一般在实践中）组织来控制，这些组织非常安全，可靠和值得信赖，如Symantec，Comodo和GoDaddy。如果服务器从该列表中提供证书，那么您可以信任它。</p>
 <p>第二个标准很难。服务器很容易说：“er，我的名字是er，来自微软，你信任Symantec和er，他们完全相信我，所以很酷。”一个有点聪明的客户端可能会去问Symantec“我有一个来自微软的服务请求，说你相信他们，这是真的吗？”但即使Symantec说“是的，我们知道他们，微软是合法的”，您仍然不知道声称是Microsoft的服务器实际上真的是微软还是某些入侵者。这时候数字签名该登场了。</p>
-<h3 id="3-2_u6570_u5B57_u7B7E_u540D"><a href="#3-2_u6570_u5B57_u7B7E_u540D" class="headerlink" title="3.2数字签名"></a>3.2数字签名</h3><p>如前所述，SSL证书具有关联的公钥/私钥对。公钥作为证书的一部分分发，私钥被保密。这对非对称密钥用于SSL握手，以交换另一个密钥，供双方对数据加密和解密。客户端使用服务器的公钥加密对称密钥，并将其安全地发送到服务器，服务器使用其私钥对其进行解密。任何人都可以使用公钥加密，但只有服务器可以使用私钥进行解密。</p>
+<h3 id="3-2数字签名"><a href="#3-2数字签名" class="headerlink" title="3.2数字签名"></a>3.2数字签名</h3><p>如前所述，SSL证书具有关联的公钥/私钥对。公钥作为证书的一部分分发，私钥被保密。这对非对称密钥用于SSL握手，以交换另一个密钥，供双方对数据加密和解密。客户端使用服务器的公钥加密对称密钥，并将其安全地发送到服务器，服务器使用其私钥对其进行解密。任何人都可以使用公钥加密，但只有服务器可以使用私钥进行解密。</p>
 <p>数字签名的情况恰恰相反。证书可以由另一个机构“签署”，从而有效地记录在案，“我们已经证实该证书的控制人也控制证书上列出的属性（域名）”。在这种情况下，权限使用其私钥（广义地说）加密证书的内容，并且该密文作为数字签名附加到证书中。任何人都拥有权限使用公钥对该签名进行解密，并验证其是否为预期的解密值。但只有证书的所有者才能使用私钥加密内容，所以只有所有者才能实际创建一个有效的签名。</p>
 <p>因此，如果服务器声称拥有由Symantec（或其他CA）签署的Microsoft.com的证书，那么您的浏览器不需要为此签名。如果是合法的，Symantec将使用（超秘密）私钥来生成服务器的SSL证书的数字签名，因此您的浏览器使用可以使用（超公共）公钥来检查该签名是否有效。Symantec将采取措施确保他们正在签署的组织真正拥有Microsoft.com，因此，鉴于您的客户信任Symantec，可以确定它真的在与微软公司对话。</p>
-<h3 id="3-3_u81EA_u7B7E_u540D"><a href="#3-3_u81EA_u7B7E_u540D" class="headerlink" title="3.3自签名"></a>3.3自签名</h3><p>请注意，所有根CA证书都是“自签名”，这意味着使用自己的私钥生成数字签名的证书。根CA证书没有什么特别之处 — 你可以生成自己的自签名证书，并使用它来签署其他证书。 但是，由于您的随机证书不会作为CA预先加载到任何浏览器的任何地方，所以他们都不会相信你所签署的自己的或他人的证书。你是有效地说“呃，我真的是微软，这里是我自己签发并签署的身份证件”，所有正常运行的浏览器都会弹出一个非常严重的错误信息，以回应你的诡计。</p>
+<h3 id="3-3自签名"><a href="#3-3自签名" class="headerlink" title="3.3自签名"></a>3.3自签名</h3><p>请注意，所有根CA证书都是“自签名”，这意味着使用自己的私钥生成数字签名的证书。根CA证书没有什么特别之处 — 你可以生成自己的自签名证书，并使用它来签署其他证书。 但是，由于您的随机证书不会作为CA预先加载到任何浏览器的任何地方，所以他们都不会相信你所签署的自己的或他人的证书。你是有效地说“呃，我真的是微软，这里是我自己签发并签署的身份证件”，所有正常运行的浏览器都会弹出一个非常严重的错误信息，以回应你的诡计。</p>
 <p>这给所有浏览器和操作系统发行商带来了巨大的负担，只能信任干净的根CAs，因为他们的用户最终信任vet网站并保持证书安全的组织。<a href="http://security.stackexchange.com/questions/11464/getting-a-root-ca-accepted-in-systems-and-browsers" target="_blank" rel="external">这不是一件容易的事</a>。</p>
-<h3 id="3-4_u4F60_u76F8_u4FE1_u4EC0_u4E48_uFF1F"><a href="#3-4_u4F60_u76F8_u4FE1_u4EC0_u4E48_uFF1F" class="headerlink" title="3.4你相信什么？"></a>3.4你相信什么？</h3><p>有趣的是，你的客户在技术上并不试图验证是否应该信任发送证书的一方，而是应该信任证书中包含的公开密钥。SSL证书是完全公开和公共的，因此任何攻击者都可以获取Microsoft的证书，拦截客户端对Microsoft.com的请求，并向其提供合法的证书。客户端会接受这一点，并开始愉快地握手。 但是，当客户端加密将用于实际数据加密的密钥时，它将使用该真实证书中的真实的Microsoft公钥进行此操作。由于攻击者没有Microsoft私钥来解密，所以他们现在被终止了。即使握手完成，它们仍然无法解密密钥，因此无法解密客户端向其发送的任何数据。只要攻击者不控制受信任的证书的私钥，正常的秩序就会顺利进行下去。如果客户骗取了受信任的证书，攻击者控制了证书和公钥，那么麻烦就开始了。</p>
-<h2 id="4-_u771F_u7684_u5F88_u6709_u8DA3_u7684_u4E8B_u5B9E"><a href="#4-_u771F_u7684_u5F88_u6709_u8DA3_u7684_u4E8B_u5B9E" class="headerlink" title="4.真的很有趣的事实"></a>4.真的很有趣的事实</h2><h3 id="4-1_u5496_u5561_u5E97_u53EF_u4EE5_u901A_u8FC7_u7F51_u7EDC_u76D1_u63A7_u6211_u7684HTTPS_u6D41_u91CF_u5417_3F"><a href="#4-1_u5496_u5561_u5E97_u53EF_u4EE5_u901A_u8FC7_u7F51_u7EDC_u76D1_u63A7_u6211_u7684HTTPS_u6D41_u91CF_u5417_3F" class="headerlink" title="4.1咖啡店可以通过网络监控我的HTTPS流量吗?"></a>4.1咖啡店可以通过网络监控我的HTTPS流量吗?</h3><p>不。公钥密码使用方法的魔力意味着攻击者可以观察客户端和服务器之间交换的每一个字节数据，并且仍然不知道你们之间所说的话大致等于多少交换的数据量。然而，你的正常HTTP流量在不安全的Wi-Fi网络上仍然非常脆弱，而且脆弱的网站可能会成为任何数量的解决方案的受害者，这些方法可能会欺骗您通过纯HTTP或在完全错误的地方发送HTTPS流量。例如，即使登录表单通过HTTPS提交用户名/密码组合，如果表单本身通过HTTP安全地加载，那么攻击者可能会在到达您的计算机的途中拦截表单的HTML，在修改后将登录详细信息发送到他们自己的服务器。</p>
-<h3 id="4-2_u6211_u7684_u516C_u53F8_u53EF_u4EE5_u901A_u8FC7_u7F51_u7EDC_u76D1_u63A7_u6211_u7684HTTPS_u6D41_u91CF_u5417_uFF1F"><a href="#4-2_u6211_u7684_u516C_u53F8_u53EF_u4EE5_u901A_u8FC7_u7F51_u7EDC_u76D1_u63A7_u6211_u7684HTTPS_u6D41_u91CF_u5417_uFF1F" class="headerlink" title="4.2我的公司可以通过网络监控我的HTTPS流量吗？"></a>4.2我的公司可以通过网络监控我的HTTPS流量吗？</h3><p>如果使用由自己公司控制的机器，那么是可以监控的。请记住，在每个信任链的根源都是一个隐含信任的CA，并且这些权限的列表存储在您的浏览器中。您的公司可以使用他们的机器访问权限，将自己的自签名证书添加到这个CA列表中。然后他们可以拦截您的所有HTTPS请求，提供声称代表相应网站的证书，由他们的假CA签名，因此毫无疑问，您的浏览器信任这些CA签名。由于使用其狡猾的证书的公钥对所有HTTPS请求进行加密，所以可以使用相应的私钥来解密和检查（甚至修改）您的请求，然后将其发送到其预期位置。他们可能不会这样做。但他们可以。<br>顺便提一句，这也是你如何使用代理来检查和修改<a href="http://nickfishman.com/post/50557873036/reverse-engineering-native-apps-by-intercepting-network" target="_blank" rel="external">iPhone应用程序所提供的</a>其他无法访问的HTTPS请求。</p>
-<h3 id="4-3_u90A3_u4E48Lavabit_u548C_u8054_u90A6_u8C03_u67E5_u5C40_u600E_u4E48_u4E86_uFF1F"><a href="#4-3_u90A3_u4E48Lavabit_u548C_u8054_u90A6_u8C03_u67E5_u5C40_u600E_u4E48_u4E86_uFF1F" class="headerlink" title="4.3那么Lavabit和联邦调查局怎么了？"></a>4.3那么Lavabit和联邦调查局怎么了？</h3><p>Lavabit是2013年NSA泄漏疯狂期间爱德华·斯诺登（Edward Snowden）的超级安全的电子邮件提供商。正如我们所看到的，无数标准黑客可以允许联邦调查局看到Lavabit和其客户之间的任何数据。没有Lavabit SSL证书的私人密钥，黑客们是不可能监听到这些数据的。然而，一位有益的美国法官告诉Lavaff创始人Ladar Levison，他不得不交出这个钥匙，有效地让联邦调查局自由地监视核心的内容。Levison通过在4点类型的11个硬拷贝页面上交出2,560个字符的键，试图停下来，但是被要求执行一个命令，必须以有用的格式交出私钥，否则将会面对每天5000美元的罚款。<br>一旦他遵守了这个命令，Lavad的CA证书颁发机构GoDaddy就会认为证书被破坏了，就撤销了证书。这将Lavabit证书添加到证书吊销列表（CRL）中，该证书撤销列表（CRL）是客户端不再信任以提供安全连接的可信证书的列表。妥协的结果，自签名或其他不可信任的证书导致浏览器显示一个大的红色错误消息，并且阻止或彻底禁止用户进一步的操作。不幸的是，浏览器将继续信任破坏的证书，直到它们将最新的更新提交给CRL，这个过程在实践中显然是<a href="https://news.netcraft.com/archives/2013/05/13/how-certificate-revocation-doesnt-work-in-practice.html" target="_blank" rel="external">不完美的</a>。</p>
-<h2 id="5-_u7ED3_u8BBA"><a href="#5-_u7ED3_u8BBA" class="headerlink" title="5.结论"></a>5.结论</h2><p>HTTPS不是不可破解的，SSL协议必须不断发展，因为对其的新攻击一直在快速的<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#Attacks_against_TLS.2FSSL" target="_blank" rel="external">发展演化</a>。但是，如果看不到您的消息，那么传输秘密数据的方式仍然是令人印象深刻的方式。当然，这里没有提及许多实现细节，例如握手消息的确切格式和顺序，缩短的握手来接收最近的会话而不必重新协商密钥和密码套件，以及每个阶段可用的许多不同的加密选项。要记住的关键是，尽管HTTPS将数据安全地保护到目的地，但绝对不会对您（作为用户或开发人员），保护您免受XSS或数据库泄漏或任何其他事情造成的严重影响。时刻保持警惕。 在威尔·史密斯的不朽言辞中，“在黑暗中行走，要时刻注意，防止突发的暴力。”。<br>如果你喜欢这片文章，你可能会喜欢我的另一篇文章<a href="http://robertheaton.com/2015/04/06/the-ssl-freak-vulnerability/" target="_blank" rel="external">解释SSL2015年FREAK漏洞的细节</a>。</p>
-<h2 id="u539F_u6587_u5730_u5740"><a href="#u539F_u6587_u5730_u5740" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="http://robertheaton.com/2014/03/27/how-does-https-actually-work/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">How does HTTPS actually work?</a></p>
-<h2 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h2><font size="4" face="黑体"> 《图解HTTP》 </font>
+<h3 id="3-4你相信什么？"><a href="#3-4你相信什么？" class="headerlink" title="3.4你相信什么？"></a>3.4你相信什么？</h3><p>有趣的是，你的客户在技术上并不试图验证是否应该信任发送证书的一方，而是应该信任证书中包含的公开密钥。SSL证书是完全公开和公共的，因此任何攻击者都可以获取Microsoft的证书，拦截客户端对Microsoft.com的请求，并向其提供合法的证书。客户端会接受这一点，并开始愉快地握手。 但是，当客户端加密将用于实际数据加密的密钥时，它将使用该真实证书中的真实的Microsoft公钥进行此操作。由于攻击者没有Microsoft私钥来解密，所以他们现在被终止了。即使握手完成，它们仍然无法解密密钥，因此无法解密客户端向其发送的任何数据。只要攻击者不控制受信任的证书的私钥，正常的秩序就会顺利进行下去。如果客户骗取了受信任的证书，攻击者控制了证书和公钥，那么麻烦就开始了。</p>
+<h2 id="4-真的很有趣的事实"><a href="#4-真的很有趣的事实" class="headerlink" title="4.真的很有趣的事实"></a>4.真的很有趣的事实</h2><h3 id="4-1咖啡店可以通过网络监控我的HTTPS流量吗"><a href="#4-1咖啡店可以通过网络监控我的HTTPS流量吗" class="headerlink" title="4.1咖啡店可以通过网络监控我的HTTPS流量吗?"></a>4.1咖啡店可以通过网络监控我的HTTPS流量吗?</h3><p>不。公钥密码使用方法的魔力意味着攻击者可以观察客户端和服务器之间交换的每一个字节数据，并且仍然不知道你们之间所说的话大致等于多少交换的数据量。然而，你的正常HTTP流量在不安全的Wi-Fi网络上仍然非常脆弱，而且脆弱的网站可能会成为任何数量的解决方案的受害者，这些方法可能会欺骗您通过纯HTTP或在完全错误的地方发送HTTPS流量。例如，即使登录表单通过HTTPS提交用户名/密码组合，如果表单本身通过HTTP安全地加载，那么攻击者可能会在到达您的计算机的途中拦截表单的HTML，在修改后将登录详细信息发送到他们自己的服务器。</p>
+<h3 id="4-2我的公司可以通过网络监控我的HTTPS流量吗？"><a href="#4-2我的公司可以通过网络监控我的HTTPS流量吗？" class="headerlink" title="4.2我的公司可以通过网络监控我的HTTPS流量吗？"></a>4.2我的公司可以通过网络监控我的HTTPS流量吗？</h3><p>如果使用由自己公司控制的机器，那么是可以监控的。请记住，在每个信任链的根源都是一个隐含信任的CA，并且这些权限的列表存储在您的浏览器中。您的公司可以使用他们的机器访问权限，将自己的自签名证书添加到这个CA列表中。然后他们可以拦截您的所有HTTPS请求，提供声称代表相应网站的证书，由他们的假CA签名，因此毫无疑问，您的浏览器信任这些CA签名。由于使用其狡猾的证书的公钥对所有HTTPS请求进行加密，所以可以使用相应的私钥来解密和检查（甚至修改）您的请求，然后将其发送到其预期位置。他们可能不会这样做。但他们可以。<br>顺便提一句，这也是你如何使用代理来检查和修改<a href="http://nickfishman.com/post/50557873036/reverse-engineering-native-apps-by-intercepting-network" target="_blank" rel="external">iPhone应用程序所提供的</a>其他无法访问的HTTPS请求。</p>
+<h3 id="4-3那么Lavabit和联邦调查局怎么了？"><a href="#4-3那么Lavabit和联邦调查局怎么了？" class="headerlink" title="4.3那么Lavabit和联邦调查局怎么了？"></a>4.3那么Lavabit和联邦调查局怎么了？</h3><p>Lavabit是2013年NSA泄漏疯狂期间爱德华·斯诺登（Edward Snowden）的超级安全的电子邮件提供商。正如我们所看到的，无数标准黑客可以允许联邦调查局看到Lavabit和其客户之间的任何数据。没有Lavabit SSL证书的私人密钥，黑客们是不可能监听到这些数据的。然而，一位有益的美国法官告诉Lavaff创始人Ladar Levison，他不得不交出这个钥匙，有效地让联邦调查局自由地监视核心的内容。Levison通过在4点类型的11个硬拷贝页面上交出2,560个字符的键，试图停下来，但是被要求执行一个命令，必须以有用的格式交出私钥，否则将会面对每天5000美元的罚款。<br>一旦他遵守了这个命令，Lavad的CA证书颁发机构GoDaddy就会认为证书被破坏了，就撤销了证书。这将Lavabit证书添加到证书吊销列表（CRL）中，该证书撤销列表（CRL）是客户端不再信任以提供安全连接的可信证书的列表。妥协的结果，自签名或其他不可信任的证书导致浏览器显示一个大的红色错误消息，并且阻止或彻底禁止用户进一步的操作。不幸的是，浏览器将继续信任破坏的证书，直到它们将最新的更新提交给CRL，这个过程在实践中显然是<a href="https://news.netcraft.com/archives/2013/05/13/how-certificate-revocation-doesnt-work-in-practice.html" target="_blank" rel="external">不完美的</a>。</p>
+<h2 id="5-结论"><a href="#5-结论" class="headerlink" title="5.结论"></a>5.结论</h2><p>HTTPS不是不可破解的，SSL协议必须不断发展，因为对其的新攻击一直在快速的<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#Attacks_against_TLS.2FSSL" target="_blank" rel="external">发展演化</a>。但是，如果看不到您的消息，那么传输秘密数据的方式仍然是令人印象深刻的方式。当然，这里没有提及许多实现细节，例如握手消息的确切格式和顺序，缩短的握手来接收最近的会话而不必重新协商密钥和密码套件，以及每个阶段可用的许多不同的加密选项。要记住的关键是，尽管HTTPS将数据安全地保护到目的地，但绝对不会对您（作为用户或开发人员），保护您免受XSS或数据库泄漏或任何其他事情造成的严重影响。时刻保持警惕。 在威尔·史密斯的不朽言辞中，“在黑暗中行走，要时刻注意，防止突发的暴力。”。<br>如果你喜欢这片文章，你可能会喜欢我的另一篇文章<a href="http://robertheaton.com/2015/04/06/the-ssl-freak-vulnerability/" target="_blank" rel="external">解释SSL2015年FREAK漏洞的细节</a>。</p>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="http://robertheaton.com/2014/03/27/how-does-https-actually-work/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">How does HTTPS actually work?</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font size="4" face="黑体"> 《图解HTTP》 </font>
 
 ]]></content>
     
@@ -209,7 +209,7 @@ context[@&quot;jsObject&quot;] = self;
     <published>2017-04-23T16:00:00.000Z</published>
     <updated>2017-06-22T12:47:16.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="u56FE_u5F62_u7ED8_u5236"><a href="#u56FE_u5F62_u7ED8_u5236" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
+    <content type="html"><![CDATA[<h2 id="图形绘制"><a href="#图形绘制" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
 <h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>UIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创建基于矢量的路径，例如椭圆或者矩形，或者有多个直线和曲线段组成的形状。我们可以用moveToPoint: 和 addLineToPoint:方法去构建。moveToPoint:设置我们想要创建形状的起点。从这点开始，我们可以用方法addLineToPoint:去创建一个形状的线段。我们可以连续的创建line，每一个line的起点都是先前的终点，终点就是指定的点。closePath可以在最后一个点和第一个点之间画一条线段。</p>
 <pre><code>- (void)drawRect:(CGRect)rect
 {
@@ -236,7 +236,7 @@ context[@&quot;jsObject&quot;] = self;
     [aPath stroke];
     [aPath fill];
 }
-</code></pre><h3 id="UIBezierPath+CAShapeLayer"><a href="#UIBezierPath+CAShapeLayer" class="headerlink" title="UIBezierPath+CAShapeLayer"></a>UIBezierPath+CAShapeLayer</h3><p>CAShapeLayer 继承自 CALayer ，因此，可使用 CALayer 的所有属性。但是， CAShapeLayer 需要和贝塞尔曲线配合使用才有意义。<br>查看官网说明:</p>
+</code></pre><h3 id="UIBezierPath-CAShapeLayer"><a href="#UIBezierPath-CAShapeLayer" class="headerlink" title="UIBezierPath+CAShapeLayer"></a>UIBezierPath+CAShapeLayer</h3><p>CAShapeLayer 继承自 CALayer ，因此，可使用 CALayer 的所有属性。但是， CAShapeLayer 需要和贝塞尔曲线配合使用才有意义。<br>查看官网说明:</p>
 <blockquote>
 <p>/* The shape layer draws a cubic Bezier spline in its coordinate space.</p>
 <ul>
@@ -247,11 +247,11 @@ context[@&quot;jsObject&quot;] = self;
 </ul>
 </blockquote>
 <p>这里是说 CAShapeLayer 是在其坐标系统内绘制贝塞尔曲线的。因此，使用 CAShapeLayer 需要与 UIBezierPath 一起使用。它有一个 path 属性，而 UIBezierPath 就是对 CGPathRef 类型的封装，因此这两者要配合起来用。</p>
-<h3 id="CAShapeLayer_u4E0EdrawRect_u7684_u5173_u7CFB"><a href="#CAShapeLayer_u4E0EdrawRect_u7684_u5173_u7CFB" class="headerlink" title="CAShapeLayer与drawRect的关系"></a>CAShapeLayer与drawRect的关系</h3><ul>
+<h3 id="CAShapeLayer与drawRect的关系"><a href="#CAShapeLayer与drawRect的关系" class="headerlink" title="CAShapeLayer与drawRect的关系"></a>CAShapeLayer与drawRect的关系</h3><ul>
 <li>drawRect ：属于 CoreGraphics 框架，占用 CPU ，性能消耗大，不建议重写</li>
 <li>CAShapeLayer ：属于 CoreAnimation 框架，通过 GPU 来渲染图形，节省性能。动画渲染直接提交给手机 GPU ，不消耗内存<br>这两者各有各的用途，而不是说有了 CAShapeLayer 就不需要 drawRect。<br>温馨提示：drawRect只是一个方法而已，是 UIView 的方法，重写此方法可以完成我们的绘制图形功能。</li>
 </ul>
-<h3 id="CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB"><a href="#CAShapeLayer_u4E0EUIBezierPath_u7684_u5173_u7CFB" class="headerlink" title="CAShapeLayer与UIBezierPath的关系"></a>CAShapeLayer与UIBezierPath的关系</h3><ul>
+<h3 id="CAShapeLayer与UIBezierPath的关系"><a href="#CAShapeLayer与UIBezierPath的关系" class="headerlink" title="CAShapeLayer与UIBezierPath的关系"></a>CAShapeLayer与UIBezierPath的关系</h3><ul>
 <li>CAShapeLayer中shape代表形状的意思，所以需要形状才能生效</li>
 <li>贝塞尔曲线可以创建基于矢量的路径，而UIBezierPath类是对CGPathRef的封装</li>
 <li>贝塞尔曲线给CAShapeLayer提供路径,CAShapeLayer在提供的路径中进行渲染。路径会闭环,所以绘制出了Shape</li>
@@ -336,7 +336,7 @@ context[@&quot;jsObject&quot;] = self;
 <li>2.并不是说一提到绘图，就一定得重写drawRect方法，只是因为通常情况下我们一般采用在drawRect方法里获取context这种方式。</li>
 <li>drawRect方法什么时候触发?当view第一次显示到屏幕上时;当调用view的setNeedsDisplay或者setNeedsDisplayInRect:方法时。</li>
 </ul>
-<h3 id="CGContextAddArcToPoint__26amp_3B_26amp_3B_CGPathAddArcToPoint"><a href="#CGContextAddArcToPoint__26amp_3B_26amp_3B_CGPathAddArcToPoint" class="headerlink" title="CGContextAddArcToPoint &amp;&amp; CGPathAddArcToPoint"></a>CGContextAddArcToPoint &amp;&amp; CGPathAddArcToPoint</h3><p>CGContextAddArcToPoint与CGPathAddArcToPoint这两函数是根据两切线及角度来画弧度,设置弧度CGFloat radius。</p>
+<h3 id="CGContextAddArcToPoint-amp-amp-CGPathAddArcToPoint"><a href="#CGContextAddArcToPoint-amp-amp-CGPathAddArcToPoint" class="headerlink" title="CGContextAddArcToPoint &amp;&amp; CGPathAddArcToPoint"></a>CGContextAddArcToPoint &amp;&amp; CGPathAddArcToPoint</h3><p>CGContextAddArcToPoint与CGPathAddArcToPoint这两函数是根据两切线及角度来画弧度,设置弧度CGFloat radius。</p>
 <p>画一个四个角都是圆角的矩形,</p>
 <pre><code>- (void)viewDidLoad {
     [super viewDidLoad];
@@ -383,7 +383,7 @@ context[@&quot;jsObject&quot;] = self;
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     [self.view addSubview:imgView];
 }
-</code></pre><h3 id="CAShapedLayer_u5904_u7406"><a href="#CAShapedLayer_u5904_u7406" class="headerlink" title="CAShapedLayer处理"></a>CAShapedLayer处理</h3><p>理论上我们可以构造出任意想要的形状，但是有些形状如果你不熟悉几何知识的话是构造不出正确path的，从代码上我们可以看到我们可以通过设置CALayer的contents属性来设置显示的内容，那我们是不是可以通过设置CAShapedLayer的contents来设maskLayer呢？答案是肯定的，代码如下：</p>
+</code></pre><h3 id="CAShapedLayer处理"><a href="#CAShapedLayer处理" class="headerlink" title="CAShapedLayer处理"></a>CAShapedLayer处理</h3><p>理论上我们可以构造出任意想要的形状，但是有些形状如果你不熟悉几何知识的话是构造不出正确path的，从代码上我们可以看到我们可以通过设置CALayer的contents属性来设置显示的内容，那我们是不是可以通过设置CAShapedLayer的contents来设maskLayer呢？答案是肯定的，代码如下：</p>
 <pre><code>- (void)setup4
 {
     CAShapeLayer *maskLayer = [CAShapeLayer layer];
@@ -399,9 +399,9 @@ context[@&quot;jsObject&quot;] = self;
     contentLayer.frame = self.bounds;
     [self.layer addSublayer:_contentLayer];
 }
-</code></pre><h2 id="u9057_u7559_u95EE_u9898"><a href="#u9057_u7559_u95EE_u9898" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>使用CGPathAddArcToPoint绘制带有箭头的弹窗菜单,如图，<br><img src="http://odchyrav4.bkt.clouddn.com/814765ED-432C-4614-87DF-4A275E136BF8.png" alt="弹窗菜单"></p>
+</code></pre><h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>使用CGPathAddArcToPoint绘制带有箭头的弹窗菜单,如图，<br><img src="http://odchyrav4.bkt.clouddn.com/814765ED-432C-4614-87DF-4A275E136BF8.png" alt="弹窗菜单"></p>
 <p>在绘制四个边的圆角时，无法对应到特定的四个角的位置，导致绘制不出该效果的图片。</p>
-<h2 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="http://www.jianshu.com/p/bbb2cc485a45" target="_blank" rel="external">绘图</a></li>
 <li><a href="http://www.tuicool.com/articles/ZrimEnA" target="_blank" rel="external">iOS CAShapeLayer精讲</a></li>
 <li><a href="http://www.jianshu.com/p/8e6e960eea7d" target="_blank" rel="external">iOS绘图—— UIBezierPath 和 Core Graphics</a></li>
@@ -415,7 +415,7 @@ context[@&quot;jsObject&quot;] = self;
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u56FE_u5F62_u7ED8_u5236&quot;&gt;&lt;a href=&quot;#u56FE_u5F62_u7ED8_u5236&quot; class=&quot;headerlink&quot; title=&quot;图形绘制&quot;&gt;&lt;/a&gt;图形绘制&lt;/h2&gt;&lt;p&gt;iOS系统本身提供了两套绘图的框架，即&lt;font
+      &lt;h2 id=&quot;图形绘制&quot;&gt;&lt;a href=&quot;#图形绘制&quot; class=&quot;headerlink&quot; title=&quot;图形绘制&quot;&gt;&lt;/a&gt;图形绘制&lt;/h2&gt;&lt;p&gt;iOS系统本身提供了两套绘图的框架，即&lt;font color=&quot;#FA8072&quot;&gt;UIBezierPath&lt;/font&gt; 和
     
     </summary>
     
@@ -498,7 +498,7 @@ context[@&quot;jsObject&quot;] = self;
     <published>2017-03-15T09:01:00.000Z</published>
     <updated>2017-06-22T12:50:18.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="u65B0_u5EFA_u6570_u636E_u5E93"><a href="#u65B0_u5EFA_u6570_u636E_u5E93" class="headerlink" title="新建数据库"></a>新建数据库</h2><h2 id="u5165_u5E93_u64CD_u4F5C"><a href="#u5165_u5E93_u64CD_u4F5C" class="headerlink" title="入库操作"></a>入库操作</h2><h2 id="u754C_u9762_u7ED8_u5236"><a href="#u754C_u9762_u7ED8_u5236" class="headerlink" title="界面绘制"></a>界面绘制</h2><h2 id="u901A_u77E5log_u8868"><a href="#u901A_u77E5log_u8868" class="headerlink" title="通知log表"></a>通知log表</h2><h2 id="u6CE8_u610F_u4E8B_u9879"><a href="#u6CE8_u610F_u4E8B_u9879" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+    <content type="html"><![CDATA[<h2 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h2><h2 id="入库操作"><a href="#入库操作" class="headerlink" title="入库操作"></a>入库操作</h2><h2 id="界面绘制"><a href="#界面绘制" class="headerlink" title="界面绘制"></a>界面绘制</h2><h2 id="通知log表"><a href="#通知log表" class="headerlink" title="通知log表"></a>通知log表</h2><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
 <li>时间转化的时区设置</li>
 <li>最近的本地通知最多只能有64个(待测试)</li>
 <li>过期通知的移除(不做移除，通过通知的自有机制去处理的可行性)</li>
@@ -506,21 +506,21 @@ context[@&quot;jsObject&quot;] = self;
 <li>奇妙清单的到期提醒只与提醒时间和频率有关，与是否到期无关</li>
 <li>iOS 10之后的推送</li>
 </ul>
-<h1 id="Demo_u5730_u5740"><a href="#Demo_u5730_u5740" class="headerlink" title="Demo地址"></a>Demo地址</h1><p><a href="https://github.com/XibHe/ToDoList" target="_blank" rel="external">点击下载</a></p>
+<h1 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h1><p><a href="https://github.com/XibHe/ToDoList" target="_blank" rel="external">点击下载</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u65B0_u5EFA_u6570_u636E_u5E93&quot;&gt;&lt;a href=&quot;#u65B0_u5EFA_u6570_u636E_u5E93&quot; class=&quot;headerlink&quot; title=&quot;新建数据库&quot;&gt;&lt;/a&gt;新建数据库&lt;/h2&gt;&lt;h2 id=&quot;u5165
+      &lt;h2 id=&quot;新建数据库&quot;&gt;&lt;a href=&quot;#新建数据库&quot; class=&quot;headerlink&quot; title=&quot;新建数据库&quot;&gt;&lt;/a&gt;新建数据库&lt;/h2&gt;&lt;h2 id=&quot;入库操作&quot;&gt;&lt;a href=&quot;#入库操作&quot; class=&quot;headerlink&quot; title=&quot;入库操作&quot;
     
     </summary>
     
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
     
   </entry>
   
@@ -531,7 +531,7 @@ context[@&quot;jsObject&quot;] = self;
     <published>2017-03-13T14:50:06.000Z</published>
     <updated>2017-06-22T13:56:35.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="u4E1A_u52A1_u9700_u6C42"><a href="#u4E1A_u52A1_u9700_u6C42" class="headerlink" title="业务需求"></a>业务需求</h1><p>根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:</p>
+    <content type="html"><![CDATA[<h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:</p>
 <ul>
 <li>新增一个提醒事项的名称，这个名称将作为待完成事项显示在任务列表中，可以快速勾选完成；</li>
 <li>在保质期限一栏，点击生产日期一栏，弹出年月日的日期选择器用于日期的选择；</li>
@@ -539,7 +539,7 @@ context[@&quot;jsObject&quot;] = self;
 <li>如果保质期为30天以内，默认开启智能保质期提醒；如果超过30天，则关闭智能提醒，需要有手动设置结束提醒的具体时间及提醒频率；</li>
 <li>在提醒设置一栏，根据生产日期和保质期天数自动计算出到期的具体日期，用户点击时间一栏，弹出时间的选择控件用于选择触发提醒的时间点，用户也可以设置提醒频次；</li>
 </ul>
-<h1 id="u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9"><a href="#u9700_u8981_u8003_u8651_u7684_u6280_u672F_u70B9" class="headerlink" title="需要考虑的技术点"></a>需要考虑的技术点</h1><p>结合需求需要考虑如下几个问题:</p>
+<h1 id="需要考虑的技术点"><a href="#需要考虑的技术点" class="headerlink" title="需要考虑的技术点"></a>需要考虑的技术点</h1><p>结合需求需要考虑如下几个问题:</p>
 <ul>
 <li>本地通知的运行机制是什么？</li>
 <li>如何自定义通知的频率？</li>
@@ -548,7 +548,7 @@ context[@&quot;jsObject&quot;] = self;
 <li>当切换用户或者用户退出登录后，如何操作之前已经添加的通知提醒？</li>
 <li>通知提醒数据的持久化？</li>
 </ul>
-<h1 id="u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9"><a href="#u672C_u5730_u901A_u77E5_u76F8_u5173_u70B9" class="headerlink" title="本地通知相关点"></a>本地通知相关点</h1><p>使用本地通知提醒用户，而本地通知有些地方在使用时需要注意,如下:</p>
+<h1 id="本地通知相关点"><a href="#本地通知相关点" class="headerlink" title="本地通知相关点"></a>本地通知相关点</h1><p>使用本地通知提醒用户，而本地通知有些地方在使用时需要注意,如下:</p>
 <blockquote>
 <p>1.本地通知是有操作系统统一调度的，只有在应用退出到后台或者关闭才能收到通知；<br>2.本地通知的数量是有限制的，最近的本地通知最多只能有64个，超过这个数量将被系统忽略；<br>3.如果想要移除本地通知可以调用UIApplication的cancelLocalNotification:或cancelAllLocalNotifications移除指定通知或所有通知；<br>4.通知对应的NScalendarunit属性，可以通过该属性操作提醒的频率；</p>
 </blockquote>
@@ -588,7 +588,7 @@ context[@&quot;jsObject&quot;] = self;
     NSCalendarCalendarUnit NS_CALENDAR_ENUM_DEPRECATED(10_7, 10_10, 4_0, 8_0, &quot;Use NSCalendarUnitCalendar instead&quot;) = NSCalendarUnitCalendar,
     NSTimeZoneCalendarUnit NS_CALENDAR_ENUM_DEPRECATED(10_7, 10_10, 4_0, 8_0, &quot;Use NSCalendarUnitTimeZone instead&quot;) = NSCalendarUnitTimeZone,
 };
-</code></pre><h1 id="u6B65_u9AA4_u8BF4_u660E"><a href="#u6B65_u9AA4_u8BF4_u660E" class="headerlink" title="步骤说明"></a>步骤说明</h1><p>使用sqlite3进行通知提醒相关数据的持久化。大概的思路如下：</p>
+</code></pre><h1 id="步骤说明"><a href="#步骤说明" class="headerlink" title="步骤说明"></a>步骤说明</h1><p>使用sqlite3进行通知提醒相关数据的持久化。大概的思路如下：</p>
 <p>新增提醒任务:</p>
 <blockquote>
 <p>1.插入保质期提醒任务表<br>2.插入通知表<br>3.插入通知log表<br>4.上传服务器通知提醒数据</p>
@@ -602,16 +602,16 @@ context[@&quot;jsObject&quot;] = self;
     
     <summary type="html">
     
-      &lt;h1 id=&quot;u4E1A_u52A1_u9700_u6C42&quot;&gt;&lt;a href=&quot;#u4E1A_u52A1_u9700_u6C42&quot; class=&quot;headerlink&quot; title=&quot;业务需求&quot;&gt;&lt;/a&gt;业务需求&lt;/h1&gt;&lt;p&gt;根据用户所添加某件商品的生产日期和保质期天数计算
+      &lt;h1 id=&quot;业务需求&quot;&gt;&lt;a href=&quot;#业务需求&quot; class=&quot;headerlink&quot; title=&quot;业务需求&quot;&gt;&lt;/a&gt;业务需求&lt;/h1&gt;&lt;p&gt;根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系
     
     </summary>
     
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -622,7 +622,7 @@ context[@&quot;jsObject&quot;] = self;
     <published>2017-02-25T16:00:00.000Z</published>
     <updated>2017-06-22T12:30:46.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="u4E0D_u5B89_u7684_u5F00_u59CB"><a href="#u4E0D_u5B89_u7684_u5F00_u59CB" class="headerlink" title="不安的开始"></a>不安的开始</h2><p><img src="http://odchyrav4.bkt.clouddn.com/6KKS~QKHI1B3G_5%7BK09%7DW%7DE.jpg" alt="iOS开发没人要了"><br>自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，分析了一下造成现阶段初级，中级iOS从业者找工作难的原因:</p>
+    <content type="html"><![CDATA[<h2 id="不安的开始"><a href="#不安的开始" class="headerlink" title="不安的开始"></a>不安的开始</h2><p><img src="http://odchyrav4.bkt.clouddn.com/6KKS~QKHI1B3G_5%7BK09%7DW%7DE.jpg" alt="iOS开发没人要了"><br>自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，分析了一下造成现阶段初级，中级iOS从业者找工作难的原因:</p>
 <blockquote>
 <ul>
 <li>市场过度饱和，培训机构追求自身利益，在iOS开发人员相对稀缺阶段，培训了大量的从业人员，扰乱了市场正常的供需关系，导致从业人员供大于需；</li>
@@ -633,7 +633,7 @@ context[@&quot;jsObject&quot;] = self;
 <li>技术层面方面，iOS开发依托苹果提供的平台，该平台的封闭性决定了开发者所接触的技术面比较狭窄，脱离了苹果，不能完全胜任其他技术工作；</li>
 </ul>
 </blockquote>
-<h2 id="u6211_u6240_u9047_u5230_u7684_u4E00_u4E2A_u4F8B_u5B50"><a href="#u6211_u6240_u9047_u5230_u7684_u4E00_u4E2A_u4F8B_u5B50" class="headerlink" title="我所遇到的一个例子"></a>我所遇到的一个例子</h2><p>带着这些不安，对于已经结束的16年，我做了一份<a href="http://xibhe.com/2017/01/15/再见！2016/" target="_blank" rel="external">总结</a>，也包括17年的一些计划。或许是心志不坚，或许是颓废太久，这种不安仍旧存在，直到上周面试了一个来公司应聘iOS开发的应聘者……</p>
+<h2 id="我所遇到的一个例子"><a href="#我所遇到的一个例子" class="headerlink" title="我所遇到的一个例子"></a>我所遇到的一个例子</h2><p>带着这些不安，对于已经结束的16年，我做了一份<a href="http://xibhe.com/2017/01/15/再见！2016/" target="_blank" rel="external">总结</a>，也包括17年的一些计划。或许是心志不坚，或许是颓废太久，这种不安仍旧存在，直到上周面试了一个来公司应聘iOS开发的应聘者……</p>
 <p>周五下午，人事和我说能不能帮忙面试一下，本来是另一个项目组需要的人，但恰巧他们的负责人不在，就让我去面了。第一次面试别人还是有些紧张，好像自己第一次被别人面试一样紧张。但左等右等还是等不到人事通知我去面试，后来大概半小时后被人事告知那个来面试的人已经走了，据她说面试题只做了一半，人就走了，可能是被我们的面试题吓走了。但面试题我也看过，是四十道很基础的面试题呀！表示不解啊！本以为这次安排的面试就这样结束了，后来人事通知还有一个已经写完了面试题，在沙发区等着，于是我就开始了这次面试之旅。</p>
 <p>短暂的两分钟的沉默，我简单看了一下他的简历，上面工作经验写着三年。心里便盘算着从哪些知识点入手可以探出对方是不是真的有三年工作经验。先是让对方做了一个简单的自我介绍，然后开始对着简历问一些问题，简历上写了四个项目，每个项目所用到的技术都是一些大众化的技术，比如，网络请求库AFNetworking，图片加载库SDWebImage，数据库FMDB，刷新库MJRefresh，适配库Masonry等各种三方库的使用。于是我便问了以下的问题:</p>
 <blockquote>
@@ -658,7 +658,7 @@ context[@&quot;jsObject&quot;] = self;
 </blockquote>
 <p>对方对上述问题的回答模棱两可，十分的模糊。其中涉及到GCD那块的问题，只说了用过，GCD的如何避免数据竞争和死锁，以及它与NSOperation的区别只是把什么是NSOperation用名词解释了一下，而对于Block的循环引用问题，支支吾吾想了半天回答的文不对题。设计模式是典型的MVC，倒是提到了MVVM，但这里也只是简单的提到，就没有什么下文了。单例的使用，边想边说，整了半天也没有将声明单例的具体方法说明白。内存管理这块，据他说，学iOS开发时MRC已经没人用了，他就直接用的ARC。JS与原生应用交互这块说没有用过。那么RunTime呢?说是底层的东西没有怎么了解过。tableView的优化方面，说是用的原生API的代理方法，这个还需要优化吗?<br>SDWebImage的运行机制，把它的使用方法说了一遍。App中的多用户逻辑，说是服务器的事，客户端不需要考虑。轮播图功能的实现，说的是使用NSTimer。给你一个新项目你会怎么做，说的是先花一周进行需求分析，再新建工程，使用CocoaPods把那些要用到的三方库引入到工程中。问完了这些问题，我还是抱有一丝幻想的，心想也许是太过紧张了，再看看他做的项目吧！</p>
 <p>看了下对方手机上他参与开发的项目，是一些与美食推荐相关的项目，有一个已经停止维护，拉取不到任何数据了。剩下的都是一些数据使用tableView展示的普通项目，没有什么逻辑特别复杂或是需要使用很高明技术的功能。自此，我仍然没有放弃，心想或许对方还研究过其他的技术点，于是就问对方，是否能看一下你的技术博客或是GitHub上的开源项目。对方回答说，没有。此刻，我也只能道了两声谢谢，说有结果人事会通知你。心里想着，本来还想问有没有使用过Swift，可是现在看来，已经没有问的必要了。</p>
-<h2 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a>结束</h2><p><img src="http://odchyrav4.bkt.clouddn.com/839AC9B0-9D80-47AB-9C9F-5CC1FFB8D0ED.png" alt="v2ex"></p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p><img src="http://odchyrav4.bkt.clouddn.com/839AC9B0-9D80-47AB-9C9F-5CC1FFB8D0ED.png" alt="v2ex"></p>
 <p>红利已经结束了，那个只要会使用tableView等常用控件就能找到工作的时代结束了。<br>曾听一位前辈说过，</p>
 <blockquote>
 <p>“感觉每个做技术的一开始都是一粒沙子，不断修炼学习吸收营养变成大颗粒的沙子。 再学习其他东西把自己变成土块儿，时间是一把大筛子，每次过滤掉小沙粒，只留大块儿在上面，在你被筛掉之前要么变的比网眼大留下来，要么赶紧被筛掉转行吧!”</p>
@@ -668,7 +668,7 @@ context[@&quot;jsObject&quot;] = self;
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u4E0D_u5B89_u7684_u5F00_u59CB&quot;&gt;&lt;a href=&quot;#u4E0D_u5B89_u7684_u5F00_u59CB&quot; class=&quot;headerlink&quot; title=&quot;不安的开始&quot;&gt;&lt;/a&gt;不安的开始&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;
+      &lt;h2 id=&quot;不安的开始&quot;&gt;&lt;a href=&quot;#不安的开始&quot; class=&quot;headerlink&quot; title=&quot;不安的开始&quot;&gt;&lt;/a&gt;不安的开始&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://odchyrav4.bkt.clouddn.com/6KKS~QKHI1B3G_5
     
     </summary>
     
@@ -690,8 +690,8 @@ context[@&quot;jsObject&quot;] = self;
     <published>2017-02-18T20:23:06.000Z</published>
     <updated>2017-07-05T12:01:40.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="u521D_u8877"><a href="#u521D_u8877" class="headerlink" title="初衷"></a>初衷</h1><p>解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。</p>
-<h1 id="u4F7F_u7528_u6B65_u9AA4"><a href="#u4F7F_u7528_u6B65_u9AA4" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
+    <content type="html"><![CDATA[<h1 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h1><p>解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。</p>
+<h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
 <pre><code class="objc">@protocol MediaHandleDelegate &lt;NSObject&gt;
@@ -907,15 +907,15 @@ static NSMutableDictionary * mediaHandleActs = nil;
     album.maxCount = imageCount;
     [album performActionWichController:self callbackClass:self];
 </code></pre>
-<h1 id="u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9"><a href="#u9002_u914D_u5668_u6A21_u5F0F_u7684_u4F18_u7F3A_u70B9" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
+<h1 id="适配器模式的优缺点"><a href="#适配器模式的优缺点" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
-<h1 id="u6CE8_u610F"><a href="#u6CE8_u610F" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
 <p>其他功能访问权限设置，<br><a href="http://stackoverflow.com/questions/38498275/ios-10-changes-in-asking-permissions-of-camera-microphone-and-photo-library-c" target="_blank" rel="external"><font color="#FA8072"> iOS 10 - Changes in asking permissions of Camera, microphone and Photo Library causing application to crash </font></a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;u521D_u8877&quot;&gt;&lt;a href=&quot;#u521D_u8877&quot; class=&quot;headerlink&quot; title=&quot;初衷&quot;&gt;&lt;/a&gt;初衷&lt;/h1&gt;&lt;p&gt;解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用
+      &lt;h1 id=&quot;初衷&quot;&gt;&lt;a href=&quot;#初衷&quot; class=&quot;headerlink&quot; title=&quot;初衷&quot;&gt;&lt;/a&gt;初衷&lt;/h1&gt;&lt;p&gt;解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放
     
     </summary>
     
@@ -937,13 +937,13 @@ static NSMutableDictionary * mediaHandleActs = nil;
     <published>2017-01-15T13:25:10.000Z</published>
     <updated>2017-06-23T07:17:13.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="u7ED3_u5A5A"><a href="#u7ED3_u5A5A" class="headerlink" title="结婚"></a>结婚</h2><p>2016年注定是不平凡的一年，我和花花（我媳妇的外号）在2月14日领的结婚证，这天也是西方的情人节。从这天起我要履行法律赋予我作为一个丈夫的责任和义务。我和花花是大学同学，相识六年，经历了种种磨难和阻力，最终走到了一起。她是我的福星，我的天使，没有花花的鼓励和支持我不敢想象我会变成什么样子。谢谢你包容我的时不时的坏脾气，容忍我的懒散，不思进取，选择和我在一起。承担起本不该属于你的忧愁和压力。<font size="4" face="黑体">我的挚爱，我的血肉。</font>谢谢你一路的陪伴。</p>
-<h2 id="u751F_u5B50"><a href="#u751F_u5B50" class="headerlink" title="生子"></a>生子</h2><p>16年，给了我太多的惊喜和感动。我又办成了人生的另外一件大事—孕育下一代。我们家小宝贝的出生好似给我注入了一剂强心剂，让我感到内心无比的强大。前期的彷徨无措，以及不知该如何适应父亲这个新角色的焦躁不安随着我们家小宝贝的降生，被一扫而空。又是一个给我带来好运的小天使，每每想到小家伙那粉嫩的面庞，心中就为之躁动起来。他的一举一动都牵动着我，同时，也感到肩上的责任越来越重了。我会更加努力<font size="4" face="黑体">为你打下一片大大的疆土。</font>我的小宝贝。</p>
-<h2 id="u65B0_u5DE5_u4F5C"><a href="#u65B0_u5DE5_u4F5C" class="headerlink" title="新工作"></a>新工作</h2><p>因为种种原因，之前的公司主营业务出现了问题，于是，树倒猢狲散，我又开始了漫长的面试生涯。经过近一个月数十家公司的面试，最终入职了现在的公司。面试时也遇到很多自己之前没有深入去考录的问题，被打了几次脸之后，让我认识到自己的基础并不牢固，很多问题只有肤浅的认知。关于面试这一块的具体内容，需要整理成具体的内容，再发布到博客上，就当给自己提个醒，告诫自己前方还有一段很长的路要走。</p>
+    <content type="html"><![CDATA[<h2 id="结婚"><a href="#结婚" class="headerlink" title="结婚"></a>结婚</h2><p>2016年注定是不平凡的一年，我和花花（我媳妇的外号）在2月14日领的结婚证，这天也是西方的情人节。从这天起我要履行法律赋予我作为一个丈夫的责任和义务。我和花花是大学同学，相识六年，经历了种种磨难和阻力，最终走到了一起。她是我的福星，我的天使，没有花花的鼓励和支持我不敢想象我会变成什么样子。谢谢你包容我的时不时的坏脾气，容忍我的懒散，不思进取，选择和我在一起。承担起本不该属于你的忧愁和压力。<font size="4" face="黑体">我的挚爱，我的血肉。</font>谢谢你一路的陪伴。</p>
+<h2 id="生子"><a href="#生子" class="headerlink" title="生子"></a>生子</h2><p>16年，给了我太多的惊喜和感动。我又办成了人生的另外一件大事—孕育下一代。我们家小宝贝的出生好似给我注入了一剂强心剂，让我感到内心无比的强大。前期的彷徨无措，以及不知该如何适应父亲这个新角色的焦躁不安随着我们家小宝贝的降生，被一扫而空。又是一个给我带来好运的小天使，每每想到小家伙那粉嫩的面庞，心中就为之躁动起来。他的一举一动都牵动着我，同时，也感到肩上的责任越来越重了。我会更加努力<font size="4" face="黑体">为你打下一片大大的疆土。</font>我的小宝贝。</p>
+<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>因为种种原因，之前的公司主营业务出现了问题，于是，树倒猢狲散，我又开始了漫长的面试生涯。经过近一个月数十家公司的面试，最终入职了现在的公司。面试时也遇到很多自己之前没有深入去考录的问题，被打了几次脸之后，让我认识到自己的基础并不牢固，很多问题只有肤浅的认知。关于面试这一块的具体内容，需要整理成具体的内容，再发布到博客上，就当给自己提个醒，告诫自己前方还有一段很长的路要走。</p>
 <p>新的工作，给我最大的感受就是流程上的统一与协调。在开发新版本前，会走一个<font color="#DC143C">需求分析-&gt;原型设计-&gt;需求评审-&gt;UI设计评审-&gt;制定开发计划-&gt;开发计划评审</font>的流程。虽然起初感到繁琐，但对流程的把控可以形成有效的开发计划，掌握开发过程中不同的产出环节，随着对流程的适应以及团队磨合，最终这个流程的时间也会缩短。最重要的是当项目延期或是需求出现问题，可以追溯到流程中那个环节出现了问题。</p>
 <p>刚接手现在正在做的这个项目时，觉得很烫手。不仅要面对开发进度的滞后，还要提防项目中随时可能出现的一些无以名状的Bug。觉得自己一个人有些力不从心，但又不得不咬牙顶上去。最终，通过不断加班加点的赶进度，不断的理解产品需求，迈过了这个坎。反而很享受这样解决问题的畅快，为自己以后填更大的坑积累的初始的经验。经过这五个多月的不断历练，最大的收货是：自己慢慢能把控好一个项目了。由最初的慌张，苦闷，到现在可以坦然的面对这些问题。在项目中对自己的要求更加严格了，对产品性能方面，有了一个基本的认识，并开始着手做一些性能上的优化工作。</p>
-<h2 id="u5BB6_u5EAD"><a href="#u5BB6_u5EAD" class="headerlink" title="家庭"></a>家庭</h2><p>这半年时间，加班比较多，这就导致了陪在家人身边的时间少了很多。起初，我觉得我是在履行我养家糊口的责任，从这一点出发是无可厚非的。但事实上，我的家人更需要我的陪伴，我不能陪伴小家伙一天天的成长，是我作为父亲最大的遗憾；我不能换位思考，体谅我妻子带孩子的艰辛，是我作为丈夫的不称职。曾听说过一句话：<font size="4" face="黑体">把家当做事业来经营，把事业当做家来爱。</font>如果真正做到了这句话所说的那样，那么家庭与工作二者之间就会找到平衡点，一切的矛盾将会迎刃而解。同时，沟通的不及时也会加剧这种矛盾，所以，今年无论工作再忙也要抽出时间关心下我的妻子和儿子，让她们能感受到我对她们的爱。</p>
-<h2 id="u8BFB_u4E66"><a href="#u8BFB_u4E66" class="headerlink" title="读书"></a>读书</h2><p>16年初，1月份读了<a href="https://imciel.com" target="_blank" rel="external">一刀</a>推荐的<font size="4" face="黑体"> 《把时间当做朋友》 </font>，尝试从心智层面上控制自己，告别拖延症。开始尝试制定每个月的工作学习计划。4月初读了<a href="https://imciel.com" target="_blank" rel="external">一刀</a>推荐的<font size="4" face="黑体"> 《Effective Objective-C 2.0:编写高质量iOS与OS X代码的52个高效方法》</font>和<font size="4" face="黑体"> 《Objective-C高级编程:iOS与OS X多线程和内存管理》 </font>对编写高质量的代码，提高代码质量有了初步的了解，对线程底层实现的原理有了一个大概的轮廓。但看这两本书时，太着急了些，未能将书中的精髓全部掌握，同时，也遗留了很多一知半解的问题。今年计划再拿出半个月的时间回顾一下这两本书中未搞懂的内容。五月中旬看了<font size="4" face="黑体"> 《GitHub入门与实践》 </font>一书，书的内容很简单，浅显的讲了一下GitHub的原理和流程，如果想进一步了解Git的详细使用及具体操作，可以看<a href="https://www.gitbook.com/book/bingohuang/progit2/details" target="_blank" rel="external">Pro Git</a>，GitBook上已经有第二版简体中文的翻译了。六月份还看了<font size="4" face="黑体"> &lt;<ios编程实战>&gt; </ios编程实战></font>一书，不过是跳着看的，跳过了那些自己已经掌握的内容，看后，对现有知识进行了一些拓展。双十一的时候，在网上买了几本书，如下：</p>
+<h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>这半年时间，加班比较多，这就导致了陪在家人身边的时间少了很多。起初，我觉得我是在履行我养家糊口的责任，从这一点出发是无可厚非的。但事实上，我的家人更需要我的陪伴，我不能陪伴小家伙一天天的成长，是我作为父亲最大的遗憾；我不能换位思考，体谅我妻子带孩子的艰辛，是我作为丈夫的不称职。曾听说过一句话：<font size="4" face="黑体">把家当做事业来经营，把事业当做家来爱。</font>如果真正做到了这句话所说的那样，那么家庭与工作二者之间就会找到平衡点，一切的矛盾将会迎刃而解。同时，沟通的不及时也会加剧这种矛盾，所以，今年无论工作再忙也要抽出时间关心下我的妻子和儿子，让她们能感受到我对她们的爱。</p>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>16年初，1月份读了<a href="https://imciel.com" target="_blank" rel="external">一刀</a>推荐的<font size="4" face="黑体"> 《把时间当做朋友》 </font>，尝试从心智层面上控制自己，告别拖延症。开始尝试制定每个月的工作学习计划。4月初读了<a href="https://imciel.com" target="_blank" rel="external">一刀</a>推荐的<font size="4" face="黑体"> 《Effective Objective-C 2.0:编写高质量iOS与OS X代码的52个高效方法》</font>和<font size="4" face="黑体"> 《Objective-C高级编程:iOS与OS X多线程和内存管理》 </font>对编写高质量的代码，提高代码质量有了初步的了解，对线程底层实现的原理有了一个大概的轮廓。但看这两本书时，太着急了些，未能将书中的精髓全部掌握，同时，也遗留了很多一知半解的问题。今年计划再拿出半个月的时间回顾一下这两本书中未搞懂的内容。五月中旬看了<font size="4" face="黑体"> 《GitHub入门与实践》 </font>一书，书的内容很简单，浅显的讲了一下GitHub的原理和流程，如果想进一步了解Git的详细使用及具体操作，可以看<a href="https://www.gitbook.com/book/bingohuang/progit2/details" target="_blank" rel="external">Pro Git</a>，GitBook上已经有第二版简体中文的翻译了。六月份还看了<font size="4" face="黑体"> &lt;<ios编程实战>&gt; </ios编程实战></font>一书，不过是跳着看的，跳过了那些自己已经掌握的内容，看后，对现有知识进行了一些拓展。双十一的时候，在网上买了几本书，如下：</p>
 <ul>
 <li><font size="4" face="黑体"> 《传习录》 </font></li>
 <li><font size="4" face="黑体"> 《编程珠玑》 </font></li>
@@ -958,19 +958,19 @@ static NSMutableDictionary * mediaHandleActs = nil;
 </ul>
 <p>这几本书里有之前听别人说起过的，也有<a href="https://imciel.com" target="_blank" rel="external">一刀</a>推荐的。这几本书中<font size="4" face="黑体"> 《软技能:代码之外的生存指南》，</font><font size="4" face="黑体"> 《啊哈!算法》，</font> <font size="4" face="黑体"> 《图解HTTP》</font>这三本书已经看了有些日子了。这些书有些是对现有知识的拓展和升华，打破我固有的思维，有的是个人喜好。读书的时间，开始时是早上在公交车上看，有时看某一本书看得厌烦了，就换另一本书看。个人觉得看纯技术书籍时，可以根据自己的口味搭配一本非技术的书籍来一起读，这样可以缓解因长期看一本书而造成的疲劳和厌烦。</p>
 <p>以前认为读书的时间是千方百计的挤出来的，现在看来这样的想法有失偏颇。当我想偷懒，放松下来时，或是想玩手机时，就在心里告诫自己用这些时间来看书，反复这样几次后，竟然发现在这些时间内，比我千方百计挤出来的时间看的书还多。看来平时的时间都被浪费在了这些琐碎，无意义的事情上了。</p>
-<h2 id="u535A_u5BA2"><a href="#u535A_u5BA2" class="headerlink" title="博客"></a>博客</h2><p>关于博客，16年初开始写，一直到7月份才写了第二篇文章，全年只写了7篇文章。很多想写的东西，都只是被记录下来，并没有梳理成一篇文章，最后，都化作了尘埃，消失不见了。最开始时，想着什么都往博客上写，但那样纯粹是为了凑字数，可读性并不强。浪费了自己的时间，也对读这篇博客的人造成了困扰。到后来，太过于浅显东西没有写的必要，未经深入研究的东西，或是从别处直接复制粘贴别人的观点。这些都不是在写博客，而是在记流水账。因此，给自己定下了一个三不写的要求:</p>
+<h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><p>关于博客，16年初开始写，一直到7月份才写了第二篇文章，全年只写了7篇文章。很多想写的东西，都只是被记录下来，并没有梳理成一篇文章，最后，都化作了尘埃，消失不见了。最开始时，想着什么都往博客上写，但那样纯粹是为了凑字数，可读性并不强。浪费了自己的时间，也对读这篇博客的人造成了困扰。到后来，太过于浅显东西没有写的必要，未经深入研究的东西，或是从别处直接复制粘贴别人的观点。这些都不是在写博客，而是在记流水账。因此，给自己定下了一个三不写的要求:</p>
 <blockquote>
 <font size="4" face="黑体"> 所描述的内容，逻辑不清，不写 </font><br><font size="4" face="黑体"> 没有经过自己验证过的内容，不写 </font><br> <font size="4" face="黑体"> 对别人没有帮助，只是在记流水账的内容，不写 </font>
 
 </blockquote>
 <p>2017年会继续坚持写博客，写那些真正经过自己深入研究过的东西，写那些日常项目中真正遇到并最终解决的问题，写对自己对别人有用的东西。只有这样才能提高文章的质量，付出的时间才能得到最大化的利用。</p>
-<h2 id="u65B0_u6280_u672F"><a href="#u65B0_u6280_u672F" class="headerlink" title="新技术"></a>新技术</h2><p>16年8月初，学习了最新的Swift 3.0，当然，现在最新的是Swift 3.01。从官网下了<a href="https://developer.apple.com/swift/resources/" target="_blank" rel="external">The Swift Programming Language(Swift 3.01)</a>，通过官网下载时会跳转到iBooks，但由于一些众所周知的原因，iBooks中国区是无法下载的，需要使用美区账号登录iBooks。可以结合<a href="http://wiki.jikexueyuan.com/project/swift/" target="_blank" rel="external">极客学院Wiki</a>简体中文翻译看。目前，自己只看到了<font size="4" face="黑体"> Functions </font>这章，17年还需要继续学习剩下的部分，再使用Swift编写一个具体的项目。17年计划学习一些热更新的技术，并计划在自己做的项目中使用一种热更新技术，实现动态化的修改项目中的代码。17年，希望自己能在iOS之外，能入门一种新的技术，拓宽自己的视野，达到自己心中设定的新的高度，看到之前看不到风景。</p>
-<h2 id="u6311_u6218"><a href="#u6311_u6218" class="headerlink" title="挑战"></a>挑战</h2><p>17年是公司发展历程中重要的一年，也是我所在项目组所开发的项目大范围推广的一年，我们将迎来更多的用户，更大的并发量，会根据市场反应快速迭代产品。我们渴望在项目中使用新的技术，不断的提高用户体验，同时，又能不影响项目上线时间。希望我们产品被更多的人使用，得到大家的认可。同时，希望我们团队<font size="4" face="黑体"> 永远年轻，永远热泪盈眶。</font></p>
+<h2 id="新技术"><a href="#新技术" class="headerlink" title="新技术"></a>新技术</h2><p>16年8月初，学习了最新的Swift 3.0，当然，现在最新的是Swift 3.01。从官网下了<a href="https://developer.apple.com/swift/resources/" target="_blank" rel="external">The Swift Programming Language(Swift 3.01)</a>，通过官网下载时会跳转到iBooks，但由于一些众所周知的原因，iBooks中国区是无法下载的，需要使用美区账号登录iBooks。可以结合<a href="http://wiki.jikexueyuan.com/project/swift/" target="_blank" rel="external">极客学院Wiki</a>简体中文翻译看。目前，自己只看到了<font size="4" face="黑体"> Functions </font>这章，17年还需要继续学习剩下的部分，再使用Swift编写一个具体的项目。17年计划学习一些热更新的技术，并计划在自己做的项目中使用一种热更新技术，实现动态化的修改项目中的代码。17年，希望自己能在iOS之外，能入门一种新的技术，拓宽自己的视野，达到自己心中设定的新的高度，看到之前看不到风景。</p>
+<h2 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h2><p>17年是公司发展历程中重要的一年，也是我所在项目组所开发的项目大范围推广的一年，我们将迎来更多的用户，更大的并发量，会根据市场反应快速迭代产品。我们渴望在项目中使用新的技术，不断的提高用户体验，同时，又能不影响项目上线时间。希望我们产品被更多的人使用，得到大家的认可。同时，希望我们团队<font size="4" face="黑体"> 永远年轻，永远热泪盈眶。</font></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u7ED3_u5A5A&quot;&gt;&lt;a href=&quot;#u7ED3_u5A5A&quot; class=&quot;headerlink&quot; title=&quot;结婚&quot;&gt;&lt;/a&gt;结婚&lt;/h2&gt;&lt;p&gt;2016年注定是不平凡的一年，我和花花（我媳妇的外号）在2月14日领的结婚证，这天也是西方的情人节。从这
+      &lt;h2 id=&quot;结婚&quot;&gt;&lt;a href=&quot;#结婚&quot; class=&quot;headerlink&quot; title=&quot;结婚&quot;&gt;&lt;/a&gt;结婚&lt;/h2&gt;&lt;p&gt;2016年注定是不平凡的一年，我和花花（我媳妇的外号）在2月14日领的结婚证，这天也是西方的情人节。从这天起我要履行法律赋予我作为一个丈夫的
     
     </summary>
     
@@ -990,7 +990,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
     <published>2016-12-06T10:31:54.000Z</published>
     <updated>2017-06-22T12:49:20.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="iOS_u84DD_u7259_u5F00_u53D1_u7B80_u4ECB"><a href="#iOS_u84DD_u7259_u5F00_u53D1_u7B80_u4ECB" class="headerlink" title="iOS蓝牙开发简介"></a>iOS蓝牙开发简介</h1><p>蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。</p>
+    <content type="html"><![CDATA[<h1 id="iOS蓝牙开发简介"><a href="#iOS蓝牙开发简介" class="headerlink" title="iOS蓝牙开发简介"></a>iOS蓝牙开发简介</h1><p>蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。</p>
 <p>总结了一下，一共有五种方式可以实现蓝牙通信:</p>
 <ol>
 <li>使用MFI认证的蓝牙模块的蓝牙产品 —— 开发使用ExternalAccessory框架，如果你的蓝牙模块还没设计，打算在AppStore上发布，打算使用蓝牙4.0以下（IOS设备都兼容），那你就抓紧找MFI认证的蓝牙模块吧。</li>
@@ -1000,7 +1000,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <li>Jailbreak</li>
 </ol>
 <p>这里我使用的是第二种方式 —— CoreBluetooth。</p>
-<h1 id="u6838_u5FC3_u6982_u5FF5"><a href="#u6838_u5FC3_u6982_u5FF5" class="headerlink" title="核心概念"></a>核心概念</h1><p>CoreBluetooth框架的核心其实是两个东西，peripheral和central, 可以理解成外设和中心。对应他们分别有一组相关的API和类。</p>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><p>CoreBluetooth框架的核心其实是两个东西，peripheral和central, 可以理解成外设和中心。对应他们分别有一组相关的API和类。</p>
 <ul>
 <li>CBCentralManager：中心设备（用来连接到外部设备的管家）</li>
 <li>CBPeripheralManager：外部设备（第三方的蓝牙4.0设备）</li>
@@ -1012,15 +1012,15 @@ static NSMutableDictionary * mediaHandleActs = nil;
 </ul>
 <p>外设、服务、特征间的关系</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/1442301743869760.png" alt="关系图"></p>
-<h1 id="u8FDE_u63A5_u6D4B_u8BD5"><a href="#u8FDE_u63A5_u6D4B_u8BD5" class="headerlink" title="连接测试"></a>连接测试</h1><p>检测蓝牙设备的连接强度，查询一定范围内的蓝牙设备列表。可以通过一款名为LightBlue的手机端软件来确定。在开启蓝牙的状态下，打开LightBlue搜索到当前范围内的设备列表，可以点击查看当前设备的UUID以及特征和服务的UUID，如图，</p>
+<h1 id="连接测试"><a href="#连接测试" class="headerlink" title="连接测试"></a>连接测试</h1><p>检测蓝牙设备的连接强度，查询一定范围内的蓝牙设备列表。可以通过一款名为LightBlue的手机端软件来确定。在开启蓝牙的状态下，打开LightBlue搜索到当前范围内的设备列表，可以点击查看当前设备的UUID以及特征和服务的UUID，如图，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/300" alt="系统蓝牙"></p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/300" alt="设备列表"></p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/300" alt="特征和服务的UUID"></p>
-<h1 id="u8FDE_u63A5_u84DD_u7259_u626B_u7801_u67AA"><a href="#u8FDE_u63A5_u84DD_u7259_u626B_u7801_u67AA" class="headerlink" title="连接蓝牙扫码枪"></a>连接蓝牙扫码枪</h1><p>项目中需要连接蓝牙扫码枪，通过扫码枪扫描商品的条码，将得到的条码值传给终端设备。终端设备根据该条码值搜索该商品的全部信息。iPad开启蓝牙，通过设置蓝牙扫描枪，连接上iPad，但发现在调试状态下，并没有调用CBCentralManager的代理方法。使用LightBlue搜索当前范围内的蓝牙设备，无法找到当前连接到iPad上的蓝牙扫描枪。蓝牙扫描枪使用的是富立叶（cilico）ci6800这款。最后，看了产品说明，发现它的蓝牙模块是蓝牙2.0 + EDR。而不是最新的蓝牙4.0。在未做任何处理的情况下，iPad端任然可以所接收到扫码枪扫描条码后的到的码值。原来是扫码枪默认开启了HID模式，在该模式下iPad默认当前通过蓝牙连接的扫码枪为一个外接键盘，因此扫描后得到码值相当于通过敲击键盘输入。</p>
+<h1 id="连接蓝牙扫码枪"><a href="#连接蓝牙扫码枪" class="headerlink" title="连接蓝牙扫码枪"></a>连接蓝牙扫码枪</h1><p>项目中需要连接蓝牙扫码枪，通过扫码枪扫描商品的条码，将得到的条码值传给终端设备。终端设备根据该条码值搜索该商品的全部信息。iPad开启蓝牙，通过设置蓝牙扫描枪，连接上iPad，但发现在调试状态下，并没有调用CBCentralManager的代理方法。使用LightBlue搜索当前范围内的蓝牙设备，无法找到当前连接到iPad上的蓝牙扫描枪。蓝牙扫描枪使用的是富立叶（cilico）ci6800这款。最后，看了产品说明，发现它的蓝牙模块是蓝牙2.0 + EDR。而不是最新的蓝牙4.0。在未做任何处理的情况下，iPad端任然可以所接收到扫码枪扫描条码后的到的码值。原来是扫码枪默认开启了HID模式，在该模式下iPad默认当前通过蓝牙连接的扫码枪为一个外接键盘，因此扫描后得到码值相当于通过敲击键盘输入。</p>
 <p>这样也造成了一个问题，iPad上所有带有输入功能的操作，都无法通过点击输入框弹出软键盘。因为系统会将扫码枪当做键盘，所有软键盘的弹出或者隐藏都是通过扫码枪做操作。但事实上扫码枪并不能控制键盘的弹出。通过google找到了一种据说是可以解决该问题的方法<a href="http://stackoverflow.com/questions/3326189/show-iphone-soft-keyboard-even-though-a-hardware-keyboard-is-connected/3837131#3837131" target="_blank" rel="external">点击查看</a>。但该方法极不稳定，当扫码枪的连接状态在休眠/唤醒两种状态下来回切换时就会失效。偶尔会成功弹出键盘。</p>
 <p>最后，在联系厂家需求帮助无果的情况下，不得不停止了该款扫码枪的适配。</p>
-<h1 id="u8FDE_u63A5_u84DD_u7259_u8840_u538B_u8BA1"><a href="#u8FDE_u63A5_u84DD_u7259_u8840_u538B_u8BA1" class="headerlink" title="连接蓝牙血压计"></a>连接蓝牙血压计</h1><p>为了验证自己的代码没有问题，是由于蓝牙扫码枪的蓝牙模块版本过低不支持CoreBluetooth。我又找来了一台据说支持蓝牙4.0的蓝牙血压计做测试。</p>
-<h1 id="u4EE3_u7801_u5B9E_u73B0_u7684_u6B65_u9AA4"><a href="#u4EE3_u7801_u5B9E_u73B0_u7684_u6B65_u9AA4" class="headerlink" title="代码实现的步骤"></a>代码实现的步骤</h1><blockquote>
+<h1 id="连接蓝牙血压计"><a href="#连接蓝牙血压计" class="headerlink" title="连接蓝牙血压计"></a>连接蓝牙血压计</h1><p>为了验证自己的代码没有问题，是由于蓝牙扫码枪的蓝牙模块版本过低不支持CoreBluetooth。我又找来了一台据说支持蓝牙4.0的蓝牙血压计做测试。</p>
+<h1 id="代码实现的步骤"><a href="#代码实现的步骤" class="headerlink" title="代码实现的步骤"></a>代码实现的步骤</h1><blockquote>
 <p>第一步，创建CBCentralManager。<br>第二步，扫描可连接的蓝牙外设（必须在蓝牙模块打开的前提下）。<br>第三步，连接目标蓝牙外设。<br>第四步，查询目标蓝牙外设下的服务。<br>第五步，遍历服务中的特性，获取特性中的数据或者保存某些可写的特性，或者设置某些特性值改变时，通知主动获取。<br>第六步，在通知更新特性中值的方法中读取特性中的数据（再设置特性的通知为YES的情况下）。<br>第七步，读取特性中的值。<br>第八步，如果有可写特性，并且需要向蓝牙外设写入数据时，写入数据发送给蓝牙外设。</p>
 </blockquote>
 <ol>
@@ -1266,7 +1266,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
     /* When a write occurs, need to set off a re-read of the local CBCharacteristic to update its value */
     [peripheral readValueForCharacteristic:characteristic];
 }
-</code></pre><h1 id="u540E_u8BB0"><a href="#u540E_u8BB0" class="headerlink" title="后记"></a>后记</h1><p>厂商一般会提供一份<font color="#DC143C">蓝牙血压计通信指令控制数据格式(通讯协议) </font> 可根据该协议中定义的返回的十六进制数据，定义当前外设发送的不同数据的意义。<br>最主要是用UUID来确定你要干的事情，特征和服务的UUID都是外设定义好的。我们只需要读取，确定你要读取什么的时候，就去判断UUID是否相符。 一般来说我们使用的iPhone都是做centralManager的，蓝牙模块是peripheral的，所以我们是want datas，需要接受数据。</p>
+</code></pre><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>厂商一般会提供一份<font color="#DC143C">蓝牙血压计通信指令控制数据格式(通讯协议) </font> 可根据该协议中定义的返回的十六进制数据，定义当前外设发送的不同数据的意义。<br>最主要是用UUID来确定你要干的事情，特征和服务的UUID都是外设定义好的。我们只需要读取，确定你要读取什么的时候，就去判断UUID是否相符。 一般来说我们使用的iPhone都是做centralManager的，蓝牙模块是peripheral的，所以我们是want datas，需要接受数据。</p>
 <ol>
 <li>判断状态为powerOn，然后执行扫描</li>
 <li>停止扫描，连接外设</li>
@@ -1276,7 +1276,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <li>通知添加成功，那么就可以实时的读取value[也就是说只要外设发送数据[一般外设的频率为10Hz]，代理就会调用此方法]。</li>
 <li>处理接收到的value，[hex值，得转换] 之后就自由发挥了，在这期间都是通过代理来实现的，也就是说你只需要处理你想要做的事情，代理会帮你调用方法。[别忘了添加代理]</li>
 </ol>
-<h1 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://liuyanwei.jumppo.com/2015/07/17/ios-BLE-1.html" target="_blank" rel="external">蓝牙相关基础知识</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://liuyanwei.jumppo.com/2015/07/17/ios-BLE-1.html" target="_blank" rel="external">蓝牙相关基础知识</a></p>
 <p><a href="https://www.engadget.com/2010/06/02/hacksugar-bringing-back-the-on-screen-keyboard/" target="_blank" rel="external">hacksugar: Bringing back the on-screen keyboard</a></p>
 <p><a href="https://missajj.gitbooks.io/missajj_iosdevelopment_gitbook/content/蓝牙交互CoreBlueTooth/iff09_lan_ya_jiaohu_corebluetooth.html" target="_blank" rel="external">蓝牙交互CoreBlueTooth</a></p>
 <p><a href="http://stackoverflow.com/questions/16839400/ios-and-bluetooth" target="_blank" rel="external">iOS and bluetooth</a></p>
@@ -1289,7 +1289,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
     
     <summary type="html">
     
-      &lt;h1 id=&quot;iOS_u84DD_u7259_u5F00_u53D1_u7B80_u4ECB&quot;&gt;&lt;a href=&quot;#iOS_u84DD_u7259_u5F00_u53D1_u7B80_u4ECB&quot; class=&quot;headerlink&quot; title=&quot;iOS蓝牙开发简介&quot;&gt;&lt;/a
+      &lt;h1 id=&quot;iOS蓝牙开发简介&quot;&gt;&lt;a href=&quot;#iOS蓝牙开发简介&quot; class=&quot;headerlink&quot; title=&quot;iOS蓝牙开发简介&quot;&gt;&lt;/a&gt;iOS蓝牙开发简介&lt;/h1&gt;&lt;p&gt;蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iO
     
     </summary>
     
@@ -1309,7 +1309,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
     <published>2016-09-18T12:35:34.000Z</published>
     <updated>2017-06-22T12:51:05.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="u4F7F_u7528Masonry_u7684_u573A_u666F"><a href="#u4F7F_u7528Masonry_u7684_u573A_u666F" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
+    <content type="html"><![CDATA[<h1 id="使用Masonry的场景"><a href="#使用Masonry的场景" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
 <p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
 <p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png" alt="代码"></p>
 <p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png" alt="报错"></p>
@@ -1327,13 +1327,13 @@ static NSMutableDictionary * mediaHandleActs = nil;
 </li>
 </ol>
 <p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
-<h1 id="u53C2_u8003_u6587_u6863"><a href="#u53C2_u8003_u6587_u6863" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
 <p>造成这个问题的主要原因是我没有认真看Masonry的文档，文档上说的已经很清楚了。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;u4F7F_u7528Masonry_u7684_u573A_u666F&quot;&gt;&lt;a href=&quot;#u4F7F_u7528Masonry_u7684_u573A_u666F&quot; class=&quot;headerlink&quot; title=&quot;使用Masonry的场景&quot;&gt;&lt;/a&gt;使用
+      &lt;h1 id=&quot;使用Masonry的场景&quot;&gt;&lt;a href=&quot;#使用Masonry的场景&quot; class=&quot;headerlink&quot; title=&quot;使用Masonry的场景&quot;&gt;&lt;/a&gt;使用Masonry的场景&lt;/h1&gt;&lt;p&gt;在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式
     
     </summary>
     
@@ -1406,7 +1406,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
     <published>2016-08-21T07:58:00.000Z</published>
     <updated>2017-06-22T12:52:06.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="1-The_dependency_AFNetworking__28_3D_2-6-3_29_is_not_used_in_any_concrete_target"><a href="#1-The_dependency_AFNetworking__28_3D_2-6-3_29_is_not_used_in_any_concrete_target" class="headerlink" title="1.The dependency AFNetworking (= 2.6.3) is not used in any concrete target."></a>1.The dependency <code>AFNetworking (= 2.6.3)</code> is not used in any concrete target.</h1><p>在cocoapods version 1.0 之后，默认生成的Podfile文件类似于</p>
+    <content type="html"><![CDATA[<h1 id="1-The-dependency-AFNetworking-2-6-3-is-not-used-in-any-concrete-target"><a href="#1-The-dependency-AFNetworking-2-6-3-is-not-used-in-any-concrete-target" class="headerlink" title="1.The dependency AFNetworking (= 2.6.3) is not used in any concrete target."></a>1.The dependency <code>AFNetworking (= 2.6.3)</code> is not used in any concrete target.</h1><p>在cocoapods version 1.0 之后，默认生成的Podfile文件类似于</p>
 <pre><code>pod &#39;Alamofire&#39;, &#39;~&gt; 3.1.4&#39;
 pod &#39;SwiftyJSON&#39;, &#39;~&gt; 2.3.2&#39;
 </code></pre><p>这样的默认设置。为了不发生如标题那样的错误，需要手动用 <font color="#FA8072"> target “TargetName” do end </font> 把需要 pod 的库包括进来。</p>
@@ -1414,7 +1414,7 @@ pod &#39;SwiftyJSON&#39;, &#39;~&gt; 2.3.2&#39;
     pod &#39;Alamofire&#39;, &#39;~&gt; 3.1.4&#39;
     pod &#39;SwiftyJSON&#39;, &#39;~&gt; 2.3.2&#39;
 end
-</code></pre><h1 id="2-ios_None_of_your_spec_sources_contain_a_spec_satisfying_the_dependency_3A_IQKeyboardManager__28_7E_26gt_3B_4-0-0_29"><a href="#2-ios_None_of_your_spec_sources_contain_a_spec_satisfying_the_dependency_3A_IQKeyboardManager__28_7E_26gt_3B_4-0-0_29" class="headerlink" title="2.ios None of your spec sources contain a spec satisfying the dependency: IQKeyboardManager (~&gt; 4.0.0)."></a>2.ios None of your spec sources contain a spec satisfying the dependency: <code>IQKeyboardManager (~&gt; 4.0.0)</code>.</h1><p>报这个错误，可能是由于Cocoapods的配置库有损坏，Cocoapods建议删除本地副本重新clone。根据cocoapods官方博客的方案，在终端做出如下操作<font color="#FA8072"> (依照次序) </font></p>
+</code></pre><h1 id="2-ios-None-of-your-spec-sources-contain-a-spec-satisfying-the-dependency-IQKeyboardManager-gt-4-0-0"><a href="#2-ios-None-of-your-spec-sources-contain-a-spec-satisfying-the-dependency-IQKeyboardManager-gt-4-0-0" class="headerlink" title="2.ios None of your spec sources contain a spec satisfying the dependency: IQKeyboardManager (~&gt; 4.0.0)."></a>2.ios None of your spec sources contain a spec satisfying the dependency: <code>IQKeyboardManager (~&gt; 4.0.0)</code>.</h1><p>报这个错误，可能是由于Cocoapods的配置库有损坏，Cocoapods建议删除本地副本重新clone。根据cocoapods官方博客的方案，在终端做出如下操作<font color="#FA8072"> (依照次序) </font></p>
 <p>第一步:</p>
 <pre><code>sudo rm -fr ~/Library/Caches/CocoaPods &amp;&amp; \
 </code></pre><p>第二步:</p>
@@ -1423,7 +1423,7 @@ gem update --system &amp;&amp; \
 gem update &amp;&amp; \
 gem cleanup &amp;&amp; \
 pod setup
-</code></pre><h1 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://stackoverflow.com/questions/34556991/pod-install-displaying-error-in-cocoapods-version-1-0-0-beta-1/34558516" target="_blank" rel="external">Pod install displaying error in cocoapods version 1.0.0.beta.1</a></p>
+</code></pre><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://stackoverflow.com/questions/34556991/pod-install-displaying-error-in-cocoapods-version-1-0-0-beta-1/34558516" target="_blank" rel="external">Pod install displaying error in cocoapods version 1.0.0.beta.1</a></p>
 <p><a href="http://stackoverflow.com/questions/37624178/intergating-new-firebase-error-cocoapods" target="_blank" rel="external">intergating New Firebase.. error cocoapods</a></p>
 <p><a href="http://stackoverflow.com/questions/38030317/pod-repo-update-does-not-happen-error-in-cocoapods" target="_blank" rel="external">pod repo update does not happen error in cocoapods</a></p>
 <p><a href="http://blog.cocoapods.org/Repairing-Our-Broken-Specs-Repository/" target="_blank" rel="external">Repairing Our Broken Specs Repository</a></p>
@@ -1431,7 +1431,7 @@ pod setup
     
     <summary type="html">
     
-      &lt;h1 id=&quot;1-The_dependency_AFNetworking__28_3D_2-6-3_29_is_not_used_in_any_concrete_target&quot;&gt;&lt;a href=&quot;#1-The_dependency_AFNetworking__28_3D_2-6
+      &lt;h1 id=&quot;1-The-dependency-AFNetworking-2-6-3-is-not-used-in-any-concrete-target&quot;&gt;&lt;a href=&quot;#1-The-dependency-AFNetworking-2-6-3-is-not-used-in
     
     </summary>
     
@@ -1449,13 +1449,13 @@ pod setup
     <published>2016-08-09T15:30:48.000Z</published>
     <updated>2017-06-22T12:50:42.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Background_Remote_Notification_u7B80_u4ECB"><a href="#Background_Remote_Notification_u7B80_u4ECB" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
-<h1 id="u5982_u4F55_u8BBE_u7F6ERemote_notifications"><a href="#u5982_u4F55_u8BBE_u7F6ERemote_notifications" class="headerlink" title="如何设置Remote notifications"></a>如何设置Remote notifications</h1><h3 id="u5BA2_u6237_u7AEF_u8BBE_u7F6E"><a href="#u5BA2_u6237_u7AEF_u8BBE_u7F6E" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>需要在Xcode 中修改应用的 Capabilities 开启Remote notifications，如图：</p>
+    <content type="html"><![CDATA[<h1 id="Background-Remote-Notification简介"><a href="#Background-Remote-Notification简介" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
+<h1 id="如何设置Remote-notifications"><a href="#如何设置Remote-notifications" class="headerlink" title="如何设置Remote notifications"></a>如何设置Remote notifications</h1><h3 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>需要在Xcode 中修改应用的 Capabilities 开启Remote notifications，如图：</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/Snip20131119_1.png" alt="客户端配置图"></p>
 <p>当注册了Backgroud Modes -&gt; Remote notifications 后，notification 处理函数一律切换到下面函数，后台推送代码也在此函数中调用。</p>
 <pre><code>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 </code></pre><p>这个函数也是iOS8之后获取远程推送调用的方法。</p>
-<h3 id="u670D_u52A1_u7AEF_u8BBE_u7F6E"><a href="#u670D_u52A1_u7AEF_u8BBE_u7F6E" class="headerlink" title="服务端设置"></a><font color="#FA8072"> 服务端设置 </font></h3><p>这个很重要，推送消息携带 content-available: 1 是Background 运行的必须参数，如果不携带此字段则与iOS7 之前版本的普通推送一样。<br>服务端payload格式:aps增加content-available字段，类似于：</p>
+<h3 id="服务端设置"><a href="#服务端设置" class="headerlink" title=" 服务端设置 "></a><font color="#FA8072"> 服务端设置 </font></h3><p>这个很重要，推送消息携带 content-available: 1 是Background 运行的必须参数，如果不携带此字段则与iOS7 之前版本的普通推送一样。<br>服务端payload格式:aps增加content-available字段，类似于：</p>
 <pre><code>payload example:
 {&quot;aps&quot;:{&quot;alert&quot;:&quot;example&quot;, &quot;sound&quot;:&quot;default&quot;, &quot;badge&quot;: 1, &quot;category&quot;:&quot;reply&quot;,&quot;content-available&quot;:&quot;1&quot;
 }}
@@ -1473,15 +1473,15 @@ pod setup
         content-available = 1;
     };
 }
-</code></pre><h1 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://docs.jiguang.cn/client/ios_tutorials/#ios-7-background-remote-notification" target="_blank" rel="external">极光客户端SDk教程</a></p>
+</code></pre><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://docs.jiguang.cn/client/ios_tutorials/#ios-7-background-remote-notification" target="_blank" rel="external">极光客户端SDk教程</a></p>
 <p><a href="http://docs.jiguang.cn/server/rest_api_v3_push/#notification" target="_blank" rel="external">极光服务器端Push API v3</a></p>
 <p><a href="http://my.oschina.net/zhaodacai/blog/711368" target="_blank" rel="external">三种方式使得iOS应用能够在后台进行数据更新和下载</a></p>
-<h1 id="u540E_u8BB0"><a href="#u540E_u8BB0" class="headerlink" title="后记"></a>后记</h1><p>关于<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>早在一年前就使用过，当时调研调试花费了大量时间。没想到现在又遇到了这个问题。结果，我又在阴沟里翻了船。可见做笔记，写博客总结的重要性。希望第三次闭着眼睛就能跳过这个坑。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>关于<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>早在一年前就使用过，当时调研调试花费了大量时间。没想到现在又遇到了这个问题。结果，我又在阴沟里翻了船。可见做笔记，写博客总结的重要性。希望第三次闭着眼睛就能跳过这个坑。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Background_Remote_Notification_u7B80_u4ECB&quot;&gt;&lt;a href=&quot;#Background_Remote_Notification_u7B80_u4ECB&quot; class=&quot;headerlink&quot; title=&quot;Backgrou
+      &lt;h1 id=&quot;Background-Remote-Notification简介&quot;&gt;&lt;a href=&quot;#Background-Remote-Notification简介&quot; class=&quot;headerlink&quot; title=&quot;Background Remote Notificati
     
     </summary>
     
@@ -1499,7 +1499,7 @@ pod setup
     <published>2016-07-12T16:00:00.000Z</published>
     <updated>2017-06-22T12:50:12.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="JavaScriptCore_u7B80_u4ECB"><a href="#JavaScriptCore_u7B80_u4ECB" class="headerlink" title="JavaScriptCore简介"></a>JavaScriptCore简介</h1><p>JavaScriptCore是iOS7引入的新功能，使用JavaScriptCore后可以实现js代码与本地native代码进行相互调用。</p>
+    <content type="html"><![CDATA[<h1 id="JavaScriptCore简介"><a href="#JavaScriptCore简介" class="headerlink" title="JavaScriptCore简介"></a>JavaScriptCore简介</h1><p>JavaScriptCore是iOS7引入的新功能，使用JavaScriptCore后可以实现js代码与本地native代码进行相互调用。</p>
 <p>要使用JavaScriptCore，首先我们需要引入它的头文件 <code>#import &lt;JavaScriptCore/JavaScriptCore.h&gt;</code></p>
 <p>这个头里面引入了几个重要的对象</p>
 <pre><code>#import &quot;JSContext.h&quot;
@@ -1515,7 +1515,7 @@ pod setup
 <li>JSExport是一个协议，通过实现它可以完成把一个native对象暴漏给js</li>
 </ul>
 <p>具体的交互过程可以参见这篇博客<a href="https://imciel.com/2016/06/18/oc-js-communication/" target="_blank" rel="external">https://imciel.com/2016/06/18/oc-js-communication/</a></p>
-<h1 id="u4F7F_u7528JSExport_u8BBE_u7F6E_u5F15_u7528_u540D_u79F0_u7A7A_u95F4"><a href="#u4F7F_u7528JSExport_u8BBE_u7F6E_u5F15_u7528_u540D_u79F0_u7A7A_u95F4" class="headerlink" title="使用JSExport设置引用名称空间"></a>使用JSExport设置引用名称空间</h1><p>js那边统一使用一个名为jsObject的对象来调用js的方法进行传值或触发某一特定的事件。在 js 中定义一个方法:</p>
+<h1 id="使用JSExport设置引用名称空间"><a href="#使用JSExport设置引用名称空间" class="headerlink" title="使用JSExport设置引用名称空间"></a>使用JSExport设置引用名称空间</h1><p>js那边统一使用一个名为jsObject的对象来调用js的方法进行传值或触发某一特定的事件。在 js 中定义一个方法:</p>
 <pre><code>&lt;html&gt;
 &lt;head&gt;
 &lt;title&gt;Demo&lt;/title&gt;
@@ -1587,15 +1587,15 @@ pod setup
 }
 </code></pre><p>这里要注意的是<font color="#FA8072"> context[@ “jsObject” ] = self </font>中的的key值是和服务器商量好的, 即， js 中定义的回调方法<font color="#FA8072"> jsObject.shopCartNumChanged( )</font>相一致。</p>
 <p>在这里对<font color="#FA8072"> JSExport </font>的使用只是简单的设置了一下命名空间，将下标方法暴露给js对象方便服务器调用。其实，<font color="#FA8072"> JSExport </font> 协议主要用途是把objc复杂对象转换成JSValue并暴露给js对象。<font color="#FA8072"> JSExport </font>作为两种语言的互通协议。<font color="#FA8072"> JSExport </font>中没有约定任何的方法，连可选的(@optional)都没有，但是所有继承了该协议(@protocol)的协议（注意不是Objective-C的类(@interface)）中定义的方法，都可以在JSContext中被使用。</p>
-<h1 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://imciel.com/2016/06/18/oc-js-communication/" target="_blank" rel="external">使用 JavaScriptCore 实现 JS和OC间的通信</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://imciel.com/2016/06/18/oc-js-communication/" target="_blank" rel="external">使用 JavaScriptCore 实现 JS和OC间的通信</a></p>
 <p><a href="http://blog.iderzheng.com/ios7-objects-management-in-javascriptcore-framework/" target="_blank" rel="external">JavaScriptCore框架在iOS7中的对象交互和管理</a></p>
 <p><a href="http://liuyanwei.jumppo.com/2016/04/03/iOS-JavaScriptCore.html" target="_blank" rel="external">iOS JavaScriptCore使用</a></p>
-<h1 id="u793A_u4F8B_u4EE3_u7801_u4E0B_u8F7D"><a href="#u793A_u4F8B_u4EE3_u7801_u4E0B_u8F7D" class="headerlink" title="示例代码下载"></a>示例代码下载</h1><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">Demo</a></p>
+<h1 id="示例代码下载"><a href="#示例代码下载" class="headerlink" title="示例代码下载"></a>示例代码下载</h1><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">Demo</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;JavaScriptCore_u7B80_u4ECB&quot;&gt;&lt;a href=&quot;#JavaScriptCore_u7B80_u4ECB&quot; class=&quot;headerlink&quot; title=&quot;JavaScriptCore简介&quot;&gt;&lt;/a&gt;JavaScriptCore简介&lt;/
+      &lt;h1 id=&quot;JavaScriptCore简介&quot;&gt;&lt;a href=&quot;#JavaScriptCore简介&quot; class=&quot;headerlink&quot; title=&quot;JavaScriptCore简介&quot;&gt;&lt;/a&gt;JavaScriptCore简介&lt;/h1&gt;&lt;p&gt;JavaScriptCore
     
     </summary>
     
@@ -1617,21 +1617,21 @@ pod setup
     <published>2016-01-16T04:04:48.000Z</published>
     <updated>2017-06-22T12:49:13.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="u7279_u522B_u9E23_u8C22"><a href="#u7279_u522B_u9E23_u8C22" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p>老郭，对本博客所提供的技术支持！<br>老郭，对本博客所提供的技术支持！<br>老郭，对本博客所提供的技术支持！<br>并附上他的博客<a href="http://imciel.com" target="_blank" rel="external">地址</a></p>
-<h1 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h1><p>博客页面的搭建是在2015年6月15日，在老郭的指导下完成的。搭建博客的初衷完全是因为看到别人都有博客，而且界面很炫，为了自己的虚荣心才觉得自己也要整一个这样的博客。可是等到自己动手的时候，完全无从下手。什么是<a href="https://hexo.io/zh-cn/docs/helpers.html" target="_blank" rel="external">Hexo</a>，<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>，<a href="http://wowubuntu.com/markdown/#list" target="_blank" rel="external">MarkDown</a>等等。这些都没有听说过。还好有老郭，他手把手的教我如何去配置这些东东。那时候觉得自己好2B。最后，倒是整出来了，看到了久违的Hello World，还是当年的配方，还是熟悉的味道。<br>好吧，我承认我只是一时的冲动和虚荣心在作怪，我的博客在2015年6月15日止步于Hello World，从此，再也没有爬起来过。</p>
+    <content type="html"><![CDATA[<h1 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p>老郭，对本博客所提供的技术支持！<br>老郭，对本博客所提供的技术支持！<br>老郭，对本博客所提供的技术支持！<br>并附上他的博客<a href="http://imciel.com" target="_blank" rel="external">地址</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>博客页面的搭建是在2015年6月15日，在老郭的指导下完成的。搭建博客的初衷完全是因为看到别人都有博客，而且界面很炫，为了自己的虚荣心才觉得自己也要整一个这样的博客。可是等到自己动手的时候，完全无从下手。什么是<a href="https://hexo.io/zh-cn/docs/helpers.html" target="_blank" rel="external">Hexo</a>，<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>，<a href="http://wowubuntu.com/markdown/#list" target="_blank" rel="external">MarkDown</a>等等。这些都没有听说过。还好有老郭，他手把手的教我如何去配置这些东东。那时候觉得自己好2B。最后，倒是整出来了，看到了久违的Hello World，还是当年的配方，还是熟悉的味道。<br>好吧，我承认我只是一时的冲动和虚荣心在作怪，我的博客在2015年6月15日止步于Hello World，从此，再也没有爬起来过。</p>
 <blockquote>
 <p>自己思考原来就是件很快乐的事情，而教别人思考则是学习思考，锻炼思维的最好办法。</p>
 </blockquote>
-<h1 id="u4E3A_u4EC0_u4E48_u5199_u535A_u5BA2"><a href="#u4E3A_u4EC0_u4E48_u5199_u535A_u5BA2" class="headerlink" title="为什么写博客"></a>为什么写博客</h1><p>或许我并不是一个喜欢记录，总结的人。但还是因为工作的原因(每个周五都要发一份周报给老大)，还是养成了一个记录的习惯。我把周一到周五每天都做了什么事情，记录在一个黑色的笔记本上。 把那些未经整理的，杂乱无章的，解决的问题的过程和代码复制到了印象笔记上。以备以后查阅方便。遇到类似的问题就打开笔记，复制出一份代码。也未深究这段代码的意义何在，为什么可以解决问题。久而久之，便不会思考，真的就成为了代码的搬运工了。没有了思考，发现不了自己的短板，便陷在了这样一种自我满足的境地当中了。每天看似在前进，实际上是在原地绕弯。日复一日，剩下的只有惶恐和迷茫。变得越来越不自信。杂乱无章的笔记和随处存放的代码片段并不能引导我去思考制造这些Bug的原因。我要思考，要分享我的思考过程，希望得到别人认可的同时也能指出我的不足和错误。</p>
+<h1 id="为什么写博客"><a href="#为什么写博客" class="headerlink" title="为什么写博客"></a>为什么写博客</h1><p>或许我并不是一个喜欢记录，总结的人。但还是因为工作的原因(每个周五都要发一份周报给老大)，还是养成了一个记录的习惯。我把周一到周五每天都做了什么事情，记录在一个黑色的笔记本上。 把那些未经整理的，杂乱无章的，解决的问题的过程和代码复制到了印象笔记上。以备以后查阅方便。遇到类似的问题就打开笔记，复制出一份代码。也未深究这段代码的意义何在，为什么可以解决问题。久而久之，便不会思考，真的就成为了代码的搬运工了。没有了思考，发现不了自己的短板，便陷在了这样一种自我满足的境地当中了。每天看似在前进，实际上是在原地绕弯。日复一日，剩下的只有惶恐和迷茫。变得越来越不自信。杂乱无章的笔记和随处存放的代码片段并不能引导我去思考制造这些Bug的原因。我要思考，要分享我的思考过程，希望得到别人认可的同时也能指出我的不足和错误。</p>
 <blockquote>
 <p>解决问题的核心思想只有一个———一切都靠积累。</p>
 </blockquote>
-<h1 id="u535A_u5BA2_u7684_u5F00_u59CB"><a href="#u535A_u5BA2_u7684_u5F00_u59CB" class="headerlink" title="博客的开始"></a>博客的开始</h1><p>回顾过去的2015年，我已经在新公司待了快一年了，虽然，不知道自己究竟都有哪些提升。但是，冥冥中又觉得自己还是有些收获的。当然这些收获都来自于师傅他老人家的谆谆教导。我不想忘记那些和师傅一起加班的日日夜夜里所带来的收获，我要把这些冥冥中的收获写下来，记录我在这些项目中的收获，以及那些尚未解决的问题所留下的遗憾。 期望以后能弥补这些遗憾。留住这些青春的记忆。</p>
+<h1 id="博客的开始"><a href="#博客的开始" class="headerlink" title="博客的开始"></a>博客的开始</h1><p>回顾过去的2015年，我已经在新公司待了快一年了，虽然，不知道自己究竟都有哪些提升。但是，冥冥中又觉得自己还是有些收获的。当然这些收获都来自于师傅他老人家的谆谆教导。我不想忘记那些和师傅一起加班的日日夜夜里所带来的收获，我要把这些冥冥中的收获写下来，记录我在这些项目中的收获，以及那些尚未解决的问题所留下的遗憾。 期望以后能弥补这些遗憾。留住这些青春的记忆。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;u7279_u522B_u9E23_u8C22&quot;&gt;&lt;a href=&quot;#u7279_u522B_u9E23_u8C22&quot; class=&quot;headerlink&quot; title=&quot;特别鸣谢&quot;&gt;&lt;/a&gt;特别鸣谢&lt;/h1&gt;&lt;p&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;老郭，对
+      &lt;h1 id=&quot;特别鸣谢&quot;&gt;&lt;a href=&quot;#特别鸣谢&quot; class=&quot;headerlink&quot; title=&quot;特别鸣谢&quot;&gt;&lt;/a&gt;特别鸣谢&lt;/h1&gt;&lt;p&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;并附
     
     </summary>
     

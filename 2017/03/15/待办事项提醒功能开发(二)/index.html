@@ -38,7 +38,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="XibHe">
     <meta name="description" itemprop="description" content="爱苹果,爱生活。">
-    <meta name="keywords" content="null,待办事项提醒,开源">
+    <meta name="keywords" content="null,开源,待办事项提醒">
 
     <!-- Site Verification -->
     
@@ -70,7 +70,7 @@
     <meta property="og:title" content="待办事项提醒功能开发(二) | XibHe&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png" />
     <meta property="og:description" content="爱苹果,爱生活。">
-    <meta property="og:article:tag" content="待办事项提醒"> <meta property="og:article:tag" content="开源"> 
+    <meta property="og:article:tag" content="开源"> <meta property="og:article:tag" content="待办事项提醒"> 
 
     
         <meta property="article:published_time" content="3月 15, 2017" />
@@ -345,7 +345,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u65B0_u5EFA_u6570_u636E_u5E93"><span class="post-toc-number">1.</span> <span class="post-toc-text">新建数据库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u5165_u5E93_u64CD_u4F5C"><span class="post-toc-number">2.</span> <span class="post-toc-text">入库操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u754C_u9762_u7ED8_u5236"><span class="post-toc-number">3.</span> <span class="post-toc-text">界面绘制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u901A_u77E5log_u8868"><span class="post-toc-number">4.</span> <span class="post-toc-text">通知log表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u6CE8_u610F_u4E8B_u9879"><span class="post-toc-number">5.</span> <span class="post-toc-text">注意事项</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Demo_u5730_u5740"><span class="post-toc-number"></span> <span class="post-toc-text">Demo地址</span></a>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#新建数据库"><span class="post-toc-number">1.</span> <span class="post-toc-text">新建数据库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#入库操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">入库操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#界面绘制"><span class="post-toc-number">3.</span> <span class="post-toc-text">界面绘制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通知log表"><span class="post-toc-number">4.</span> <span class="post-toc-text">通知log表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意事项"><span class="post-toc-number">5.</span> <span class="post-toc-text">注意事项</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Demo地址"><span class="post-toc-number"></span> <span class="post-toc-text">Demo地址</span></a>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -504,7 +504,7 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h2 id="u65B0_u5EFA_u6570_u636E_u5E93"><a href="#u65B0_u5EFA_u6570_u636E_u5E93" class="headerlink" title="新建数据库"></a>新建数据库</h2><h2 id="u5165_u5E93_u64CD_u4F5C"><a href="#u5165_u5E93_u64CD_u4F5C" class="headerlink" title="入库操作"></a>入库操作</h2><h2 id="u754C_u9762_u7ED8_u5236"><a href="#u754C_u9762_u7ED8_u5236" class="headerlink" title="界面绘制"></a>界面绘制</h2><h2 id="u901A_u77E5log_u8868"><a href="#u901A_u77E5log_u8868" class="headerlink" title="通知log表"></a>通知log表</h2><h2 id="u6CE8_u610F_u4E8B_u9879"><a href="#u6CE8_u610F_u4E8B_u9879" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+        <h2 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h2><h2 id="入库操作"><a href="#入库操作" class="headerlink" title="入库操作"></a>入库操作</h2><h2 id="界面绘制"><a href="#界面绘制" class="headerlink" title="界面绘制"></a>界面绘制</h2><h2 id="通知log表"><a href="#通知log表" class="headerlink" title="通知log表"></a>通知log表</h2><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
 <li>时间转化的时区设置</li>
 <li>最近的本地通知最多只能有64个(待测试)</li>
 <li>过期通知的移除(不做移除，通过通知的自有机制去处理的可行性)</li>
@@ -512,7 +512,7 @@
 <li>奇妙清单的到期提醒只与提醒时间和频率有关，与是否到期无关</li>
 <li>iOS 10之后的推送</li>
 </ul>
-<h1 id="Demo_u5730_u5740"><a href="#Demo_u5730_u5740" class="headerlink" title="Demo地址"></a>Demo地址</h1><p><a href="https://github.com/XibHe/ToDoList" target="_blank" rel="external">点击下载</a></p>
+<h1 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h1><p><a href="https://github.com/XibHe/ToDoList" target="_blank" rel="external">点击下载</a></p>
 
     
 
