@@ -500,218 +500,218 @@
 <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
 <li>第一步: 定义一个delegate，用来返回一个遵守该协议的数据，不管传过来的数据是什么类型，只要服从这个协议，实现协议里的方法，就处理这个数据。</li>
 </ul>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">@protocol MediaHandleDelegate <NSObject>
-@optional
-- (void)returnMedidaData:(id)mediaData;
-@end
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token keyword">@protocol</span> MediaHandleDelegate <span class="token operator">&lt;</span>NSObject<span class="token operator">></span>
+<span class="token operator">@</span>optional
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>returnMedidaData<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>mediaData<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>第二步: 创建继承于NSObject的根适配器类MediaHandleAct，该类遵守第一步中的协议，并实现该协议的方法，但只是空实现。</li>
 </ul>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.h
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// MediaHandleAct.h</span>
 
-#import "MediaHandleDelegate.h"
+<span class="token macro property">#<span class="token directive keyword">import</span> "MediaHandleDelegate.h"</span>
 
-@interface MediaHandleAct : NSObject
-{
-    id <MediaHandleDelegate> _delegate;
-}
+<span class="token keyword">@interface</span> MediaHandleAct <span class="token punctuation">:</span> NSObject
+<span class="token punctuation">{</span>
+    id <span class="token operator">&lt;</span>MediaHandleDelegate<span class="token operator">></span> _delegate<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// MediaHandleAct.m</span>
 
-#import "MediaHandleAct.h"
+<span class="token macro property">#<span class="token directive keyword">import</span> "MediaHandleAct.h"</span>
 
-- (void)returnMedidaData:(NSString *)data{
-}
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>returnMedidaData<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>data<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>第三步: 构建根适配器类MediaHandleAct中注册特定Action的方法，并获取注册的Action。</li>
 </ul>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">#import <Foundation/Foundation.h>
-#import "MediaHandleDelegate.h"
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token macro property">#<span class="token directive keyword">import</span> &lt;Foundation/Foundation.h></span>
+<span class="token macro property">#<span class="token directive keyword">import</span> "MediaHandleDelegate.h"</span>
 
-@interface MediaHandleAct : NSObject
-{
-    id <MediaHandleDelegate> _delegate;
-}
-// 动态注册新的Action
-+ (void)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(NSString *) actKey;
-// 获取注册的Action
-+ (NSDictionary *)mediaHandleActions;
-// 传递Action的具体执行方法
-- (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass;
-@end
+<span class="token keyword">@interface</span> MediaHandleAct <span class="token punctuation">:</span> NSObject
+<span class="token punctuation">{</span>
+    id <span class="token operator">&lt;</span>MediaHandleDelegate<span class="token operator">></span> _delegate<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 动态注册新的Action</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>registerMediaHandleAction<span class="token punctuation">:</span><span class="token punctuation">(</span>MediaHandleAct <span class="token operator">*</span><span class="token punctuation">)</span>mediaHandleAct andKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span> actKey<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 获取注册的Action</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span>NSDictionary <span class="token operator">*</span><span class="token punctuation">)</span>mediaHandleActions<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 传递Action的具体执行方法</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>performActionWichController<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>controller callbackClass<span class="token punctuation">:</span><span class="token punctuation">(</span>NSObject <span class="token operator">*</span><span class="token punctuation">)</span>callbackClass<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAct.m
-#import "MediaHandleAct.h"
-static NSMutableDictionary * mediaHandleActs = nil;
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// MediaHandleAct.m</span>
+<span class="token macro property">#<span class="token directive keyword">import</span> "MediaHandleAct.h"</span>
+<span class="token keyword">static</span> NSMutableDictionary <span class="token operator">*</span> mediaHandleActs <span class="token operator">=</span> nil<span class="token punctuation">;</span>
 
-@implementation MediaHandleAct
+<span class="token keyword">@implementation</span> MediaHandleAct
 
-+ (void)registerMediaHandleAction:(MediaHandleAct *)mediaHandleAct andKey:(NSString *)actKey
-{
-    @synchronized(self){
-        if (!mediaHandleActs)
-        {
-            mediaHandleActs = [NSMutableDictionary dictionary];
-            [MediaHandleAct registerCommonAction];
-        }
-        [mediaHandleActs setObject:mediaHandleAct forKey:actKey];
-    }
-}
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>registerMediaHandleAction<span class="token punctuation">:</span><span class="token punctuation">(</span>MediaHandleAct <span class="token operator">*</span><span class="token punctuation">)</span>mediaHandleAct andKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>actKey
+<span class="token punctuation">{</span>
+    <span class="token operator">@</span><span class="token function">synchronized</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>mediaHandleActs<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            mediaHandleActs <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableDictionary dictionary<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">[</span>MediaHandleAct registerCommonAction<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">[</span>mediaHandleActs setObject<span class="token punctuation">:</span>mediaHandleAct forKey<span class="token punctuation">:</span>actKey<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-+ (NSDictionary *)mediaHandleActions
-{
-    NSDictionary * acts = nil;
-    @synchronized(self){
-        if (!mediaHandleActs)
-        {
-            mediaHandleActs = [NSMutableDictionary dictionary];
-            [MediaHandleAct registerCommonAction];
-        }
-        acts = mediaHandleActs;
-    }
+<span class="token operator">+</span> <span class="token punctuation">(</span>NSDictionary <span class="token operator">*</span><span class="token punctuation">)</span>mediaHandleActions
+<span class="token punctuation">{</span>
+    NSDictionary <span class="token operator">*</span> acts <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+    <span class="token operator">@</span><span class="token function">synchronized</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>mediaHandleActs<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            mediaHandleActs <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableDictionary dictionary<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">[</span>MediaHandleAct registerCommonAction<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        acts <span class="token operator">=</span> mediaHandleActs<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    return acts;
-}
-// 具体的执行方法
-- (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass{
-}
-@end
+    <span class="token keyword">return</span> acts<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 具体的执行方法</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>performActionWichController<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>controller callbackClass<span class="token punctuation">:</span><span class="token punctuation">(</span>NSObject <span class="token operator">*</span><span class="token punctuation">)</span>callbackClass<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">@end</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>synchronized   这个主要是考虑多线程的程序，这个指令可以将{ } 内的代码限制在一个线程执行，如果某个线程没有执行完，其他的线程如果需要执行就得等着。@synchronized 的作用是创建一个互斥锁，保证此时没有其它线程对self对象进行修改。这种机制确保了同一时刻对于每一个类，至多只有一个处于可执行状态，从而有效避免了类成员变量的访问冲突。一般在公用变量的时候使用，如单例模式或者操作类的static变量中使用。</p>
 <ul>
 <li>第四步: 针对不同功能的类，创建继承于MediaHandleAct的类适配器。<br>使用适配器的时候，分为类适配器和对象适配器。类适配器针对每一个数据类型或某个功能模块创建一个适配器，并继承于根适配器。</li>
 </ul>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// 调用相册功能
-#import <Foundation/Foundation.h>
-#import "MediaHandleAct.h"
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// 调用相册功能</span>
+<span class="token macro property">#<span class="token directive keyword">import</span> &lt;Foundation/Foundation.h></span>
+<span class="token macro property">#<span class="token directive keyword">import</span> "MediaHandleAct.h"</span>
 
-@interface MediaHandleAlbum : MediaHandleAct
-@property (nonatomic, assign) NSInteger maxCount;   // 最多可添加照片数
-// 注册Action
-+ (void)load;
-@end
+<span class="token keyword">@interface</span> MediaHandleAlbum <span class="token punctuation">:</span> MediaHandleAct
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> assign<span class="token punctuation">)</span> NSInteger maxCount<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// 最多可添加照片数</span>
+<span class="token comment" spellcheck="true">// 注册Action</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>load<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">// MediaHandleAlbum.m
-#import "MediaHandleAlbum.h"
-#import "JKImagePickerController.h"
-@interface MediaHandleAlbum ()<JKImagePickerControllerDelegate>
-{
-    UIViewController * _parentController;
-}
-@end
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// MediaHandleAlbum.m</span>
+<span class="token macro property">#<span class="token directive keyword">import</span> "MediaHandleAlbum.h"</span>
+<span class="token macro property">#<span class="token directive keyword">import</span> "JKImagePickerController.h"</span>
+<span class="token keyword">@interface</span> <span class="token function">MediaHandleAlbum</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;</span>JKImagePickerControllerDelegate<span class="token operator">></span>
+<span class="token punctuation">{</span>
+    UIViewController <span class="token operator">*</span> _parentController<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">@end</span>
 
-@implementation MediaHandleAlbum
+<span class="token keyword">@implementation</span> MediaHandleAlbum
 
-+ (void)load
-{
-    [MediaHandleAct registerMediaHandleAction:[[MediaHandleAlbum alloc] init] andKey:@"album"];
-}
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>load
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>MediaHandleAct registerMediaHandleAction<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">[</span>MediaHandleAlbum alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span> andKey<span class="token punctuation">:</span><span class="token string">@"album"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-#pragma mark - 拍照和调用相册功能
-- (void)performActionWichController:(UIViewController *)controller callbackClass:(NSObject *)callbackClass
-{
-    _parentController = controller;
-    _delegate = (id)callbackClass;
+<span class="token macro property">#<span class="token directive keyword">pragma</span> mark - 拍照和调用相册功能</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>performActionWichController<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>controller callbackClass<span class="token punctuation">:</span><span class="token punctuation">(</span>NSObject <span class="token operator">*</span><span class="token punctuation">)</span>callbackClass
+<span class="token punctuation">{</span>
+    _parentController <span class="token operator">=</span> controller<span class="token punctuation">;</span>
+    _delegate <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span>callbackClass<span class="token punctuation">;</span>
 
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:(id)self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择",@"取消",nil];
-    [actionSheet showInView:_parentController.view];
-}
+    UIActionSheet <span class="token operator">*</span>actionSheet <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIActionSheet alloc<span class="token punctuation">]</span> initWithTitle<span class="token punctuation">:</span>nil delegate<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token keyword">self</span> cancelButtonTitle<span class="token punctuation">:</span>nil destructiveButtonTitle<span class="token punctuation">:</span>nil otherButtonTitles<span class="token punctuation">:</span><span class="token string">@"拍照"</span><span class="token punctuation">,</span><span class="token string">@"从相册选择"</span><span class="token punctuation">,</span><span class="token string">@"取消"</span><span class="token punctuation">,</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>actionSheet showInView<span class="token punctuation">:</span>_parentController<span class="token punctuation">.</span>view<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-#pragma mark - ActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-        {
-            // 拍照
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            picker.editing = YES;
-            picker.allowsEditing = YES;
-            picker.delegate = (id)self;
-            [_parentController presentViewController:picker animated:YES completion:nil];
+<span class="token macro property">#<span class="token directive keyword">pragma</span> mark - ActionSheetDelegate</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>actionSheet<span class="token punctuation">:</span><span class="token punctuation">(</span>UIActionSheet <span class="token operator">*</span><span class="token punctuation">)</span>actionSheet clickedButtonAtIndex<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>buttonIndex
+<span class="token punctuation">{</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>buttonIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 拍照</span>
+            UIImagePickerController <span class="token operator">*</span>picker <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIImagePickerController alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            picker<span class="token punctuation">.</span>sourceType <span class="token operator">=</span> UIImagePickerControllerSourceTypeCamera<span class="token punctuation">;</span>
+            picker<span class="token punctuation">.</span>editing <span class="token operator">=</span> YES<span class="token punctuation">;</span>
+            picker<span class="token punctuation">.</span>allowsEditing <span class="token operator">=</span> YES<span class="token punctuation">;</span>
+            picker<span class="token punctuation">.</span>delegate <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token keyword">self</span><span class="token punctuation">;</span>
+            <span class="token punctuation">[</span>_parentController presentViewController<span class="token punctuation">:</span>picker animated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-            break;
-        }
-        case 1:
-        {
-            // 调用相册
-            JKImagePickerController *imagePickerController = [[JKImagePickerController alloc] init];
-            imagePickerController.delegate = (id)self;
-            imagePickerController.showsCancelButton = YES;
-            imagePickerController.allowsMultipleSelection = YES;
-            imagePickerController.minimumNumberOfSelection = 1;
-            imagePickerController.maximumNumberOfSelection = self.maxCount;
-            //imagePickerController.selectedAssetArray = self.photosView.assetsArray;
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
-            [_parentController presentViewController:navigationController animated:YES completion:NULL];
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">case</span> <span class="token number">1</span><span class="token punctuation">:</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 调用相册</span>
+            JKImagePickerController <span class="token operator">*</span>imagePickerController <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>JKImagePickerController alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            imagePickerController<span class="token punctuation">.</span>delegate <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token keyword">self</span><span class="token punctuation">;</span>
+            imagePickerController<span class="token punctuation">.</span>showsCancelButton <span class="token operator">=</span> YES<span class="token punctuation">;</span>
+            imagePickerController<span class="token punctuation">.</span>allowsMultipleSelection <span class="token operator">=</span> YES<span class="token punctuation">;</span>
+            imagePickerController<span class="token punctuation">.</span>minimumNumberOfSelection <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            imagePickerController<span class="token punctuation">.</span>maximumNumberOfSelection <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>maxCount<span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//imagePickerController.selectedAssetArray = self.photosView.assetsArray;</span>
+            UINavigationController <span class="token operator">*</span>navigationController <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UINavigationController alloc<span class="token punctuation">]</span> initWithRootViewController<span class="token punctuation">:</span>imagePickerController<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">[</span>_parentController presentViewController<span class="token punctuation">:</span>navigationController animated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span><span class="token constant">NULL</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-            break;
-        }
-        default:
-            break;
-    }
-}
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-#pragma mark - UIImagePickerControllerDelegate
-- (void) imagePickerController: (UIImagePickerController*)picker didFinishPickingMediaWithInfo: (NSDictionary*) info
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
+<span class="token macro property">#<span class="token directive keyword">pragma</span> mark - UIImagePickerControllerDelegate</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> imagePickerController<span class="token punctuation">:</span> <span class="token punctuation">(</span>UIImagePickerController<span class="token operator">*</span><span class="token punctuation">)</span>picker didFinishPickingMediaWithInfo<span class="token punctuation">:</span> <span class="token punctuation">(</span>NSDictionary<span class="token operator">*</span><span class="token punctuation">)</span> info
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>picker dismissViewControllerAnimated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    UIImage *edit = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    UIImage *originalImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    CLog(@" EditedImage %@ ",NSStringFromCGSize(edit.size));
-    CLog(@" OriginalImage %@ ",NSStringFromCGSize(originalImage.size));
-    UIImage *aImage = edit;
-    NSData * imageData = UIImageJPEGRepresentation(aImage,0.5);
+    UIImage <span class="token operator">*</span>edit <span class="token operator">=</span> <span class="token punctuation">[</span>info objectForKey<span class="token punctuation">:</span><span class="token string">@"UIImagePickerControllerEditedImage"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>originalImage <span class="token operator">=</span> <span class="token punctuation">[</span>info objectForKey<span class="token punctuation">:</span><span class="token string">@"UIImagePickerControllerOriginalImage"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@" EditedImage %@ "</span><span class="token punctuation">,</span><span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>edit<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@" OriginalImage %@ "</span><span class="token punctuation">,</span><span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>originalImage<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>aImage <span class="token operator">=</span> edit<span class="token punctuation">;</span>
+    NSData <span class="token operator">*</span> imageData <span class="token operator">=</span> <span class="token function">UIImageJPEGRepresentation</span><span class="token punctuation">(</span>aImage<span class="token punctuation">,</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    if (_delegate && [_delegate respondsToSelector:@selector(returnMedidaData:)])
-    {
-        NSArray * photos = @[imageData];
-        [_delegate returnMedidaData:photos];
-    }
-}
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>_delegate <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span>_delegate respondsToSelector<span class="token punctuation">:</span><span class="token keyword">@selector</span><span class="token punctuation">(</span>returnMedidaData<span class="token punctuation">:</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        NSArray <span class="token operator">*</span> photos <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">[</span>imageData<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">[</span>_delegate returnMedidaData<span class="token punctuation">:</span>photos<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>imagePickerControllerDidCancel<span class="token punctuation">:</span><span class="token punctuation">(</span>UIImagePickerController <span class="token operator">*</span><span class="token punctuation">)</span>picker
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>picker dismissViewControllerAnimated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-#pragma mark - JKImagePickerControllerDelegate
-- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAsset:(JKAssets *)asset isSource:(BOOL)source
-{
-    [imagePicker dismissViewControllerAnimated:YES completion:nil];
-}
+<span class="token macro property">#<span class="token directive keyword">pragma</span> mark - JKImagePickerControllerDelegate</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>imagePickerController<span class="token punctuation">:</span><span class="token punctuation">(</span>JKImagePickerController <span class="token operator">*</span><span class="token punctuation">)</span>imagePicker didSelectAsset<span class="token punctuation">:</span><span class="token punctuation">(</span>JKAssets <span class="token operator">*</span><span class="token punctuation">)</span>asset isSource<span class="token punctuation">:</span><span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>source
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>imagePicker dismissViewControllerAnimated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-- (void)imagePickerController:(JKImagePickerController *)imagePicker didSelectAssets:(NSArray *)assets isSource:(BOOL)source
-{
-    [imagePicker dismissViewControllerAnimated:YES completion:nil];
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>imagePickerController<span class="token punctuation">:</span><span class="token punctuation">(</span>JKImagePickerController <span class="token operator">*</span><span class="token punctuation">)</span>imagePicker didSelectAssets<span class="token punctuation">:</span><span class="token punctuation">(</span>NSArray <span class="token operator">*</span><span class="token punctuation">)</span>assets isSource<span class="token punctuation">:</span><span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>source
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>imagePicker dismissViewControllerAnimated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    CLog(@"assets == %@",assets);
-    NSMutableArray * photos = [[NSMutableArray alloc] init];
+    <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@"assets == %@"</span><span class="token punctuation">,</span>assets<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    NSMutableArray <span class="token operator">*</span> photos <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSMutableArray alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    for (JKAssets * jkAssets in assets)
-    {
-        NSData * photoData = UIImageJPEGRepresentation(jkAssets.photo, 0.5);
-        [photos addObject:photoData];
-        CLog(@"groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@",jkAssets.groupPropertyID,jkAssets.groupPropertyURL,jkAssets.assetPropertyURL,jkAssets.photo);
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>JKAssets <span class="token operator">*</span> jkAssets <span class="token keyword">in</span> assets<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        NSData <span class="token operator">*</span> photoData <span class="token operator">=</span> <span class="token function">UIImageJPEGRepresentation</span><span class="token punctuation">(</span>jkAssets<span class="token punctuation">.</span>photo<span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">[</span>photos addObject<span class="token punctuation">:</span>photoData<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@"groupPropertyID = %@, groupPropertyURL = %@, assetPropertyURL = %@, photo = %@"</span><span class="token punctuation">,</span>jkAssets<span class="token punctuation">.</span>groupPropertyID<span class="token punctuation">,</span>jkAssets<span class="token punctuation">.</span>groupPropertyURL<span class="token punctuation">,</span>jkAssets<span class="token punctuation">.</span>assetPropertyURL<span class="token punctuation">,</span>jkAssets<span class="token punctuation">.</span>photo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    if (_delegate && [_delegate respondsToSelector:@selector(returnMedidaData:)])
-    {
-        [_delegate returnMedidaData:photos];
-    }
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>_delegate <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span>_delegate respondsToSelector<span class="token punctuation">:</span><span class="token keyword">@selector</span><span class="token punctuation">(</span>returnMedidaData<span class="token punctuation">:</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token punctuation">[</span>_delegate returnMedidaData<span class="token punctuation">:</span>photos<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-}
+<span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>第五步: 调用适配器。</li>
 </ul>
-<pre class="line-numbers language-language-objectivec"><code class="language-language-objectivec">    MediaHandleAlbum * album = [[MediaHandleAct mediaHandleActions] objectForKey:@"album"];
-    album.maxCount = imageCount;
-    [album performActionWichController:self callbackClass:self];
+<pre class="line-numbers language-objectivec"><code class="language-objectivec">    MediaHandleAlbum <span class="token operator">*</span> album <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>MediaHandleAct mediaHandleActions<span class="token punctuation">]</span> objectForKey<span class="token punctuation">:</span><span class="token string">@"album"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    album<span class="token punctuation">.</span>maxCount <span class="token operator">=</span> imageCount<span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>album performActionWichController<span class="token punctuation">:</span><span class="token keyword">self</span> callbackClass<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h1 id="适配器模式的优缺点"><a href="#适配器模式的优缺点" class="headerlink" title="适配器模式的优缺点"></a>适配器模式的优缺点</h1><p>优点: 耦合度低，可以扩展多种不同功能的适配样式。<br>缺点: 代码量相应增多，文件增多。</p>
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
