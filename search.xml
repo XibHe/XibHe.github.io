@@ -1550,9 +1550,9 @@ pod setup
         
         <tags>
             
-            <tag> JavaScriptCore </tag>
-            
             <tag> iOS </tag>
+            
+            <tag> JavaScriptCore </tag>
             
             <tag> iOS与JS交互 </tag>
             
