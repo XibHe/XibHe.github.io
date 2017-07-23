@@ -5,7 +5,47 @@
     <entry>
       <title><![CDATA[(译)一个给iOS App瘦身的奇怪窍门]]></title>
       <url>/2017/07/23/One%20Weird%20Trick%20to%20Lose%20Size/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<p>流行的社交网络应用程序超过400M。每周更新一次，每年你下载的应用总量接近20G。</p>
+<p>自从我们推出了<a href="https://halide.cam" target="_blank" rel="external">Halide</a>，我们听到的最令人意想不到的赞美就是它的大小。 在11M，我们将在一年内推出较少数据的更新，而不是社交网络应用进行频繁更新。</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/LoseSizeMajor.png" alt=""><br>一个朋友问道：“所以你没有使用Swift。” 毕竟，Swift将其标准库捆绑到你的应用程序中，使应用大小增大。 Halide几乎完全是使用Swift编写的。</p>
+<p>我们是怎么做的？ 我们从技术位开始吧。 <a href="https://developer.apple.com/library/content/qa/qa1795/_index.html" target="_blank" rel="external">这里</a>有很多关于如何减少App大小的重要评论。</p>
+<h2 id="测量，不要猜"><a href="#测量，不要猜" class="headerlink" title="测量，不要猜"></a>测量，不要猜</h2><p>从Xcode导出版本构建。 选择“Save for Ad Hoc deployment.”。假设你的应用程序支持<a href="https://developer.apple.com/videos/play/wwdc2015/404/" target="_blank" rel="external">app thinning</a>（此时真的应该这样做），请选择“Export for Specific Devices.”。确保选中“<font size="4" face="黑体"> Rebuild from bitcode </font>”。</p>
+<p>你不仅可以获得最终包的大小，还可以获得App Thinning报告。检查你的应用程序包，找到最大存储空间的占用者。</p>
+<h2 id="使用-Asset-Catalogs"><a href="#使用-Asset-Catalogs" class="headerlink" title="使用 Asset Catalogs"></a>使用 Asset Catalogs</h2><p>将资源保存在资源目录中。当你上传应用程序时，Apple将其分解为特定设备的版本，因此具有2x屏幕的设备不会获得3x资源，反之亦然。</p>
+<h2 id="运行-PNG-crush"><a href="#运行-PNG-crush" class="headerlink" title="运行 PNG-crush"></a>运行 PNG-crush</h2><p>将资源放入目录之前，请运行pngcrush。 根据<a href="https://developer.apple.com/library/content/qa/qa1681/_index.html" target="_blank" rel="external">QA1681</a>，Xcode将自动压缩资源目录之外的PNG资源。</p>
+<h2 id="尝试JPEG格式照片"><a href="#尝试JPEG格式照片" class="headerlink" title="尝试JPEG格式照片"></a>尝试JPEG格式照片</h2><p>由于UI资源格式限制以及PNG格式资源更加精细。这可能构成了你应用程序中大部分资源，但如果你有照片，请尝试使用JPEG格式。这样做会有些压力。</p>
+<h1 id="现在进入到一个困难步骤的实现"><a href="#现在进入到一个困难步骤的实现" class="headerlink" title="现在进入到一个困难步骤的实现"></a>现在进入到一个困难步骤的实现</h1><p>经过这么辛苦的工作，你只能删掉一个100M项目中几M的文件。我不知道如何告诉你，但你需要更少的代码。</p>
+<h2 id="选择正确的方式"><a href="#选择正确的方式" class="headerlink" title="选择正确的方式"></a>选择正确的方式</h2><p>Halide有大概15000行用Swift编写的代码。这包括一个实时视频处理器，一系列自定义控件，以及我们控制AVFoundation的平台。有趣的是我并没有写代码。</p>
+<p>通过使用自动布局，我绘制了数千条样板。许多开发人员仍然坚持手工布局。也许他们不明白自动布局，也许他们听到朋友的朋友关于自动布局如何缓慢的言论。（事实并非如此。）</p>
+<p>我看到太多的开发人员 - 特别是在大型公司 - 发明内部布局引擎。这简直太疯狂了。当Apple在操作系统上捆绑一个精细的布局引擎时，不要用自己定制的框架来增大应用程序。</p>
+<p>我们可以通过删除Interface Builder来减少100k。用户手册和设置几乎完全是具有约束条件的IB。相机UI的高级布置也类似如此。但我们认为短期内开发进度是值得肯定的。</p>
+<h2 id="避免Library过大"><a href="#避免Library过大" class="headerlink" title="避免Library过大"></a>避免Library过大</h2><p>检查许多大型应用程序的包，你会发现几十个第三方框架，大小从100k到几兆。</p>
+<p>我不使第三方库。这虽然有点极端，但我们有一个独特的情况。</p>
+<p>很多第三方库不具备我们所需要的功能。iOS开发社区拥有大量的JSON映射器，但对于DNG文件的低级操作没有任何意义。</p>
+<p>但是我之前提到的视频处理呢？我可以听到你大声喊叫，“GPUImage是可扩展的！你的做法太疯狂了!”</p>
+<p>从我对Periscope的堆栈的<a href="https://news.realm.io/news/building-periscope-sketches-ios/" target="_blank" rel="external">经验</a>来看，我们看到从GPUImage到内部解决方案的巨大收益。如果实时图像处理不是你业务的一部分，GPUImage就会很好。但是鉴于我们对Halide的长期愿景，以及实时渲染的作用，重要的是能掌控这样的组件。</p>
+<p>由于文件太大，我从未引入过GPUImage。但是作为自己疯狂的结果，我避免了在我们的应用程序中捆绑125个未使用的过的滤镜。</p>
+<p>PSPDFKit具有相似的<a href="https://pspdfkit.com/blog/2017/pspdfkit-ios-6-8/" target="_blank" rel="external">成功经验</a>，取代了太大的框架：</p>
+<blockquote>
+<p>我们很高兴地告诉你，使用PSPDFKit 6.8 for iOS，我们重写了数字签名实施的核心，以改进检测，验证和更好的错误报告。因此，我们也设法完全放弃了对OpenSSL的依赖，从而减少了二进制文件的大小。</p>
+</blockquote>
+<p>不要感染 Not-Invented-Here 综合征，有<a href="https://sandofsky.com/blog/third-party-libraries.html" target="_blank" rel="external">很多理由</a>来避免使用三方库。</p>
+<h2 id="不要在分析和A-B测试中浪费资源"><a href="#不要在分析和A-B测试中浪费资源" class="headerlink" title="不要在分析和A / B测试中浪费资源"></a>不要在分析和A / B测试中浪费资源</h2><p>我们不会使用任何第三方分析或崩溃报告服务。首先，我们不是很乐意将用户数据发送给广告公司。让我们暂停这样的想法。</p>
+<p>数据不是免费的。在大型应用中，每个动作都会记录一个分析事件。大型应用程序需要日志记录基础设施 - 唯一标识用户，重复数据删除请求，缓存日志，重试失败等。这些操作都会进行叠加。</p>
+<p>A / B测试更糟糕。你的典型社交网络应用程序由于没有人使用而死在的A / B测试上。</p>
+<p>我们出于代码膨胀的考虑避免了分析和A / B测试。这只是我们的产品理念。知道太多的数据会扭曲你的想法。你发现自己在优化某个不存在的特殊场景，而不是真的去关注用户实际会不会有这样的需求。</p>
+<p>所以我们使用苹果分析。它只是简单的记录，没有任何代码更改。并且免费。它尊重用户的隐私，需要选择加入。我们的选择加入率为32％，这对我们的需求是很好的。</p>
+<p>有分析的时间和地点。我们不确定我们的最优价格，所以我们可以在那里进行实验。然而，我们在业务驱动的分析和产品开发之间保持隔离。</p>
+<h1 id="你需要一致的目标"><a href="#你需要一致的目标" class="headerlink" title="你需要一致的目标"></a>你需要一致的目标</h1><p>我们是一个两个人的开发团队。我们通过销售产品赚钱。我们顺其自然的成长。当用户高兴时，他们会向朋友们推荐我们。小应用让我们开心，我们认为用户也很开心。</p>
+<p>我们的建议并不能帮助应用程序包很大的App。社交网络通过广告赚钱，广告客户需要详细的分析广告定位。</p>
+<p>大型应用程序拥有数百名开发人员，组成数十个团队，每个团队都有独立的季度目标。 你走的越快，你达成的目标越多，你的晋升越有可能。</p>
+<p>想想这是可以理解的，“这个三方库节省了我们一个星期的开发时间，但是在我们的应用程序中增加了1M。那么我们的App已经是几百M了，还有其它办法吗？”</p>
+<p>大型组织充满带来意想不到后果的合理想法。</p>
+<p>据说工程师想得到提升。输送功能不会让你达到目的。建立一个新的布局引擎。该公司甚至获得了工程博客的招聘诱饵。</p>
+<p>唯一的解决方案是高层领导宣布：“我们将减少我们的应用程序大小。”不幸的是，科技CEO们不会使用8G的储存空间的iPhone，他们不会生活在网速受限的地区。</p>
+<p>这不是一个毫不费力的努力。自从Halide发布以来，我们收到了来自世界各地的大量消息，感谢我们努力保持App的小巧。</p>
+<p>减小App安装包大小真的有一个奇怪的伎俩：专注于你的客户。</p>
+]]></content>
       
         <categories>
             
@@ -1621,16 +1661,16 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
