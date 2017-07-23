@@ -3,6 +3,28 @@
   
     
     <entry>
+      <title><![CDATA[(译)一个给iOS App瘦身的奇怪窍门]]></title>
+      <url>/2017/07/23/One%20Weird%20Trick%20to%20Lose%20Size/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> 译文 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 译文 </tag>
+            
+            <tag> App瘦身 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[第一个父亲节]]></title>
       <url>/2017/06/18/First-father's-day/</url>
       <content type="html"><![CDATA[<p>我和妻子是大学同学，在恋爱长跑五年后结了婚。妻子老家不是我们那边的，但是在同一个省，最开始的地域原因，造成了我家人对她的偏见。我们俩克服了种种阻碍，在15年情人节那天领了证。</p>
@@ -1599,16 +1621,16 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

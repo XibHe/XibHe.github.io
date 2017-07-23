@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-06-22T12:28:19.000Z</updated>
+  <updated>2017-07-23T07:23:34.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(译)一个给iOS App瘦身的奇怪窍门</title>
+    <link href="http://XibHe.github.io/2017/07/23/One%20Weird%20Trick%20to%20Lose%20Size/"/>
+    <id>http://XibHe.github.io/2017/07/23/One Weird Trick to Lose Size/</id>
+    <published>2017-07-22T16:00:00.000Z</published>
+    <updated>2017-07-23T07:23:34.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
+    
+    
+      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
+    
+      <category term="App瘦身" scheme="http://XibHe.github.io/tags/App%E7%98%A6%E8%BA%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>第一个父亲节</title>
