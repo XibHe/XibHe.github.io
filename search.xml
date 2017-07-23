@@ -45,6 +45,7 @@
 <p>唯一的解决方案是高层领导宣布：“我们将减少我们的应用程序大小。”不幸的是，科技CEO们不会使用8G的储存空间的iPhone，他们不会生活在网速受限的地区。</p>
 <p>这不是一个毫不费力的努力。自从Halide发布以来，我们收到了来自世界各地的大量消息，感谢我们努力保持App的小巧。</p>
 <p>减小App安装包大小真的有一个奇怪的伎俩：专注于你的客户。</p>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://blog.halide.cam/one-weird-trick-to-lose-size-c0a4013de331" target="_blank" rel="external">One Weird Trick to Lose Size</a></p>
 ]]></content>
       
         <categories>
@@ -1617,9 +1618,9 @@ pod setup
         
         <tags>
             
-            <tag> JavaScriptCore </tag>
-            
             <tag> iOS </tag>
+            
+            <tag> JavaScriptCore </tag>
             
             <tag> iOS与JS交互 </tag>
             
