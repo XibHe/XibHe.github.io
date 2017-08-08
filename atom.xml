@@ -589,9 +589,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
     
   </entry>
   
@@ -680,9 +680,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -1568,13 +1568,14 @@ pod setup
     <link href="http://XibHe.github.io/2016/07/13/JavaScriptCoreMutualH5/"/>
     <id>http://XibHe.github.io/2016/07/13/JavaScriptCoreMutualH5/</id>
     <published>2016-07-12T16:00:00.000Z</published>
-    <updated>2017-08-08T13:15:59.000Z</updated>
+    <updated>2017-08-08T13:17:19.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
 <ul>
 <li>2016 年 7 月，第一版。</li>
-<li>2017 年 8 月，增加OC调用JS方法相关介绍。<h1 id="JavaScriptCore简介"><a href="#JavaScriptCore简介" class="headerlink" title="JavaScriptCore简介"></a>JavaScriptCore简介</h1>JavaScriptCore是iOS7引入的新功能，使用JavaScriptCore后可以实现js代码与本地native代码进行相互调用。</li>
+<li>2017 年 8 月，增加OC调用JS方法相关介绍。</li>
 </ul>
+<h1 id="JavaScriptCore简介"><a href="#JavaScriptCore简介" class="headerlink" title="JavaScriptCore简介"></a>JavaScriptCore简介</h1><p>JavaScriptCore是iOS7引入的新功能，使用JavaScriptCore后可以实现js代码与本地native代码进行相互调用。</p>
 <p>要使用JavaScriptCore，首先我们需要引入它的头文件 <code>#import &lt;JavaScriptCore/JavaScriptCore.h&gt;</code></p>
 <p>这个头里面引入了几个重要的对象</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token macro property">#<span class="token directive keyword">import</span> "JSContext.h"</span>
