@@ -589,9 +589,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -680,9 +680,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
     
   </entry>
   
@@ -1568,9 +1568,9 @@ pod setup
     <link href="http://XibHe.github.io/2016/07/13/JavaScriptCoreMutualH5/"/>
     <id>http://XibHe.github.io/2016/07/13/JavaScriptCoreMutualH5/</id>
     <published>2016-07-12T16:00:00.000Z</published>
-    <updated>2017-08-08T13:03:26.000Z</updated>
+    <updated>2017-08-08T13:11:40.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="跟新说明"><a href="#跟新说明" class="headerlink" title="跟新说明"></a>跟新说明</h1><p>更新记录:</p>
+    <content type="html"><![CDATA[<h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
 <ul>
 <li>2016 年 7 月，第一版。</li>
 <li>2017 年 8 月，增加OC调用JS方法相关介绍。</li>
@@ -1606,36 +1606,36 @@ pod setup
     <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>contentView stringByEvaluatingJavaScriptFromString<span class="token punctuation">:</span>jsMethod<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>也可以在当前加载webView页面类的 ```- (void)viewWillAppear:(BOOL)animated</p>
-<pre><code>方法中调用JS方法，执行相关操作，如:
+<p>也可以在当前加载webView页面类的 </p>
+<pre><code>- (void)viewWillAppear:(BOOL)animated
+</code></pre><p>方法中调用JS方法，执行相关操作，如:</p>
+<p>传递参数</p>
+<pre><code> // JS交互，传gid,刷新JS页面商品数量
+    NSString *gid = [[NSUserDefaults standardUserDefaults] objectForKey:@&quot;GoodInfoH5Gid&quot;];
+    if (gid &amp;&amp; gid.length &gt; 0) {
+        NSString *jsMethod = [NSString stringWithFormat:@&quot;updateGoodNum(&#39;%@&#39;)&quot;,gid];
+        [_webView stringByEvaluatingJavaScriptFromString:jsMethod];
+    }
+</code></pre><p>局部刷新列表</p>
+<pre><code>// 局部刷新
+    [_webView stringByEvaluatingJavaScriptFromString:@&quot;updatecartnumAndTotalPay()&quot;];
+</code></pre><h2 id="JS调用OC的native方法"><a href="#JS调用OC的native方法" class="headerlink" title="JS调用OC的native方法"></a>JS调用OC的native方法</h2><p>通过JavaScriptCore进行交互，需要在webView的加载完成的代理方法中设置交互上下文-JSContext,并将JS中的交互对象赋给当前类。下面将叙述如何使用JSExport设置引用名称来进行交互，使用JSExport引用名称空间后，对于调用了哪些JS方法就一目了然了。</p>
+<h3 id="JSExport引用名称空间交互设置"><a href="#JSExport引用名称空间交互设置" class="headerlink" title="JSExport引用名称空间交互设置"></a>JSExport引用名称空间交互设置</h3><p>js那边统一使用一个名为jsObject的对象来调用js的方法进行传值或触发某一特定的事件。在 js 中定义一个方法:</p>
+<pre class="line-numbers language-js"><code class="language-js"><span class="token operator">&lt;</span>html<span class="token operator">></span>
+<span class="token operator">&lt;</span>head<span class="token operator">></span>
+<span class="token operator">&lt;</span>title<span class="token operator">></span>Demo<span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">></span>
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+    <span class="token keyword">function</span> <span class="token function">setContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
 
-传递参数
-</code></pre><p> // JS交互，传gid,刷新JS页面商品数量<br>    NSString <em>gid = [[NSUserDefaults standardUserDefaults] objectForKey:@”GoodInfoH5Gid”];<br>    if (gid &amp;&amp; gid.length &gt; 0) {<br>        NSString </em>jsMethod = [NSString stringWithFormat:@”updateGoodNum(‘%@’)”,gid];<br>        [_webView stringByEvaluatingJavaScriptFromString:jsMethod];<br>    }</p>
-<pre><code>
-局部刷新列表
-</code></pre><p>// 局部刷新<br>    [_webView stringByEvaluatingJavaScriptFromString:@”updatecartnumAndTotalPay()”];</p>
-<pre><code>
-## JS调用OC的native方法
-通过JavaScriptCore进行交互，需要在webView的加载完成的代理方法中设置交互上下文-JSContext,并将JS中的交互对象赋给当前类。下面将叙述如何使用JSExport设置引用名称来进行交互，使用JSExport引用名称空间后，对于调用了哪些JS方法就一目了然了。
-
-### JSExport引用名称空间交互设置
-js那边统一使用一个名为jsObject的对象来调用js的方法进行传值或触发某一特定的事件。在 js 中定义一个方法:
-
-```js
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Demo&lt;/title&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-    function setContent(){
-
-        jsObject.shopCartNumChanged(totalNum);
-    }    
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body onload=&quot;javascript:setContent(&#39;ios is: &#39; + typeof ios)&quot;&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>当点击 js 界面上的一个 “+” 号时，js 那边会查找 OC 代码通过JSContext注册的名为jsObject.shopCartNumChanged的调用方法。现在问题来了，在 OC 中该如何注册该方法呢?答案是使用语言穿梭机—JSExport协议。比如，我有一个<font color="#FA8072"> ShopCarViewController </font>的类。在.h中声明一个名为<font color="#FA8072"> MallJSExports </font>的协议。</p>
+        jsObject<span class="token punctuation">.</span><span class="token function">shopCartNumChanged</span><span class="token punctuation">(</span>totalNum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>    
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">></span>
+<span class="token operator">&lt;</span>body onload<span class="token operator">=</span><span class="token string">"javascript:setContent('ios is: ' + typeof ios)"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当点击 js 界面上的一个 “+” 号时，js 那边会查找 OC 代码通过JSContext注册的名为jsObject.shopCartNumChanged的调用方法。现在问题来了，在 OC 中该如何注册该方法呢?答案是使用语言穿梭机—JSExport协议。比如，我有一个<font color="#FA8072"> ShopCarViewController </font>的类。在.h中声明一个名为<font color="#FA8072"> MallJSExports </font>的协议。</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// ShopCarViewController.h</span>
 
 <span class="token macro property">#<span class="token directive keyword">import</span> &lt;JavaScriptCore/JavaScriptCore.h></span>
@@ -1707,7 +1707,7 @@ js那边统一使用一个名为jsObject的对象来调用js的方法进行传�
     
     <summary type="html">
     
-      &lt;h1 id=&quot;跟新说明&quot;&gt;&lt;a href=&quot;#跟新说明&quot; class=&quot;headerlink&quot; title=&quot;跟新说明&quot;&gt;&lt;/a&gt;跟新说明&lt;/h1&gt;&lt;p&gt;更新记录:&lt;/p&gt;
+      &lt;h1 id=&quot;更新说明&quot;&gt;&lt;a href=&quot;#更新说明&quot; class=&quot;headerlink&quot; title=&quot;更新说明&quot;&gt;&lt;/a&gt;更新说明&lt;/h1&gt;&lt;p&gt;更新记录:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;2016 年 7 月，第一版。&lt;/li&gt;
 &lt;li&gt;2017 年 8 月，增加OC调用J
@@ -1717,9 +1717,9 @@ js那边统一使用一个名为jsObject的对象来调用js的方法进行传�
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="iOS" scheme="http://XibHe.github.io/tags/iOS/"/>
-    
       <category term="JavaScriptCore" scheme="http://XibHe.github.io/tags/JavaScriptCore/"/>
+    
+      <category term="iOS" scheme="http://XibHe.github.io/tags/iOS/"/>
     
       <category term="iOS与JS交互" scheme="http://XibHe.github.io/tags/iOS%E4%B8%8EJS%E4%BA%A4%E4%BA%92/"/>
     
