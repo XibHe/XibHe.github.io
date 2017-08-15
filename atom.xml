@@ -1515,12 +1515,17 @@ pod setup
   
   <entry>
     <title>关于iOS 7 Background Remote Notification(推送唤醒)</title>
-    <link href="http://XibHe.github.io/2016/08/09/%E5%85%B3%E4%BA%8EiOS%207%20Background%20Remote%20Notification/"/>
-    <id>http://XibHe.github.io/2016/08/09/关于iOS 7 Background Remote Notification/</id>
+    <link href="http://XibHe.github.io/2016/08/09/iOS%207%20Background%20Remote%20Notification/"/>
+    <id>http://XibHe.github.io/2016/08/09/iOS 7 Background Remote Notification/</id>
     <published>2016-08-09T15:30:48.000Z</published>
-    <updated>2017-06-22T12:50:42.000Z</updated>
+    <updated>2017-08-15T11:53:55.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Background-Remote-Notification简介"><a href="#Background-Remote-Notification简介" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
+    <content type="html"><![CDATA[<h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
+<ul>
+<li>2016 年 8 月，第一版</li>
+<li>2017 年 8 月，增加配置极光推送的注意事项</li>
+</ul>
+<h1 id="Background-Remote-Notification简介"><a href="#Background-Remote-Notification简介" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
 <h1 id="如何设置Remote-notifications"><a href="#如何设置Remote-notifications" class="headerlink" title="如何设置Remote notifications"></a>如何设置Remote notifications</h1><h3 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>需要在Xcode 中修改应用的 Capabilities 开启Remote notifications，如图：</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/Snip20131119_1.png" alt="客户端配置图"></p>
 <p>当注册了Backgroud Modes -&gt; Remote notifications 后，notification 处理函数一律切换到下面函数，后台推送代码也在此函数中调用。</p>
@@ -1547,12 +1552,22 @@ pod setup
 </code></pre><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://docs.jiguang.cn/client/ios_tutorials/#ios-7-background-remote-notification" target="_blank" rel="external">极光客户端SDk教程</a></p>
 <p><a href="http://docs.jiguang.cn/server/rest_api_v3_push/#notification" target="_blank" rel="external">极光服务器端Push API v3</a></p>
 <p><a href="http://my.oschina.net/zhaodacai/blog/711368" target="_blank" rel="external">三种方式使得iOS应用能够在后台进行数据更新和下载</a></p>
+<h1 id="配置极光推送的注意事项"><a href="#配置极光推送的注意事项" class="headerlink" title="配置极光推送的注意事项"></a>配置极光推送的注意事项</h1><p>使用极光测试生产环境下的推送时，发现无论通过我们自己的后台还是极光的后台使用Register ID发送通知，手机都无法收到通知。而在开发环境下是可以收到的。后来查了下极光文档中使用JPush iOS SDK注意事项:</p>
+<blockquote>
+<p>如果你是直接运行安装到测试设备（运行调试状态），那你的安装的应用的证书环境只有可能是开发环境或者通配的。</p>
+</blockquote>
+<p>而我恰恰是通过Xcode装的程序。</p>
+<p><a href="https://community.jiguang.cn/t/jpush/5145/8" target="_blank" rel="external">生产环境的正确测试姿势</a></p>
+<p><a href="https://community.jiguang.cn/t/jpush/5145" target="_blank" rel="external">常见问题-JPush合集</a></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>关于<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>早在一年前就使用过，当时调研调试花费了大量时间。没想到现在又遇到了这个问题。结果，我又在阴沟里翻了船。可见做笔记，写博客总结的重要性。希望第三次闭着眼睛就能跳过这个坑。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Background-Remote-Notification简介&quot;&gt;&lt;a href=&quot;#Background-Remote-Notification简介&quot; class=&quot;headerlink&quot; title=&quot;Background Remote Notificati
+      &lt;h1 id=&quot;更新说明&quot;&gt;&lt;a href=&quot;#更新说明&quot; class=&quot;headerlink&quot; title=&quot;更新说明&quot;&gt;&lt;/a&gt;更新说明&lt;/h1&gt;&lt;p&gt;更新记录:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2016 年 8 月，第一版&lt;/li&gt;
+&lt;li&gt;2017 年 8 月，增加配置极光推送
     
     </summary>
     
