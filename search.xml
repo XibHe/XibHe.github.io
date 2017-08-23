@@ -3,15 +3,24 @@
   
     
     <entry>
-      <title></title>
+      <title><![CDATA[二次筛选功能数组相关的逻辑错误]]></title>
       <url>/2017/08/23/FilterArrayError/</url>
-      <content type="html"><![CDATA[<p>title: 二次筛选功能数组相关的逻辑错误<br>date: 2017-08-23<br>categories: Objective-C<br>tags: </p>
-<ul>
-<li>二次筛选</li>
-<li>NSArray enumerate</li>
-</ul>
-]]></content>
+      <content type="html"></content>
       
+        <categories>
+            
+            <category> Objective-C </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 二次筛选 </tag>
+            
+            <tag> NSArray enumerate </tag>
+            
+        </tags>
         
     </entry>
     
