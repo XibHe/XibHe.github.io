@@ -346,7 +346,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#遇到的问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">遇到的问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考文档"><span class="post-toc-number">2.</span> <span class="post-toc-text">参考文档</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构建原理及使用到的技术点"><span class="post-toc-number">1.</span> <span class="post-toc-text">构建原理及使用到的技术点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#遇到的问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">遇到的问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#解决的方式"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决的方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换二次筛选结果页数据源"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">替换二次筛选结果页数据源</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考文档"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考文档</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -496,12 +496,37 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><blockquote>
-<p>列表展示<br>选中数量限制<br>替换数据源<br>循环移除数组元素报错</p>
+        <h1 id="构建原理及使用到的技术点"><a href="#构建原理及使用到的技术点" class="headerlink" title="构建原理及使用到的技术点"></a>构建原理及使用到的技术点</h1><blockquote>
+<p>RunTime<br>继承<br>组合</p>
 </blockquote>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://stackoverflow.com/questions/8834031/objective-c-nsmutablearray-mutated-while-being-enumerated" target="_blank" rel="external">Objective-C NSMutableArray mutated while being enumerated?
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><blockquote>
+<p>筛选列表距离顶部状态栏距离过近<br>筛选列表展示<br>选中数量限制<br>替换二次筛选结果页数据源<br>循环移除数组元素报错<br>在筛选更多，跳转的搜索页面进行搜索调用两次接口请求</p>
+</blockquote>
+<h1 id="解决的方式"><a href="#解决的方式" class="headerlink" title="解决的方式"></a>解决的方式</h1><h2 id="替换二次筛选结果页数据源"><a href="#替换二次筛选结果页数据源" class="headerlink" title="替换二次筛选结果页数据源"></a>替换二次筛选结果页数据源</h2><p>需求中要求替换筛选条件的数据源,表述如下:</p>
+<blockquote>
+<p>选中的选项需要在二次筛选条件选择页中显示，选中的选项为默认展开的选项时，无需变更选项的位置，若选中的不是默认展开的选项，需要将选中的选项放到二次筛选条件选择页中，并代替筛选条件选择页中没被选择的默认展开的选项的位置，按照选中的时间顺序正序占据页面中的默认展开的选项的位置（举例说明：筛选条件选择页中的默认展开的选项是1、2、3、4、5，默认展开的选项选中的是2和4,然后用户点击查看更多的选项，先选了11然后又选了9的选项,根据逻辑，筛选条件选择页中显示的选项依次显示的是：11、2、9、4、5），若选中的选项被取消选择，选项的位置按照选中时的位置显示，不更改选项的位置。</p>
+</blockquote>
+<p>如图，二次筛选结果页</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/filterError_1.PNG" alt="筛选数据源替换"></p>
+<p>当生产厂家筛选数据源大于6项时，只展示5个生产厂家，并显示“更多生产厂家 &gt;”的跳转提示。点击跳转至生产厂家列表搜索页面，在搜索页面会根据搜索关键字展示所有的生产厂家列表信息。该列表会展示上个页面勾选的生产厂家，并将其置于列表最前面。现在需要做的是: <font color="#DC143C">当勾选列表页中一个或多个生产厂家，该生产厂家是二次筛选结果页(上一个页面)中，默认展示5个生产厂家中从未出现的一个，是一个新的生产厂家。则需要替换掉二次筛选结果页，生产厂家一栏中未被勾选的一个或多个生产厂家，直到全部替换完成。</font></p>
+<blockquote>
+<p>方案一: 进行多层嵌套循环遍历，判断如果对象的selected属性为YES，则跳出当前循环并做一个标记，再从新进行外层循环。这样就需要设置至少两个以上的标记在循环遍历的基础之上再进行循环遍历。增加了逻辑判断的复杂性，也使代码变得不易读。</p>
+</blockquote>
+<p>针对方案一不足之处，将方案一中的杂糅在一起的逻辑判断抽离成不同的情况，形成方案二。</p>
+<blockquote>
+<p>方案二: 需要定义两个可变数组，_dataList(二次筛选结果页，生产厂家数据源)，_selectList(生产厂家搜索页，所有勾选的生产厂家数据源)。对二者进行嵌套循环遍历，需要考录到三种不同情况，并对这三种情况进行一一判断。<br>① _dataList全部包含了_selectList中的元素；<br>② _dataList不包含_selectList中的元素；<br>③ _dataList包含部分_selectList中的元素。</p>
+</blockquote>
+<p>针对以上三种情况对应的具体步骤:<br>① 遍历找到_dataList中的_selectList元素，变更生产厂家Model中selected状态，将这些选中的元素放到_dataList中元素位置的最前面；<br>② 直接将_selectList插入到_dataList的最前面；<br>③ 先替换，再插入新元素到_dataList中，最后再将生产厂家Model中selected为YES的元素前置到_dataList的最前面位置。</p>
+<p>方案二仍需要进行大量的判断，操作起来仍旧复杂。那么，有没有简单粗暴，提刀就干的方案呢？下面就要说说方案三了。</p>
+<blockquote>
+<p>方案三: 在生产厂家搜索页面直接进行操作。在二次筛选结果页点击跳转至生产厂家搜索页时，传入已经选中生产厂家的数组_selectList，生产厂家搜索结果列表页的数据源_datalist(包含当前已选中生产厂家的数组_selectList和所有未选中的生产厂家)。点击”确定“按钮时，去除_datalist中已选中的生产厂家的Model，然后使用block反向将去除后的_datalist和_selectList传给二次筛选结果页。</p>
+</blockquote>
+<p>这样在二次筛选结果页就能直接操作已经处理过的筛选数据了，不用再进行复杂的逻辑判断了。总的来说，这种替换原有页面数据源的操作，以后还是在可以对数据源进行修改的页面进行处理，避免最后需要进行复杂的逻辑判断。</p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/liuzhiyi1992/ZYSideSlipFilter" target="_blank" rel="external">ZYSideSlipFilter</a></p>
+<p><a href="https://stackoverflow.com/questions/8834031/objective-c-nsmutablearray-mutated-while-being-enumerated" target="_blank" rel="external">Objective-C NSMutableArray mutated while being enumerated?
 </a></p>
-<font size="4" face="黑体"> 未完待续… </font>
+<p><a href="https://stackoverflow.com/questions/32865704/collection-nsarraym-0x7fa1f2711910-was-mutated-while-being-enumerated" target="_blank" rel="external">Collection <__nsarraym: 0x7fa1f2711910=""> was mutated while being enumerated
+</__nsarraym:></a></p>
 
     
 
