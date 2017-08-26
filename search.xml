@@ -25,7 +25,12 @@
 <blockquote>
 <p>方案二: 需要定义两个可变数组，_dataList(二次筛选结果页，生产厂家数据源)，_selectList(生产厂家搜索页，所有勾选的生产厂家数据源)。对二者进行嵌套循环遍历，需要考录到三种不同情况，并对这三种情况进行一一判断。<br>① _dataList全部包含了_selectList中的元素；<br>② _dataList不包含_selectList中的元素；<br>③ _dataList包含部分_selectList中的元素。</p>
 </blockquote>
-<p>针对以上三种情况对应的具体步骤:<br>① 遍历找到_dataList中的_selectList元素，变更生产厂家Model中selected状态，将这些选中的元素放到_dataList中元素位置的最前面；<br>② 直接将_selectList插入到_dataList的最前面；<br>③ 先替换，再插入新元素到_dataList中，最后再将生产厂家Model中selected为YES的元素前置到_dataList的最前面位置。</p>
+<p>针对以上三种情况对应的具体步骤: </p>
+<ul>
+<li>① 遍历找到_dataList中的_selectList元素，变更生产厂家Model中selected状态，将这些选中的元素放到_dataList中元素位置的最前面；</li>
+<li>② 直接将_selectList插入到_dataList的最前面；</li>
+<li>③ 先替换，再插入新元素到_dataList中，最后再将生产厂家Model中selected为YES的元素前置到_dataList的最前面位置。</li>
+</ul>
 <p>方案二仍需要进行大量的判断，操作起来仍旧复杂。那么，有没有简单粗暴，提刀就干的方案呢？下面就要说说方案三了。</p>
 <blockquote>
 <p>方案三: 在生产厂家搜索页面直接进行操作。在二次筛选结果页点击跳转至生产厂家搜索页时，传入已经选中生产厂家的数组_selectList，生产厂家搜索结果列表页的数据源_datalist(包含当前已选中生产厂家的数组_selectList和所有未选中的生产厂家)。点击”确定“按钮时，去除_datalist中已选中的生产厂家的Model，然后使用block反向将去除后的_datalist和_selectList传给二次筛选结果页。</p>
@@ -1769,16 +1774,16 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
