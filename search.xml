@@ -16,8 +16,11 @@
 <p>选中的选项需要在二次筛选条件选择页中显示，选中的选项为默认展开的选项时，无需变更选项的位置，若选中的不是默认展开的选项，需要将选中的选项放到二次筛选条件选择页中，并代替筛选条件选择页中没被选择的默认展开的选项的位置，按照选中的时间顺序正序占据页面中的默认展开的选项的位置（举例说明：筛选条件选择页中的默认展开的选项是1、2、3、4、5，默认展开的选项选中的是2和4,然后用户点击查看更多的选项，先选了11然后又选了9的选项,根据逻辑，筛选条件选择页中显示的选项依次显示的是：11、2、9、4、5），若选中的选项被取消选择，选项的位置按照选中时的位置显示，不更改选项的位置。</p>
 </blockquote>
 <p>如图，二次筛选结果页和生产厂家搜索列表页</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/filterError_1.PNG?imageView/4/w/300" alt="筛选数据源替换"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/filterError_2.PNG?imageView/4/w/300" alt="生产厂家搜索列表页"></p>
+<figure class="half"><br>    <img src="http://odchyrav4.bkt.clouddn.com/filterError_1.PNG?imageView/4/w/200"><br>    <img src="http://odchyrav4.bkt.clouddn.com/filterError_2.PNG?imageView/4/w/200"><br></figure>
+
+
+<p><img src="http://odchyrav4.bkt.clouddn.com/filterError_1.PNG?imageView/4/w/200" alt="筛选数据源替换"></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/filterError_2.PNG?imageView/4/w/200" alt="生产厂家搜索列表页"></p>
 <p>当生产厂家筛选数据源大于6项时，只展示5个生产厂家，并显示“更多生产厂家 &gt;”的跳转提示。点击跳转至生产厂家搜索列表页面，在搜索页面会根据搜索关键字展示所有的生产厂家列表信息。该列表会展示上个页面勾选的生产厂家，并将其置于列表最前面。现在需要做的是: <font color="#DC143C">当勾选列表页中一个或多个生产厂家，该生产厂家是二次筛选结果页(上一个页面)中，默认展示5个生产厂家中从未出现的一个，是一个新的生产厂家。则需要替换掉二次筛选结果页，生产厂家一栏中未被勾选的一个或多个生产厂家，直到全部替换完成。</font></p>
 <blockquote>
 <p>方案一: 进行多层嵌套循环遍历，判断如果对象的selected属性为YES，则跳出当前循环并做一个标记，再从新进行外层循环。这样就需要设置至少两个以上的标记在循环遍历的基础之上再进行循环遍历。增加了逻辑判断的复杂性，也使代码变得不易读。</p>
