@@ -20,9 +20,9 @@
 <ul>
 <li>wx.on 开头的 API 是监听某个事件发生的API接口，接受一个 CALLBACK 函数作 为参数。当该事件触发时，会调用 CALLBACK 函数。</li>
 <li>如未特殊约定，其他 API 接口都接受一个OBJECT作为参数。</li>
-<li>OBJECT中可以指定success, fail, complete来接收接口调用结果。</li>
+<li>OBJECT中可以指定success, fail, complete来接收接口调用结果。<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1></li>
 </ul>
-<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><p><img src="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
 <p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
 <p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
 <h1 id="开发中天的坑"><a href="#开发中天的坑" class="headerlink" title="开发中天的坑"></a>开发中天的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
@@ -1793,9 +1793,9 @@ pod setup
         
         <tags>
             
-            <tag> iOS </tag>
-            
             <tag> JavaScriptCore </tag>
+            
+            <tag> iOS </tag>
             
             <tag> iOS与JS交互 </tag>
             
@@ -1837,16 +1837,16 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
