@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-08-26T09:36:01.000Z</updated>
+  <updated>2017-09-01T12:41:21.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,70 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>爱之初体验 - 小程序</title>
+    <link href="http://XibHe.github.io/2017/09/01/wx-mini-AppPits/"/>
+    <id>http://XibHe.github.io/2017/09/01/wx-mini-AppPits/</id>
+    <published>2017-08-31T16:00:00.000Z</published>
+    <updated>2017-09-01T12:41:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
+<p>框架的核心是一个响应的数据绑定系统。整个系统分为两块: 视图层(View) 和逻辑层(App Service)。框架可以让数据与视图非常简单地保持同步。当做数据修改的时候，只需要在逻辑层修改数据，视图层就会发生相应的更新。</p>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><p>框架为开发者提供了一系列基础组件，开发者可以通过组合这些基础组件进行快速开发。什么是组件: </p>
+<ul>
+<li>组件是视图层的基本组成单元。</li>
+<li>组件自带一些功能与微信风格的样式。</li>
+<li>一个组件通常包括开始标签和结束标签，属性用来修饰这个组件，内容在两个标签之内。</li>
+</ul>
+<p>但使用起来还是有些不足，很多组件的风格与微信风格类似，不想使用这种风格的组件就需要自定义组件，而自定义需要花费一些额外的时间，就算自定义成功了，仍需要经过仔细的测试，确保该自定义组件在交互上不会与基础组件产生偏差。</p>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p>框架提供了丰富的微信原生API，可以方便的调起微信提供的能力，如获取用户信息，本地存储，支付功能等。</p>
+<p>说明：</p>
+<ul>
+<li>wx.on 开头的 API 是监听某个事件发生的API接口，接受一个 CALLBACK 函数作 为参数。当该事件触发时，会调用 CALLBACK 函数。</li>
+<li>如未特殊约定，其他 API 接口都接受一个OBJECT作为参数。</li>
+<li>OBJECT中可以指定success, fail, complete来接收接口调用结果。</li>
+</ul>
+<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><p><img src="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
+<p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
+<p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
+<h1 id="开发中天的坑"><a href="#开发中天的坑" class="headerlink" title="开发中天的坑"></a>开发中天的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
+<h1 id="学习心得"><a href="#学习心得" class="headerlink" title="学习心得"></a>学习心得</h1><blockquote>
+<p>多看官方文档，多看几遍，遇到问题时再看，没有问题时继续看；</p>
+<p>关注<a href="http://www.wxapp-union.com" target="_blank" rel="external">论坛</a>最新动态； </p>
+<p>基础知识一定要过关（小程序的框架，组成部分，运行机制，自身限制）；</p>
+<p>不要眼高手低，人家的demo下载下来跑起来，看懂之后一定要自己尝试写一遍；</p>
+<p>找一个自己熟悉的逻辑，开始模仿（结合实际的项目需求，一步一步解决遇到的问题）。</p>
+</blockquote>
+<h1 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h1><p>模态窗体上的textarea多行输入框，当滑动整个页面时，会将textarea里输入的内容一起滑动至输入框外部，随着滑动的方向一起滑动。官方文档中备注了关于textarea的一个tip:</p>
+<blockquote>
+<p>textarea组件是由客户端创建的原生组件，它的层级是最高的。</p>
+</blockquote>
+<p>或许正是由于textarea是最高层级导致的滑动问题。</p>
+<h1 id="demo下载"><a href="#demo下载" class="headerlink" title="demo下载"></a>demo下载</h1><p><a href="https://github.com/XibHe/wxModeList" target="_blank" rel="external">wxModeList</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/" target="_blank" rel="external">微信公众平台 | 小程序</a></p>
+<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1509" target="_blank" rel="external">小程序中的循环列表，在点击时改变当前项的背景颜色</a></p>
+<p><a href="http://www.mntuku.cn/index.php/article/show/id-7141" target="_blank" rel="external">小程序操作按钮悬浮固定在底部</a></p>
+<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1261" target="_blank" rel="external">动态的显示或隐藏控件</a></p>
+<p><a href="http://www.jianshu.com/p/aa8254b23847" target="_blank" rel="external">微信小程序从子页面退回父页面时的数据传递</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。&lt;/p&gt;
+&lt;h1 id=&quot;框架&quot;&gt;&lt;a hre
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="初体验" scheme="http://XibHe.github.io/tags/%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    
+  </entry>
   
   <entry>
     <title>二次筛选功能开发心得</title>
@@ -1796,43 +1860,11 @@ pod setup
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="JavaScriptCore" scheme="http://XibHe.github.io/tags/JavaScriptCore/"/>
-    
       <category term="iOS" scheme="http://XibHe.github.io/tags/iOS/"/>
     
+      <category term="JavaScriptCore" scheme="http://XibHe.github.io/tags/JavaScriptCore/"/>
+    
       <category term="iOS与JS交互" scheme="http://XibHe.github.io/tags/iOS%E4%B8%8EJS%E4%BA%A4%E4%BA%92/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>路开始的地方</title>
-    <link href="http://XibHe.github.io/2016/01/16/summary/"/>
-    <id>http://XibHe.github.io/2016/01/16/summary/</id>
-    <published>2016-01-16T04:04:48.000Z</published>
-    <updated>2017-06-22T12:49:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h1><p>老郭，对本博客所提供的技术支持！<br>老郭，对本博客所提供的技术支持！<br>老郭，对本博客所提供的技术支持！<br>并附上他的博客<a href="http://imciel.com" target="_blank" rel="external">地址</a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>博客页面的搭建是在2015年6月15日，在老郭的指导下完成的。搭建博客的初衷完全是因为看到别人都有博客，而且界面很炫，为了自己的虚荣心才觉得自己也要整一个这样的博客。可是等到自己动手的时候，完全无从下手。什么是<a href="https://hexo.io/zh-cn/docs/helpers.html" target="_blank" rel="external">Hexo</a>，<a href="http://brew.sh" target="_blank" rel="external">Homebrew</a>，<a href="http://wowubuntu.com/markdown/#list" target="_blank" rel="external">MarkDown</a>等等。这些都没有听说过。还好有老郭，他手把手的教我如何去配置这些东东。那时候觉得自己好2B。最后，倒是整出来了，看到了久违的Hello World，还是当年的配方，还是熟悉的味道。<br>好吧，我承认我只是一时的冲动和虚荣心在作怪，我的博客在2015年6月15日止步于Hello World，从此，再也没有爬起来过。</p>
-<blockquote>
-<p>自己思考原来就是件很快乐的事情，而教别人思考则是学习思考，锻炼思维的最好办法。</p>
-</blockquote>
-<h1 id="为什么写博客"><a href="#为什么写博客" class="headerlink" title="为什么写博客"></a>为什么写博客</h1><p>或许我并不是一个喜欢记录，总结的人。但还是因为工作的原因(每个周五都要发一份周报给老大)，还是养成了一个记录的习惯。我把周一到周五每天都做了什么事情，记录在一个黑色的笔记本上。 把那些未经整理的，杂乱无章的，解决的问题的过程和代码复制到了印象笔记上。以备以后查阅方便。遇到类似的问题就打开笔记，复制出一份代码。也未深究这段代码的意义何在，为什么可以解决问题。久而久之，便不会思考，真的就成为了代码的搬运工了。没有了思考，发现不了自己的短板，便陷在了这样一种自我满足的境地当中了。每天看似在前进，实际上是在原地绕弯。日复一日，剩下的只有惶恐和迷茫。变得越来越不自信。杂乱无章的笔记和随处存放的代码片段并不能引导我去思考制造这些Bug的原因。我要思考，要分享我的思考过程，希望得到别人认可的同时也能指出我的不足和错误。</p>
-<blockquote>
-<p>解决问题的核心思想只有一个———一切都靠积累。</p>
-</blockquote>
-<h1 id="博客的开始"><a href="#博客的开始" class="headerlink" title="博客的开始"></a>博客的开始</h1><p>回顾过去的2015年，我已经在新公司待了快一年了，虽然，不知道自己究竟都有哪些提升。但是，冥冥中又觉得自己还是有些收获的。当然这些收获都来自于师傅他老人家的谆谆教导。我不想忘记那些和师傅一起加班的日日夜夜里所带来的收获，我要把这些冥冥中的收获写下来，记录我在这些项目中的收获，以及那些尚未解决的问题所留下的遗憾。 期望以后能弥补这些遗憾。留住这些青春的记忆。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;特别鸣谢&quot;&gt;&lt;a href=&quot;#特别鸣谢&quot; class=&quot;headerlink&quot; title=&quot;特别鸣谢&quot;&gt;&lt;/a&gt;特别鸣谢&lt;/h1&gt;&lt;p&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;老郭，对本博客所提供的技术支持！&lt;br&gt;并附
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://XibHe.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="路的开始" scheme="http://XibHe.github.io/tags/%E8%B7%AF%E7%9A%84%E5%BC%80%E5%A7%8B/"/>
     
   </entry>
   

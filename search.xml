@@ -3,6 +3,67 @@
   
     
     <entry>
+      <title><![CDATA[爱之初体验 - 小程序]]></title>
+      <url>/2017/09/01/wx-mini-AppPits/</url>
+      <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
+<p>框架的核心是一个响应的数据绑定系统。整个系统分为两块: 视图层(View) 和逻辑层(App Service)。框架可以让数据与视图非常简单地保持同步。当做数据修改的时候，只需要在逻辑层修改数据，视图层就会发生相应的更新。</p>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><p>框架为开发者提供了一系列基础组件，开发者可以通过组合这些基础组件进行快速开发。什么是组件: </p>
+<ul>
+<li>组件是视图层的基本组成单元。</li>
+<li>组件自带一些功能与微信风格的样式。</li>
+<li>一个组件通常包括开始标签和结束标签，属性用来修饰这个组件，内容在两个标签之内。</li>
+</ul>
+<p>但使用起来还是有些不足，很多组件的风格与微信风格类似，不想使用这种风格的组件就需要自定义组件，而自定义需要花费一些额外的时间，就算自定义成功了，仍需要经过仔细的测试，确保该自定义组件在交互上不会与基础组件产生偏差。</p>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p>框架提供了丰富的微信原生API，可以方便的调起微信提供的能力，如获取用户信息，本地存储，支付功能等。</p>
+<p>说明：</p>
+<ul>
+<li>wx.on 开头的 API 是监听某个事件发生的API接口，接受一个 CALLBACK 函数作 为参数。当该事件触发时，会调用 CALLBACK 函数。</li>
+<li>如未特殊约定，其他 API 接口都接受一个OBJECT作为参数。</li>
+<li>OBJECT中可以指定success, fail, complete来接收接口调用结果。</li>
+</ul>
+<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><p><img src="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
+<p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
+<p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
+<h1 id="开发中天的坑"><a href="#开发中天的坑" class="headerlink" title="开发中天的坑"></a>开发中天的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
+<h1 id="学习心得"><a href="#学习心得" class="headerlink" title="学习心得"></a>学习心得</h1><blockquote>
+<p>多看官方文档，多看几遍，遇到问题时再看，没有问题时继续看；</p>
+<p>关注<a href="http://www.wxapp-union.com" target="_blank" rel="external">论坛</a>最新动态； </p>
+<p>基础知识一定要过关（小程序的框架，组成部分，运行机制，自身限制）；</p>
+<p>不要眼高手低，人家的demo下载下来跑起来，看懂之后一定要自己尝试写一遍；</p>
+<p>找一个自己熟悉的逻辑，开始模仿（结合实际的项目需求，一步一步解决遇到的问题）。</p>
+</blockquote>
+<h1 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h1><p>模态窗体上的textarea多行输入框，当滑动整个页面时，会将textarea里输入的内容一起滑动至输入框外部，随着滑动的方向一起滑动。官方文档中备注了关于textarea的一个tip:</p>
+<blockquote>
+<p>textarea组件是由客户端创建的原生组件，它的层级是最高的。</p>
+</blockquote>
+<p>或许正是由于textarea是最高层级导致的滑动问题。</p>
+<h1 id="demo下载"><a href="#demo下载" class="headerlink" title="demo下载"></a>demo下载</h1><p><a href="https://github.com/XibHe/wxModeList" target="_blank" rel="external">wxModeList</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/" target="_blank" rel="external">微信公众平台 | 小程序</a></p>
+<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1509" target="_blank" rel="external">小程序中的循环列表，在点击时改变当前项的背景颜色</a></p>
+<p><a href="http://www.mntuku.cn/index.php/article/show/id-7141" target="_blank" rel="external">小程序操作按钮悬浮固定在底部</a></p>
+<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1261" target="_blank" rel="external">动态的显示或隐藏控件</a></p>
+<p><a href="http://www.jianshu.com/p/aa8254b23847" target="_blank" rel="external">微信小程序从子页面退回父页面时的数据传递</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> JavaScript </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 小程序 </tag>
+            
+            <tag> 初体验 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[二次筛选功能开发心得]]></title>
       <url>/2017/08/23/FilterError/</url>
       <content type="html"><![CDATA[<p>一个类似于京东搜索结果页的筛选功能，侧边栏条件筛选器，根据不同的数据类型进行条件筛选及筛选条件的排列展示。</p>
@@ -1732,9 +1793,9 @@ pod setup
         
         <tags>
             
-            <tag> JavaScriptCore </tag>
-            
             <tag> iOS </tag>
+            
+            <tag> JavaScriptCore </tag>
             
             <tag> iOS与JS交互 </tag>
             
@@ -1776,16 +1837,16 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
