@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-09-01T12:45:52.000Z</updated>
+  <updated>2017-09-01T12:54:12.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/09/01/wx-mini-AppPits/"/>
     <id>http://XibHe.github.io/2017/09/01/wx-mini-AppPits/</id>
     <published>2017-08-31T16:00:00.000Z</published>
-    <updated>2017-09-01T12:45:52.000Z</updated>
+    <updated>2017-09-01T12:54:12.000Z</updated>
     
     <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
 <h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
@@ -42,7 +42,7 @@
 <p><img src="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
 <p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
 <p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
-<h1 id="开发中天的坑"><a href="#开发中天的坑" class="headerlink" title="开发中天的坑"></a>开发中天的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
+<h1 id="开发中填的坑"><a href="#开发中填的坑" class="headerlink" title="开发中填的坑"></a>开发中填的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
 <h1 id="学习心得"><a href="#学习心得" class="headerlink" title="学习心得"></a>学习心得</h1><blockquote>
 <p>多看官方文档，多看几遍，遇到问题时再看，没有问题时继续看；</p>
 <p>关注<a href="http://www.wxapp-union.com" target="_blank" rel="external">论坛</a>最新动态； </p>
