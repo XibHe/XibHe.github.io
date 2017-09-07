@@ -4,7 +4,7 @@
     
     <entry>
       <title><![CDATA[爱之初体验 - 小程序]]></title>
-      <url>/2017/09/01/wx-mini-AppPits/</url>
+      <url>/2017/09/01/wx-mini-AppBlindDate/</url>
       <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
 <h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
 <p>框架的核心是一个响应的数据绑定系统。整个系统分为两块: 视图层(View) 和逻辑层(App Service)。框架可以让数据与视图非常简单地保持同步。当做数据修改的时候，只需要在逻辑层修改数据，视图层就会发生相应的更新。</p>
@@ -118,6 +118,26 @@
             <tag> 二次筛选 </tag>
             
             <tag> NSArray enumerate </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[重构webView页面内跳转逻辑]]></title>
+      <url>/2017/08/07/reconsiderUrlPush/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> Objective-C </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 重构 </tag>
             
         </tags>
         
