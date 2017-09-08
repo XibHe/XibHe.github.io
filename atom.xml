@@ -147,7 +147,7 @@
     <link href="http://XibHe.github.io/2017/08/07/reconsiderUrlPush/"/>
     <id>http://XibHe.github.io/2017/08/07/reconsiderUrlPush/</id>
     <published>2017-08-06T16:00:00.000Z</published>
-    <updated>2017-09-08T13:51:57.000Z</updated>
+    <updated>2017-09-08T13:57:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webView页面。</p>
 <h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>点击商品进入到“商品详情”页(GoodInforH5WebViewController)，点击店铺进入“店铺详情”页(ShopInfoH5WebViewController)，其中(“商品详情”页和”店铺详情”页均为webView)。其中，店铺详情页和商品详情页可以相互跳转。</p>
@@ -343,12 +343,10 @@
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这里通过获取当前页面层级，以及当前页面上一个页面的层级，通过这些层级做相应的跳转操作:</p>
-<ol>
-<li><p>如果当前页面是商品详情页(GoodInforH5WebViewController)，再进一步判断它的上个页面是否为店铺详情页(ShopInfoH5WebViewController)，若是则popToViewController到上个页面，否则直接popViewControllerAnimated；</p>
-</li>
-<li><p>如果当前页面是店铺详情页(ShopInfoH5WebViewController)，则需要判断当前视图层级是否越界(当前页面层级currentVCIndex不会超过3级，可能会遇到导航控制器中只有1个视图控制器的情况)，这里与商品详情页不同的是:增加了其它会跳转到店铺页面视图的跳转逻辑。需要对这些页面（积分、我的收藏、分类、搜索结果页）的跳转进行判断。</p>
-</li>
-</ol>
+<blockquote>
+<p>如果当前页面是商品详情页(GoodInforH5WebViewController)，再进一步判断它的上个页面是否为店铺详情页(ShopInfoH5WebViewController)，若是则popToViewController到上个页面，否则直接popViewControllerAnimated；</p>
+<p>如果当前页面是店铺详情页(ShopInfoH5WebViewController)，则需要判断当前视图层级是否越界(当前页面层级currentVCIndex不会超过3级，可能会遇到导航控制器中只有1个视图控制器的情况)，这里与商品详情页不同的是:增加了其它会跳转到店铺页面视图的跳转逻辑。需要对这些页面（积分、我的收藏、分类、搜索结果页）的跳转进行判断。</p>
+</blockquote>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>事不过三，过则重构!</p>
 ]]></content>
     
