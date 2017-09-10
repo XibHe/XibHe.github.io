@@ -895,9 +895,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -984,9 +984,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -2056,12 +2056,9 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[引述]]></title>
-      <url>/quotes/index.html</url>
-      <content type="html"><![CDATA[<h3 id="2017-09-10"><a href="#2017-09-10" class="headerlink" title="2017/09/10"></a>2017/09/10</h3><blockquote>
-<p>麦穗空瘪的时候，它总是长得很挺，高傲地昂着头：麦穗饱满而成熟的时候,它总是表现出温顺的样子，低垂着脑袋。</p>
-<p>——[法]蒙田  </p>
-</blockquote>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
     </entry>
     
@@ -2072,9 +2069,17 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+      <title><![CDATA[引述]]></title>
+      <url>/quotes/index.html</url>
+      <content type="html"><![CDATA[<h3 id="2017-09-10"><a href="#2017-09-10" class="headerlink" title="2017/09/10"></a>2017/09/10</h3><blockquote>
+<p>麦穗空瘪的时候，它总是长得很挺，高傲地昂着头：麦穗饱满而成熟的时候,它总是表现出温顺的样子，低垂着脑袋。</p>
+<p>——[法]蒙田 </p>
+<p>只有一条真理决定了一个软件程序员的成功还是失败。由于坚持这个真理，一个资深的程序员能在一天的时间里学会一门新的编程语言，而由于不坚持这条真理，一个初级的程序员用十年时间也只能挣到一份糊口的钱、永远是来实现别人的设计、永远不够优秀而得不到晋升的机会。这条真理让你看清了差的程序员和好的程序员的不同之处，好的程序员和伟大的程序员的不同之处，伟大的程序员和能通过自己的技术创造出一个亿万美元价值的程序帝国的超级程序员的不同之处。</p>
+<p>不是什么复杂的道理，不是什么难懂的理论。不是具有什么天赋或“编程超能力“才能做到的事情。最终成为的是一个优秀的程序员还是一个很烂的程序员，这跟你的出身一点关系都没有。 而真正的原因只有一个，唯一的一个：</p>
+<p>对所做的事情的理解越深，你就会做的越好。</p>
+<p>超级程序员跟那些平庸的、一般的程序员比起来，对自己要做的事情的理解要深的多的多。这就是原因。</p>
+<p>—— <a href="http://www.codesimplicity.com/post/the-singular-secret-of-the-rockstar-programmer/" target="_blank" rel="external">The Singular Secret of the Rockstar Programmer</a></p>
+</blockquote>
 ]]></content>
     </entry>
     
