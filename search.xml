@@ -2056,6 +2056,13 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-10"><a href="#2017-09-10" class="headerlink" title="2017/09/10"></a>2017/09/10</h3><blockquote>
@@ -2126,13 +2133,13 @@ pod setup
 <blockquote>
 <p>如果天总也不亮，那就摸黑过生活；如果发出声音是危险的，那就保持沉默；如果自觉无力发光，那就别去照亮别人。但是——但是：不要习惯了黑暗就为黑暗辩护；不要为自己的苟且而得意洋洋；不要嘲讽那些比自己更勇敢、更有热量的人们。可以卑微如尘土，不可扭曲如蛆虫。<br>——季业</p>
 </blockquote>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+<h3 id="2016-12-21"><a href="#2016-12-21" class="headerlink" title="2016/12/21"></a>2016/12/21</h3><blockquote>
+<p>世界上不存在大智慧，就像世界上不存在才华这个词，存在的是琐碎，重复的事情不停地做，你就是专家，做重复的事特别专注，你就是大家，就这么简单。</p>
+</blockquote>
+<p><a href=""></a></p>
+<blockquote>
+<p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
+</blockquote>
 ]]></content>
     </entry>
     
