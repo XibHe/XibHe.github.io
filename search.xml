@@ -895,9 +895,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -984,9 +984,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -2069,12 +2069,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-10"><a href="#2017-09-10" class="headerlink" title="2017/09/10"></a>2017/09/10</h3><blockquote>
@@ -2114,7 +2108,7 @@ pod setup
 <p>这是一种在切磋中提高，在争论中完善，平等无拘束地讨论和紧密合作的学术气氛。</p>
 <p>通俗点表达，就是要在辩论中，推动量子力学的发展，非常符合玻尔的个性与主张。</p>
 </blockquote>
-<h3 id="2017-0719"><a href="#2017-0719" class="headerlink" title="2017/0719"></a>2017/0719</h3><blockquote>
+<h3 id="2017-07-19"><a href="#2017-07-19" class="headerlink" title="2017/07/19"></a>2017/07/19</h3><blockquote>
 <p>我想说什么？我想说的是——用一颗平常心来面对公司给你打的分数，因为那并不代表你的整个人生。但是，你要用一颗非常严肃的心来面对自己的个人发展和成长，因为这才是真正需要认真对待的事。</p>
 <p>换句话说，如果要给一个人打绩效分，那不是由一个公司在一个短期的时间时打出来，而是由这个人在一个长期的时间里所能达到的成就得出来的。</p>
 <p>考试分数不是关键，别人对你的评价也不是关键，自己有没有成长有没有提高有没有上一个台阶才是关键。KPI不是关键，OKR也不是关键，有没有在做正确的事，这才是关键！</p>
@@ -2153,6 +2147,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
