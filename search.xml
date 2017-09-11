@@ -2012,9 +2012,9 @@ pod setup
         
         <tags>
             
-            <tag> iOS </tag>
-            
             <tag> JavaScriptCore </tag>
+            
+            <tag> iOS </tag>
             
             <tag> iOS与JS交互 </tag>
             
@@ -2065,12 +2065,6 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -2153,6 +2147,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
