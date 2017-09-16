@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-09-16T08:42:55.000Z</updated>
+  <updated>2017-09-16T09:47:02.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
     <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
     <published>2017-09-15T16:00:00.000Z</published>
-    <updated>2017-09-16T08:42:55.000Z</updated>
+    <updated>2017-09-16T09:47:02.000Z</updated>
     
     <content type="html"><![CDATA[<p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
 <p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
@@ -30,7 +30,59 @@
 </ol>
 <p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
 <p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
-<p>针对方案2的问题，</p>
+<p>那么，能否在微信扫一扫页面做相应处理呢？比如，点击扫一扫左上角的返回按钮时，直接返回到首页。由于扫一扫页面是直接调用wx.scanCode而来的，其并不是以压栈的方式出现在页面控制的层级中。因此，无法通过getCurrentPages()函数获取对应的层级关系。</p>
+<p>另外一种方式，针对方案2的问题，需要在点击“商品信息”页的“保存”按钮后做出特别处理，于是在点击保存绑定的事件中设置:</p>
+<pre class="line-numbers language-js"><code class="language-js">saveTap<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      url<span class="token punctuation">:</span> requestUrl<span class="token punctuation">.</span>LookForGoodsUrl
+      data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"userId"</span><span class="token punctuation">:</span> userId<span class="token punctuation">,</span>
+        <span class="token string">"goodsId"</span><span class="token punctuation">:</span> numResult<span class="token punctuation">,</span>
+        <span class="token string">"name"</span><span class="token punctuation">:</span> name<span class="token punctuation">,</span>
+        <span class="token string">"factory"</span><span class="token punctuation">:</span> factory<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      header<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'content-type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>code <span class="token operator">==</span> <span class="token string">'0000'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 保存成功</span>
+           wx<span class="token punctuation">.</span><span class="token function">redirectTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+              url<span class="token punctuation">:</span> <span class="token string">'../homePage/homePage'</span>
+           <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>  
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将最新商品信息上传至服务器，关闭当前页面，跳转到应用内的某个页面。再调用:</p>
+<pre class="line-numbers language-js"><code class="language-js">wx<span class="token punctuation">.</span><span class="token function">scanCode</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token keyword">var</span> numResult <span class="token operator">=</span> res<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>numResult<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'69'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        url<span class="token punctuation">:</span> requestUrl<span class="token punctuation">.</span>LookForGoodsUrl
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+           <span class="token string">"userId"</span><span class="token punctuation">:</span> userId<span class="token punctuation">,</span>
+           <span class="token string">"goodsId"</span><span class="token punctuation">:</span> numResult<span class="token punctuation">,</span>
+         <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        header<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+           <span class="token string">'content-type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>state <span class="token operator">==</span> <span class="token string">'1'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+               <span class="token comment" spellcheck="true">// 存在该商品</span>
+               wx<span class="token punctuation">.</span><span class="token function">redirectTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                   url<span class="token punctuation">:</span> <span class="token string">'../goodsInfo/goodsInfo?goodsChart='</span> <span class="token operator">+</span> goodsChart <span class="token operator">+</span> <span class="token string">'&amp;goodsId='</span> <span class="token operator">+</span> goodsId<span class="token punctuation">,</span>
+               <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+     <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>调用扫一扫，获取商品条码，将获取的条码作为参数上传服务器得到服务器返回的商品信息。再将这些信息传递并跳转至“商品信息”页，展示这些信息。再次扫描商品条码时，重复以上操作。</p>
+<p>但是为了在商品信息页面点击“保存”按钮时关闭当前页面，使用了wx.redirectTo，会先返回到首页（homePage），然后再调出扫一扫页面。这期间会出现短暂（大概2~3秒钟）的停顿，停顿期间页面(homePage)仍然可以操作，会误触页面上的其他点击事件。最后，即使在该页面(homePage)加上loading，以防止误触。仍然无法回避短暂停顿后再跳转扫一扫页面的问题。</p>
+<p>最后的解决方案是: 点击商品信息页的“保存”按钮后，将该按钮隐藏。这样当从扫一扫页面返回商品信息页时就不会出现重复保存数据的问题了。</p>
 ]]></content>
     
     <summary type="html">
@@ -970,9 +1022,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -1061,9 +1113,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
     
   </entry>
   
