@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[小程序五级跳转限制]]></title>
+      <title><![CDATA[小程序页面跳转]]></title>
       <url>/2017/09/16/wx.navigateTo/</url>
       <content type="html"><![CDATA[<p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
 <p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
@@ -13,6 +13,7 @@
 </ol>
 <p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
 <p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
+<p>针对方案2的问题，</p>
 ]]></content>
       
         <categories>
@@ -2086,25 +2087,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-10"><a href="#2017-09-10" class="headerlink" title="2017/09/10"></a>2017/09/10</h3><blockquote>
@@ -2183,6 +2165,25 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   

@@ -12,7 +12,7 @@
     
     <title>
         
-            小程序五级跳转限制 | 
+            小程序页面跳转 | 
         
         XibHe&#39;s Blog
     </title>
@@ -67,7 +67,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://XibHe.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="小程序五级跳转限制 | XibHe&#39;s Blog">
+    <meta property="og:title" content="小程序页面跳转 | XibHe&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png" />
     <meta property="og:description" content="爱苹果,爱生活。">
     <meta property="og:article:tag" content="小程序"> <meta property="og:article:tag" content="wx.navigateTo"> 
@@ -78,7 +78,7 @@
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="小程序五级跳转限制 | XibHe&#39;s Blog">
+    <meta name="twitter:title" content="小程序页面跳转 | XibHe&#39;s Blog">
     <meta name="twitter:description" content="爱苹果,爱生活。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
@@ -112,7 +112,7 @@
         },
         "description": "It is never too late，Just do it better."
     },
-    "headline": "小程序五级跳转限制",
+    "headline": "小程序页面跳转",
     "url": "http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html",
     "datePublished": "9月 16, 2017",
     "dateModified": "9月 16, 2017",
@@ -375,7 +375,7 @@
         <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/wxnavigateTo_%20thumbnail.jpg)">
     
             <p class="article-headline-p">
-                小程序五级跳转限制
+                小程序页面跳转
             </p>
         </div>
 
@@ -445,7 +445,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=小程序五级跳转限制&url=http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=小程序页面跳转&url=http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -454,7 +454,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=小程序五级跳转限制&url=http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html&via=XibHe" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=小程序页面跳转&url=http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html&via=XibHe" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -478,7 +478,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=小程序五级跳转限制&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=小程序页面跳转&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -504,6 +504,7 @@
 </ol>
 <p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
 <p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
+<p>针对方案2的问题，</p>
 
     
 

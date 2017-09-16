@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-09-16T07:54:56.000Z</updated>
+  <updated>2017-09-16T08:42:55.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>小程序五级跳转限制</title>
+    <title>小程序页面跳转</title>
     <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
     <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
     <published>2017-09-15T16:00:00.000Z</published>
-    <updated>2017-09-16T07:54:56.000Z</updated>
+    <updated>2017-09-16T08:42:55.000Z</updated>
     
     <content type="html"><![CDATA[<p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
 <p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
@@ -30,6 +30,7 @@
 </ol>
 <p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
 <p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
+<p>针对方案2的问题，</p>
 ]]></content>
     
     <summary type="html">
