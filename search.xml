@@ -3,6 +3,36 @@
   
     
     <entry>
+      <title><![CDATA[小程序五级跳转限制]]></title>
+      <url>/2017/09/16/wx.navigateTo/</url>
+      <content type="html"><![CDATA[<p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
+<p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
+<ol>
+<li>直接返回主界面，点击“扫码录入”按钮，跳转至微信扫一扫页面；</li>
+<li>点击底部“保存”按钮后，立即调用wx.scanCode打开扫一扫页面;</li>
+</ol>
+<p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
+<p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> JavaScript </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 小程序 </tag>
+            
+            <tag> wx.navigateTo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[爱之初体验 - 小程序]]></title>
       <url>/2017/09/01/wx-mini-AppBlindDate/</url>
       <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
@@ -2069,6 +2099,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-10"><a href="#2017-09-10" class="headerlink" title="2017/09/10"></a>2017/09/10</h3><blockquote>
@@ -2147,12 +2183,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-09-01T12:54:12.000Z</updated>
+  <updated>2017-09-16T07:48:20.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>小程序五级跳转限制</title>
+    <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
+    <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
+    <published>2017-09-15T16:00:00.000Z</published>
+    <updated>2017-09-16T07:48:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
+<p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
+<ol>
+<li>直接返回主界面，点击“扫码录入”按钮，跳转至微信扫一扫页面；</li>
+<li>点击底部“保存”按钮后，立即调用wx.scanCode打开扫一扫页面;</li>
+</ol>
+<p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
+<p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;业务流程:&lt;br&gt;点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="wx.navigateTo" scheme="http://XibHe.github.io/tags/wx-navigateTo/"/>
+    
+  </entry>
   
   <entry>
     <title>爱之初体验 - 小程序</title>
@@ -1858,71 +1890,6 @@ pod setup
     
     
       <category term="cocoapod" scheme="http://XibHe.github.io/tags/cocoapod/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于iOS 7 Background Remote Notification(推送唤醒)</title>
-    <link href="http://XibHe.github.io/2016/08/09/iOS%207%20Background%20Remote%20Notification/"/>
-    <id>http://XibHe.github.io/2016/08/09/iOS 7 Background Remote Notification/</id>
-    <published>2016-08-09T15:30:48.000Z</published>
-    <updated>2017-08-15T11:53:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
-<ul>
-<li>2016 年 8 月，第一版</li>
-<li>2017 年 8 月，增加配置极光推送的注意事项</li>
-</ul>
-<h1 id="Background-Remote-Notification简介"><a href="#Background-Remote-Notification简介" class="headerlink" title="Background Remote Notification简介"></a>Background Remote Notification简介</h1><p>Remote Notifications是 iOS7 在推送方面最大的变化，它允许应用收到通知后在后台（background）状态下运行一段代码，可用于从服务器获取内容更新。功能使用场景：（多媒体）聊天，Email更新，基于通知的订阅内容同步等功能，提升了终端用户的体验。</p>
-<h1 id="如何设置Remote-notifications"><a href="#如何设置Remote-notifications" class="headerlink" title="如何设置Remote notifications"></a>如何设置Remote notifications</h1><h3 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>需要在Xcode 中修改应用的 Capabilities 开启Remote notifications，如图：</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/Snip20131119_1.png" alt="客户端配置图"></p>
-<p>当注册了Backgroud Modes -&gt; Remote notifications 后，notification 处理函数一律切换到下面函数，后台推送代码也在此函数中调用。</p>
-<pre><code>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-</code></pre><p>这个函数也是iOS8之后获取远程推送调用的方法。</p>
-<h3 id="服务端设置"><a href="#服务端设置" class="headerlink" title=" 服务端设置 "></a><font color="#FA8072"> 服务端设置 </font></h3><p>这个很重要，推送消息携带 content-available: 1 是Background 运行的必须参数，如果不携带此字段则与iOS7 之前版本的普通推送一样。<br>服务端payload格式:aps增加content-available字段，类似于：</p>
-<pre><code>payload example:
-{&quot;aps&quot;:{&quot;alert&quot;:&quot;example&quot;, &quot;sound&quot;:&quot;default&quot;, &quot;badge&quot;: 1, &quot;category&quot;:&quot;reply&quot;,&quot;content-available&quot;:&quot;1&quot;
-}}
-</code></pre><p>这里集成的是极光推送，参考极光推送 <font color="#FA8072"> Push API v3 </font>的文档，发现了iOS 平台上发送 APNS 通知的规范。其中支持的字段中关键字<font color="#FA8072"> content-available </font>的类型为 <font color="#FA8072"> boolean </font>。<br>如果该字段为<font color="#FA8072"> true </font> 说明是 <font color="#FA8072"> Background Remote Notification </font>，如果不携带此字段则是普通的<font color="#FA8072"> Remote Notification </font>。<br>这里需要特别注意的是服务器在配置<font color="#FA8072"> content-available: ture </font> 时的正确性。如图，后台以java为例。</p>
-<font color="#DC143C" size="72"> 尚未传图 </font>
-
-<p>最后，当应用在后台挂起时，发起一个<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>。客户端获取的数据，如下:</p>
-<pre><code>userInfo = {
-    &quot;_j_msgid&quot; = 2632357907;
-    aps =     {
-        alert = &quot;\U6717\U81f4\U96c6\U56e2\U9738\U5dde\U5e02(\U53bf\U7ea7)\U603b\U4ee3\U7406\U5546\U5bb6\U60a8\U597d\Uff01\U60a8\U7684\U5e97\U94fa\U53c8\U6709\U65b0\U8ba2\U5355\U4e86\Uff0c\U8ba2\U5355\U53f73cef6682b73ca,\U8bf7\U53ca\U65f6\U767b\U5f55\U5546\U57ce\U8fdb\U884c\U8ba2\U5355\U5ba1\U6838\U3002&quot;;
-        badge = 1;
-        category = identifier;
-        sound = default;
-        content-available = 1;
-    };
-}
-</code></pre><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://docs.jiguang.cn/client/ios_tutorials/#ios-7-background-remote-notification" target="_blank" rel="external">极光客户端SDk教程</a></p>
-<p><a href="http://docs.jiguang.cn/server/rest_api_v3_push/#notification" target="_blank" rel="external">极光服务器端Push API v3</a></p>
-<p><a href="http://my.oschina.net/zhaodacai/blog/711368" target="_blank" rel="external">三种方式使得iOS应用能够在后台进行数据更新和下载</a></p>
-<h1 id="配置极光推送的注意事项"><a href="#配置极光推送的注意事项" class="headerlink" title="配置极光推送的注意事项"></a>配置极光推送的注意事项</h1><p>使用极光测试生产环境下的推送时，发现无论通过我们自己的后台还是极光的后台使用Register ID发送通知，手机都无法收到通知。而在开发环境下是可以收到的。后来查了下极光文档中使用JPush iOS SDK注意事项:</p>
-<blockquote>
-<p>如果你是直接运行安装到测试设备（运行调试状态），那你的安装的应用的证书环境只有可能是开发环境或者通配的。</p>
-</blockquote>
-<p>而我恰恰是通过Xcode装的程序。</p>
-<p><a href="https://community.jiguang.cn/t/jpush/5145/8" target="_blank" rel="external">生产环境的正确测试姿势</a></p>
-<p><a href="https://community.jiguang.cn/t/jpush/5145" target="_blank" rel="external">常见问题-JPush合集</a></p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>关于<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>早在一年前就使用过，当时调研调试花费了大量时间。没想到现在又遇到了这个问题。结果，我又在阴沟里翻了船。可见做笔记，写博客总结的重要性。希望第三次闭着眼睛就能跳过这个坑。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;更新说明&quot;&gt;&lt;a href=&quot;#更新说明&quot; class=&quot;headerlink&quot; title=&quot;更新说明&quot;&gt;&lt;/a&gt;更新说明&lt;/h1&gt;&lt;p&gt;更新记录:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;2016 年 8 月，第一版&lt;/li&gt;
-&lt;li&gt;2017 年 8 月，增加配置极光推送
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
-    
-    
-      <category term="iOS" scheme="http://XibHe.github.io/tags/iOS/"/>
     
   </entry>
   
