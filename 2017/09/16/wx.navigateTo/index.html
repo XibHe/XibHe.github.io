@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="9月 16, 2017" />
-        <meta property="article:modified_time" content="9月 16, 2017" />
+        <meta property="article:modified_time" content="9月 17, 2017" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "小程序页面跳转",
     "url": "http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html",
     "datePublished": "9月 16, 2017",
-    "dateModified": "9月 16, 2017",
+    "dateModified": "9月 17, 2017",
     "description": "爱苹果,爱生活。",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -346,7 +346,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小程序中页面导航的API"><span class="post-toc-number">1.</span> <span class="post-toc-text">小程序中页面导航的API</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#几种跳转发送的不同之处"><span class="post-toc-number">2.</span> <span class="post-toc-text">几种跳转发送的不同之处</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实际业务流程"><span class="post-toc-number">3.</span> <span class="post-toc-text">实际业务流程</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -497,14 +497,39 @@
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
         <p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
-<p>为了避免发生超过五级页面而无法跳转的悲剧，首先要了解清楚小程序中页面导航的API。小程序中页面导航API有五个，两个跳转新页面的API分别为wx.navigateTo和wx.redirectTo，一个用来做重置操作的API为wx.reLaunch，一个用于跳转到tabBar的API为wx.switchTab，还有一个API名为wx.navigateBack，用于返回页面。</p>
+<h2 id="小程序中页面导航的API"><a href="#小程序中页面导航的API" class="headerlink" title="小程序中页面导航的API"></a>小程序中页面导航的API</h2><p>为了避免发生超过五级页面而无法跳转的悲剧，首先要了解清楚小程序中页面导航的API。小程序中页面导航API有五个，两个跳转新页面的API分别为wx.navigateTo和wx.redirectTo，一个用来做重置操作的API为wx.reLaunch，一个用于跳转到tabBar的API为wx.switchTab，还有一个API名为wx.navigateBack，用于返回页面。</p>
 <p>wx.navigateBack 在小程序的初始版本中只能回到上一个页面，在最新版本的更新中给 navigateBack 添加了一个参数 delta，用于决定需要返回几层页面，返回的页面数，如果delta大于现有页面数，则返回首页。</p>
-<p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
+<h2 id="几种跳转发送的不同之处"><a href="#几种跳转发送的不同之处" class="headerlink" title="几种跳转发送的不同之处"></a>几种跳转发送的不同之处</h2><p>navigator 组件的默认跳转方式与 wx.navigateTo 相同，而如果添加 redirect 属性，则与 wx.redirectTo 的跳转方式相同。</p>
+<p>navigateTo 在官方文档中描述如下：</p>
+<blockquote>
+<p>保留当前页面，跳转到应用内的某个页面，使用 wx.navigateBack 可以返回到原页面。</p>
+</blockquote>
+<p>通过 navigateTo 跳转后，可点击左上角的按钮返回上一个页面。而如果多次调用 navigateTo 之后，就需要返回多次才能回到初始页面。因此，官方在此处有一个限制。</p>
+<blockquote>
+<p>注意：为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。</p>
+</blockquote>
+<p>不过上述五层的限制只是针对 navigateTo，redirectTo 则无此限制。因为 redirectTo 的行为是：</p>
+<blockquote>
+<p>关闭当前页面，跳转到应用内的某个页面。</p>
+</blockquote>
+<p>通过 redirectTo 跳转后，则无法返回跳转前的页面。但并不是无法调用 navigateBack，而是调用之后，会回到使用 redirectTo 跳转前的上一个页面。</p>
+<p>页面栈可以通过 getCurrentPages 方法获取：</p>
+<blockquote>
+<p>getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。</p>
+</blockquote>
+<p>上述的「页面路径」可以对应为页面栈中的元素，页面栈中的最后一个元素就是当前显示的页面，页面跳转就是新页面入栈的过程。</p>
+<p>上述三种页面 API 的区别在于：</p>
+<ul>
+<li>navigateTo 不会将旧页面出栈；</li>
+<li>redirectTo 会将旧页面出栈，再将需要跳转到的页面入栈；</li>
+<li>navigateBack 则是将页面栈最后一个元素出栈，因此倒数第二个元素会成为最后一个元素，即变成「当前页面」。</li>
+</ul>
+<h2 id="实际业务流程"><a href="#实际业务流程" class="headerlink" title="实际业务流程"></a>实际业务流程</h2><p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
 <p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
 <blockquote>
 <ol>
 <li>直接返回主界面，点击“扫码录入”按钮，跳转至微信扫一扫页面；</li>
-<li>点击底部“保存”按钮后，立即调用wx.scanCode打开扫一扫页面;</li>
+<li>点击底部“保存”按钮后，立即调用wx.scanCode打开扫一扫页面；</li>
 </ol>
 </blockquote>
 <p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
