@@ -2169,6 +2169,12 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
@@ -2176,15 +2182,15 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
-      <content type="html"><![CDATA[<h3 id="2017-09-17"><a href="#2017-09-17" class="headerlink" title="2017/09/17"></a>2017/09/17</h3><blockquote>
+      <content type="html"><![CDATA[<h3 id="2017-09-19"><a href="#2017-09-19" class="headerlink" title="2017/09/19"></a>2017/09/19</h3><blockquote>
+<p>一家健身房，靠的是那些办了卡又不来健身的人挣钱。要是把会员卡约定的次数满满当当用完，估计健身房就该赔钱了。</p>
+<p>一家出版机构，靠的是那些买了书又不看(至少没看完)的人挣钱。要是把书架上的书仔仔细细看过再去买新书来读，那时候大多数出版社就已经倒闭了。</p>
+<p>从消费心理学来说，买书更大程度是为了满足我们的所有权迷恋症—这件东西是属于我的。你没有，而我有。你有那么点，而我又那么多。你的是那样的，而我的是这样的，以及，我们是一路的。</p>
+<p>读库——张立宪</p>
+</blockquote>
+<h3 id="2017-09-17"><a href="#2017-09-17" class="headerlink" title="2017/09/17"></a>2017/09/17</h3><blockquote>
 <p>无人不冤，有情皆孽</p>
 <p>——陈世骧</p>
 </blockquote>
