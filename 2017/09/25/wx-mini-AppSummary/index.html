@@ -12,7 +12,7 @@
     
     <title>
         
-            归档: 2017/9 | 
+            小程序开发总结 | 
         
         XibHe&#39;s Blog
     </title>
@@ -38,7 +38,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="XibHe">
     <meta name="description" itemprop="description" content="爱苹果,爱生活。">
-    <meta name="keywords" content="null">
+    <meta name="keywords" content="null,小程序,总结">
 
     <!-- Site Verification -->
     
@@ -67,15 +67,18 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://XibHe.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="归档: 2017/9 | XibHe&#39;s Blog">
+    <meta property="og:title" content="小程序开发总结 | XibHe&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png" />
     <meta property="og:description" content="爱苹果,爱生活。">
-    
+    <meta property="og:article:tag" content="小程序"> <meta property="og:article:tag" content="总结"> 
 
+    
+        <meta property="article:published_time" content="9月 25, 2017" />
+        <meta property="article:modified_time" content="9月 25, 2017" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="归档: 2017/9 | XibHe&#39;s Blog">
+    <meta name="twitter:title" content="小程序开发总结 | XibHe&#39;s Blog">
     <meta name="twitter:description" content="爱苹果,爱生活。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
@@ -83,13 +86,43 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://XibHe.github.io/archives/2017/09/index.html" />
+        <link rel="canonical" href="http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "XibHe&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "XibHe",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "It is never too late，Just do it better."
+    },
+    "headline": "小程序开发总结",
+    "url": "http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/index.html",
+    "datePublished": "9月 25, 2017",
+    "dateModified": "9月 25, 2017",
+    "description": "爱苹果,爱生活。",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://XibHe.github.io"
+    }
+}
+</script>
 
 
     
@@ -286,209 +319,297 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#知识短板高发区"><span class="post-toc-number">1.</span> <span class="post-toc-text">知识短板高发区</span></a></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50 lazy" data-original="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_thumb.jpg">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_thumb.jpg)">
+    
+            <p class="article-headline-p">
+                小程序开发总结
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>XibHe</strong>
+        <span>9月 25, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC4UlEQVR42u3aS3LjMAwFQN//0jPb2Zh+ABiPQrZWLkkW2XJVEHxef648XtjY2NjY2NjY2NiPZL/io3r/+rv/nlk/Ob/z3XexsbGxb2B/+NO/XH59f35m19W3K2JjY2NfwM6Dx7uA9C40rq8mQS4PZtjY2NjYySOS5CFfZR3ekqvY2NjY2L0All/dG5CwsbGxsTcUaOJv9VKOPBx+qZaGjY2N/Xh2tVn7hM//ob+NjY2N/Uj2/EgSg7xtnDyhuU9sbGzsQ9nrMlBvyHKSbOQFrOpLx8bGxj6bnYeNKjUPe/lAT954wMbGxr6BPRnKyZvBvcbDpGEQFZWwsbGxD2VXyzqT8c15GauQ5GBjY2Mfyk42l6ccu87kxalCeoONjY19KHv96GpRqVfonxSqCjvHxsbGvoA9KeUkhfvkzl5Y/ZEMDBsbG/tXsautgt6ZfFinl4SUUxFsbGzsg9jVwcp8yUmCMUlasLGxse9h56WfPNTlgF6AbO4WGxsb+2h2HsDmozx5wyApGBWa09jY2NiHsgv/yreSh7xclTcM8t1iY2Nj38DOW629pCIJPNXQlYTPQiqCjY2NfQS7lzDk5aG9aU8vTcLGxsY+m91r5W7bUJzkTBob2NjY2Gezf7owlJf7qysWEiRsbGzsQ9nRsEsxUI2K+IMWwofgio2NjX0oe1fC0EtjkrV27QobGxv7bHYvROVN4uqKTdg6WGJjY2Mfza6WafImbjW96b2IKNRhY2NjX8PeWwyaFP3zQczoRWNjY2Mfyq4eefoxTyqqbYNyVwQbGxv7CPZ8tL03atlrGPcKW9jY2Ng3sPNwkgxoVhu3PcaGAIaNjY19HDvfVjW1mLyOXohtdkWwsbGxr2H3Upfe2E3SBsDGxsbG7pV4kjZA/iKisZvJoA82Njb2Bexq2/U77YT8R/rwY2BjY2MfzZ6kFutgM2k/5Pd8tb+NjY2N/TD2PQc2NjY2NjY2Njb2Y46/5mVJS/fV+HIAAAAASUVORK5CYII=">
+    
+</ul>
     
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/09/25/wx-mini-AppSummary/">小程序开发总结</a></p>
-    </div>
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/小程序/">小程序</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/总结/">总结</a>
+    </ul>
+    
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            开发完第一个小程序项目后的总结，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此就入坑H5了?自己的知识短板是什么?
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
 
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/09/25/wx-mini-AppSummary/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="XibHe's avatar">
-            </div>
-            <div>
-                <strong>XibHe</strong>
-                <span>9月 25, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/JavaScript/">JavaScript</a>
-            </span>
+    
 
-            
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=小程序开发总结&url=http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
 
-            
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=小程序开发总结&url=http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/index.html&via=XibHe" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
 
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=小程序开发总结&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
 </div>
 
-            
-            
-        
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+        <p>开发完第一个小程序项目后的总结，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此就入坑H5了?自己的知识短板是什么?</p>
+<h2 id="知识短板高发区"><a href="#知识短板高发区" class="headerlink" title="知识短板高发区"></a>知识短板高发区</h2><ul>
+<li>在哪些工作上花费时间最多?</li>
+<li>可以改进的重复性劳动</li>
+<li>自己没有完全理解的东西</li>
+<li>你回答不出来的面试题</li>
+</ul>
+
     
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50 lazy" data-original="http://odchyrav4.bkt.clouddn.com/wxnavigateTo_%20thumbnail.jpg">
+
     
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/09/16/wx.navigateTo/">小程序页面跳转</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。”...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/09/16/wx.navigateTo/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="XibHe's avatar">
-            </div>
-            <div>
-                <strong>XibHe</strong>
-                <span>9月 16, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/JavaScript/">JavaScript</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
 </div>
 
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50 lazy" data-original="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_thumb.jpg">
-    
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/09/01/wx-mini-AppBlindDate/">爱之初体验 - 小程序</a></p>
-    </div>
+                
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/09/01/wx-mini-AppBlindDate/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="XibHe's avatar">
-            </div>
-            <div>
-                <strong>XibHe</strong>
-                <span>9月 01, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/JavaScript/">JavaScript</a>
-            </span>
+                <!-- Post Comments -->
+                
+                    
 
-            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
 
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #757575;
+            text-shadow: 0
+        }
+</style>
+	
+<div class="btn_click_load"> 
+    <button class="disqus_click_btn">翻过长城，阅读评论</button>
 </div>
 
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 5; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
-    $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
 </script>
 
-    
+<script type="text/ls-javascript" id="disqus-lazy-load-script">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//xibhe-com.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
+    });
+</script>
+  	
+
 </div>
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/09/16/wx.navigateTo/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
