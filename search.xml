@@ -7,14 +7,36 @@
       <url>/2017/09/25/wx-mini-AppSummary/</url>
       <content type="html"><![CDATA[<p>小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？</p>
 <p>之前一直从事iOS开发，对web前端没有过多了解。单凭一腔热血去开发小程序，初识比较迷茫，纠结于html和css的样式，js的数据交互等基础知识。但项目周期短，任务重，需要与pc，平板进行数据同步。就没有太多时间去理会前端基础知识，都是现学现用。</p>
-<p>就是产品有些坑，设计的小程序产品原型还是是基于原生App的思维。因此，设计出的UI效果图，页面数据展示效果多数是原生App的效果，有些设计甚至与小程序组件相悖。为了实现与UI设计一致的效果，就需要花费很多时间去自定义数据交互的组件。</p>
-<h2 id="知识短板高发区"><a href="#知识短板高发区" class="headerlink" title="知识短板高发区"></a>知识短板高发区</h2><ul>
+<p>就是产品有些坑，设计的小程序产品原型还是是基于原生App的思维。因此，设计出的UI效果图，页面数据展示效果多数是原生App的效果，有些设计甚至与小程序组件相悖。为了实现与UI设计一致的效果，就需要花费很多时间自定义数据交互组件。</p>
+<p>开发时没有完全吃透小程序开发文档，在实现某个功能时一直拿不定主意。以下是踩过的一些坑:</p>
+<ul>
+<li>小程序页面路径只能是五层，请尽量避免多层级的交互方式。</li>
+<li>页面之间传递数据和变量的方式需要统一，不统一传参方式，一旦出现数据展示问题，会增加调试的难度。</li>
+<li>一定要将多次调用的功能或样式封装起来，否则，重复相同功能代码会增加.js文件的代码量，使代码不易读。</li>
+<li>使用swiper滑块视图容器时，一定要将滑块控制的页面抽离成单独的页面，放在一个页面中，当处理不同页面的数据交互时，会对其他不相干的页面数据造成干扰。</li>
+<li>读取页面定义的变量时，不要忘记使用that关键字，把this对象复制到临时变量that，否则会找不到原来的对象。</li>
+<li>wx.showToast吐司，当title文字超出限制，不会自适应宽高，需要自定义弹出框。</li>
+<li>注意navigator 组件的几种跳转方式的不同之处。</li>
+<li>小程序变量不支持下划线命名，若使用下划线命名会造成变量无法赋值。</li>
+<li>避免快速点击，多次触发bindtap事件，造成打开多个相同页面。</li>
+</ul>
+<p>小程序写着还是很纠结的，这是内心的真实想法:</p>
+<blockquote>
+<p>一定是上辈子缺德事干多了，这辈子才会被安排写小程序！</p>
+</blockquote>
+<p>通过这次开发小程序的机会，发现了自己的知识短板，正是这些短板让自己裹足不前。以下是短板高发区:</p>
+<ul>
 <li>在哪些工作上花费时间最多?</li>
 <li>可以改进的重复性劳动</li>
 <li>自己没有完全理解的东西</li>
 <li>你回答不出来的面试题</li>
 </ul>
-<p>一定是上辈子缺德事干多了，这辈子才会被安排写小程序！</p>
+<p>对比以上几点快速找出你的技术短板，然后消除它。你必须要确切知道自己需要学什么，保证焦点正确。不要让这些短板成为你的“痛点”。</p>
+<p>我是否陷入了对技术的狂热之中？因为崇拜某项特定的技术，只是因为自己熟悉这种技术。我很自然的会相信自己选择的是最好的，然后这会让我经常忽略一些与之相悖的意见。由于不了解其他技术，就倾向于选择自己最熟悉的技术并先入为主的认为它是最好的。</p>
+<blockquote>
+<p>人生多艰，无暇他顾。</p>
+</blockquote>
+<p>于是我局限在自己的世界中，变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
 ]]></content>
       
         <categories>
@@ -40,7 +62,7 @@
       <content type="html"><![CDATA[<p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
 <h2 id="小程序中页面导航的API"><a href="#小程序中页面导航的API" class="headerlink" title="小程序中页面导航的API"></a>小程序中页面导航的API</h2><p>为了避免发生超过五级页面而无法跳转的悲剧，首先要了解清楚小程序中页面导航的API。小程序中页面导航API有五个，两个跳转新页面的API分别为wx.navigateTo和wx.redirectTo，一个用来做重置操作的API为wx.reLaunch，一个用于跳转到tabBar的API为wx.switchTab，还有一个API名为wx.navigateBack，用于返回页面。</p>
 <p>wx.navigateBack 在小程序的初始版本中只能回到上一个页面，在最新版本的更新中给 navigateBack 添加了一个参数 delta，用于决定需要返回几层页面，返回的页面数，如果delta大于现有页面数，则返回首页。</p>
-<h2 id="几种跳转发送的不同之处"><a href="#几种跳转发送的不同之处" class="headerlink" title="几种跳转发送的不同之处"></a>几种跳转发送的不同之处</h2><p>navigator 组件的默认跳转方式与 wx.navigateTo 相同，而如果添加 redirect 属性，则与 wx.redirectTo 的跳转方式相同。</p>
+<h2 id="几种跳转方式的不同之处"><a href="#几种跳转方式的不同之处" class="headerlink" title="几种跳转方式的不同之处"></a>几种跳转方式的不同之处</h2><p>navigator 组件的默认跳转方式与 wx.navigateTo 相同，而如果添加 redirect 属性，则与 wx.redirectTo 的跳转方式相同。</p>
 <p>navigateTo 在官方文档中描述如下：</p>
 <blockquote>
 <p>保留当前页面，跳转到应用内的某个页面，使用 wx.navigateBack 可以返回到原页面。</p>
@@ -1040,9 +1062,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -1129,9 +1151,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2201,16 +2223,16 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
