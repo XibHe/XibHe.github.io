@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-09-26T13:23:09.000Z</updated>
+  <updated>2017-09-26T13:30:41.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/"/>
     <id>http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/</id>
     <published>2017-09-24T16:00:00.000Z</published>
-    <updated>2017-09-26T13:23:09.000Z</updated>
+    <updated>2017-09-26T13:30:41.000Z</updated>
     
     <content type="html"><![CDATA[<p>小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？</p>
 <p>之前一直从事iOS开发，对web前端没有过多了解。单凭一腔热血去开发小程序，初识比较迷茫，纠结于html和css的样式，js的数据交互等基础知识。但项目周期短，任务重，需要与pc，平板进行数据同步。就没有太多时间去理会前端基础知识，都是现学现用。</p>
@@ -1109,9 +1109,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -1200,9 +1200,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
     
   </entry>
   
