@@ -1062,9 +1062,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -1151,9 +1151,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2236,6 +2236,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-29"><a href="#2017-09-29" class="headerlink" title="2017/09/29"></a>2017/09/29</h3><blockquote>
@@ -2251,7 +2257,7 @@ pod setup
 <p>几天前我从小野洋子那搞到了约翰列农的形象使用权，这对我来说真是一段奇妙的经历。这些人，活着的，逝去的，都有过和Apple很强烈共鸣的言论。他们很愿意让我们这样做，我不认为这个世界上有另外一家公司能做成这个广告，这点对我来说非常重要。</p>
 <p>我这有一个展示印刷品和户外广告的视频，你们感受一下。这些东西会在接下来的两周内发布，会有5个这样的大巴在5个主要城市。</p>
 <p>我非常感谢这个房间内外的员工的奉献，来把公司拯救回来，事实上这个公司绝对会活过来。我认为现在的问题不是能不能把苹果救回来，我认为那只是booby prize(给最后一名的奖励)。我认为问题是我们能否让Apple再次伟大！谢谢！</p>
-<p>被开除的乔布斯重回苹果公司时的内部讲话</p>
+<p>——<a href="http://v.youku.com/v_show/id_XMzA0OTI3ODM2MA==.html" target="_blank" rel="external">被开除的乔布斯重回苹果公司时的内部讲话</a></p>
 </blockquote>
 <h3 id="2017-09-19"><a href="#2017-09-19" class="headerlink" title="2017/09/19"></a>2017/09/19</h3><blockquote>
 <p>一家健身房，靠的是那些办了卡又不来健身的人挣钱。要是把会员卡约定的次数满满当当用完，估计健身房就该赔钱了。</p>
@@ -2375,12 +2381,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
