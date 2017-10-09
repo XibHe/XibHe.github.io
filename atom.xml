@@ -77,7 +77,7 @@
     <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
     <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
     <published>2017-09-15T16:00:00.000Z</published>
-    <updated>2017-09-26T12:57:26.000Z</updated>
+    <updated>2017-10-09T13:05:13.000Z</updated>
     
     <content type="html"><![CDATA[<p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
 <h2 id="小程序中页面导航的API"><a href="#小程序中页面导航的API" class="headerlink" title="小程序中页面导航的API"></a>小程序中页面导航的API</h2><p>为了避免发生超过五级页面而无法跳转的悲剧，首先要了解清楚小程序中页面导航的API。小程序中页面导航API有五个，两个跳转新页面的API分别为wx.navigateTo和wx.redirectTo，一个用来做重置操作的API为wx.reLaunch，一个用于跳转到tabBar的API为wx.switchTab，还有一个API名为wx.navigateBack，用于返回页面。</p>
@@ -95,6 +95,7 @@
 <blockquote>
 <p>关闭当前页面，跳转到应用内的某个页面。</p>
 </blockquote>
+<p><font color="#FA8072">注意:</font> 使用redirectTo跳转到一个之前加载过的页面，不会再次调用该页面的onLoad方法。</p>
 <p>通过 redirectTo 跳转后，则无法返回跳转前的页面。但并不是无法调用 navigateBack，而是调用之后，会回到使用 redirectTo 跳转前的上一个页面。</p>
 <p>页面栈可以通过 getCurrentPages 方法获取：</p>
 <blockquote>

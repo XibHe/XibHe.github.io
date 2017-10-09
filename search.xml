@@ -75,6 +75,7 @@
 <blockquote>
 <p>关闭当前页面，跳转到应用内的某个页面。</p>
 </blockquote>
+<p><font color="#FA8072">注意:</font> 使用redirectTo跳转到一个之前加载过的页面，不会再次调用该页面的onLoad方法。</p>
 <p>通过 redirectTo 跳转后，则无法返回跳转前的页面。但并不是无法调用 navigateBack，而是调用之后，会回到使用 redirectTo 跳转前的上一个页面。</p>
 <p>页面栈可以通过 getCurrentPages 方法获取：</p>
 <blockquote>
@@ -2223,13 +2224,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
@@ -2239,6 +2233,13 @@ pod setup
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
     </entry>
     
     <entry>
