@@ -99,10 +99,8 @@
 <p>如果通过navigateTo跳转到 D 页面，则在D页面调用navigateBack会返回到C页面；<br>如果通过redirectTo跳转到 D 页面，则在D页面调用navigateBack会发现不是返回C 页面，而是返回到了 B 页面。</p>
 <p>因为调用redirectTo 跳转到 D 页面，redirectTo 会将当前页面出栈，即将 C 页面出栈，再将 D 页面入栈，这时候，页面栈中的元素则会变为 A、B、D。</p>
 <ul>
-<li><p>navigateTo 不会将旧页面出栈，因此通过 navigateTo 跳转后，页面栈中元素个数会加一，因此在页面栈中元素个数达到 5 之后再调用 navigateTo 会失败，出现无法跳转的错误。</p>
-</li>
-<li><p>redirectTo 会在将旧页面出栈后，再将新页面入栈，因此通过 redirectTo 跳转，页面栈中元素个数会保持不变，所以即使在页面栈中元素达到 5 个之后再调用 redirectTo 也能成功跳转。</p>
-</li>
+<li>navigateTo 不会将旧页面出栈，因此通过 navigateTo 跳转后，页面栈中元素个数会加一，因此在页面栈中元素个数达到 5 之后再调用 navigateTo 会失败，出现无法跳转的错误。</li>
+<li>redirectTo 会在将旧页面出栈后，再将新页面入栈，因此通过 redirectTo 跳转，页面栈中元素个数会保持不变，所以即使在页面栈中元素达到 5 个之后再调用 redirectTo 也能成功跳转。</li>
 </ul>
 <h2 id="实际业务流程"><a href="#实际业务流程" class="headerlink" title="实际业务流程"></a>实际业务流程</h2><p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
 <p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
@@ -2247,6 +2245,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-29"><a href="#2017-09-29" class="headerlink" title="2017/09/29"></a>2017/09/29</h3><blockquote>
@@ -2386,12 +2390,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
