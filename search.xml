@@ -9,6 +9,22 @@
 <p>Objective-C - 从应用程序开发世界冉冉升起的明星 - 沦为苹果生态系统中的二等公民。即使OC仍然会在WWDC的一两个板块中被提及，但世界各地的大部分会议都在谈论Swift，苹果正努力推动Swift在教育领域的应用，使用Swift作为主要的语言。</p>
 <p>但是如果你仍然在使用Objective-C，你并不孤单 - 许多开发者仍然喜欢使用Objective-C相对于Swift，并且有很好的理由。我与一些Objective-C开发者联系，询问他们是否感觉继续使用Objective-C开发会受到指责，下面的内容就是他们不得不说的…</p>
 <p>注意：这里表达的意见是个人意见，可能不代表雇主的意见; 人们按照他们回应的顺序列出; 一些回答在长度上进行了变更。</p>
+<h2 id="阻止你将Swift作为开发语言的主要原因是什么？"><a href="#阻止你将Swift作为开发语言的主要原因是什么？" class="headerlink" title="阻止你将Swift作为开发语言的主要原因是什么？"></a>阻止你将Swift作为开发语言的主要原因是什么？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：我有几个原因避免了Swift。 首先，我不喜欢使用它 - 我发现这个语言比ObjC更难阅读和解析，尤其是在循环和switch语句中的if-let变量赋值（这在Apple的体例中是混乱的，像ARKit一样)。我不是尝试各种不同语言为各种平台编写东西的新手，而且Swift绝对是我见到的可读性很低的语言。</p>
+<p>我还不相信苹果参与设计这个语言的初衷 - 四年之后，Swift并不用于iOS，OS或框架的重要部分（我在Twitter上保留了苹果公司的Swift应用程序，macOS很少采用它的新特性相对于iOS来说)。我明白为什么会这样（ABI的稳定性等），但如果苹果没有使用Swift，我不明白为什么我需要代表他们进行beta测试。在Swift准备好之前，我没有什么期待，而且在此期间我获得了Objective-C所带来的一切好处。</p>
+<blockquote>
+<p>我完全相信，只是因为苹果建立了一些东西，并说这是前进的道路并不意味着它是正确的选择。</p>
+</blockquote>
+<p>有趣的是，在最初的几年中，我曾经听说过苹果与Swift的任何人分开，苹果公司当然是大量的ObjC开发人员，而Swift对于许多人来说，对我们来说是一个惊喜。 而且我完全相信，只是因为苹果建立了一些东西，并表示这是前进的道路并不意味着它是正确的选择 - 我们已经看到了一大堆错误（DNS 解析服务 discoveryd，iOS 7，iOS 8）或’mehs ‘（macOS，Touch Bar）在过去几年里，而且看到如何摆脱这些不好因素带来的负面影响。</p>
+<p><strong>迈克尔·劳尔</strong>：我看不到激励。我在Objective-C方面非常有成效，我将语言视为非常优雅，简洁，富有表现力。如果Swift有一流的（异步）并发，我会高兴的跳起来。相比之下，我听说缓慢的编译时间，大量的运行时库重复，我还没有看到运行时性能的显着提升。</p>
+<p><strong>丹·莱弗斯</strong>：对于技术原型预演Demo或非常小的项目，我将使用Objective-C，纯粹为了在经过相当长的时间（通常可能与这些类型的客户端）之后的易于更新。我还为许多客户保留了Objective-C应用程序，而且没有时间（或将其切换到Swift的理由）。在Swift中构建这样的项目的代码通常会把它当做演示原型的Demo来简单使用。</p>
+<p><strong>彼得·莫尔纳尔</strong>：在3.0版本之前，我的主要障碍是缺少源代码兼容性，即使4.0之后，我还在等待ABI的稳定性。我认为这是剩下的唯一一个问题，如果源兼容性有效，我个人觉得这对我来说很重要。</p>
+<p><strong>托德·托马斯</strong>：Xcode对Swift的支持似乎很好笑。从大型项目的愚蠢长编译时间到重构和调试。Tweetbot for Mac是一个相当可观的项目，在2012款的Retina MBP上编译它需要44秒。这包括1个框架，1个库和应用程序本身。此外，Swift的ABI仍然不稳定 - 当我不需要使用我的应用程序包含的所有库被全部缓慢的构建为应用时。</p>
+<p><strong>伊恩·麦克道尔</strong>：我们有一大堆共享的C++代码，用于我们的业务逻辑，它与Windows和Android共享。我们在Objective-C中的本地UIKit/AppKit中编写我们的UI，并且有很多Objective-C++文件在两种语言之间桥接。至今，除了几个脚本和内部工具之外，我们还没有采用Swift。据使用Swift的其他团队说，编译时间比Objective-C / C ++慢。</p>
+<p>我们有数百个Xcode项目，最终编译成一个巨大的静态库，链接到每个应用程序二进制文件。这样做可以减少应用启动时间。我们花费大概6小时流畅的构建我们的应用，不会增加很多时间。</p>
+<p><strong>西蒙·沃尔夫</strong>：我的主要编码项目是一个客户端，它是一个已经发展了几年的大型代码库。虽然我也会引入一些Swift进去，因为我做的很多工作涉及到编辑现有的代码，它阻止我使用太多Swift。</p>
+<p>我也意识到作为一个开发者，每次有一个新的主要版本的Swift的更新，我都会将那些工作中可以用到拿来用，但这不是我真正需要的。</p>
+<p><strong>马科·阿门特</strong>：对我来说，这不是对Swift本身的判断，而是一个务实的决定：我已经是Objective-C的专家，在使用它方面极富生产力，而切换到Swift的好处并不足以说服我。</p>
+<p><strong>马塞尔·维赫尔</strong>：我最多的工作包括一些复杂的元编程和 C 进行部分混合的objective - C的动态消息部分。在使用Swift后所有的这些都会变得更加困难，例如，你无法在Swift中编写CoreData。还很纠结：我只是试图找到一些用Swift编写的Apple Pencil示例代码。结果浪费了我一天时间。</p>
 ]]></content>
       
         <categories>
@@ -1103,9 +1119,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -1192,9 +1208,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -2264,15 +2280,14 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -2419,9 +2434,10 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
     </entry>
     
   
