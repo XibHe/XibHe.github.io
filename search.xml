@@ -3,6 +3,28 @@
   
     
     <entry>
+      <title><![CDATA[(译)为何许多开发者仍然喜欢用Objective-C，而不是Swift]]></title>
+      <url>/2017/10/10/SwiftUsageRate/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> 译文 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 译文 </tag>
+            
+            <tag> Swift </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[小程序开发总结]]></title>
       <url>/2017/09/25/wx-mini-AppSummary/</url>
       <content type="html"><![CDATA[<p>小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？</p>
@@ -1077,9 +1099,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -1166,9 +1188,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         

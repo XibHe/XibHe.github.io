@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-09-26T13:30:41.000Z</updated>
+  <updated>2017-10-10T08:24:12.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(译)为何许多开发者仍然喜欢用Objective-C，而不是Swift</title>
+    <link href="http://XibHe.github.io/2017/10/10/SwiftUsageRate/"/>
+    <id>http://XibHe.github.io/2017/10/10/SwiftUsageRate/</id>
+    <published>2017-10-09T16:00:00.000Z</published>
+    <updated>2017-10-10T08:24:12.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
+    
+    
+      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
+    
+      <category term="Swift" scheme="http://XibHe.github.io/tags/Swift/"/>
+    
+  </entry>
   
   <entry>
     <title>小程序开发总结</title>
@@ -1124,9 +1144,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -1215,9 +1235,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
     
   </entry>
   
@@ -1949,59 +1969,6 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Masonry" scheme="http://XibHe.github.io/tags/Masonry/"/>
     
       <category term="iOS适配" scheme="http://XibHe.github.io/tags/iOS%E9%80%82%E9%85%8D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一个关于线程的错误</title>
-    <link href="http://XibHe.github.io/2016/09/11/%E8%AE%B0%E4%B8%80%E4%B8%AA%E5%85%B3%E4%BA%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E9%94%99%E8%AF%AF/"/>
-    <id>http://XibHe.github.io/2016/09/11/记一个关于线程的错误/</id>
-    <published>2016-09-11T15:23:34.000Z</published>
-    <updated>2017-06-22T12:50:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/blog/image/997034A3-8246-4C63-A867-C968F2CCD96F.png" alt="控制台错误"></p>
-<p>程序崩溃在将要消失时，控制台给出<font color="#FA8072"> This application is modifying the autolayout engine from a background thread,whinch can lead to engine corruption and weird crashes.This will cause an exception in a future release. </font> 的报错。</p>
-<p>根据提示认为是后台线程在更新UI布局时，webView与JS的交互也在此时进行。交互操作会阻塞UI的显示及刷新。因此，又回到了一个老生常谈的准则上来了，<font color="#FA8072"> 要在主线程刷新UI布局 </font>。在调用本地应用于H5交互的方法时，要放到主线程中。</p>
-<pre><code> #pragma mark - 跳转购物车
-- (void)goCart:(NSString *)shopNum
-{
-    CLog(@&quot;jsString = %@&quot;,shopNum);
-    [[NSNotificationCenter defaultCenter] postNotificationName:ShopCartNumIsChanged object:shopNum];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        MallHomeViewController *mallHome = [LYSingle sharedSingle].mallVC;
-        [mallHome setCurrentSelectIndex:3];
-    });
-}
-</code></pre><pre><code>
-#pragma  mark - 商品上架(未开通店铺不能上架)
-- (void)cannotShelves
-{
-    CLog(@&quot;cannotShelves&quot;);
-
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;要在主线程刷新UI&quot; delegate:self cancelButtonTitle:@&quot;我知道了&quot; otherButtonTitles:nil];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alertView show];
-    });
-}
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上周遇到一个问题，当前页面为一个UIWebView，当点该WebView上某个按钮进入下一个页面时，再通过该页面顶部返回按钮返回时，程序就会崩溃。（在开启了全局断点的情况下）控制台会输出如下提示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://odchyrav4.bkt.
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="线程" scheme="http://XibHe.github.io/tags/%E7%BA%BF%E7%A8%8B/"/>
-    
-      <category term="iOS多线程" scheme="http://XibHe.github.io/tags/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     
   </entry>
   
