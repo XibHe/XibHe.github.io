@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-10-12T13:01:44.000Z</updated>
+  <updated>2017-10-13T13:00:20.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/10/10/SwiftUsageRate/"/>
     <id>http://XibHe.github.io/2017/10/10/SwiftUsageRate/</id>
     <published>2017-10-09T16:00:00.000Z</published>
-    <updated>2017-10-12T13:01:44.000Z</updated>
+    <updated>2017-10-13T13:00:20.000Z</updated>
     
     <content type="html"><![CDATA[<p>iOS SDK已经发布很多年了，开发人员纷纷涌向Objective-C，他们力图通过开发会大卖应用程序而获得丰厚的回报。但那样的时代如今已不复存在了：Swift已经面世三年多了，与Objective-C相比，大大地获取了大家的关注度。</p>
 <p>Objective-C - 从应用程序开发世界冉冉升起的明星 - 沦为苹果生态系统中的二等公民。即使OC仍然会在WWDC的一两个板块中被提及，但世界各地的大部分会议都在谈论Swift，苹果正努力推动Swift在教育领域的应用，使用Swift作为主要的语言。</p>
@@ -72,7 +72,22 @@
 <p>对于Objective-C开发，Swift绝对是灾难性的。</p>
 </blockquote>
 <p>我非常厌恶为了让Swift存活而使ObjC死去 - 如果两种语言可以彼此独立存在，对于像我这样的开发人员来说是非常好的，他们可以选择最适合手头任务的语言。Swift背后的激情，大规模的推广宣传，苹果停止为开发人员创建ObjC资源。</p>
-<p><strong>迈克尔·劳尔</strong>：</p>
+<p><strong>迈克尔·劳尔</strong>：使用Swift的主要好处，“我们”要感谢轻量级泛型和可空性，但这是关于它的。如果背后有相同的人力投入，我只会希望Objective-C能获得Swift这样的好处。</p>
+<p><strong>丹·莱弗斯</strong>：我认为这最初是有帮助的，但我现在强烈感觉到，这样的做法有些舍本逐末了。</p>
+<p><strong>托德·托马斯</strong>：我认为这有帮助。他们为Swift的语言添加了许多有用的东西，所以我们不能抱怨。</p>
+<p><strong>伊恩·麦克道尔</strong>：Objective-C已经从Swift获得了一些很好的功能，包括@available语法和可空性说明符。这是一种稳定的语言，我没有想到它会改变任何事情。</p>
+<blockquote>
+<p>在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
+</blockquote>
+<p><strong>西蒙·沃尔夫</strong>：对于Swift导致的结果，Objective-C有一些变化和改进，这是有帮助的。另外，写一点Swift也鼓励我去看看我的Objective-C代码是否完美，而且我不太愿意让空对象去操作底层的一些东西。在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
+<p><strong>马尔科·阿门特</strong>：Swift已经有效地停止了Objective-C作为一种语言的开发。 这并不奇怪或不合理，但幸运的是Objective-C相当成熟。前几年Swift的引入带来了许多改进，应该保持Objective-C可用，直到我们大部分人都转移到Swift。</p>
+<p><strong>马塞尔·维赫尔</strong>：显然受到阻碍，即使Objective-C很好，但Swift的出现结束了Objective-C进一步的发展！</p>
+<p>更令人惊奇和不安的是，一些首选Swift作为语言编写的三方库中有很多明显的缺陷。<br>一些对Swift的改进被阻止，以使Swift看起来不错，虽然我很确定这不是怎么回事。</p>
+<p>然而，最大的负面影响就是那些可能阻止Swift后续发展的一系列做法。我们正在尽我们所能创造一种脱离控制的Swift，而苹果忽略了所有这一切。这是一个犯罪。</p>
+<h2 id="你怎么看？"><a href="#你怎么看？" class="headerlink" title="你怎么看？"></a>你怎么看？</h2><p>除了上述所有问题，我还问到人们使用Objective-C已经有多长时间了，因为我认为公平地说，在精通一门语言后，选择继续使用或这彻底放弃时总是很重要。</p>
+<p>听到大多数人说他们在iPhone SDK第一次启用或不久之后立即使用Objective-C，几个人已经使用了十多年，其中一个人27了——是的,27岁。我应该补充说，一位回应者表示他们最近开始使用Objective-C，所以也许还存在一些固执的人。</p>
+<p>另外还有一件事：去年，我写了一本名为<a href="https://www.hackingwithswift.com/store/objective-c-for-swift-developers" target="_blank" rel="external">Objective-C for Swift Developers</a>的书，在介绍中，我介绍了一个题为“我喜欢Objective-C”的部分，这里是我写的一些话：</p>
+<p>当我阅读本书的第一本完整的草稿时，我想到了自己，“哇，这看起来像是Snark的Objective-C指南”，因为几乎每一章都觉得是在抱怨。</p>
 <font color="#34f422">未完待续……</font>
 
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.hackingwithswift.com/articles/27/why-many-developers-still-prefer-objective-c-to-swift?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">Why many developers still prefer Objective-C to Swift</a></p>
