@@ -133,6 +133,8 @@
 <p>人生多艰，无暇他顾。</p>
 </blockquote>
 <p>于是我局限在自己的世界中，变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -261,6 +263,8 @@
 <p>调用扫一扫，获取商品条码，将获取的条码作为参数上传服务器得到服务器返回的商品信息。再将这些信息传递并跳转至“商品信息”页，展示这些信息。再次扫描商品条码时，重复以上操作。</p>
 <p>但是为了在商品信息页面点击“保存”按钮时关闭当前页面，使用了wx.redirectTo，会先返回到首页（homePage），然后再调出扫一扫页面。这期间会出现短暂（大概2~3秒钟）的停顿，停顿期间页面(homePage)仍然可以操作，会误触页面上的其他点击事件。最后，即使在该页面(homePage)加上loading，以防止误触。仍然无法回避短暂停顿后再跳转扫一扫页面的问题。</p>
 <p>最后的解决方案是: 点击商品信息页的“保存”按钮后，将该按钮隐藏。这样当从扫一扫页面返回商品信息页时就不会出现重复保存数据的问题了。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -322,6 +326,8 @@
 <p><a href="http://www.mntuku.cn/index.php/article/show/id-7141" target="_blank" rel="external">小程序操作按钮悬浮固定在底部</a></p>
 <p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1261" target="_blank" rel="external">动态的显示或隐藏控件</a></p>
 <p><a href="http://www.jianshu.com/p/aa8254b23847" target="_blank" rel="external">微信小程序从子页面退回父页面时的数据传递</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -382,6 +388,8 @@
 </a></p>
 <p><a href="https://stackoverflow.com/questions/32865704/collection-nsarraym-0x7fa1f2711910-was-mutated-while-being-enumerated" target="_blank" rel="external">Collection <__nsarraym: 0x7fa1f2711910=""> was mutated while being enumerated
 </__nsarraym:></a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -603,6 +611,8 @@
 <p>如果当前页面是店铺详情页(ShopInfoH5WebViewController)，则需要判断当前视图层级是否越界(当前页面层级currentVCIndex不会超过3级，可能会遇到导航控制器中只有1个视图控制器的情况)，这里与商品详情页不同的是:增加了其它会跳转到店铺页面视图的跳转逻辑。需要对这些页面（积分、我的收藏、分类、搜索结果页）的跳转进行判断。</p>
 </blockquote>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>事不过三，过则重构!</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -664,6 +674,8 @@
 <p>这不是一个毫不费力的努力。自从Halide发布以来，我们收到了来自世界各地的大量消息，感谢我们努力保持App的小巧。</p>
 <p>减小App安装包大小真的有一个奇怪的伎俩：专注于你的客户。</p>
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://blog.halide.cam/one-weird-trick-to-lose-size-c0a4013de331" target="_blank" rel="external">One Weird Trick to Lose Size</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -692,6 +704,8 @@
 <p>像我这样的渣男竟然还有女人给我生孩子，把自己的终身幸福托付给我。我上辈子一定是积了什么大功德了！无法忘记第一次见到小家伙的场景，他紧握着一双小手，眼睛半闭半睁，好奇的打量着周围的一切。虽然我嘴上一直在埋怨小家伙让他妈妈挨了一刀，但心里还是对他充满了怜爱。唯一遗憾的是，陪在她们母子身边的时间太短，不等小家伙满月我就不得不离开她们母子俩，带着不舍与留恋重新投入到工作中。</p>
 <p>这次端午节回家，小家伙给了我一个大大的惊喜。刚一见面，盯着看了我半天，然后就用一双小手抚摸我的脸，最后，嘿嘿一笑，扑到我的怀里。那一刻，时间仿佛静止，而我又找到了初恋的感觉[害羞]。这不禁又让我感慨了一番：不能时刻陪在你身边，经历你的成长，听到你第一次喊爸爸。终究是我无法弥补的遗憾。这里不奢望能得到你的原谅，只希望将来的某一天你能理解。成年人的生活里没有容易二字。爱❤你我的小宝贝！            </p>
 <p>再过一个多月我们家宝宝就一岁了，这一年来我经历了很多，也成长了很多。感谢妻子的宽容和奉献，她总是迁就我的时不时就发作的小情绪，安慰我，鼓励我，支持我。尽她最大的力量来爱我和儿子。爱❤你我的大宝贝！你和儿子就是我的一切，我的天下无双。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -743,6 +757,8 @@
 <li>好设计常常是大胆的设计</li>
 </ul>
 </blockquote>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -779,6 +795,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">点击下载</a></p>
 <h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>这里只有获取购物车最新商品数量时，无法调用JS交互方法，其他的JS交互方法仍然可以调用。那么<font color="#FA8072">获取JSContext的时机是什么</font></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -839,6 +857,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="http://robertheaton.com/2014/03/27/how-does-https-actually-work/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">How does HTTPS actually work?</a></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font size="4" face="黑体"> 《图解HTTP》 </font>
 
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1070,6 +1090,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <li><a href="http://stackoverflow.com/questions/78127/cgpathaddarc-vs-cgpathaddarctopoint" target="_blank" rel="external">CGPathAddArc vs CGPathAddArcToPoint
 </a></li>
 </ul>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1131,6 +1153,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 </blockquote>
 <p>casa所讲的内容多是通过平时代码积累得来的方法论，如果没有一定的代码积累和长期的项目实践是很难彻底理解这些内容的。iOS应用架构看着很高大上，但需要在牢固的基础之上一层层堆砌成高楼。忽视这些必要的步骤，一味粉饰自己，到头来也只是黄粱一梦一场空。再回过头来看目前国内知识付费现象，觉得是一个泡沫。正如知乎上所说，<font color="#FA8072">知识付费，抓的不是人的求知欲，抓的是人的焦虑感</font>。人们焦虑，希望有人告诉他们捷径，如何更快的获得成功。<font color="#FA8072">这里莫名的想到成功学，成功的永远是成功学的讲师。当代知识产品最大的痛点就是:不看书。</font></p>
 <p>我们急切的接受别人输出的价值观，却选择性的忽略掉自己的内心真正的诉求。书上得来总觉浅，听人道出方觉深，互补的只是不愿意努力看书或是去实践的懒惰。知识经济本质上就是粉丝经济的另一种表现形式。最后，还是想强调一下，作为一名攻城狮通过解决日常遇到的问题，或由浅而深，或发散思维都可以一步步引导至问题的核心。切忌自以为是，舍本逐末。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1162,6 +1186,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <li>iOS 10之后的推送</li>
 </ul>
 <h1 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h1><p><a href="https://github.com/XibHe/ToDoList" target="_blank" rel="external">点击下载</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1251,6 +1277,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>1.更新保质期提醒任务表<br>2.更新通知表<br>3.更新通知log表<br>4.上传服务器编辑后的通知提醒数据</p>
 </blockquote>
 <p><font color="#FA8072"> 需要注意本地通知的官方文档是否有最近的跟新 </font>，待续……</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1315,6 +1343,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>“感觉每个做技术的一开始都是一粒沙子，不断修炼学习吸收营养变成大颗粒的沙子。 再学习其他东西把自己变成土块儿，时间是一把大筛子，每次过滤掉小沙粒，只留大块儿在上面，在你被筛掉之前要么变的比网眼大留下来，要么赶紧被筛掉转行吧!”</p>
 </blockquote>
 <p>最后来个总结吧！猥琐发育，别浪！</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1560,6 +1590,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
 <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
 <p>其他功能访问权限设置，<br><a href="http://stackoverflow.com/questions/38498275/ios-10-changes-in-asking-permissions-of-camera-microphone-and-photo-library-c" target="_blank" rel="external"><font color="#FA8072"> iOS 10 - Changes in asking permissions of Camera, microphone and Photo Library causing application to crash </font></a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1613,6 +1645,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>2017年会继续坚持写博客，写那些真正经过自己深入研究过的东西，写那些日常项目中真正遇到并最终解决的问题，写对自己对别人有用的东西。只有这样才能提高文章的质量，付出的时间才能得到最大化的利用。</p>
 <h2 id="新技术"><a href="#新技术" class="headerlink" title="新技术"></a>新技术</h2><p>16年8月初，学习了最新的Swift 3.0，当然，现在最新的是Swift 3.01。从官网下了<a href="https://developer.apple.com/swift/resources/" target="_blank" rel="external">The Swift Programming Language(Swift 3.01)</a>，通过官网下载时会跳转到iBooks，但由于一些众所周知的原因，iBooks中国区是无法下载的，需要使用美区账号登录iBooks。可以结合<a href="http://wiki.jikexueyuan.com/project/swift/" target="_blank" rel="external">极客学院Wiki</a>简体中文翻译看。目前，自己只看到了<font size="4" face="黑体"> Functions </font>这章，17年还需要继续学习剩下的部分，再使用Swift编写一个具体的项目。17年计划学习一些热更新的技术，并计划在自己做的项目中使用一种热更新技术，实现动态化的修改项目中的代码。17年，希望自己能在iOS之外，能入门一种新的技术，拓宽自己的视野，达到自己心中设定的新的高度，看到之前看不到风景。</p>
 <h2 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h2><p>17年是公司发展历程中重要的一年，也是我所在项目组所开发的项目大范围推广的一年，我们将迎来更多的用户，更大的并发量，会根据市场反应快速迭代产品。我们渴望在项目中使用新的技术，不断的提高用户体验，同时，又能不影响项目上线时间。希望我们产品被更多的人使用，得到大家的认可。同时，希望我们团队<font size="4" face="黑体"> 永远年轻，永远热泪盈眶。</font></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1930,6 +1964,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p><a href="http://stackoverflow.com/questions/19998078/corebluetooth-cannot-find-devices-but-ios-can" target="_blank" rel="external">CoreBluetooth cannot find devices but iOS can</a></p>
 <p><a href="https://www.v2ex.com/t/179481" target="_blank" rel="external">请教熟悉iOS的朋友一个问题</a></p>
 <p><a href="http://www.jianshu.com/p/760f042a1d81" target="_blank" rel="external">【译】iOS蓝牙编程指南 – 核心蓝牙概述</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1972,6 +2008,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
 <p>造成这个问题的主要原因是我没有认真看Masonry的文档，文档上说的已经很清楚了。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -2022,7 +2060,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         [alertView show];
     });
 }
-</code></pre>]]></content>
+</code></pre><p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
       
         <categories>
             
@@ -2065,6 +2105,8 @@ pod setup
 <p><a href="http://stackoverflow.com/questions/37624178/intergating-new-firebase-error-cocoapods" target="_blank" rel="external">intergating New Firebase.. error cocoapods</a></p>
 <p><a href="http://stackoverflow.com/questions/38030317/pod-repo-update-does-not-happen-error-in-cocoapods" target="_blank" rel="external">pod repo update does not happen error in cocoapods</a></p>
 <p><a href="http://blog.cocoapods.org/Repairing-Our-Broken-Specs-Repository/" target="_blank" rel="external">Repairing Our Broken Specs Repository</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -2125,6 +2167,8 @@ pod setup
 <p><a href="https://community.jiguang.cn/t/jpush/5145/8" target="_blank" rel="external">生产环境的正确测试姿势</a></p>
 <p><a href="https://community.jiguang.cn/t/jpush/5145" target="_blank" rel="external">常见问题-JPush合集</a></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>关于<font color="#FA8072"> Background Remote Notification(推送唤醒) </font>早在一年前就使用过，当时调研调试花费了大量时间。没想到现在又遇到了这个问题。结果，我又在阴沟里翻了船。可见做笔记，写博客总结的重要性。希望第三次闭着眼睛就能跳过这个坑。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -2279,6 +2323,8 @@ pod setup
 <p><a href="http://blog.iderzheng.com/ios7-objects-management-in-javascriptcore-framework/" target="_blank" rel="external">JavaScriptCore框架在iOS7中的对象交互和管理</a></p>
 <p><a href="http://liuyanwei.jumppo.com/2016/04/03/iOS-JavaScriptCore.html" target="_blank" rel="external">iOS JavaScriptCore使用</a></p>
 <h1 id="示例代码下载"><a href="#示例代码下载" class="headerlink" title="示例代码下载"></a>示例代码下载</h1><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">Demo</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -2313,6 +2359,8 @@ pod setup
 <p>解决问题的核心思想只有一个———一切都靠积累。</p>
 </blockquote>
 <h1 id="博客的开始"><a href="#博客的开始" class="headerlink" title="博客的开始"></a>博客的开始</h1><p>回顾过去的2015年，我已经在新公司待了快一年了，虽然，不知道自己究竟都有哪些提升。但是，冥冥中又觉得自己还是有些收获的。当然这些收获都来自于师傅他老人家的谆谆教导。我不想忘记那些和师傅一起加班的日日夜夜里所带来的收获，我要把这些冥冥中的收获写下来，记录我在这些项目中的收获，以及那些尚未解决的问题所留下的遗憾。 期望以后能弥补这些遗憾。留住这些青春的记忆。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -2343,6 +2391,12 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -2486,12 +2540,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

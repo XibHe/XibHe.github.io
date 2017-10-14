@@ -119,7 +119,7 @@
     <link href="http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/"/>
     <id>http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/</id>
     <published>2017-09-24T16:00:00.000Z</published>
-    <updated>2017-09-26T13:30:41.000Z</updated>
+    <updated>2017-10-14T02:45:16.000Z</updated>
     
     <content type="html"><![CDATA[<p>小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？</p>
 <p>之前一直从事iOS开发，对web前端没有过多了解。单凭一腔热血去开发小程序，初识比较迷茫，纠结于html和css的样式，js的数据交互等基础知识。但项目周期短，任务重，需要与pc，平板进行数据同步。就没有太多时间去理会前端基础知识，都是现学现用。</p>
@@ -153,6 +153,8 @@
 <p>人生多艰，无暇他顾。</p>
 </blockquote>
 <p>于是我局限在自己的世界中，变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -176,7 +178,7 @@
     <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
     <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
     <published>2017-09-15T16:00:00.000Z</published>
-    <updated>2017-10-10T03:49:45.000Z</updated>
+    <updated>2017-10-14T02:44:54.000Z</updated>
     
     <content type="html"><![CDATA[<p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
 <h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
@@ -284,6 +286,8 @@
 <p>调用扫一扫，获取商品条码，将获取的条码作为参数上传服务器得到服务器返回的商品信息。再将这些信息传递并跳转至“商品信息”页，展示这些信息。再次扫描商品条码时，重复以上操作。</p>
 <p>但是为了在商品信息页面点击“保存”按钮时关闭当前页面，使用了wx.redirectTo，会先返回到首页（homePage），然后再调出扫一扫页面。这期间会出现短暂（大概2~3秒钟）的停顿，停顿期间页面(homePage)仍然可以操作，会误触页面上的其他点击事件。最后，即使在该页面(homePage)加上loading，以防止误触。仍然无法回避短暂停顿后再跳转扫一扫页面的问题。</p>
 <p>最后的解决方案是: 点击商品信息页的“保存”按钮后，将该按钮隐藏。这样当从扫一扫页面返回商品信息页时就不会出现重复保存数据的问题了。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -306,7 +310,7 @@
     <link href="http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/"/>
     <id>http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/</id>
     <published>2017-08-31T16:00:00.000Z</published>
-    <updated>2017-09-01T12:54:12.000Z</updated>
+    <updated>2017-10-14T02:45:30.000Z</updated>
     
     <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
 <h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
@@ -347,6 +351,8 @@
 <p><a href="http://www.mntuku.cn/index.php/article/show/id-7141" target="_blank" rel="external">小程序操作按钮悬浮固定在底部</a></p>
 <p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1261" target="_blank" rel="external">动态的显示或隐藏控件</a></p>
 <p><a href="http://www.jianshu.com/p/aa8254b23847" target="_blank" rel="external">微信小程序从子页面退回父页面时的数据传递</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -370,7 +376,7 @@
     <link href="http://XibHe.github.io/2017/08/23/FilterError/"/>
     <id>http://XibHe.github.io/2017/08/23/FilterError/</id>
     <published>2017-08-22T16:00:00.000Z</published>
-    <updated>2017-08-26T09:36:01.000Z</updated>
+    <updated>2017-10-14T02:45:39.000Z</updated>
     
     <content type="html"><![CDATA[<p>一个类似于京东搜索结果页的筛选功能，侧边栏条件筛选器，根据不同的数据类型进行条件筛选及筛选条件的排列展示。</p>
 <h1 id="构建原理及使用到的技术点"><a href="#构建原理及使用到的技术点" class="headerlink" title="构建原理及使用到的技术点"></a>构建原理及使用到的技术点</h1><blockquote>
@@ -410,6 +416,8 @@
 </a></p>
 <p><a href="https://stackoverflow.com/questions/32865704/collection-nsarraym-0x7fa1f2711910-was-mutated-while-being-enumerated" target="_blank" rel="external">Collection <__nsarraym: 0x7fa1f2711910=""> was mutated while being enumerated
 </__nsarraym:></a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -433,7 +441,7 @@
     <link href="http://XibHe.github.io/2017/08/07/reconsiderUrlPush/"/>
     <id>http://XibHe.github.io/2017/08/07/reconsiderUrlPush/</id>
     <published>2017-08-06T16:00:00.000Z</published>
-    <updated>2017-09-08T13:57:24.000Z</updated>
+    <updated>2017-10-14T02:45:09.000Z</updated>
     
     <content type="html"><![CDATA[<p>在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webView页面。</p>
 <h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>点击商品进入到“商品详情”页(GoodInforH5WebViewController)，点击店铺进入“店铺详情”页(ShopInfoH5WebViewController)，其中(“商品详情”页和”店铺详情”页均为webView)。其中，店铺详情页和商品详情页可以相互跳转。</p>
@@ -634,6 +642,8 @@
 <p>如果当前页面是店铺详情页(ShopInfoH5WebViewController)，则需要判断当前视图层级是否越界(当前页面层级currentVCIndex不会超过3级，可能会遇到导航控制器中只有1个视图控制器的情况)，这里与商品详情页不同的是:增加了其它会跳转到店铺页面视图的跳转逻辑。需要对这些页面（积分、我的收藏、分类、搜索结果页）的跳转进行判断。</p>
 </blockquote>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>事不过三，过则重构!</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -654,7 +664,7 @@
     <link href="http://XibHe.github.io/2017/07/23/One%20Weird%20Trick%20to%20Lose%20Size/"/>
     <id>http://XibHe.github.io/2017/07/23/One Weird Trick to Lose Size/</id>
     <published>2017-07-22T16:00:00.000Z</published>
-    <updated>2017-07-23T10:43:52.000Z</updated>
+    <updated>2017-10-14T02:46:25.000Z</updated>
     
     <content type="html"><![CDATA[<p>流行的社交网络应用程序超过400M。每周更新一次，每年你下载的应用总量接近20G。</p>
 <p>自从我们推出了<a href="https://halide.cam" target="_blank" rel="external">Halide</a>，我们听到的最令人意想不到的赞美就是它的大小。 在11M，我们将在一年内推出较少数据的更新，而不是社交网络应用进行频繁更新。</p>
@@ -697,6 +707,8 @@
 <p>这不是一个毫不费力的努力。自从Halide发布以来，我们收到了来自世界各地的大量消息，感谢我们努力保持App的小巧。</p>
 <p>减小App安装包大小真的有一个奇怪的伎俩：专注于你的客户。</p>
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://blog.halide.cam/one-weird-trick-to-lose-size-c0a4013de331" target="_blank" rel="external">One Weird Trick to Lose Size</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -720,7 +732,7 @@
     <link href="http://XibHe.github.io/2017/06/18/First-father&#39;s-day/"/>
     <id>http://XibHe.github.io/2017/06/18/First-father&#39;s-day/</id>
     <published>2017-06-17T16:00:00.000Z</published>
-    <updated>2017-06-22T12:28:19.000Z</updated>
+    <updated>2017-10-14T02:47:42.000Z</updated>
     
     <content type="html"><![CDATA[<p>我和妻子是大学同学，在恋爱长跑五年后结了婚。妻子老家不是我们那边的，但是在同一个省，最开始的地域原因，造成了我家人对她的偏见。我们俩克服了种种阻碍，在15年情人节那天领了证。</p>
 <p>我们的小孩比计划来的早，妻子一直很期待在猴年能生一个聪明伶俐的猴宝宝。当得知自己要作父亲的那一天，内心感受是复杂的，有期待，也有忐忑。觉得自己没有做好成为一个父亲的准备。伴随着孩子快要出生，我的这种焦虑感越发的明显了。在妻子待产期间，没有全身心的去照顾她，总是把工作中的压力和不快带到家里。终于，在一个周三的早上爆发了…… 最后，还是妻子在妻子的安慰下，我才渐渐平复了自己的心情。</p>
@@ -728,6 +740,8 @@
 <p>像我这样的渣男竟然还有女人给我生孩子，把自己的终身幸福托付给我。我上辈子一定是积了什么大功德了！无法忘记第一次见到小家伙的场景，他紧握着一双小手，眼睛半闭半睁，好奇的打量着周围的一切。虽然我嘴上一直在埋怨小家伙让他妈妈挨了一刀，但心里还是对他充满了怜爱。唯一遗憾的是，陪在她们母子身边的时间太短，不等小家伙满月我就不得不离开她们母子俩，带着不舍与留恋重新投入到工作中。</p>
 <p>这次端午节回家，小家伙给了我一个大大的惊喜。刚一见面，盯着看了我半天，然后就用一双小手抚摸我的脸，最后，嘿嘿一笑，扑到我的怀里。那一刻，时间仿佛静止，而我又找到了初恋的感觉[害羞]。这不禁又让我感慨了一番：不能时刻陪在你身边，经历你的成长，听到你第一次喊爸爸。终究是我无法弥补的遗憾。这里不奢望能得到你的原谅，只希望将来的某一天你能理解。成年人的生活里没有容易二字。爱❤你我的小宝贝！            </p>
 <p>再过一个多月我们家宝宝就一岁了，这一年来我经历了很多，也成长了很多。感谢妻子的宽容和奉献，她总是迁就我的时不时就发作的小情绪，安慰我，鼓励我，支持我。尽她最大的力量来爱我和儿子。爱❤你我的大宝贝！你和儿子就是我的一切，我的天下无双。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -749,7 +763,7 @@
     <link href="http://XibHe.github.io/2017/05/31/hacker-and-artist/"/>
     <id>http://XibHe.github.io/2017/05/31/hacker-and-artist/</id>
     <published>2017-05-30T16:00:00.000Z</published>
-    <updated>2017-06-30T14:50:11.000Z</updated>
+    <updated>2017-10-14T02:47:50.000Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://imciel.com" target="_blank" rel="external">郭一刀</a>推荐的一本书，一本关于创业经历，软件开发，个人品味的书。也许是书中的章节相互独立，给我的感觉像是集合了众多的tips。而这些闪光点，或是忠告，或是建议，或者结合了很多事实而形成的结论。读后给我一种醍醐灌顶的感觉，Paul结合自己的创业和开发经历，将计算机编程的本质娓娓道来。全书大致分成三个部分:</p>
 <ul>
@@ -782,6 +796,8 @@
 <li>好设计常常是大胆的设计</li>
 </ul>
 </blockquote>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -802,7 +818,7 @@
     <link href="http://XibHe.github.io/2017/05/04/%E4%BD%BF%E7%94%A8JSExport%E8%BF%9B%E8%A1%8CJS%E4%BA%A4%E4%BA%92%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98/"/>
     <id>http://XibHe.github.io/2017/05/04/使用JSExport进行JS交互时遇到的一个问题/</id>
     <published>2017-05-03T16:00:00.000Z</published>
-    <updated>2017-06-25T07:18:18.000Z</updated>
+    <updated>2017-10-14T02:47:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
@@ -820,6 +836,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>
 <h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">点击下载</a></p>
 <h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>这里只有获取购物车最新商品数量时，无法调用JS交互方法，其他的JS交互方法仍然可以调用。那么<font color="#FA8072">获取JSContext的时机是什么</font></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -843,7 +861,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/04/27/HTTPS/"/>
     <id>http://XibHe.github.io/2017/04/27/HTTPS/</id>
     <published>2017-04-26T16:00:00.000Z</published>
-    <updated>2017-06-30T14:53:25.000Z</updated>
+    <updated>2017-10-14T02:48:05.000Z</updated>
     
     <content type="html"><![CDATA[<p>HTTPS只是标准HTTP协议涂上一层美味的SSL/TLS加密信息。 除非出现严重错误,它可以防止人们因<a href="https://en.wikipedia.org/wiki/Alice_and_Bob" target="_blank" rel="external">infamous Eve</a>查看或修改那些构成你浏览中产生的请求；让你可以安全的在你的电脑和服务器之间发送密码、通信和信用卡信息等数据。当绿色小挂锁和字母“https”出在你的地址栏时，并不意味你所访问的网站仍是之前的，而不是已经被篡改过的，当你打开网页时这些标识至少帮助你安全地访问网页。</p>
 <h2 id="1-什么是HTTPS以及它做了什么"><a href="#1-什么是HTTPS以及它做了什么" class="headerlink" title="1.什么是HTTPS以及它做了什么?"></a>1.什么是HTTPS以及它做了什么?</h2><p>HTTPS是著名的HTTP协议，是在SSL / TLS(以下简称为“SSL”)加密层之上。服务器和客户端仍然通过完全相同的HTTP协议进行通信，但二者的通信是建立在一个安全的SSL连接,加密和解密请求和响应体系之上的。SSL有两个主要目的:</p>
@@ -883,6 +901,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="http://robertheaton.com/2014/03/27/how-does-https-actually-work/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">How does HTTPS actually work?</a></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font size="4" face="黑体"> 《图解HTTP》 </font>
 
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -907,7 +927,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/04/24/Graphics-rendering/"/>
     <id>http://XibHe.github.io/2017/04/24/Graphics-rendering/</id>
     <published>2017-04-23T16:00:00.000Z</published>
-    <updated>2017-07-06T12:42:05.000Z</updated>
+    <updated>2017-10-14T02:46:12.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="图形绘制"><a href="#图形绘制" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
 <h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>UIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创建基于矢量的路径，例如椭圆或者矩形，或者有多个直线和曲线段组成的形状。我们可以用moveToPoint: 和 addLineToPoint:方法去构建。moveToPoint:设置我们想要创建形状的起点。从这点开始，我们可以用方法addLineToPoint:去创建一个形状的线段。我们可以连续的创建line，每一个line的起点都是先前的终点，终点就是指定的点。closePath可以在最后一个点和第一个点之间画一条线段。</p>
@@ -1116,6 +1136,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <li><a href="http://stackoverflow.com/questions/78127/cgpathaddarc-vs-cgpathaddarctopoint" target="_blank" rel="external">CGPathAddArc vs CGPathAddArcToPoint
 </a></li>
 </ul>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1142,7 +1164,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/03/31/Harden-your-mind/"/>
     <id>http://XibHe.github.io/2017/03/31/Harden-your-mind/</id>
     <published>2017-03-30T16:00:00.000Z</published>
-    <updated>2017-06-22T12:48:36.000Z</updated>
+    <updated>2017-10-14T02:47:59.000Z</updated>
     
     <content type="html"><![CDATA[<p>前段时间看了casa的直播《闲话iOS架构》，收看直播时，很多人在聊天里发言询问<font color="#FA8072">迅速提高技术有什么捷径</font>?而casa的回答是<font color="#FA8072">多想多练</font>。casa直播背景是一个书架，书架上摆满了书，中途一直有人发消息询问大神背后的书架都有什么书？给我最直观的感觉是大家很浮躁，总是想通过一种事半功倍的方式快速摘取成功果实，却忽略了平时的积累，正是这些小的积累，造就大的爆发。</p>
 <p>《闲话iOS架构》提到的内容如下:</p>
@@ -1179,6 +1201,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 </blockquote>
 <p>casa所讲的内容多是通过平时代码积累得来的方法论，如果没有一定的代码积累和长期的项目实践是很难彻底理解这些内容的。iOS应用架构看着很高大上，但需要在牢固的基础之上一层层堆砌成高楼。忽视这些必要的步骤，一味粉饰自己，到头来也只是黄粱一梦一场空。再回过头来看目前国内知识付费现象，觉得是一个泡沫。正如知乎上所说，<font color="#FA8072">知识付费，抓的不是人的求知欲，抓的是人的焦虑感</font>。人们焦虑，希望有人告诉他们捷径，如何更快的获得成功。<font color="#FA8072">这里莫名的想到成功学，成功的永远是成功学的讲师。当代知识产品最大的痛点就是:不看书。</font></p>
 <p>我们急切的接受别人输出的价值观，却选择性的忽略掉自己的内心真正的诉求。书上得来总觉浅，听人道出方觉深，互补的只是不愿意努力看书或是去实践的懒惰。知识经济本质上就是粉丝经济的另一种表现形式。最后，还是想强调一下，作为一名攻城狮通过解决日常遇到的问题，或由浅而深，或发散思维都可以一步步引导至问题的核心。切忌自以为是，舍本逐末。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1201,7 +1225,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/03/15/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91(%E4%BA%8C)/"/>
     <id>http://XibHe.github.io/2017/03/15/待办事项提醒功能开发(二)/</id>
     <published>2017-03-15T09:01:00.000Z</published>
-    <updated>2017-06-22T12:50:18.000Z</updated>
+    <updated>2017-10-14T02:46:39.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h2><h2 id="入库操作"><a href="#入库操作" class="headerlink" title="入库操作"></a>入库操作</h2><h2 id="界面绘制"><a href="#界面绘制" class="headerlink" title="界面绘制"></a>界面绘制</h2><h2 id="通知log表"><a href="#通知log表" class="headerlink" title="通知log表"></a>通知log表</h2><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
 <li>时间转化的时区设置</li>
@@ -1212,6 +1236,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <li>iOS 10之后的推送</li>
 </ul>
 <h1 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h1><p><a href="https://github.com/XibHe/ToDoList" target="_blank" rel="external">点击下载</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1234,7 +1260,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/03/13/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91(%E4%B8%80)/"/>
     <id>http://XibHe.github.io/2017/03/13/待办事项提醒功能开发(一)/</id>
     <published>2017-03-13T14:50:06.000Z</published>
-    <updated>2017-06-22T13:56:35.000Z</updated>
+    <updated>2017-10-14T02:46:51.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>根据用户所添加某件商品的生产日期和保质期天数计算商品的过期日期，在过期前的时间内，用户可以设置提醒的具体时间点和提醒频次，系统根据用户设置的提醒时间和提醒频次通知用户某某商品该使用了。具体操作步骤如下:</p>
 <ul>
@@ -1303,6 +1329,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>1.更新保质期提醒任务表<br>2.更新通知表<br>3.更新通知log表<br>4.上传服务器编辑后的通知提醒数据</p>
 </blockquote>
 <p><font color="#FA8072"> 需要注意本地通知的官方文档是否有最近的跟新 </font>，待续……</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1325,7 +1353,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/02/26/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%E5%88%AB%E4%BA%BA%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%E4%BD%93%E4%BC%9A/"/>
     <id>http://XibHe.github.io/2017/02/26/第一次面试别人是怎样的体会/</id>
     <published>2017-02-25T16:00:00.000Z</published>
-    <updated>2017-06-22T12:30:46.000Z</updated>
+    <updated>2017-10-14T02:47:00.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="不安的开始"><a href="#不安的开始" class="headerlink" title="不安的开始"></a>不安的开始</h2><p><img src="http://odchyrav4.bkt.clouddn.com/6KKS~QKHI1B3G_5%7BK09%7DW%7DE.jpg" alt="iOS开发没人要了"><br>自从去年后半年以来，iOS开发相关工作就被唱衰。很多人抱怨裸辞后找不到工作，可谓是哀鸿遍野。看到了太多这样的帖子，身边也有相识的人遭遇了公司解散，失业后迟迟找不到工作的窘境。这也直接导致了我内心的忐忑和不安，不禁要问，iOS从业者的未来在哪里？我又该何去何从呢？这样的疑问，这样的不安，一直伴随着我。在结合别人的现实的遭遇后，分析了一下造成现阶段初级，中级iOS从业者找工作难的原因:</p>
 <blockquote>
@@ -1369,6 +1397,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>“感觉每个做技术的一开始都是一粒沙子，不断修炼学习吸收营养变成大颗粒的沙子。 再学习其他东西把自己变成土块儿，时间是一把大筛子，每次过滤掉小沙粒，只留大块儿在上面，在你被筛掉之前要么变的比网眼大留下来，要么赶紧被筛掉转行吧!”</p>
 </blockquote>
 <p>最后来个总结吧！猥琐发育，别浪！</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1393,7 +1423,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/02/19/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2/"/>
     <id>http://XibHe.github.io/2017/02/19/适配器模式初探/</id>
     <published>2017-02-18T20:23:06.000Z</published>
-    <updated>2017-07-06T01:27:30.000Z</updated>
+    <updated>2017-10-14T02:46:05.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h1><p>解决ViewConctroller里冗余代码过多的问题，将公用模块抽离出来。这里将项目中用到的拍照，调用相册，录像，定位等功能单独抽离出来放在一起。</p>
 <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><ul>
@@ -1616,6 +1646,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p><a href="https://github.com/XibHe/AdapterPatternTest" target="_blank" rel="external"><font color="#FA8072"> 源码下载地址 </font></a></p>
 <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>该Demo中使用调用相机，相册，录制视频的功能，当系统为iOS 10以上访问权限的设置有所不同，需要在工程中的plist文件中添加对应的描述。Demo中的plist，<br>如图，<br><img src="http://odchyrav4.bkt.clouddn.com/QQ20170313-0@2x.png" alt="工程截图"></p>
 <p>其他功能访问权限设置，<br><a href="http://stackoverflow.com/questions/38498275/ios-10-changes-in-asking-permissions-of-camera-microphone-and-photo-library-c" target="_blank" rel="external"><font color="#FA8072"> iOS 10 - Changes in asking permissions of Camera, microphone and Photo Library causing application to crash </font></a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1640,7 +1672,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/01/15/%E5%86%8D%E8%A7%81%EF%BC%812016/"/>
     <id>http://XibHe.github.io/2017/01/15/再见！2016/</id>
     <published>2017-01-15T13:25:10.000Z</published>
-    <updated>2017-06-23T07:17:13.000Z</updated>
+    <updated>2017-10-14T02:47:35.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="结婚"><a href="#结婚" class="headerlink" title="结婚"></a>结婚</h2><p>2016年注定是不平凡的一年，我和花花（我媳妇的外号）在2月14日领的结婚证，这天也是西方的情人节。从这天起我要履行法律赋予我作为一个丈夫的责任和义务。我和花花是大学同学，相识六年，经历了种种磨难和阻力，最终走到了一起。她是我的福星，我的天使，没有花花的鼓励和支持我不敢想象我会变成什么样子。谢谢你包容我的时不时的坏脾气，容忍我的懒散，不思进取，选择和我在一起。承担起本不该属于你的忧愁和压力。<font size="4" face="黑体">我的挚爱，我的血肉。</font>谢谢你一路的陪伴。</p>
 <h2 id="生子"><a href="#生子" class="headerlink" title="生子"></a>生子</h2><p>16年，给了我太多的惊喜和感动。我又办成了人生的另外一件大事—孕育下一代。我们家小宝贝的出生好似给我注入了一剂强心剂，让我感到内心无比的强大。前期的彷徨无措，以及不知该如何适应父亲这个新角色的焦躁不安随着我们家小宝贝的降生，被一扫而空。又是一个给我带来好运的小天使，每每想到小家伙那粉嫩的面庞，心中就为之躁动起来。他的一举一动都牵动着我，同时，也感到肩上的责任越来越重了。我会更加努力<font size="4" face="黑体">为你打下一片大大的疆土。</font>我的小宝贝。</p>
@@ -1671,6 +1703,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>2017年会继续坚持写博客，写那些真正经过自己深入研究过的东西，写那些日常项目中真正遇到并最终解决的问题，写对自己对别人有用的东西。只有这样才能提高文章的质量，付出的时间才能得到最大化的利用。</p>
 <h2 id="新技术"><a href="#新技术" class="headerlink" title="新技术"></a>新技术</h2><p>16年8月初，学习了最新的Swift 3.0，当然，现在最新的是Swift 3.01。从官网下了<a href="https://developer.apple.com/swift/resources/" target="_blank" rel="external">The Swift Programming Language(Swift 3.01)</a>，通过官网下载时会跳转到iBooks，但由于一些众所周知的原因，iBooks中国区是无法下载的，需要使用美区账号登录iBooks。可以结合<a href="http://wiki.jikexueyuan.com/project/swift/" target="_blank" rel="external">极客学院Wiki</a>简体中文翻译看。目前，自己只看到了<font size="4" face="黑体"> Functions </font>这章，17年还需要继续学习剩下的部分，再使用Swift编写一个具体的项目。17年计划学习一些热更新的技术，并计划在自己做的项目中使用一种热更新技术，实现动态化的修改项目中的代码。17年，希望自己能在iOS之外，能入门一种新的技术，拓宽自己的视野，达到自己心中设定的新的高度，看到之前看不到风景。</p>
 <h2 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h2><p>17年是公司发展历程中重要的一年，也是我所在项目组所开发的项目大范围推广的一年，我们将迎来更多的用户，更大的并发量，会根据市场反应快速迭代产品。我们渴望在项目中使用新的技术，不断的提高用户体验，同时，又能不影响项目上线时间。希望我们产品被更多的人使用，得到大家的认可。同时，希望我们团队<font size="4" face="黑体"> 永远年轻，永远热泪盈眶。</font></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1693,7 +1727,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2016/12/06/iOS%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E7%AE%80%E4%BB%8B%20%20/"/>
     <id>http://XibHe.github.io/2016/12/06/iOS蓝牙开发简介  /</id>
     <published>2016-12-06T10:31:54.000Z</published>
-    <updated>2017-06-22T12:49:20.000Z</updated>
+    <updated>2017-10-14T02:48:12.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="iOS蓝牙开发简介"><a href="#iOS蓝牙开发简介" class="headerlink" title="iOS蓝牙开发简介"></a>iOS蓝牙开发简介</h1><p>蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。</p>
 <p>总结了一下，一共有五种方式可以实现蓝牙通信:</p>
@@ -1990,6 +2024,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p><a href="http://stackoverflow.com/questions/19998078/corebluetooth-cannot-find-devices-but-ios-can" target="_blank" rel="external">CoreBluetooth cannot find devices but iOS can</a></p>
 <p><a href="https://www.v2ex.com/t/179481" target="_blank" rel="external">请教熟悉iOS的朋友一个问题</a></p>
 <p><a href="http://www.jianshu.com/p/760f042a1d81" target="_blank" rel="external">【译】iOS蓝牙编程指南 – 核心蓝牙概述</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -2012,7 +2048,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2016/09/18/%E8%AE%B0%E4%B8%80%E4%B8%AA%E5%9C%A8%E4%BD%BF%E7%94%A8Masonry%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://XibHe.github.io/2016/09/18/记一个在使用Masonry时遇到的问题/</id>
     <published>2016-09-18T12:35:34.000Z</published>
-    <updated>2017-06-22T12:51:05.000Z</updated>
+    <updated>2017-10-14T02:47:17.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用Masonry的场景"><a href="#使用Masonry的场景" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
 <p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
@@ -2034,6 +2070,8 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
 <p>造成这个问题的主要原因是我没有认真看Masonry的文档，文档上说的已经很清楚了。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
