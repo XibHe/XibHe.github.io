@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://XibHe.github.io/quotes/index.html</loc>
+    
+    <lastmod>2017-10-14T08:01:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://XibHe.github.io/2016/01/16/summary/</loc>
     
     <lastmod>2017-10-14T02:48:24.000Z</lastmod>
@@ -173,13 +180,6 @@
     <loc>http://XibHe.github.io/2017/10/10/SwiftUsageRate/</loc>
     
     <lastmod>2017-10-14T02:39:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://XibHe.github.io/quotes/index.html</loc>
-    
-    <lastmod>2017-09-29T08:25:35.000Z</lastmod>
     
   </url>
   
