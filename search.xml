@@ -58,7 +58,7 @@
 <p><strong>迈克尔·劳尔</strong>：使用Swift的主要好处，“我们”要感谢轻量级泛型和可空性，但这是关于它的。如果背后有相同的人力投入，我只会希望Objective-C能获得Swift这样的好处。</p>
 <p><strong>丹·莱弗斯</strong>：我认为这最初是有帮助的，但我现在强烈感觉到，这样的做法有些舍本逐末了。</p>
 <p><strong>托德·托马斯</strong>：我认为这有帮助。他们为Swift的语言添加了许多有用的东西，所以我们不能抱怨。</p>
-<p><strong>伊恩·麦克道尔</strong>：Objective-C已经从Swift获得了一些很好的功能，包括@available语法和可空性说明符。这是一种稳定的语言，我没有想到它会改变任何事情。</p>
+<p><strong>伊恩·麦克道尔</strong>：Objective-C已经从Swift获得了一些很好的功能，包括<font color="#C52950"><code>@available</code></font>语法和可空性说明符。这是一种稳定的语言，我没有想到它会改变任何事情。</p>
 <blockquote>
 <p>在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
 </blockquote>
@@ -71,8 +71,11 @@
 <p>听到大多数人说他们在iPhone SDK第一次启用或不久之后立即使用Objective-C，几个人已经使用了十多年，其中一个人27了——是的,27岁。我应该补充说，一位回应者表示他们最近开始使用Objective-C，所以也许还存在一些固执的人。</p>
 <p>另外还有一件事：去年，我写了一本名为<a href="https://www.hackingwithswift.com/store/objective-c-for-swift-developers" target="_blank" rel="external">Objective-C for Swift Developers</a>的书，在介绍中，我介绍了一个题为“我喜欢Objective-C”的部分，这里是我写的一些话：</p>
 <p>当我阅读本书的第一本完整的草稿时，我想到了自己，“哇，这看起来像是Snark的Objective-C指南”，因为几乎每一章都觉得是在抱怨。</p>
-<font color="#34f422">未完待续……</font>
-
+<p>结果，我花了一些时间来编辑这本书，让它更加完美 - 不是因为我试图用人造光线向你呈现东西，而是因为我真的很喜欢用Objective-C编码。在Apple发布Swift时，我就开始使用Swift了，并且在早期就发布了一款Swift应用程序到App Store上。因此，在许多方面，和Swift相比Objective-C只是看起来很糟糕，我已经使用Swift很长时间了，再次使用Objective-C感觉有点像从长期生活的大城市回到老家过圣诞节一样。</p>
+<p>我不知道我是否喜欢Objective-C，因为我有斯德哥尔摩综合症，或者是因为苹果的API是如此强大。无论如何，我认为重要的是你意识到，一些令人惊奇的软件已经与Objective-C一起构建，许多人始终如一的爱着她。</p>
+<p>当你在这本书中发现让你感到沮丧的事情时，你要温柔一点：这是一种古老的语言，经历了坎坷的发展历程。它为我们提供了很好的服务。至少，在它慢慢远离人们视线时应该被尊重!</p>
+<p><strong>谢谢Steve 史蒂夫·特劳顿 - 史密斯，迈克尔·劳尔，丹·莱弗斯，彼得·莫尔纳尔，托德·托马斯，伊恩·麦克道尔，西蒙·沃尔夫，马尔科·阿门特，以及马塞尔·维赫尔，花时间对这篇文章发表观点。</strong></p>
+<p>现在结束了 - 如果你仍然喜欢在Swift上使用Objective-C，可以在<a href="https://twitter.com/twostraws" target="_blank" rel="external">Twitter</a>上联系我！</p>
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.hackingwithswift.com/articles/27/why-many-developers-still-prefer-objective-c-to-swift?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">Why many developers still prefer Objective-C to Swift</a></p>
 ]]></content>
       
@@ -1168,9 +1171,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -1257,9 +1260,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -2342,12 +2345,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-09-29"><a href="#2017-09-29" class="headerlink" title="2017/09/29"></a>2017/09/29</h3><blockquote>
@@ -2487,6 +2484,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
