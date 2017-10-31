@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-10-14T02:39:21.000Z</updated>
+  <updated>2017-10-31T12:39:02.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,46 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>直播那些事</title>
+    <link href="http://XibHe.github.io/2017/10/31/%E7%9B%B4%E6%92%AD%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
+    <id>http://XibHe.github.io/2017/10/31/直播那些事/</id>
+    <published>2017-10-30T16:00:00.000Z</published>
+    <updated>2017-10-31T12:39:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
+<h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
+<h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
+<p>在阿里云提交工单后，得到了最终的反馈，如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live2.png" alt="2"></p>
+<p>最后，联系了技术支持，连麦上限最终为4人。</p>
+<h3 id="zego直播"><a href="#zego直播" class="headerlink" title="zego直播"></a><a href="https://www.zego.im" target="_blank" rel="external">zego直播</a></h3><p>zego直播中提供实时视频通话、连麦互动直播和即时通讯功能，实时视频场景的典型使用案例是同一房间内的成员（如微信群视屏），进行实时视频对话同一房间中的用户均可发起视频通话。连麦功能支持20个连麦观众。</p>
+<p>提供了实时视频通话的解决方案，如图<br><img src="http://odchyrav4.bkt.clouddn.com/live3.png" alt="3"></p>
+<h3 id="七牛云直播"><a href="#七牛云直播" class="headerlink" title="七牛云直播"></a><a href="https://www.qiniu.com/?hmsr=biaoti&amp;hmpl=pinzhuan&amp;hmcu=biaoti&amp;hmkw=&amp;hmci=" target="_blank" rel="external">七牛云直播</a></h3><p>七牛云提供强大的直播以及连麦服务，有提供强大的连麦功能，且无上限，受限于客户端的总体带宽，建议8路以下。</p>
+<h3 id="腾讯云直播"><a href="#腾讯云直播" class="headerlink" title="腾讯云直播"></a><a href="https://cloud.tencent.com/product/LVB" target="_blank" rel="external">腾讯云直播</a></h3><p>腾讯云分为直播、互动直播、移动直播多种视频服务，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live4.png" alt="4"></p>
+<p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
+<p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！&lt;/p&gt;
+&lt;h2 id=&quot;对比几种不同的直播SDK&quot;&gt;&lt;a href=&quot;#对比几
+    
+    </summary>
+    
+      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
+    
+    
+      <category term="直播" scheme="http://XibHe.github.io/tags/%E7%9B%B4%E6%92%AD/"/>
+    
+  </entry>
   
   <entry>
     <title>(译)为何许多开发者仍然喜欢用Objective-C，而不是Swift</title>
@@ -2040,52 +2080,6 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="蓝牙开发" scheme="http://XibHe.github.io/tags/%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91/"/>
     
       <category term="iOS BLE 开发" scheme="http://XibHe.github.io/tags/iOS-BLE-%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一个在使用Masonry时遇到的问题</title>
-    <link href="http://XibHe.github.io/2016/09/18/%E8%AE%B0%E4%B8%80%E4%B8%AA%E5%9C%A8%E4%BD%BF%E7%94%A8Masonry%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>http://XibHe.github.io/2016/09/18/记一个在使用Masonry时遇到的问题/</id>
-    <published>2016-09-18T12:35:34.000Z</published>
-    <updated>2017-10-14T02:47:17.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="使用Masonry的场景"><a href="#使用Masonry的场景" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h1><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
-<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
-<p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png" alt="代码"></p>
-<p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png" alt="报错"></p>
-<p>刚开始没有意识到改变UIImageView的约束导致的新旧两种约束冲突造成的问题。在一个小时未解决该问题后，放弃了使用Masonry，改为使用代码做布局。今天，再回头看看这个问题，联想到忽略了什么东西，就打开Masonry文档从头开始仔细往下看，结果就看到了这句话，</p>
-<blockquote>
-<p>Sometimes you need modify existing constraints in order to animate or remove/replace constraints. In Masonry there are a few different approaches to updating constraints.</p>
-</blockquote>
-<p>文档上列举了三种修改现有约束的方法，</p>
-<ol>
-<li><p><strong>References</strong><br>你可以引用一个特定约束条件的约束，使表达式的结果分配给一个局部变量或一个类属性。</p>
-</li>
-<li><p><strong>mas_updateConstraints</strong><br>作为一种选择，如果你只是去更新固有的约束值，你可以使用<strong>mas_updateConstraints</strong>这种便利的方法替换<strong>mas_makeConstraints</strong>。</p>
-</li>
-<li><p><strong>mas_remakeConstraints</strong><br><strong>mas_updateConstraints</strong>用于更新一组约束，但要做那些费力的超出超出常量值的约束更新。这时就需要选择<strong>mas_remakeConstraints</strong>。<br><strong>mas_remakeConstraints</strong>类似于<strong>mas_updateConstraints</strong>，但它不是更新常量值，当再次为这些已经存在约束的视图设置约束前，它会移除掉该视图上的所有约束。这就让你可以为视图设置新的约束，而不用考虑移除之前已经存在的其他约束。</p>
-</li>
-</ol>
-<p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
-<p>造成这个问题的主要原因是我没有认真看Masonry的文档，文档上说的已经很清楚了。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;使用Masonry的场景&quot;&gt;&lt;a href=&quot;#使用Masonry的场景&quot; class=&quot;headerlink&quot; title=&quot;使用Masonry的场景&quot;&gt;&lt;/a&gt;使用Masonry的场景&lt;/h1&gt;&lt;p&gt;在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="Masonry" scheme="http://XibHe.github.io/tags/Masonry/"/>
-    
-      <category term="iOS适配" scheme="http://XibHe.github.io/tags/iOS%E9%80%82%E9%85%8D/"/>
     
   </entry>
   

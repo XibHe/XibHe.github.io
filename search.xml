@@ -3,6 +3,43 @@
   
     
     <entry>
+      <title><![CDATA[直播那些事]]></title>
+      <url>/2017/10/31/%E7%9B%B4%E6%92%AD%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+      <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
+<h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
+<h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
+<p>在阿里云提交工单后，得到了最终的反馈，如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live2.png" alt="2"></p>
+<p>最后，联系了技术支持，连麦上限最终为4人。</p>
+<h3 id="zego直播"><a href="#zego直播" class="headerlink" title="zego直播"></a><a href="https://www.zego.im" target="_blank" rel="external">zego直播</a></h3><p>zego直播中提供实时视频通话、连麦互动直播和即时通讯功能，实时视频场景的典型使用案例是同一房间内的成员（如微信群视屏），进行实时视频对话同一房间中的用户均可发起视频通话。连麦功能支持20个连麦观众。</p>
+<p>提供了实时视频通话的解决方案，如图<br><img src="http://odchyrav4.bkt.clouddn.com/live3.png" alt="3"></p>
+<h3 id="七牛云直播"><a href="#七牛云直播" class="headerlink" title="七牛云直播"></a><a href="https://www.qiniu.com/?hmsr=biaoti&amp;hmpl=pinzhuan&amp;hmcu=biaoti&amp;hmkw=&amp;hmci=" target="_blank" rel="external">七牛云直播</a></h3><p>七牛云提供强大的直播以及连麦服务，有提供强大的连麦功能，且无上限，受限于客户端的总体带宽，建议8路以下。</p>
+<h3 id="腾讯云直播"><a href="#腾讯云直播" class="headerlink" title="腾讯云直播"></a><a href="https://cloud.tencent.com/product/LVB" target="_blank" rel="external">腾讯云直播</a></h3><p>腾讯云分为直播、互动直播、移动直播多种视频服务，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live4.png" alt="4"></p>
+<p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
+<p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Objective-C </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 直播 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[(译)为何许多开发者仍然喜欢用Objective-C，而不是Swift]]></title>
       <url>/2017/10/10/SwiftUsageRate/</url>
       <content type="html"><![CDATA[<p>iOS SDK已经发布很多年了，开发人员纷纷涌向Objective-C，他们力图通过开发会大卖应用程序而获得丰厚的回报。但那样的时代如今已不复存在了：Swift已经面世三年多了，与Objective-C相比，大大地获取了大家的关注度。</p>
@@ -2336,9 +2373,9 @@ pod setup
         
         <tags>
             
-            <tag> JavaScriptCore </tag>
-            
             <tag> iOS </tag>
+            
+            <tag> JavaScriptCore </tag>
             
             <tag> iOS与JS交互 </tag>
             
@@ -2391,12 +2428,6 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -2547,6 +2578,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
