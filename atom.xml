@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-10-31T12:54:38.000Z</updated>
+  <updated>2017-11-06T12:33:34.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,217 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用JenKins持续集成iOS项目时遇到的问题</title>
+    <link href="http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/"/>
+    <id>http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/</id>
+    <published>2017-11-05T16:00:00.000Z</published>
+    <updated>2017-11-06T12:33:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团队开发更加快捷。</p>
+<p>CI是一种开发实践。实践应该包含3个基本模块，一个可以自动构建的过程，自动编译代码，可以自动分发，部署和测试。一个代码仓库，SVN或者Git。最后一个是一个持续集成的服务器。通过持续集成，可以让我们通过自动化等手段高频率地去获取产品反馈并响应反馈的过程。</p>
+<h2 id="持续集成的优点"><a href="#持续集成的优点" class="headerlink" title="持续集成的优点"></a>持续集成的优点</h2><ol>
+<li>缩减开发周期，快速迭代版本</li>
+<li>自动化流水线操作带来的高效</li>
+<li>随时可部署</li>
+<li>极大程度避免低级错误</li>
+</ol>
+<h2 id="持续化集成工具—JenKins"><a href="#持续化集成工具—JenKins" class="headerlink" title="持续化集成工具—JenKins"></a>持续化集成工具—JenKins</h2><p>Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。</p>
+<p>JenKins的用途:</p>
+<ol>
+<li>构建项目自动化打包可以省去开发人员好多时间，重要的是，Jenkins为我们维护了一套高质量可用的代码，而且保证了一个纯净的环境。</li>
+<li>可以用来自动化测试，在本地生成大批的测试用例，每天利用服务器不断的跑这些用例。</li>
+<li>静态代码分析，可以检测出很多代码的问题，比如潜在的内存泄露的问题。</li>
+<li>随时部署，Jenkins在打包完成之后可以设定之后的操作，这个时候往往就是提交app到跑测试用例的系统，或者部署到内测平台生成二维码。</li>
+</ol>
+<p>###开始安装JenKins<br>方法一: <a href="https://jenkins.io" target="_blank" rel="external">直接下载安装包</a><br>需要注意选择自定义安装，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-2.png?attname=" alt=""></p>
+<p>取消”Start at boot as jenKins”的勾选，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-3.png?attname=" alt=""></p>
+<p>安装完成后在Terminal中输入,</p>
+<blockquote>
+<p>open /Applications/Jenkins/jenkins.war</p>
+</blockquote>
+<p>即可打开Jenkins</p>
+<p>方法二: 使用命令行安装<br>安装JenKins，</p>
+<blockquote>
+<p>$ brew install jenkins</p>
+</blockquote>
+<p>若brew无效？则需要安装homebrew，</p>
+<blockquote>
+<p>$ ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="external">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”</p>
+</blockquote>
+<p>启动JenKins，</p>
+<blockquote>
+<p>$ jenkins</p>
+</blockquote>
+<p>启动JenKins后使用浏览器访问JenKins，</p>
+<p>地址为: <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a></p>
+<p>使用安装包安装后会自动打开，如果端口冲突那么请修改端口</p>
+<blockquote>
+<p>defaults write /Library/Preferences/org.jenkins-ci httpPort 7070</p>
+</blockquote>
+<font color="948eee">推荐使用方法二安装JenKins，使用命令行可以避免后面构建项目时，报一些莫名其妙的权限错误。</font><br>### 安装插件<br>若使用git做源码管理，则需要安装<br><br><em> GIT plugin
+</em> GitHub plugin<br><br>这两个插件，为了方便管理打包证书，需要安装插件<br><br><em> Keychains and Provisioning Profiles Management<br><br>由于需要使用Xcode编译环境，因此必须要安装插件
+
+</em> Xcode integration<br><br>下面这两个方式都可以找到插件管理<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/plugin-1.png?attname=" alt=""><br><br>## 配置构建环境<br><br>在配置构建环境前，我们先来导入一下打包证书，点击系统管理，找到刚才添加的插件<font color="ff6d55">Keychains and Provisioning Profiles Management</font>，点击选取文件，导入名为<font color="ff6d55">login.keychain</font>的钥匙串文件。<br><br>&gt; 这个Keychain其实在/Users/管理员用户名/Library/keychains/login.keychain,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到/Users/管理员用户名/.jenkins/workspace/项目目录名称，(.jenkins是隐藏文件)。<br><br>如图所示，<br><br><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration1.png" alt=""><br><br>其中，Keychains中的Identities输入项，对应的是刚才点击<font color="ff6d55">Upload</font>后钥匙串中的测试证书名称，发布证书名称(需要输入证书名称)。<br><br>Provisioning Profiles中对应的是刚才上传的证书配置文件。这些配置文件的存放路径为:<font color="ff6d55">/Users/管理员用户名/Library/MobileDevice/Provisioning Profiles</font>
+
+<p>这样Adhoc证书和签名文件就在Jenkins中配置好了，接下来我们只需要在项目的构建配置中指定相关文件即可。</p>
+<p><font color="ff6d55" size="4">注意</font>: 有些升级了最新的Mac OS系统后，<font color="ff6d55">/Users/管理员用户名/Library/keychains</font>目录下没有login.keychain文件，有的是一个名为login.keychain-db的文件，这是需要将login.keychain-db文件copy到桌面，修改成文件名为login.keychain。点击”选取文件”，选取并上传这个修改名称后的login.keychain文件。</p>
+<p>导入证书后需要在”系统管理”–&gt;”系统设置”里再设置”Xcode Builder”时，访问证书的全局路径。如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration6.png" alt=""></p>
+<p>“Keychain path”为钥匙串的本地路径，”Keychain password”为访问钥匙串的密码。设置完成后不要忘记点击”保存”。</p>
+<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>新建 -&gt; 输入项目名称 -&gt; 选择“构建一个自由风格的软件项目” -&gt; 点击ok就行了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1194012-b52d3d102c21f004.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration2.png" alt=""></p>
+<p>其中，Repository URL对应的是svn的路径，Credentials为登录svn时的用户账号密码，点击”Add”按钮添加即可。Check-out Strategy最好选择每次update最新代码前都revert下，而不是“Use ‘svn update’ as much as possible” ，因为我使用的是CocoaPods管理的第三方，每次打包运行pod install会修改了工程配置文件，如果下次自动打包前不先revert再update的话会出现冲突。</p>
+<h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里就是告诉jenkins什么时候自动构建,这里我同时设置了每周一到周五在每天的8点到9点之间执行一次,当然也可以不设置。</p>
+<p><img src="http://7xkqix.com1.z0.glb.clouddn.com/triggerinfo.png?attname=" alt=""></p>
+<h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“Keychains andProvisioning Profiles Management”和“Mobile Provisioning Profiles”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2367707-b8668d49ff828810.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2367707-e86675d8dc8c675e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>这里Code Signing Identity和Provisioning Profile选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
+<h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br>pod install –verbose –no-repo-update安装下第三方库。</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration3.png" alt=""></p>
+<p><font color="ff6d55" size="5">注意:</font>执行pod install命令时，需要cd到pod文件所在的目录，<font color="ff6d55">${WORKSPACE}</font>是项目在JenKins中的工作目录，而我的项目由于多套了一层目录BusinessMall，因此需要加上这层目录<font color="ff6d55">${WORKSPACE}/BusinessMall</font>，否则，在构建时就会报:</p>
+<blockquote>
+<p>[!] No `Podfile’ found in the project directory.</p>
+<p>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>的错误。</p>
+<p>添加构建步骤-&gt; Xcode</p>
+<p>General build settings中的Target要与Xcode项目中Target的名字对应，Clean before build设置为YES。</p>
+<p>设置Code signing &amp; OS X keychain options证书信息</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
+<p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
+<p>如果项目使用了cocoapods,需要配置Advanced Xcode build options,设置</p>
+<ol>
+<li>Xcode Schema File，设为Xcode项目中的schema</li>
+<li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
+<li>Build output directory，设为${WORKSPACE}/build/</li>
+</ol>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration5.png" alt=""></p>
+<p><font color="ff6d55">注意:</font>Xcode Workspace File为绝对路径，也就是Jenkins用于构建项目的workspace目录中，.xcworkspace文件所在目录的路径。</p>
+<p>如果路径不正确，则在构建项目时，会报:</p>
+<blockquote>
+<p>open BusinessMall.xcworkspace</p>
+<p>The file /Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall.xcworkspace does not exist.</p>
+<p>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>的错误。</p>
+<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</p>
+<h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><ol>
+<li>pod: command not found</li>
+</ol>
+<blockquote>
+<p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>解决方法: 在系统管理–&gt;系统设置，增加”全局属性”，勾选Environment variables，增加键值对列表。如图，</p>
+<p><img src="http://img.blog.csdn.net/20160816160405862?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>其中，PATH是固定的，值是在终端输入:</p>
+<blockquote>
+<p>$echo $PATH</p>
+</blockquote>
+<p>命令获取，将输入命令后得到的值粘贴过来就可以了。</p>
+<ol>
+<li>ruby_executable_hooks: No such file or directory</li>
+</ol>
+<blockquote>
+<p>Pod: env: ruby_executable_hooks: No such file or directory<br>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>从jekyll有时也会报这个错误得到启示，可能是由于执行pod命令的路径粗存在问题。在终端使用命令:</p>
+<blockquote>
+<p>$ which pod</p>
+</blockquote>
+<p>查看pod的安装路径为: <font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>，而执行pod install的shell的环境变量中可能没有该路径。于是使用命令:</p>
+<blockquote>
+<p>$ gem env</p>
+</blockquote>
+<p>查看SHELL PATH:，发现列表中没有<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。查阅了一些资料(<a href="https://coolestguidesontheplanet.com/add-shell-path-osx/" target="_blank" rel="external">What it is and How to Modify the Shell Path in macOS Sierra and OSX using Terminal</a>)后，发现可以在根目录的.bash_profile中增加永久的路径。在终端输入命令:</p>
+<blockquote>
+<p>$ sudo vi ~/.bash_profile</p>
+</blockquote>
+<p>打开根目录下的.bash_profile文件，将路径<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>插入:</p>
+<blockquote>
+<p>export PATH:”/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod:$PATH”<br>结束编辑esc后，输入:wq保存。在终端输入命令:</p>
+<p>$ source ～/.bash_profile </p>
+</blockquote>
+<p>让这个配置文件在修改后立即生效。此时，再查看gem env发现SHELL PATH:列表中，增加了<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。</p>
+<ol>
+<li>`find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</li>
+</ol>
+<blockquote>
+<p>/Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:271:in <code>find_spec_for_exe&#39;: can&#39;t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)
+    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:299:in</code>activate_bin_path’<br>    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/bin/pod:23:in <code>&lt;main&gt;&#39;
+    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in</code>eval’<br>    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>‘<br>Build step ‘Execute shell’ marked build as failure</main></p>
+</blockquote>
+<p>子所以在构建项目时出现这个错误，是因为看到一篇文章(<a href="http://www.jianshu.com/p/d64f12577be8" target="_blank" rel="external">cocoapods插件GEM_PATH的配置</a>)，说是修改Xcode中CocoaPods插件的GEM_PATH:中的路径与SHELL PATH:中路径一致就能解决:</p>
+<blockquote>
+<p>env: ruby_executable_hooks: No such file or directory</p>
+</blockquote>
+<p>这个错误。于是就在~/.bash_profile文件中增加了一条GEM路径</p>
+<blockquote>
+<p>export GEM_PATH=”/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod”</p>
+</blockquote>
+<p>构建项目后就会报上面的错误，仔细看看，觉得是多了一条无效的执行路径导致的。于是，就删除了那条新添的GEM_PATH，再次构建就不报这个错误了。</p>
+<ol>
+<li>in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </li>
+</ol>
+<blockquote>
+<p>in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </p>
+</blockquote>
+<p>更新一下gem版本，终端命令如下；</p>
+<blockquote>
+<p>$ sudo gem update –system</p>
+</blockquote>
+<p>有时在输入命令后会出现ssh相关的网络错误提示，可以在终端输入命令:</p>
+<blockquote>
+<p>gem sources -a <a href="http://gems.ruby-china.org/" target="_blank" rel="external">http://gems.ruby-china.org/</a></p>
+</blockquote>
+<p>将源地址换为ruby-china。</p>
+<ol>
+<li>报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</li>
+</ol>
+<blockquote>
+<p>Going to invoke xcodebuild:, scheme: Project, sdk: DEFAULT, workspace: Project, configuration: Debug, clean: YES, archive:NO, symRoot: DEFAULT, configurationBuildDir: /Users/ignat/.jenkins/workspace/Project/build, codeSignIdentity: DEFAULT<br>[Project] $ /usr/bin/xcodebuild -scheme Project -workspace Project.xcworkspace -configuration Debug clean build CONFIGURATION_BUILD_DIR=/Users/ignat/.jenkins/workspace/Project/build<br>Build settings from command line:<br>    CONFIGURATION_BUILD_DIR = /Users/ignat/.jenkins/workspace/Project/build</p>
+</blockquote>
+<p>xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.<br>FATAL: Build directory does not exist at /Users/ignat/.jenkins/workspace/Project/build. Potential configuration issue.<br>Build step ‘Xcode’ marked build as failure<br>Finished: FAILURE</p>
+<p>在Xcode中，选择Manage Scheme，勾选对应的<font color="ff6d55">Shared</font>。</p>
+<p>中间使用过命令:</p>
+<blockquote>
+<p>sudo gem install -n /usr/local/bin cocoapods –pre</p>
+</blockquote>
+<p>重装过CocoaPods，目前CocoaPods的版本为: <font color="ff6d55">1.4.0.beta.2</font>。也可以输入命令:</p>
+<blockquote>
+<p>$ sudo gem install cocoapods -v 0.39.0</p>
+</blockquote>
+<p>安装特定版本的CocoaPods。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>由于给iOS项目构建版本时必须依赖于xcodebuild环境。现在是在一台Windows上部署Jenkins环境，可以配置节点，在另一台Mac电脑上打包。具体操作，可以参考这篇文章—<a href="http://blog.csdn.net/syg90178aw/article/details/52221765" target="_blank" rel="external">Jenkins自动打包 配置mac slave节点</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://stackoverflow.com/questions/26247926/how-to-solve-usr-bin-env-ruby-executable-hooks-no-such-file-or-directory" target="_blank" rel="external">How to solve “/usr/bin/env: ruby_executable_hooks: No such file or directory”?
+</a></p>
+<p><a href="https://github.com/openbakery/gradle-xcodePlugin/issues/308" target="_blank" rel="external">/usr/local/bin/pod No such file or directory</a></p>
+<p><a href="https://stackoverflow.com/questions/2975206/how-to-delete-a-gem-path" target="_blank" rel="external">How to delete a gem path?</a></p>
+<p><a href="https://coolestguidesontheplanet.com/add-shell-path-osx/" target="_blank" rel="external">What it is and How to Modify the Shell Path in macOS Sierra and OSX using Terminal</a></p>
+<p><a href="http://www.jianshu.com/p/41ecb06ae95f" target="_blank" rel="external">手把手教你利用Jenkins持续集成iOS项目</a></p>
+<p><a href="http://www.jianshu.com/p/d64f12577be8" target="_blank" rel="external">cocoapods插件GEM_PATH的配置</a></p>
+<p><a href="http://blog.csdn.net/hong1595/article/details/74010620" target="_blank" rel="external">cocoaPods安装2017 以及遇到的坑</a></p>
+<p><a href="https://stackoverflow.com/questions/25689967/xcodebuild-fails-in-jenkins-with-cocoapods" target="_blank" rel="external">Xcodebuild fails in jenkins with cocoapods
+</a></p>
+<p><a href="https://stackoverflow.com/questions/13500793/xcodebuild-commands-give-different-results-when-run-from-the-command-line-than-w" target="_blank" rel="external">xcodebuild commands give different results when run from the command line than when run from within Jenkins</a></p>
+<p><a href="http://blog.csdn.net/syg90178aw/article/details/52221765" target="_blank" rel="external">Jenkins自动打包 配置mac slave节点</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团
+    
+    </summary>
+    
+    
+      <category term="持续化集成" scheme="http://XibHe.github.io/tags/%E6%8C%81%E7%BB%AD%E5%8C%96%E9%9B%86%E6%88%90/"/>
+    
+      <category term="JenKins" scheme="http://XibHe.github.io/tags/JenKins/"/>
+    
+  </entry>
   
   <entry>
     <title>直播那些事</title>
@@ -1290,9 +1501,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
@@ -1383,9 +1594,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
     
   </entry>
   
@@ -1760,327 +1971,6 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="2016" scheme="http://XibHe.github.io/tags/2016/"/>
     
       <category term="年终总结" scheme="http://XibHe.github.io/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>调试蓝牙扫码枪遇到的问题</title>
-    <link href="http://XibHe.github.io/2016/12/06/iOS%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E7%AE%80%E4%BB%8B%20%20/"/>
-    <id>http://XibHe.github.io/2016/12/06/iOS蓝牙开发简介  /</id>
-    <published>2016-12-06T10:31:54.000Z</published>
-    <updated>2017-10-14T02:48:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="iOS蓝牙开发简介"><a href="#iOS蓝牙开发简介" class="headerlink" title="iOS蓝牙开发简介"></a>iOS蓝牙开发简介</h1><p>蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iOS设备检索到。蓝牙 4.0之后（硬件要4S，系统要iOS6以上才支持蓝牙 4.0），苹果开放了BLE(蓝牙4.0以低功耗著称，所以一般被称为BLE（bluetooth low energy））通道，没有MFI认证的蓝牙设备也可以连接非越狱的iOS设备了。</p>
-<p>总结了一下，一共有五种方式可以实现蓝牙通信:</p>
-<ol>
-<li>使用MFI认证的蓝牙模块的蓝牙产品 —— 开发使用ExternalAccessory框架，如果你的蓝牙模块还没设计，打算在AppStore上发布，打算使用蓝牙4.0以下（IOS设备都兼容），那你就抓紧找MFI认证的蓝牙模块吧。</li>
-<li>使用苹果提供的CoreBluetooth framework框架 —— 只适用于支持蓝牙4.0的设备，无需越狱，无需使用MFI，可以发布在AppStore上。</li>
-<li>GameKit framework —— 只能在iOS设备之间同一个应用内连接，从iOS7开始过期了，通过蓝牙可以实现文件的共享（仅限设备沙盒中的文件），此框架一般用于游戏开发（比如五子棋对战）。</li>
-<li>Private API —— 使用私有API的应用程序不被允许在AppStore上发布。</li>
-<li>Jailbreak</li>
-</ol>
-<p>这里我使用的是第二种方式 —— CoreBluetooth。</p>
-<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><p>CoreBluetooth框架的核心其实是两个东西，peripheral和central, 可以理解成外设和中心。对应他们分别有一组相关的API和类。</p>
-<ul>
-<li>CBCentralManager：中心设备（用来连接到外部设备的管家）</li>
-<li>CBPeripheralManager：外部设备（第三方的蓝牙4.0设备）</li>
-</ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/BLE.jpeg" alt="BLE"></p>
-<ul>
-<li>这两组api分别对应不同的业务场景，左侧叫做中心模式，就是以你的app作为中心，连接其他的外设的场景，而右侧称为外设模式，使用手机作为外设别其他中心设备操作的场景。</li>
-<li>服务和特征，特征的属性(service and characteristic):<br>每个设备都会有一些服务，每个服务里面都会有一些特征，特征就是具体键值对，提供数据的地方。每个特征属性分为这么几种：读，写，通知这么几种方式。</li>
-</ul>
-<p>外设、服务、特征间的关系</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/1442301743869760.png" alt="关系图"></p>
-<h1 id="连接测试"><a href="#连接测试" class="headerlink" title="连接测试"></a>连接测试</h1><p>检测蓝牙设备的连接强度，查询一定范围内的蓝牙设备列表。可以通过一款名为LightBlue的手机端软件来确定。在开启蓝牙的状态下，打开LightBlue搜索到当前范围内的设备列表，可以点击查看当前设备的UUID以及特征和服务的UUID，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/300" alt="系统蓝牙"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/300" alt="设备列表"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/300" alt="特征和服务的UUID"></p>
-<h1 id="连接蓝牙扫码枪"><a href="#连接蓝牙扫码枪" class="headerlink" title="连接蓝牙扫码枪"></a>连接蓝牙扫码枪</h1><p>项目中需要连接蓝牙扫码枪，通过扫码枪扫描商品的条码，将得到的条码值传给终端设备。终端设备根据该条码值搜索该商品的全部信息。iPad开启蓝牙，通过设置蓝牙扫描枪，连接上iPad，但发现在调试状态下，并没有调用CBCentralManager的代理方法。使用LightBlue搜索当前范围内的蓝牙设备，无法找到当前连接到iPad上的蓝牙扫描枪。蓝牙扫描枪使用的是富立叶（cilico）ci6800这款。最后，看了产品说明，发现它的蓝牙模块是蓝牙2.0 + EDR。而不是最新的蓝牙4.0。在未做任何处理的情况下，iPad端任然可以所接收到扫码枪扫描条码后的到的码值。原来是扫码枪默认开启了HID模式，在该模式下iPad默认当前通过蓝牙连接的扫码枪为一个外接键盘，因此扫描后得到码值相当于通过敲击键盘输入。</p>
-<p>这样也造成了一个问题，iPad上所有带有输入功能的操作，都无法通过点击输入框弹出软键盘。因为系统会将扫码枪当做键盘，所有软键盘的弹出或者隐藏都是通过扫码枪做操作。但事实上扫码枪并不能控制键盘的弹出。通过google找到了一种据说是可以解决该问题的方法<a href="http://stackoverflow.com/questions/3326189/show-iphone-soft-keyboard-even-though-a-hardware-keyboard-is-connected/3837131#3837131" target="_blank" rel="external">点击查看</a>。但该方法极不稳定，当扫码枪的连接状态在休眠/唤醒两种状态下来回切换时就会失效。偶尔会成功弹出键盘。</p>
-<p>最后，在联系厂家需求帮助无果的情况下，不得不停止了该款扫码枪的适配。</p>
-<h1 id="连接蓝牙血压计"><a href="#连接蓝牙血压计" class="headerlink" title="连接蓝牙血压计"></a>连接蓝牙血压计</h1><p>为了验证自己的代码没有问题，是由于蓝牙扫码枪的蓝牙模块版本过低不支持CoreBluetooth。我又找来了一台据说支持蓝牙4.0的蓝牙血压计做测试。</p>
-<h1 id="代码实现的步骤"><a href="#代码实现的步骤" class="headerlink" title="代码实现的步骤"></a>代码实现的步骤</h1><blockquote>
-<p>第一步，创建CBCentralManager。<br>第二步，扫描可连接的蓝牙外设（必须在蓝牙模块打开的前提下）。<br>第三步，连接目标蓝牙外设。<br>第四步，查询目标蓝牙外设下的服务。<br>第五步，遍历服务中的特性，获取特性中的数据或者保存某些可写的特性，或者设置某些特性值改变时，通知主动获取。<br>第六步，在通知更新特性中值的方法中读取特性中的数据（再设置特性的通知为YES的情况下）。<br>第七步，读取特性中的值。<br>第八步，如果有可写特性，并且需要向蓝牙外设写入数据时，写入数据发送给蓝牙外设。</p>
-</blockquote>
-<ol>
-<li>引入 CoreBluetooth头文件</li>
-</ol>
-<pre><code>#import &lt;CoreBluetooth/CoreBluetooth.h&gt;
-</code></pre><ol>
-<li>声明属性</li>
-</ol>
-<pre><code>@property (nonatomic, strong) CBCentralManager *manager;
-@property (nonatomic, strong) CBPeripheral *peripheral;
-@property (strong ,nonatomic) CBCharacteristic *writeCharacteristic;
-@property (strong,nonatomic) NSMutableArray *nDevices;
-@property (strong,nonatomic) NSMutableArray *nServices;
-@property (strong,nonatomic) NSMutableArray *nCharacteristics;
-</code></pre><ol>
-<li>遵守协议</li>
-</ol>
-<pre><code>@interface ViewController () &lt;CBCentralManagerDelegate, CBPeripheralDelegate&gt;
-</code></pre><ol>
-<li>初始化数据</li>
-</ol>
-<pre><code>- (void)viewDidLoad 
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    self.manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-
-    _cbReady = false;
-    _nDevices = [[NSMutableArray alloc]init];
-    _nServices = [[NSMutableArray alloc]init];
-    _nCharacteristics = [[NSMutableArray alloc]init];
-    count = 0;
-}
-</code></pre><ol>
-<li>实现蓝牙的协议方法</li>
-</ol>
-<ul>
-<li>(1)检查蓝牙状态</li>
-</ul>
-<pre><code>-(void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    switch (central.state) {
-        case CBCentralManagerStatePoweredOn:
-        {
-            [self updateLog:@&quot;蓝牙已打开,请扫描外设&quot;];
-            [_activity startAnimating];
-            [_manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@&quot;FFF0&quot;]]  options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
-        }
-            break;
-        case CBCentralManagerStatePoweredOff:
-            [self updateLog:@&quot;蓝牙没有打开,请先打开蓝牙&quot;];
-            break;
-        default:
-            break;
-    }
-}
-</code></pre><font color="#DC143C"> 注：[_manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@”FF15”]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];中间的@[[CBUUID UUIDWithString:@”FFF0”]]是为了过滤掉其他设备，可以搜索特定标示的设备。<br> </font> 
-
-<ul>
-<li>（2）检测到外设后，停止扫描，连接设备</li>
-</ul>
-<pre><code>//查到外设后，停止扫描，连接设备
--(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{
-    [self updateLog:[NSString stringWithFormat:@&quot;已发现 peripheral: %@ rssi: %@, UUID: %@ advertisementData: %@ &quot;, peripheral, RSSI, peripheral.identifier, advertisementData]];
-
-    _peripheral = peripheral;
-    [_manager connectPeripheral:_peripheral options:nil];
-
-    [self.manager stopScan];
-    [_activity stopAnimating];
-
-    BOOL replace = NO;
-    // Match if we have this device from before
-    for (int i=0; i &lt; _nDevices.count; i++) {
-        CBPeripheral *p = [_nDevices objectAtIndex:i];
-        if ([p isEqual:peripheral]) {
-            [_nDevices replaceObjectAtIndex:i withObject:peripheral];
-            replace = YES;
-        }
-    }
-    if (!replace) {
-        [_nDevices addObject:peripheral];
-        [_bluetoothTable reloadData];
-    }
-}
-</code></pre><ul>
-<li>（3）连接外设后的处理</li>
-</ul>
-<pre><code>//连接外设成功，开始发现服务
-- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    NSLog(@&quot;%@&quot;, [NSString stringWithFormat:@&quot;成功连接 peripheral: %@ with UUID: %@&quot;,peripheral,peripheral.identifier]);
-
-    [self updateLog:[NSString stringWithFormat:@&quot;成功连接 peripheral: %@ with UUID: %@&quot;,peripheral,peripheral.identifier]];
-
-    [self.peripheral setDelegate:self];
-    [self.peripheral discoverServices:nil];
-    [self updateLog:@&quot;扫描服务&quot;];
-}
-//连接外设失败
--(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
-{
-    NSLog(@&quot;%@&quot;,error);
-}
-
--(void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
-{
-    NSLog(@&quot;%s,%@&quot;,__PRETTY_FUNCTION__,peripheral);
-    int rssi = abs([peripheral.RSSI intValue]);
-    CGFloat ci = (rssi - 49) / (10 * 4.);
-    NSString *length = [NSString stringWithFormat:@&quot;发现BLT4.0热点:%@,距离:%.1fm&quot;,_peripheral,pow(10,ci)];
-    [self updateLog:[NSString stringWithFormat:@&quot;距离：%@&quot;, length]];
-}
-</code></pre><ul>
-<li>（4）发现服务和搜索到的Characteristice</li>
-</ul>
-<pre><code>//已发现服务
--(void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
-
-    [self updateLog:@&quot;发现服务.&quot;];
-    int i=0;
-    for (CBService *s in peripheral.services) {
-        [self.nServices addObject:s];
-    }
-    for (CBService *s in peripheral.services) {
-        [self updateLog:[NSString stringWithFormat:@&quot;%d :服务 UUID: %@(%@)&quot;,i,s.UUID.data,s.UUID]];
-        i++;
-        [peripheral discoverCharacteristics:nil forService:s];
-
-        if ([s.UUID isEqual:[CBUUID UUIDWithString:@&quot;FFF0&quot;]]) {
-            BOOL replace = NO;
-            // Match if we have this device from before
-            for (int i=0; i &lt; _nDevices.count; i++) {
-                CBPeripheral *p = [_nDevices objectAtIndex:i];
-                if ([p isEqual:peripheral]) {
-                    [_nDevices replaceObjectAtIndex:i withObject:peripheral];
-                    replace = YES;
-                }
-            }
-            if (!replace) {
-                [_nDevices addObject:peripheral];
-                [_bluetoothTable reloadData];
-            }
-        }
-    }
-}
-
-//已搜索到Characteristics
--(void) peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
-    [self updateLog:[NSString stringWithFormat:@&quot;发现特征的服务:%@ (%@)&quot;,service.UUID.data ,service.UUID]];
-
-    for (CBCharacteristic *c in service.characteristics) {
-        [self updateLog:[NSString stringWithFormat:@&quot;特征 UUID: %@ (%@)&quot;,c.UUID.data,c.UUID]];
-
-        if ([c.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF01&quot;]]) {
-            _writeCharacteristic = c;
- }
-
-        if ([c.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF02&quot;]])     {
-            [_peripheral readValueForCharacteristic:c];
-            [_peripheral setNotifyValue:YES forCharacteristic:c];
-  }
- }   
- }
-}
-
-- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
-    [self updateLog:[NSString stringWithFormat:@&quot;已断开与设备:[%@]的连接&quot;, peripheral.name]];
-}
-</code></pre><ul>
-<li>（5）获取外设发来的数据</li>
-</ul>
-<pre><code>//获取外设发来的数据，不论是read和notify,获取数据都是从这个方法中读取。
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-{
-    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF02&quot;]]) {
-        NSData * data = characteristic.value;
-        Byte * resultByte = (Byte *)[data bytes];
-
-        for(int i=0;i&lt;[data length];i++)
-            printf(&quot;testByteFF02[%d] = %d\n&quot;,i,resultByte[i]);
-
-        if (resultByte[1] == 0) {
-        }else if (resultByte[1] == 1) {
-            [self updateLog:@&quot;未知错误&quot;];
-        }else if (resultByte[1] == 2) {
-            [self updateLog:@&quot;鉴权失败&quot;];
-        }
-    }
-    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF04&quot;]]) {
-        NSData * data = characteristic.value;
-        Byte * resultByte = (Byte *)[data bytes];
-
-        for(int i=0;i&lt;[data length];i++)
-            printf(&quot;testByteFF04[%d] = %d\n&quot;,i,resultByte[i]);}
-
-    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@&quot;FF05&quot;]]) {
-        NSData * data = characteristic.value;
-        Byte * resultByte = (Byte *)[data bytes];
-
-        for(int i=0;i&lt;[data length];i++)
-            printf(&quot;testByteFF05[%d] = %d\n&quot;,i,resultByte[i]);
-
-        if (resultByte[0] == 0) {
-            // 设备加解锁状态 0 撤防     1 设防
-            [self updateLog:@&quot;当前车辆撤防状态&quot;];
-        }else if (resultByte[0] == 1) {
-            // 设备加解锁状态 0 撤防     1 设防
-            [self updateLog:@&quot;当前车辆设防状态&quot;];
-        }
-    }
-}
-
-//中心读取外设实时数据
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    if (error) {
-        NSLog(@&quot;Error changing notification state: %@&quot;, error.localizedDescription);
-    }
-
-    // Notification has started
-    if (characteristic.isNotifying) {
-        [peripheral readValueForCharacteristic:characteristic];
-
-    } else { // Notification has stopped
-        // so disconnect from the peripheral
-        NSLog(@&quot;Notification stopped on %@.  Disconnecting&quot;, characteristic);
-        [self updateLog:[NSString stringWithFormat:@&quot;Notification stopped on %@.  Disconnecting&quot;, characteristic]];
-        [self.manager cancelPeripheralConnection:self.peripheral];
-    }
-}
-//用于检测中心向外设写数据是否成功
--(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-{
-    if (error) {
-        NSLog(@&quot;=======%@&quot;,error.userInfo);
-        [self updateLog:[error.userInfo JSONString]];
-    }else{
-        NSLog(@&quot;发送数据成功&quot;);
-        [self updateLog:@&quot;发送数据成功&quot;];
-    }
-
-    /* When a write occurs, need to set off a re-read of the local CBCharacteristic to update its value */
-    [peripheral readValueForCharacteristic:characteristic];
-}
-</code></pre><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>厂商一般会提供一份<font color="#DC143C">蓝牙血压计通信指令控制数据格式(通讯协议) </font> 可根据该协议中定义的返回的十六进制数据，定义当前外设发送的不同数据的意义。<br>最主要是用UUID来确定你要干的事情，特征和服务的UUID都是外设定义好的。我们只需要读取，确定你要读取什么的时候，就去判断UUID是否相符。 一般来说我们使用的iPhone都是做centralManager的，蓝牙模块是peripheral的，所以我们是want datas，需要接受数据。</p>
-<ol>
-<li>判断状态为powerOn，然后执行扫描</li>
-<li>停止扫描，连接外设</li>
-<li>连接成功，寻找服务</li>
-<li>在服务里寻找特征</li>
-<li>为特征添加通知</li>
-<li>通知添加成功，那么就可以实时的读取value[也就是说只要外设发送数据[一般外设的频率为10Hz]，代理就会调用此方法]。</li>
-<li>处理接收到的value，[hex值，得转换] 之后就自由发挥了，在这期间都是通过代理来实现的，也就是说你只需要处理你想要做的事情，代理会帮你调用方法。[别忘了添加代理]</li>
-</ol>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://liuyanwei.jumppo.com/2015/07/17/ios-BLE-1.html" target="_blank" rel="external">蓝牙相关基础知识</a></p>
-<p><a href="https://www.engadget.com/2010/06/02/hacksugar-bringing-back-the-on-screen-keyboard/" target="_blank" rel="external">hacksugar: Bringing back the on-screen keyboard</a></p>
-<p><a href="https://missajj.gitbooks.io/missajj_iosdevelopment_gitbook/content/蓝牙交互CoreBlueTooth/iff09_lan_ya_jiaohu_corebluetooth.html" target="_blank" rel="external">蓝牙交互CoreBlueTooth</a></p>
-<p><a href="http://stackoverflow.com/questions/16839400/ios-and-bluetooth" target="_blank" rel="external">iOS and bluetooth</a></p>
-<p><a href="http://lynchwong.com/2014/12/15/iOS蓝牙，CoreBluetooth框架简介及入门使用/" target="_blank" rel="external">iOS蓝牙，CoreBluetooth框架简介及入门使用</a></p>
-<p><a href="http://thinkingiot.blogspot.com/2015/11/bluetooth-mfi.html" target="_blank" rel="external">想做iOS Bluetooth產品但又不想過MFI的討論</a></p>
-<p><a href="http://stackoverflow.com/questions/19998078/corebluetooth-cannot-find-devices-but-ios-can" target="_blank" rel="external">CoreBluetooth cannot find devices but iOS can</a></p>
-<p><a href="https://www.v2ex.com/t/179481" target="_blank" rel="external">请教熟悉iOS的朋友一个问题</a></p>
-<p><a href="http://www.jianshu.com/p/760f042a1d81" target="_blank" rel="external">【译】iOS蓝牙编程指南 – 核心蓝牙概述</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;iOS蓝牙开发简介&quot;&gt;&lt;a href=&quot;#iOS蓝牙开发简介&quot; class=&quot;headerlink&quot; title=&quot;iOS蓝牙开发简介&quot;&gt;&lt;/a&gt;iOS蓝牙开发简介&lt;/h1&gt;&lt;p&gt;蓝牙 4.0出现之前，蓝牙 2.0时只有iOS设备和苹果认证的MFI设备才可以被iO
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
-    
-    
-      <category term="蓝牙开发" scheme="http://XibHe.github.io/tags/%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="iOS BLE 开发" scheme="http://XibHe.github.io/tags/iOS-BLE-%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
