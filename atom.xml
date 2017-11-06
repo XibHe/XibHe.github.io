@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-11-06T12:50:21.000Z</updated>
+  <updated>2017-11-06T12:56:58.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/"/>
     <id>http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/</id>
     <published>2017-11-05T16:00:00.000Z</published>
-    <updated>2017-11-06T12:50:21.000Z</updated>
+    <updated>2017-11-06T12:56:58.000Z</updated>
     
     <content type="html"><![CDATA[<p>持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团队开发更加快捷。</p>
 <p>CI是一种开发实践。实践应该包含3个基本模块，一个可以自动构建的过程，自动编译代码，可以自动分发，部署和测试。一个代码仓库，SVN或者Git。最后一个是一个持续集成的服务器。通过持续集成，可以让我们通过自动化等手段高频率地去获取产品反馈并响应反馈的过程。</p>
@@ -112,10 +112,7 @@
 </blockquote>
 <p>的错误。</p>
 <h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</p>
-<h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><ol>
-<li>pod: command not found</li>
-</ol>
-<blockquote>
+<h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h2 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h2><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>解决方法: 在系统管理–&gt;系统设置，增加”全局属性”，勾选Environment variables，增加键值对列表。如图，</p>
@@ -125,10 +122,7 @@
 <p>$echo $PATH</p>
 </blockquote>
 <p>命令获取，将输入命令后得到的值粘贴过来就可以了。</p>
-<ol>
-<li>ruby_executable_hooks: No such file or directory</li>
-</ol>
-<blockquote>
+<h2 id="2-ruby-executable-hooks-No-such-file-or-directory"><a href="#2-ruby-executable-hooks-No-such-file-or-directory" class="headerlink" title="2. ruby_executable_hooks: No such file or directory"></a>2. ruby_executable_hooks: No such file or directory</h2><blockquote>
 <p>Pod: env: ruby_executable_hooks: No such file or directory<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>从jekyll有时也会报这个错误得到启示，可能是由于执行pod命令的路径粗存在问题。在终端使用命令:</p>
@@ -149,10 +143,7 @@
 <p>$ source ～/.bash_profile </p>
 </blockquote>
 <p>让这个配置文件在修改后立即生效。此时，再查看gem env发现SHELL PATH:列表中，增加了<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。</p>
-<ol>
-<li>`find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</li>
-</ol>
-<blockquote>
+<h2 id="3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><a href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException" class="headerlink" title="3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)"></a>3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</h2><blockquote>
 <p>/Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:271:in <code>find_spec_for_exe&#39;: can&#39;t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)
     from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:299:in</code>activate_bin_path’<br>    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/bin/pod:23:in <code>&lt;main&gt;&#39;
     from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in</code>eval’<br>    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>‘<br>Build step ‘Execute shell’ marked build as failure</main></p>
@@ -166,10 +157,7 @@
 <p>export GEM_PATH=”/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod”</p>
 </blockquote>
 <p>构建项目后就会报上面的错误，仔细看看，觉得是多了一条无效的执行路径导致的。于是，就删除了那条新添的GEM_PATH，再次构建就不报这个错误了。</p>
-<ol>
-<li>in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </li>
-</ol>
-<blockquote>
+<h2 id="4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a"><a href="#4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a" class="headerlink" title="4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) "></a>4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </h2><blockquote>
 <p>in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </p>
 </blockquote>
 <p>更新一下gem版本，终端命令如下；</p>
@@ -181,10 +169,7 @@
 <p>gem sources -a <a href="http://gems.ruby-china.org/" target="_blank" rel="external">http://gems.ruby-china.org/</a></p>
 </blockquote>
 <p>将源地址换为ruby-china。</p>
-<ol>
-<li>报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</li>
-</ol>
-<blockquote>
+<h2 id="5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误"><a href="#5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误" class="headerlink" title="5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误"></a>5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</h2><blockquote>
 <p>Going to invoke xcodebuild:, scheme: Project, sdk: DEFAULT, workspace: Project, configuration: Debug, clean: YES, archive:NO, symRoot: DEFAULT, configurationBuildDir: /Users/ignat/.jenkins/workspace/Project/build, codeSignIdentity: DEFAULT<br>[Project] $ /usr/bin/xcodebuild -scheme Project -workspace Project.xcworkspace -configuration Debug clean build CONFIGURATION_BUILD_DIR=/Users/ignat/.jenkins/workspace/Project/build<br>Build settings from command line:<br>    CONFIGURATION_BUILD_DIR = /Users/ignat/.jenkins/workspace/Project/build</p>
 </blockquote>
 <p>xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.<br>FATAL: Build directory does not exist at /Users/ignat/.jenkins/workspace/Project/build. Potential configuration issue.<br>Build step ‘Xcode’ marked build as failure<br>Finished: FAILURE</p>
@@ -1505,9 +1490,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
     
   </entry>
   
@@ -1598,9 +1583,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
