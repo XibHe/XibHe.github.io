@@ -201,6 +201,11 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration9.png" alt=""></p>
 <p>之后就在项目所在的目录下，新建一个名为ipa/debug/的目录，将修改后的<strong>ExportOptions.plist</strong>文件放在这个目录下。在Jenkins中使用SVN管理源码，因此，我需要将这个新增的文件上传SVN，这样在我每次构建项目，输出ipa时就能直接从SVN上拉取这个plist文件，通过设置<strong>ExportOptions.plist’ -allowProvisioningUpdates</strong>就能访问钥匙串中的打包证书，输出ipa包了。</p>
 <p><font color="ff6d55">注意:</font>设置了<strong>allowProvisioningUpdates</strong>字段后，在打包过程中会弹出是否允许访问钥匙串内容的弹窗，这时需要多次点击“<strong>始终允许</strong>”按钮。</p>
+<h3 id="7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format"><a href="#7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format" class="headerlink" title="7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format."></a>7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format.</h3><blockquote>
+<p>error: exportArchive: The data couldn’t be read because it isn’t in the correct format.<br><strong> EXPORT FAILED </strong></p>
+</blockquote>
+<p>关掉bitcode重新打包就可以了……</p>
+<p>参考<a href="https://forums.developer.apple.com/thread/21193" target="_blank" rel="external">https://forums.developer.apple.com/thread/21193</a></p>
 <h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>中间使用过命令:</p>
 <blockquote>
 <p>sudo gem install -n /usr/local/bin cocoapods –pre</p>
@@ -2666,13 +2671,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
@@ -2824,6 +2822,13 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
     </entry>
     
