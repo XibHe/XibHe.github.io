@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-11-07T02:13:55.000Z</updated>
+  <updated>2017-11-07T02:26:03.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/"/>
     <id>http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/</id>
     <published>2017-11-05T16:00:00.000Z</published>
-    <updated>2017-11-07T02:13:55.000Z</updated>
+    <updated>2017-11-07T02:26:03.000Z</updated>
     
     <content type="html"><![CDATA[<p>持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团队开发更加快捷。</p>
 <p>CI是一种开发实践。实践应该包含3个基本模块，一个可以自动构建的过程，自动编译代码，可以自动分发，部署和测试。一个代码仓库，SVN或者Git。最后一个是一个持续集成的服务器。通过持续集成，可以让我们通过自动化等手段高频率地去获取产品反馈并响应反馈的过程。</p>
@@ -114,11 +114,11 @@
 <p>设置Code signing &amp; OS X keychain options证书信息</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
-<p>如果项目使用了cocoapods,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
+<p><font color="ff6d55" size="5">注意:</font>如果项目使用了cocoapods,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
 <ol>
 <li>Xcode Schema File，设为Xcode项目中的schema</li>
 <li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
-<li>Build output directory，设为${WORKSPACE}/build/</li>
+<li>Build output directory，设为<strong>${WORKSPACE}/build/</strong></li>
 </ol>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration5.png" alt=""></p>
 <p><font color="ff6d55">注意:</font>Xcode Workspace File为绝对路径，也就是Jenkins用于构建项目的workspace目录中，.xcworkspace文件所在目录的路径。</p>

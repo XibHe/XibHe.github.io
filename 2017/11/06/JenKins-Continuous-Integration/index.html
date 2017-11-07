@@ -588,11 +588,11 @@
 <p>设置Code signing &amp; OS X keychain options证书信息</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
-<p>如果项目使用了cocoapods,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
+<p><font color="ff6d55" size="5">注意:</font>如果项目使用了cocoapods,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
 <ol>
 <li>Xcode Schema File，设为Xcode项目中的schema</li>
 <li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
-<li>Build output directory，设为${WORKSPACE}/build/</li>
+<li>Build output directory，设为<strong>${WORKSPACE}/build/</strong></li>
 </ol>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration5.png" alt=""></p>
 <p><font color="ff6d55">注意:</font>Xcode Workspace File为绝对路径，也就是Jenkins用于构建项目的workspace目录中，.xcworkspace文件所在目录的路径。</p>
