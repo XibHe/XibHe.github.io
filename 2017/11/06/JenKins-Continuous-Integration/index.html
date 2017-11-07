@@ -582,10 +582,22 @@
 <p>[!] No `Podfile’ found in the project directory.</p>
 <p>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
-<p>的错误。</p>
-<p>添加构建步骤-&gt; Xcode</p>
-<p>General build settings中的Target要与Xcode项目中Target的名字对应，Clean before build设置为YES。</p>
-<p>设置Code signing &amp; OS X keychain options证书信息</p>
+<p>的错误。在执行完<strong>pod install</strong>后，就可以使用Xcode构建项目打包环境了。</p>
+<p><strong>添加构建步骤</strong>-&gt; <strong>Xcode</strong></p>
+<p>在”<strong>General build settings</strong>“中，点击”<strong>Settings</strong>“按钮设置相关参数。</p>
+<blockquote>
+<p>Target要与Xcode项目中Target的名字对应</p>
+<p>Clean before build设置为YES</p>
+</blockquote>
+<p>勾选”<strong>Pack application，build and sign .ipa？</strong>“的复选框，会弹出设置生成ipa包的几个参数项。如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration7.png" alt=""></p>
+<blockquote>
+<p>Export method，ipa的类型(‘development’, ‘ad-hoc’, ‘enterprise’ or ‘app-store’) </p>
+<p>.ipa filename pattern，ipa的名称。</p>
+<p>Output directory，输出ipa的文件路径。</p>
+</blockquote>
+<p><font color="ff6d55">注意:</font>这里如果<strong>Xcode的版本低于9.0</strong>，就可以正常输出ipa包。如果<strong>Xcode版本不低于9.0</strong>，就会由于<font color="ff6d55">Xcode 9.0不在允许你访问钥匙串里的内容</font>，而输出ipa失败。具体的解决方法请参照后面”<strong>构建项目时遇到的几个问题</strong>“中具体的解决方法。</p>
+<p>继续设置”<strong>Code signing &amp; OS X keychain options</strong>“证书信息，如图，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
 <p>如果项目使用了<strong>cocoaPods</strong>,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
