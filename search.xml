@@ -97,7 +97,7 @@
 <p>设置Code signing &amp; OS X keychain options证书信息</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
-<p>如果项目使用了cocoapods,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
+<p>如果项目使用了<strong>cocoaPods</strong>,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
 <ol>
 <li>Xcode Schema File，设为Xcode项目中的schema</li>
 <li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
@@ -145,9 +145,9 @@
 </blockquote>
 <p>让这个配置文件在修改后立即生效。此时，再查看gem env发现SHELL PATH:列表中，增加了<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。</p>
 <h3 id="3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><a href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException" class="headerlink" title="3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)"></a>3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</h3><blockquote>
-<p>/Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:271:in <code>find_spec_for_exe&#39;: can&#39;t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)
-    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:299:in</code>activate_bin_path’<br>    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/bin/pod:23:in <code>&lt;main&gt;&#39;
-    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in</code>eval’<br>    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>‘<br>Build step ‘Execute shell’ marked build as failure</main></p>
+<p> /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/         site_ruby/2.2.0/rubygems.rb:271:in <code>find_spec_for_exe&#39;: can&#39;t  find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)
+    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/  ruby/site_ruby/2.2.0/rubygems.rb:299:in</code>activate_bin_path’<br>    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/bin/pod:  23:in <code>&lt;main&gt;&#39;
+    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in</code>eval’<br>    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>‘<br> Build step ‘Execute shell’ marked build as failure</main></p>
 </blockquote>
 <p>子所以在构建项目时出现这个错误，是因为看到一篇文章(<a href="http://www.jianshu.com/p/d64f12577be8" target="_blank" rel="external">cocoapods插件GEM_PATH的配置</a>)，说是修改Xcode中CocoaPods插件的GEM_PATH:中的路径与SHELL PATH:中路径一致就能解决:</p>
 <blockquote>
@@ -2643,13 +2643,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -2802,6 +2795,13 @@ pod setup
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
     </entry>
     
   
