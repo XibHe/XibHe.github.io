@@ -95,7 +95,7 @@
 </blockquote>
 <p>的错误。</p>
 <h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</p>
-<h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h2 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h2><blockquote>
+<h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h1 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h1><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>解决方法: 在系统管理–&gt;系统设置，增加”全局属性”，勾选Environment variables，增加键值对列表。如图，</p>
@@ -105,7 +105,7 @@
 <p>$echo $PATH</p>
 </blockquote>
 <p>命令获取，将输入命令后得到的值粘贴过来就可以了。</p>
-<h2 id="2-ruby-executable-hooks-No-such-file-or-directory"><a href="#2-ruby-executable-hooks-No-such-file-or-directory" class="headerlink" title="2. ruby_executable_hooks: No such file or directory"></a>2. ruby_executable_hooks: No such file or directory</h2><blockquote>
+<h1 id="2-ruby-executable-hooks-No-such-file-or-directory"><a href="#2-ruby-executable-hooks-No-such-file-or-directory" class="headerlink" title="2. ruby_executable_hooks: No such file or directory"></a>2. ruby_executable_hooks: No such file or directory</h1><blockquote>
 <p>Pod: env: ruby_executable_hooks: No such file or directory<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>从jekyll有时也会报这个错误得到启示，可能是由于执行pod命令的路径粗存在问题。在终端使用命令:</p>
@@ -126,7 +126,7 @@
 <p>$ source ～/.bash_profile </p>
 </blockquote>
 <p>让这个配置文件在修改后立即生效。此时，再查看gem env发现SHELL PATH:列表中，增加了<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。</p>
-<h2 id="3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><a href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException" class="headerlink" title="3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)"></a>3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</h2><blockquote>
+<h1 id="3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><a href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException" class="headerlink" title="3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)"></a>3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</h1><blockquote>
 <p>/Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:271:in <code>find_spec_for_exe&#39;: can&#39;t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)
     from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/site_ruby/2.2.0/rubygems.rb:299:in</code>activate_bin_path’<br>    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/bin/pod:23:in <code>&lt;main&gt;&#39;
     from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in</code>eval’<br>    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>‘<br>Build step ‘Execute shell’ marked build as failure</main></p>
@@ -1435,9 +1435,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -1526,9 +1526,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -2618,21 +2618,8 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -2783,6 +2770,19 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
