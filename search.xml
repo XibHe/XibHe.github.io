@@ -63,28 +63,28 @@
 <p>下面这两个方式都可以找到插件管理<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/plugin-1.png?attname=" alt=""></p>
 <h2 id="配置构建环境"><a href="#配置构建环境" class="headerlink" title="配置构建环境"></a>配置构建环境</h2><p>在配置构建环境前，我们先来导入一下打包证书，点击系统管理，找到刚才添加的插件<font color="ff6d55">Keychains and Provisioning Profiles Management</font>，点击选取文件，导入名为<font color="ff6d55">login.keychain</font>的钥匙串文件。</p>
 <blockquote>
-<p>这个Keychain其实在/Users/管理员用户名/Library/keychains/login.keychain,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到/Users/管理员用户名/.jenkins/workspace/项目目录名称，(.jenkins是隐藏文件)。</p>
+<p>这个Keychain其实在<strong>/Users/管理员用户名/Library/keychains/login.keychain</strong>,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到<strong>/Users/管理员用户名/.jenkins/workspace/项目目录名称</strong>，(.jenkins是隐藏文件)。</p>
 </blockquote>
 <p>如图所示，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration1.png" alt=""></p>
 <p>其中，Keychains中的Identities输入项，对应的是刚才点击<font color="ff6d55">Upload</font>后钥匙串中的测试证书名称，发布证书名称(需要输入证书名称)。</p>
 <p>Provisioning Profiles中对应的是刚才上传的证书配置文件。这些配置文件的存放路径为:<font color="ff6d55">/Users/管理员用户名/Library/MobileDevice/Provisioning Profiles</font></p>
 <p>这样Adhoc证书和签名文件就在Jenkins中配置好了，接下来我们只需要在项目的构建配置中指定相关文件即可。</p>
-<p><font color="ff6d55" size="4">注意</font>: 有些升级了最新的Mac OS系统后，<font color="ff6d55">/Users/管理员用户名/Library/keychains</font>目录下没有login.keychain文件，有的是一个名为login.keychain-db的文件，这是需要将login.keychain-db文件copy到桌面，修改成文件名为login.keychain。点击”选取文件”，选取并上传这个修改名称后的login.keychain文件。</p>
-<p>导入证书后需要在”系统管理”–&gt;”系统设置”里再设置”Xcode Builder”时，访问证书的全局路径。如图，</p>
+<p><font color="ff6d55" size="4">注意</font>: 有些升级了最新的Mac OS系统后，<font color="ff6d55">/Users/管理员用户名/Library/keychains</font>目录下没有<strong>login.keychain</strong>文件，有的是一个名为<strong>login.keychain-db</strong>的文件，这是需要将login.keychain-db文件copy到桌面，修改成文件名为<strong>login.keychain</strong>。点击”<strong>选取文件</strong>“，选取并上传这个修改名称后的<strong>login.keychain</strong>文件。</p>
+<p>导入证书后需要在”<strong>系统管理</strong>“–&gt;”<strong>系统设置</strong>“里再设置”<strong>Xcode Builder</strong>“时，访问证书的全局路径。如图，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration6.png" alt=""></p>
-<p>“Keychain path”为钥匙串的本地路径，”Keychain password”为访问钥匙串的密码。设置完成后不要忘记点击”保存”。</p>
-<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>新建 -&gt; 输入项目名称 -&gt; 选择“构建一个自由风格的软件项目” -&gt; 点击ok就行了。</p>
+<p>“<strong>Keychain path</strong>“为钥匙串的本地路径，”<strong>Keychain password</strong>“为访问钥匙串的密码。设置完成后不要忘记点击”<strong>保存</strong>“。</p>
+<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>新建 -&gt; 输入项目名称 -&gt; 选择“<strong>构建一个自由风格的软件项目</strong>” -&gt; 点击ok就行了。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1194012-b52d3d102c21f004.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration2.png" alt=""></p>
 <p>其中，Repository URL对应的是svn的路径，Credentials为登录svn时的用户账号密码，点击”Add”按钮添加即可。Check-out Strategy最好选择每次update最新代码前都revert下，而不是“Use ‘svn update’ as much as possible” ，因为我使用的是CocoaPods管理的第三方，每次打包运行pod install会修改了工程配置文件，如果下次自动打包前不先revert再update的话会出现冲突。</p>
 <h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里就是告诉jenkins什么时候自动构建,这里我同时设置了每周一到周五在每天的8点到9点之间执行一次,当然也可以不设置。</p>
 <p><img src="http://7xkqix.com1.z0.glb.clouddn.com/triggerinfo.png?attname=" alt=""></p>
-<h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“Keychains andProvisioning Profiles Management”和“Mobile Provisioning Profiles”。</p>
+<h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“<strong>Keychains andProvisioning Profiles Management</strong>”和“<strong>Mobile Provisioning Profiles</strong>”。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2367707-b8668d49ff828810.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2367707-e86675d8dc8c675e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>这里Code Signing Identity和Provisioning Profile选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
-<h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br>pod install –verbose –no-repo-update安装下第三方库。</p>
+<h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br><strong>pod install –verbose –no-repo-update</strong>安装下第三方库。</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration3.png" alt=""></p>
 <p><font color="ff6d55" size="5">注意:</font>执行pod install命令时，需要cd到pod文件所在的目录，<font color="ff6d55">${WORKSPACE}</font>是项目在JenKins中的工作目录，而我的项目由于多套了一层目录BusinessMall，因此需要加上这层目录<font color="ff6d55">${WORKSPACE}/BusinessMall</font>，否则，在构建时就会报:</p>
 <blockquote>
@@ -97,7 +97,7 @@
 <p>设置Code signing &amp; OS X keychain options证书信息</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
-<p>如果项目使用了cocoapods,需要配置Advanced Xcode build options,设置</p>
+<p>如果项目使用了cocoapods,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
 <ol>
 <li>Xcode Schema File，设为Xcode项目中的schema</li>
 <li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
@@ -185,7 +185,8 @@
 </blockquote>
 <p>安装特定版本的CocoaPods。</p>
 <h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>由于给iOS项目构建版本时必须依赖于xcodebuild环境。现在是在一台Windows上部署Jenkins环境，可以配置节点，在另一台Mac电脑上打包。具体操作，可以参考这篇文章—<a href="http://blog.csdn.net/syg90178aw/article/details/52221765" target="_blank" rel="external">Jenkins自动打包 配置mac slave节点</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://stackoverflow.com/questions/26247926/how-to-solve-usr-bin-env-ruby-executable-hooks-no-such-file-or-directory" target="_blank" rel="external">How to solve “/usr/bin/env: ruby_executable_hooks: No such file or directory”?
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.w3cschool.cn/jenkins/" target="_blank" rel="external">w3cschool Jenkins</a></p>
+<p><a href="https://stackoverflow.com/questions/26247926/how-to-solve-usr-bin-env-ruby-executable-hooks-no-such-file-or-directory" target="_blank" rel="external">How to solve “/usr/bin/env: ruby_executable_hooks: No such file or directory”?
 </a></p>
 <p><a href="https://github.com/openbakery/gradle-xcodePlugin/issues/308" target="_blank" rel="external">/usr/local/bin/pod No such file or directory</a></p>
 <p><a href="https://stackoverflow.com/questions/2975206/how-to-delete-a-gem-path" target="_blank" rel="external">How to delete a gem path?</a></p>
