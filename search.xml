@@ -140,7 +140,7 @@
 <p>export GEM_PATH=”/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod”</p>
 </blockquote>
 <p>构建项目后就会报上面的错误，仔细看看，觉得是多了一条无效的执行路径导致的。于是，就删除了那条新添的GEM_PATH，再次构建就不报这个错误了。</p>
-<h2 id="4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a"><a href="#4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a" class="headerlink" title="4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) "></a>4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </h2><blockquote>
+<h1 id="4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a"><a href="#4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a" class="headerlink" title="4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) "></a>4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </h1><blockquote>
 <p>in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </p>
 </blockquote>
 <p>更新一下gem版本，终端命令如下；</p>
@@ -152,7 +152,7 @@
 <p>gem sources -a <a href="http://gems.ruby-china.org/" target="_blank" rel="external">http://gems.ruby-china.org/</a></p>
 </blockquote>
 <p>将源地址换为ruby-china。</p>
-<h2 id="5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误"><a href="#5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误" class="headerlink" title="5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误"></a>5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</h2><blockquote>
+<h1 id="5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误"><a href="#5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误" class="headerlink" title="5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误"></a>5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</h1><blockquote>
 <p>Going to invoke xcodebuild:, scheme: Project, sdk: DEFAULT, workspace: Project, configuration: Debug, clean: YES, archive:NO, symRoot: DEFAULT, configurationBuildDir: /Users/ignat/.jenkins/workspace/Project/build, codeSignIdentity: DEFAULT<br>[Project] $ /usr/bin/xcodebuild -scheme Project -workspace Project.xcworkspace -configuration Debug clean build CONFIGURATION_BUILD_DIR=/Users/ignat/.jenkins/workspace/Project/build<br>Build settings from command line:<br>    CONFIGURATION_BUILD_DIR = /Users/ignat/.jenkins/workspace/Project/build</p>
 </blockquote>
 <p>xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.<br>FATAL: Build directory does not exist at /Users/ignat/.jenkins/workspace/Project/build. Potential configuration issue.<br>Build step ‘Xcode’ marked build as failure<br>Finished: FAILURE</p>
@@ -1435,9 +1435,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -1526,9 +1526,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2618,8 +2618,21 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -2770,19 +2783,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
