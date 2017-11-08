@@ -271,9 +271,8 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
 <p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tags为V0.1的版本中集成的是最基本的直播推拉流功能，在后面的tag中会集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
 <font color="345eedd"> 未完待续 </font>
-
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1488,9 +1487,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -1579,9 +1578,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2678,12 +2677,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -2830,6 +2823,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
