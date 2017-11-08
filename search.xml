@@ -21,7 +21,7 @@
 <li>静态代码分析，可以检测出很多代码的问题，比如潜在的内存泄露的问题。</li>
 <li>随时部署，Jenkins在打包完成之后可以设定之后的操作，这个时候往往就是提交app到跑测试用例的系统，或者部署到内测平台生成二维码。</li>
 </ol>
-<p>###开始安装JenKins<br>方法一: <a href="https://jenkins.io" target="_blank" rel="external">直接下载安装包</a><br>需要注意选择自定义安装，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-2.png?attname=" alt=""></p>
+<h3 id="开始安装JenKins"><a href="#开始安装JenKins" class="headerlink" title="开始安装JenKins"></a>开始安装JenKins</h3><p>方法一: <a href="https://jenkins.io" target="_blank" rel="external">直接下载安装包</a><br>需要注意选择自定义安装，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-2.png?attname=" alt=""></p>
 <p>取消”Start at boot as jenKins”的勾选，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-3.png?attname=" alt=""></p>
 <p>安装完成后在Terminal中输入,</p>
 <blockquote>
@@ -124,7 +124,7 @@
 <p>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>的错误。</p>
-<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</p>
+<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
 <h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h3 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h3><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
@@ -2671,6 +2671,13 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
@@ -2822,13 +2829,6 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
 ]]></content>
     </entry>
     
