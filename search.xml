@@ -255,7 +255,7 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
     
     <entry>
       <title><![CDATA[直播那些事]]></title>
-      <url>/2017/10/31/%E7%9B%B4%E6%92%AD%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+      <url>/2017/10/31/live/</url>
       <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
 <h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
 <h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
@@ -272,7 +272,10 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
 <p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
 <h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tags为V0.1的版本中集成的是最基本的直播推拉流功能，在后面的tag中会集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
-<font color="345eedd"> 未完待续 </font>
+<font color="ff6d55">注意:</font>阿里云的连麦demo中并未集成聊天室功能，在引入的SDK中，有一个名为<strong>AlivcLiveChatRoom.framework</strong>。该SDK暴露的AlivcLiveClient.h文件中，注明了聊天室相关的API，但创建聊天室和发送聊天消息的方法都加了<strong>deprecated_msg的注释：<br><br>```<br>- (void)createChatRoomWithName:(NSString <em>)chatRoomName success:(void(^)())successBlock error:(void (^)(NSError </em>error))errorBlock
+</strong>deprecated_msg(“暂未开放,请勿使用,参考Demo与appServer交互”);<br><br>- (AlivcLiveChatMessage <em>)sendMessage:(AlivcLiveConversationType)conversationType content:(NSString </em>)content success:(void (^)(long messageId))successBlock error:(void (^)(NSError <em>error, long messageId))errorBlock<br>__deprecated_msg(“暂未开放,请勿使用,参考Demo与appServer交互”);<br><br>```<br><br>在阿里云提交工单，工程师回复目前阿里云直播SDK不再提供聊天室功能了。不过通过阿里云DEMO接口文档中所列出的错误码，其中，有返回2040，2050的错误码，
+
+</em> 2040 创建环信聊天室失败<br>* 2050 消息发送到环信失败<br><br>可见，阿里云聊天室之前用的是环信的即时通讯方案，只是现在移除了。<br><br><a href="https://help.aliyun.com/document_detail/56125.html?spm=5176.doc55703.6.743.2DsJze" target="_blank" rel="external">DEMO接口文档</a><br><br><font color="345eedd"> 待续…… </font>
 ]]></content>
       
         <categories>
@@ -1487,9 +1490,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -1578,9 +1581,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -2677,6 +2680,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -2823,12 +2832,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
