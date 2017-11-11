@@ -273,9 +273,14 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
     <link href="http://XibHe.github.io/2017/10/31/live/"/>
     <id>http://XibHe.github.io/2017/10/31/live/</id>
     <published>2017-10-30T16:00:00.000Z</published>
-    <updated>2017-11-11T07:05:15.000Z</updated>
+    <updated>2017-11-11T08:07:11.000Z</updated>
     
-    <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
+    <content type="html"><![CDATA[<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
+<ul>
+<li>2017 年 10 月，第一版。</li>
+<li>2017 年 11 月 11 日，增加相关说明。</li>
+</ul>
+<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
 <h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
 <h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
@@ -290,7 +295,7 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
 <p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
-<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tags为V0.1的版本中集成的是最基本的直播推拉流功能，在后面的tag中会集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
+<h2 id="关于demo"><a href="#关于demo" class="headerlink" title="关于demo"></a>关于demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tag为<strong>V0.1</strong>的版本集成最基本的直播推拉流功能，Tag为<strong>V0.2</strong>的版本集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
 <p><font color="ff6d55">注意:</font>阿里云的连麦demo中并未集成聊天室功能，在引入的SDK中，有一个名为<strong>AlivcLiveChatRoom.framework</strong>。该SDK暴露的AlivcLiveClient.h文件中，注明了聊天室相关的API，但创建聊天室和发送聊天消息的方法都加了__deprecated_msg的注释：</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>createChatRoomWithName<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>chatRoomName success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>successBlock error<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>errorBlock
 <span class="token function">__deprecated_msg</span><span class="token punctuation">(</span><span class="token string">"暂未开放,请勿使用,参考Demo与appServer交互"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -303,14 +308,25 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <p>2040 创建环信聊天室失败</p>
 <p>2050 消息发送到环信失败</p>
 </blockquote>
-<p>可见，阿里云聊天室之前用的是环信的即时通讯方案，只是现在移除了。</p>
+<p>可见，阿里云聊天室之前是环信即时通讯方案，只是现在移除了。接口详情见:</p>
 <p><a href="https://help.aliyun.com/document_detail/56125.html?spm=5176.doc55703.6.743.2DsJze" target="_blank" rel="external">DEMO接口文档</a></p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这篇关于直播的文章写得很粗浅，只是记录了阿里云直播SDK的使用。没有详细系统的描述直播原理、主要直播技术及其实现。下面几篇文章对直播做了系统的介绍:</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/ed9eb96afa78" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【服务器搭建+推流】</a></li>
+<li><a href="http://www.jianshu.com/p/b2674fc2ac35" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【原理篇】</a></li>
+<li><a href="http://www.jianshu.com/p/099c2c875524" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【采集篇 】</a></li>
+<li><a href="http://www.jianshu.com/p/f5a41b9ec05f" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【播放篇】</a></li>
+</ul>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！&lt;/p&gt;
-&lt;h2 id=&quot;对比几种不同的直播SDK&quot;&gt;&lt;a href=&quot;#对比几
+      &lt;h2 id=&quot;更新说明&quot;&gt;&lt;a href=&quot;#更新说明&quot; class=&quot;headerlink&quot; title=&quot;更新说明&quot;&gt;&lt;/a&gt;更新说明&lt;/h2&gt;&lt;p&gt;更新记录:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2017 年 10 月，第一版。&lt;/li&gt;
+&lt;li&gt;2017 年 11 月 11 日，
     
     </summary>
     
