@@ -11,6 +11,7 @@
 <blockquote>
 <p>请勿陷入对技术的狂热之中</p>
 </blockquote>
+<p>最近两年以来，互联网的发展不再像早期那样粗放了，对各种技术人员的需求趋于稳定。<strong>“一招鲜，吃遍天”</strong>的时代终会落幕，全栈会成为一种趋势。</p>
 ]]></content>
       
         <categories>
@@ -2736,12 +2737,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -2888,6 +2883,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
