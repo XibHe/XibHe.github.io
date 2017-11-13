@@ -308,7 +308,7 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
     <link href="http://XibHe.github.io/2017/10/31/live/"/>
     <id>http://XibHe.github.io/2017/10/31/live/</id>
     <published>2017-10-30T16:00:00.000Z</published>
-    <updated>2017-11-13T08:31:40.000Z</updated>
+    <updated>2017-11-13T08:45:27.000Z</updated>
     
     <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
 <h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
@@ -317,8 +317,7 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <li>2017 年 11 月 11 日，增加相关说明。</li>
 <li>2017 年 11 月 13 日，增加直播原理。</li>
 </ul>
-<h2 id="直播原理"><a href="#直播原理" class="headerlink" title="直播原理"></a>直播原理</h2><h3 id="1-一个完整直播app实现流程"><a href="#1-一个完整直播app实现流程" class="headerlink" title="1. 一个完整直播app实现流程"></a>1. 一个完整直播app实现流程</h3><table><td bgcolor="#F6F6F6"><br>1.采集、2.滤镜处理、3.编码、4.推流、5.CDN分发、6.拉流、7.解码、8.播放、9.聊天互动<br></td></table>
-
+<h2 id="直播原理"><a href="#直播原理" class="headerlink" title="直播原理"></a>直播原理</h2><h3 id="1-一个完整直播app实现流程"><a href="#1-一个完整直播app实现流程" class="headerlink" title="1. 一个完整直播app实现流程"></a>1. 一个完整直播app实现流程</h3><p>1.采集、2.滤镜处理、3.编码、4.推流、5.CDN分发、6.拉流、7.解码、8.播放、9.聊天互动</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/304825-5481594e6e2a9d56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-54974199408c0cc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-9b64e9596f3ccdce.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
