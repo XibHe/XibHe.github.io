@@ -308,14 +308,28 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
     <link href="http://XibHe.github.io/2017/10/31/live/"/>
     <id>http://XibHe.github.io/2017/10/31/live/</id>
     <published>2017-10-30T16:00:00.000Z</published>
-    <updated>2017-11-11T08:10:04.000Z</updated>
+    <updated>2017-11-13T08:18:25.000Z</updated>
     
     <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
 <h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
 <ul>
 <li>2017 年 10 月，第一版。</li>
 <li>2017 年 11 月 11 日，增加相关说明。</li>
+<li>2017 年 11 月 13 日，增加直播原理。</li>
 </ul>
+<h2 id="直播原理"><a href="#直播原理" class="headerlink" title="直播原理"></a>直播原理</h2><h3 id="1-一个完整直播app实现流程"><a href="#1-一个完整直播app实现流程" class="headerlink" title="1. 一个完整直播app实现流程"></a>1. 一个完整直播app实现流程</h3><table><tr><td bgcolor="#F6F6F6"><br>1.采集、2.滤镜处理、3.编码、4.推流、5.CDN分发、6.拉流、7.解码、8.播放、9.聊天互动<br></td></tr></table>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/304825-5481594e6e2a9d56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-54974199408c0cc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-9b64e9596f3ccdce.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="4-流媒体相关参数"><a href="#4-流媒体相关参数" class="headerlink" title="4. 流媒体相关参数"></a>4. 流媒体相关参数</h3><p><strong>帧:</strong> 每帧代表一副静止的图像。</p>
+<p><strong>帧率:</strong> 每秒显示的图片数。影响画面流畅度，与画面流畅度成正比:帧率越大，画面越流畅；帧率越小，画面越有跳动感。</p>
+<p>由于人类眼睛的特殊生理结构，如果所看画面之帧率高于16的时候，就会认为是连贯的，此现象称之为视觉暂留。并且当帧速达到一定数值后，再增长的话，人眼也不容易察觉到有明显的流畅度提升了。</p>
+<p><strong>码率：</strong>图片进行压缩后每秒显示的数据量。</p>
+<p><strong>分辨率：</strong>（矩形）图片的长度和宽度，即图片的尺寸<br>压缩前的每秒数据量: 帧率X分辨率(单位应该是若干个字节)<br>压缩比: 压缩前的每秒数据量/码率 （对于同一个视频源并采用同一种视频编码算法，则：压缩比越高，画面质量越差。）　</p>
+<p><strong>视频文件格式：</strong>文件的后缀，比如.wmv,.mov,.mp4,.mp3,.avi,<br>主要用处，根据文件格式，系统会自动判断用什么软件打开,<br>注意: 随意修改文件格式，对文件的本身不会造成太大的影响，比如把avi改成mp4,文件还是avi.</p>
+<p><strong>视频封装格式：</strong>一种储存视频信息的容器，流式封装可以有TS、FLV等，索引式的封装有MP4,MOV,AVI等，<br><strong>主要作用：</strong>一个视频文件往往会包含图像和音频，还有一些配置信息(如图像和音频的关联，如何解码它们等)：这些内容需要按照一定的规则组织、封装起来.<br>注意：会发现封装格式跟文件格式一样，因为一般视频文件格式的后缀名即采用相应的视频封装格式的名称,所以视频文件格式就是视频封装格式。</p>
+<p><strong>视频封装格式和视频压缩编码标准：</strong>就好像项目工程和编程语言，封装格式就是一个项目的工程，视频编码方式就是编程语言，一个项目工程可以用不同语言开发。</p>
 <h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
 <h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
@@ -352,8 +366,7 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <li><a href="http://www.jianshu.com/p/099c2c875524" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【采集篇 】</a></li>
 <li><a href="http://www.jianshu.com/p/f5a41b9ec05f" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【播放篇】</a></li>
 </ul>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.jianshu.com/p/bd42bacbe4cc" target="_blank" rel="external">【如何快速的开发一个完整的iOS直播app】(原理篇)</a></p>
 ]]></content>
     
     <summary type="html">
