@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[软件开发这份工作到了35岁之后就是尽头了吗？]]></title>
+      <title><![CDATA[软件开发这份工作到了35岁之后就是尽头了吗]]></title>
       <url>/2017/11/19/dead-end%20job%20/</url>
       <content type="html"><![CDATA[<p>我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：</p>
 <ol>
@@ -2785,14 +2785,14 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
