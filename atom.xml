@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2017-11-19T08:19:49.000Z</updated>
+  <updated>2017-11-19T08:23:28.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>软件开发这份工作到了35岁之后就是尽头了吗</title>
+    <title>(译)软件开发这份工作到了35岁之后就是尽头了吗</title>
     <link href="http://XibHe.github.io/2017/11/19/dead-end%20job%20/"/>
     <id>http://XibHe.github.io/2017/11/19/dead-end job /</id>
     <published>2017-11-18T16:00:00.000Z</published>
-    <updated>2017-11-19T08:19:49.000Z</updated>
+    <updated>2017-11-19T08:23:28.000Z</updated>
     
     <content type="html"><![CDATA[<p>我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：</p>
 <ol>
@@ -36,6 +36,9 @@
 <p>因此，对于问题的另一方面，我不认为软件工程是一个死胡同的事业。我想说的是，在薪酬增长方面，在一定的时间之后，它会趋于稳定。部分原因就是工程师本质上是人为的商品。除非你是一个非常特别的工程师，事实上，你总是可以被其他人取代。与其他竞争性行业相比，我认为这有助于保持软件工程工资水平。不过，我几乎可以保证，对软件工程师的需求将超过应聘者中新毕业生或其他人的供应，所以你总能找到工作。不过，你可能不会每年收到那些10％的指数提升，就像你两三年前那样。</p>
 <p>最后，关于转为管理者是否是一个更好的选择，我想问为什么只考虑这个选项？当然有许多职业道路可供选择。你可以转换到另一个工程领域。例如，许多不喜欢创造产品的软件工程师会转移到其他角色，有时在同一个公司，例如运营，产品管理，项目管理，质量保证，或者更少的技术，如销售或行政职位。我也有一些完全改变职业的朋友，比如全职教学。</p>
 <p>最后让我说，以为自己为例，在和那些具有扎实工程背景的经理人员一起工作时，我很欣赏他们，最好是与公司相关技术的软件工程，所以请不要急于进入工程管理的职业道路。对于我们这些将来可能不得不与你打交道的人，作为开发者，可以获得5年或6年的良好工程实践经验。了解这个行业是如何运作的，作为一个经验丰富的开发者。只有这样，才能考虑把你的职业转向管理方向。就像你不会雇用花店来建造布鲁克林大桥。同样也不会聘请没有任何开发经验的人担任项目经理。</p>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.quora.com/Is-software-development-really-a-dead-end-job-after-age-35-40/answer/Jeff-Nelson-32?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=website" target="_blank" rel="external">Is software development really a dead-end job after age 35-40?</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -1659,9 +1662,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
     
   </entry>
   
@@ -1752,9 +1755,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
-    
       <category term="待办事项" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9/"/>
+    
+      <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
     
   </entry>
   
