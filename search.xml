@@ -58,6 +58,8 @@
 <p><img src="http://odchyrav4.bkt.clouddn.com/introspect2.jpg" alt=""></p>
 <p>互联网发展非常快，每天每个月都有很多的新技术面世。在我们朝着全栈一路狂奔时，需要思考为什么要用这个技术？它能解决什么问题？有什么弊端吗？为了技术而技术，考虑问题的全面性就会差很多。裹足不前不行，盲目追新亦是不行，这里很考验我们对新技术的判断，最终这些技术都要对应业务场景，或许多经历几次因业务需求变化而导致的通宵加班，彻夜上线才会让开发者有所反思，经历几次痛苦的重构才会刻骨铭心吧！</p>
 <p>但无论如何，凌冬将至，大家过冬的粮食都储备充足了吗？</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
       
         <categories>
@@ -1599,9 +1601,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -1690,9 +1692,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2795,6 +2797,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -2941,12 +2949,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
