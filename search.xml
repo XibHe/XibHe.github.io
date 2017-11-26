@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title></title>
+      <title><![CDATA[AFNetworking到底做了什么？]]></title>
       <url>/2017/11/26/AF3.x/</url>
       <content type="html"><![CDATA[<p>最近在对接一个demo，主要是调用一下SDK，实现一些功能。发现这个demo的网络请求部分是基于<strong>NSURLConnection</strong>做的一些简单调用。用起来感觉总是怪怪的，于是就想切换回自己一直在用的<strong>AFNetworking</strong>。结果，和我想的还是不太一致。同时，也暴露出一个严重的问题：对<strong>AFNetworking</strong>实现原理，到底做了什么？可以说是一窍不通。之前一直以为对<strong>AFNetworking</strong>很熟悉了，现在看来，也只是停留在调用<strong>AFHTTPSessionManager</strong>的表明。</p>
 <p>之前的调用是做了一层简单的封装，将请求时用到的各种参数在一个继承自NSObject的类中统一配置。如下，</p>
@@ -76,6 +76,8 @@
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>但请求时会报500的错误。看来还需要接着往深了抛，看看<strong>AFNetworking</strong>到底做了什么？</p>
+<font color="19ee">待续……</font>
+
 ]]></content>
       
         <categories>
@@ -1692,9 +1694,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -1783,9 +1785,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2882,12 +2884,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -3034,6 +3030,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
