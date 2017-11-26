@@ -3,6 +3,97 @@
   
     
     <entry>
+      <title></title>
+      <url>/2017/11/26/AF3.x/</url>
+      <content type="html"><![CDATA[<p>最近在对接一个demo，主要是调用一下SDK，实现一些功能。发现这个demo的网络请求部分是基于<strong>NSURLConnection</strong>做的一些简单调用。用起来感觉总是怪怪的，于是就想切换回自己一直在用的<strong>AFNetworking</strong>。结果，和我想的还是不太一致。同时，也暴露出一个严重的问题：对<strong>AFNetworking</strong>实现原理，到底做了什么？可以说是一窍不通。之前一直以为对<strong>AFNetworking</strong>很熟悉了，现在看来，也只是停留在调用<strong>AFHTTPSessionManager</strong>的表明。</p>
+<p>之前的调用是做了一层简单的封装，将请求时用到的各种参数在一个继承自NSObject的类中统一配置。如下，</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>postWithUrl<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString<span class="token operator">*</span><span class="token punctuation">)</span>url params<span class="token punctuation">:</span><span class="token punctuation">(</span>NSDictionary<span class="token operator">*</span><span class="token punctuation">)</span>params  success<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpSuccessBlock<span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpFailureBlock<span class="token punctuation">)</span>failure
+<span class="token punctuation">{</span>
+    AFHTTPSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPSessionManager manager<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token string">@"application/json; charset=UTF-8"</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Content-Type"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token string">@"gzip"</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Accept-Encoding"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>requestSerializer<span class="token punctuation">.</span>timeoutInterval <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">.</span>f<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//设置请求超时时间</span>
+    manager<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFJSONResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>responseSerializer<span class="token punctuation">.</span>acceptableContentTypes <span class="token operator">=</span> <span class="token punctuation">[</span>NSSet setWithObject<span class="token punctuation">:</span><span class="token string">@"text/html"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager POST<span class="token punctuation">:</span>url parameters<span class="token punctuation">:</span>params progress<span class="token punctuation">:</span>nil success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span> _Nonnull task<span class="token punctuation">,</span> id  _Nullable responseObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        NSDictionary <span class="token operator">*</span>bodyObjDic <span class="token operator">=</span> <span class="token punctuation">[</span>responseObject objectForKey<span class="token punctuation">:</span><span class="token string">@"body"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@"bodyObjDic = %@"</span><span class="token punctuation">,</span>bodyObjDic<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        NSString <span class="token operator">*</span>code <span class="token operator">=</span> <span class="token punctuation">[</span>bodyObjDic objectForKey<span class="token punctuation">:</span><span class="token string">@"code"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@"url = %@,code = %@"</span><span class="token punctuation">,</span>url<span class="token punctuation">,</span>code<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>code isEqualToString<span class="token punctuation">:</span><span class="token string">@"200"</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>success<span class="token punctuation">)</span>
+                <span class="token function">success</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>responseObject objectForKey<span class="token punctuation">:</span><span class="token string">@"body"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>code <span class="token operator">==</span> nil<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            NSError <span class="token operator">*</span>error <span class="token operator">=</span> <span class="token punctuation">[</span>NSError errorWithDomain<span class="token punctuation">:</span><span class="token string">@"请求错误"</span> code<span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span> userInfo<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>failure<span class="token punctuation">)</span>
+                <span class="token function">failure</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span> _Nullable task<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nonnull error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">@"NSURLErrorDomain"</span> isEqualToString<span class="token punctuation">:</span>error<span class="token punctuation">.</span>domain<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            error <span class="token operator">=</span> <span class="token punctuation">[</span>NSError errorWithDomain<span class="token punctuation">:</span><span class="token string">@"请监测您的网络环境"</span> code<span class="token punctuation">:</span>error<span class="token punctuation">.</span>code  userInfo<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">@"NSCocoaErrorDomain"</span> isEqualToString<span class="token punctuation">:</span>error<span class="token punctuation">.</span>domain<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            error <span class="token operator">=</span> <span class="token punctuation">[</span>NSError errorWithDomain<span class="token punctuation">:</span><span class="token string">@"服务器繁忙，请稍候重试"</span> code<span class="token punctuation">:</span>error<span class="token punctuation">.</span>code userInfo<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>failure<span class="token punctuation">)</span>
+            <span class="token function">failure</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再将所有用于请求的url都放在这个类的类别中，统一管理。如下，</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">/**
+ 注册接口
+ */</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>getRegistedWithParams<span class="token punctuation">:</span><span class="token punctuation">(</span>NSDictionary<span class="token operator">*</span><span class="token punctuation">)</span>params success<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpSuccessBlock<span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpFailureBlock<span class="token punctuation">)</span>failure
+ <span class="token punctuation">{</span>
+     <span class="token punctuation">[</span><span class="token keyword">self</span> postWithUrl<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"%@"</span><span class="token punctuation">,</span>kILVBHost<span class="token punctuation">]</span> params<span class="token punctuation">:</span>params success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>id JSON<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>success<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">success</span><span class="token punctuation">(</span>JSON<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>failure<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">failure</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>demo在网络请求时，会将参数转换并设置到<strong>HTTPBody</strong>中，上面那种直接使用AFHTTPSessionManager进行POST请求的方式就不行，其无法在请求时将请求的参数设置到request的HTTPBody中。于是，尝试通过新建一个<strong>NSMutableURLRequest</strong>请求，通过设置它的<strong>HTTPBody</strong>到达目的。如下，</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>postWithUrl<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString<span class="token operator">*</span><span class="token punctuation">)</span>url params<span class="token punctuation">:</span><span class="token punctuation">(</span>NSDictionary<span class="token operator">*</span><span class="token punctuation">)</span>params  success<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpSuccessBlock<span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpFailureBlock<span class="token punctuation">)</span>failure
+<span class="token punctuation">{</span>
+    AFHTTPSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPSessionManager manager<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token string">@"application/json; charset=UTF-8"</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Content-Type"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token string">@"gzip"</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Accept-Encoding"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>requestSerializer<span class="token punctuation">.</span>timeoutInterval <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">.</span>f<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//设置请求超时时间</span>
+    manager<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFJSONResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    NSError <span class="token operator">*</span>requestError <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+    NSMutableURLRequest <span class="token operator">*</span>request <span class="token operator">=</span> <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer requestWithMethod<span class="token punctuation">:</span><span class="token string">@"POST"</span> URLString<span class="token punctuation">:</span>url parameters<span class="token punctuation">:</span>params error<span class="token punctuation">:</span><span class="token operator">&amp;</span>requestError<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    request<span class="token punctuation">.</span>HTTPBody <span class="token operator">=</span> <span class="token punctuation">[</span>NSData data<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>session dataTaskWithRequest<span class="token punctuation">:</span>request completionHandler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span> _Nullable data<span class="token punctuation">,</span> NSURLResponse <span class="token operator">*</span> _Nullable response<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">CLog</span><span class="token punctuation">(</span><span class="token string">@"data = %@,response = %@"</span><span class="token punctuation">,</span>data<span class="token punctuation">,</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但请求时会报500的错误。看来还需要接着往深了抛，看看<strong>AFNetworking</strong>到底做了什么？</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 解惑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> AFNetworking </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[(译)软件开发这份工作到了35岁之后就是尽头了吗]]></title>
       <url>/2017/11/19/dead-end%20job%20/</url>
       <content type="html"><![CDATA[<p>我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：</p>
@@ -2797,12 +2888,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
@@ -2949,6 +3034,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
