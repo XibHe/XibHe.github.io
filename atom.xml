@@ -1438,7 +1438,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
     <link href="http://XibHe.github.io/2017/04/24/Graphics-rendering/"/>
     <id>http://XibHe.github.io/2017/04/24/Graphics-rendering/</id>
     <published>2017-04-23T16:00:00.000Z</published>
-    <updated>2017-10-14T02:46:12.000Z</updated>
+    <updated>2017-12-04T11:01:21.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="图形绘制"><a href="#图形绘制" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
 <h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>UIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创建基于矢量的路径，例如椭圆或者矩形，或者有多个直线和曲线段组成的形状。我们可以用moveToPoint: 和 addLineToPoint:方法去构建。moveToPoint:设置我们想要创建形状的起点。从这点开始，我们可以用方法addLineToPoint:去创建一个形状的线段。我们可以连续的创建line，每一个line的起点都是先前的终点，终点就是指定的点。closePath可以在最后一个点和第一个点之间画一条线段。</p>
@@ -1637,6 +1637,7 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>使用CGPathAddArcToPoint绘制带有箭头的弹窗菜单,如图，<br><img src="http://odchyrav4.bkt.clouddn.com/814765ED-432C-4614-87DF-4A275E136BF8.png" alt="弹窗菜单"></p>
 <p>在绘制四个边的圆角时，无法对应到特定的四个角的位置，导致绘制不出该效果的图片。</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>Github ：<a href="https://github.com/XibHe/DrawTriangle" target="_blank" rel="external">https://github.com/XibHe/DrawTriangle</a></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="http://www.jianshu.com/p/bbb2cc485a45" target="_blank" rel="external">绘图</a></li>
 <li><a href="http://www.tuicool.com/articles/ZrimEnA" target="_blank" rel="external">iOS CAShapeLayer精讲</a></li>
