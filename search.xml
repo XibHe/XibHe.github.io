@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[创业就是要发起一场思想运动]]></title>
+      <title><![CDATA[(译)创业就是要发起一场思想运动]]></title>
       <url>/2017/12/09/Build%20a%20Movement/</url>
       <content type="html"><![CDATA[<p>作为一个创业者，我并不喜欢和开发者在午餐时间发生争论。</p>
 <p>”这是胡说，“我们的首席技术官回复。“MailChimp的产品并不比其他产品好，这只是另一个发送消息的通讯工具而已。当它竞争对手提供同样的功能只需要花费几块钱时，为什么每月要额外花费200美元呢？“</p>
@@ -1824,9 +1824,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -1915,9 +1915,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -3007,22 +3007,16 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>iOS攻城狮一枚，现居北京<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+]]></content>
     </entry>
     
     <entry>
@@ -3172,6 +3166,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
