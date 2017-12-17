@@ -551,7 +551,7 @@ NSMutableURLRequest <span class="token operator">*</span>request <span class="to
 <pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
 manager.requestSerializer = [AFJSONRequestSerializer serializer];
 manager.responseSerializer = [AFJSONResponseSerializer serializer];
-</code></pre><p>—————————————–华丽的转载————————————————–</p>
+</code></pre><p>——————————————————华丽的转载线————————————————————-</p>
 <h2 id="AFNetworking到底做了什么？"><a href="#AFNetworking到底做了什么？" class="headerlink" title="AFNetworking到底做了什么？"></a>AFNetworking到底做了什么？</h2><p><strong>NSURLSession</strong>， <strong>NSURLSessionDataTask</strong>这两个类是iOS做网络请求的核心类，而AFNetworking则是对其做了一系列封装，简化了使用系统原生API做网络请求的过程。</p>
 <ol>
 <li>AFHTTPSessionManager不做实事，只是提供对外接口</li>
@@ -562,24 +562,28 @@ manager.responseSerializer = [AFJSONResponseSerializer serializer];
 <li>AFHTTPSessionManager还做了一件很重要的事，就是把传过来的参数，编码成我们请求时需要的<strong>request</strong>，并且传给父类去做网络请求</li>
 </ul>
 <p>NSURLSession， NSURLSessionDataTask</p>
-<pre><code> NSURLSessionDataTask *dataTask = [self dataTaskWithHTTPMethod:@&quot;GET&quot;                                                   URLString:URLString parameters:parameters uploadProgress:nil                                             downloadProgress:downloadProgress                                                        success:success                                                       failure:failure];
- // 开始任务
- [dataTask resume];
-</code></pre><pre><code>NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&amp;serializationError];
-</code></pre><ol>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"> NSURLSessionDataTask <span class="token operator">*</span>dataTask <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> dataTaskWithHTTPMethod<span class="token punctuation">:</span><span class="token string">@"GET"</span>                                                   URLString<span class="token punctuation">:</span>URLString parameters<span class="token punctuation">:</span>parameters uploadProgress<span class="token punctuation">:</span>nil                                             downloadProgress<span class="token punctuation">:</span>downloadProgress                                                        success<span class="token punctuation">:</span>success                                                       failure<span class="token punctuation">:</span>failure<span class="token punctuation">]</span><span class="token punctuation">;</span>
+ <span class="token comment" spellcheck="true">// 开始任务</span>
+ <span class="token punctuation">[</span>dataTask resume<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec">NSMutableURLRequest <span class="token operator">*</span>request <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>requestSerializer requestWithMethod<span class="token punctuation">:</span>method URLString<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span>URLString relativeToURL<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>baseURL<span class="token punctuation">]</span> absoluteString<span class="token punctuation">]</span> parameters<span class="token punctuation">:</span>parameters error<span class="token punctuation">:</span><span class="token operator">&amp;</span>serializationError<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol>
 <li>请求参数解析类—AFHTTPRequestSerializer</li>
 </ol>
 <p>核心方法：</p>
-<pre><code>- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-                                 URLString:(NSString *)URLString
-                                parameters:(nullable id)parameters
-                                     error:(NSError * _Nullable __autoreleasing *)error;
-</code></pre><ol>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>NSMutableURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>requestWithMethod<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>method
+                                 URLString<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>URLString
+                                parameters<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable id<span class="token punctuation">)</span>parameters
+                                     error<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span> _Nullable __autoreleasing <span class="token operator">*</span><span class="token punctuation">)</span>error<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
 <li>AF请求核心类，AFURLSessionManager</li>
 </ol>
 <p><strong>NSURLSessionDataTask,</strong><br>AFHTTPSessionManager的初始化方法，触发了这个类所有的初始化<br>初始化方法：</p>
-<pre><code>- (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration；
-</code></pre><pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithSessionConfiguration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionConfiguration <span class="token operator">*</span><span class="token punctuation">)</span>configuration <span class="token punctuation">{</span>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithSessionConfiguration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionConfiguration <span class="token operator">*</span><span class="token punctuation">)</span>configuration；
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithSessionConfiguration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionConfiguration <span class="token operator">*</span><span class="token punctuation">)</span>configuration <span class="token punctuation">{</span>
     <span class="token keyword">self</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">super</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
@@ -636,158 +640,167 @@ manager.responseSerializer = [AFJSONResponseSerializer serializer];
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这个方法初始化了一些我们后续需要用到的属性，其他的都很简单，唯一比较费解的两处可能是：</p>
-<pre><code>self.operationQueue.maxConcurrentOperationCount = 1;
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token keyword">self</span><span class="token punctuation">.</span>operationQueue<span class="token punctuation">.</span>maxConcurrentOperationCount <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 
-[self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
-       //置空处理
- }];
-</code></pre><p>我们首先来讲讲这两个操作的作用：</p>
+<span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>session getTasksWithCompletionHandler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSArray <span class="token operator">*</span>dataTasks<span class="token punctuation">,</span> NSArray <span class="token operator">*</span>uploadTasks<span class="token punctuation">,</span> NSArray <span class="token operator">*</span>downloadTasks<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true">//置空处理</span>
+ <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们首先来讲讲这两个操作的作用：</p>
 <ul>
 <li><p>第一是让回调的代理queue是串行的，即请求完成的task只能一个个被回调。</p>
 </li>
 <li><p>第二是清空了session中所有task。</p>
 </li>
 </ul>
-<pre><code>- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
-                               uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgressBlock
-                             downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgressBlock
-                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler {
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTaskWithRequest<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>request
+                               uploadProgress<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSProgress <span class="token operator">*</span>uploadProgress<span class="token punctuation">)</span><span class="token punctuation">)</span> uploadProgressBlock
+                             downloadProgress<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSProgress <span class="token operator">*</span>downloadProgress<span class="token punctuation">)</span><span class="token punctuation">)</span> downloadProgressBlock
+                            completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSURLResponse <span class="token operator">*</span>response<span class="token punctuation">,</span> id _Nullable responseObject<span class="token punctuation">,</span>  NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler <span class="token punctuation">{</span>
 
-    // 第一件事，创建NSURLSessionDataTask，里面适配了Ios8以下taskIdentifiers，函数创建task对象。
-    __block NSURLSessionDataTask *dataTask = nil;
+    <span class="token comment" spellcheck="true">// 第一件事，创建NSURLSessionDataTask，里面适配了Ios8以下taskIdentifiers，函数创建task对象。</span>
+    __block NSURLSessionDataTask <span class="token operator">*</span>dataTask <span class="token operator">=</span> nil<span class="token punctuation">;</span>
 
-    // 其实现应该是因为iOS 8.0以下版本中会并发地创建多个task对象，而同步有没有做好，导致taskIdentifiers 不唯一…这边做了一个串行处理
-    url_session_manager_create_task_safely(^{
-        dataTask = [self.session dataTaskWithRequest:request];
-    });
+    <span class="token comment" spellcheck="true">// 其实现应该是因为iOS 8.0以下版本中会并发地创建多个task对象，而同步有没有做好，导致taskIdentifiers 不唯一…这边做了一个串行处理</span>
+    <span class="token function">url_session_manager_create_task_safely</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">{</span>
+        dataTask <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>session dataTaskWithRequest<span class="token punctuation">:</span>request<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    [self addDelegateForDataTask:dataTask uploadProgress:uploadProgressBlock downloadProgress:downloadProgressBlock completionHandler:completionHandler];
+    <span class="token punctuation">[</span><span class="token keyword">self</span> addDelegateForDataTask<span class="token punctuation">:</span>dataTask uploadProgress<span class="token punctuation">:</span>uploadProgressBlock downloadProgress<span class="token punctuation">:</span>downloadProgressBlock completionHandler<span class="token punctuation">:</span>completionHandler<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    return dataTask;
-}
-</code></pre><p>类似这个类中很多方法这样的方法，这些方法主要做两件事：</p>
+    <span class="token keyword">return</span> dataTask<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>类似这个类中很多方法这样的方法，这些方法主要做两件事：</p>
 <ol>
 <li>调用session的方法，传request过去去生成task。注意这里调用了<strong>url_session_manager_create_task_safely</strong>函数去执行的Block,这个函数实现如下：</li>
 </ol>
-<pre><code>static void url_session_manager_create_task_safely(dispatch_block_t block) {
-    if (NSFoundationVersionNumber &lt; NSFoundationVersionNumber_With_Fixed_5871104061079552_bug) {
-        dispatch_sync(url_session_manager_creation_queue(), block);
-    } else {
-      block();
-    }
-}
-</code></pre><p>简单来讲就是为了适配iOS8以下task创建，其中taskIdentifiers属性不唯一，而这个属性是我们之后添加代理的key，它必须是唯一的。 所以这里做了一个判断，如果是iOS8以下，则用串行同步的方式去执行这个Block，也就是创建session。否则直接执行。</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">url_session_manager_create_task_safely</span><span class="token punctuation">(</span>dispatch_block_t block<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>NSFoundationVersionNumber <span class="token operator">&lt;</span> NSFoundationVersionNumber_With_Fixed_5871104061079552_bug<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">dispatch_sync</span><span class="token punctuation">(</span><span class="token function">url_session_manager_creation_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> block<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">block</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>简单来讲就是为了适配iOS8以下task创建，其中taskIdentifiers属性不唯一，而这个属性是我们之后添加代理的key，它必须是唯一的。 所以这里做了一个判断，如果是iOS8以下，则用串行同步的方式去执行这个Block，也就是创建session。否则直接执行。</p>
 <ol>
 <li><strong>给每个task创建并对应一个AF的代理对象，这基本上是这个类的核心所在了</strong>，这个代理对象为其对应的“task做数据拼接及成功回调。</li>
 </ol>
 <p>方法如下：</p>
-<pre><code>- (void)addDelegateForDataTask:(NSURLSessionDataTask *)dataTask
-                uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgressBlock
-              downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgressBlock
-             completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
-{
-    AFURLSessionManagerTaskDelegate *delegate = [[AFURLSessionManagerTaskDelegate alloc] init];
-    // AFURLSessionManagerTaskDelegate与AFURLSessionManager建立相互关系
-    delegate.manager = self;
-    delegate.completionHandler = completionHandler;
-    // 这个taskDescriptionForSessionTasks用来发送开始和挂起通知的时候会用到,就是用这个值来Post通知，来两者对应
-    dataTask.taskDescription = self.taskDescriptionForSessionTasks;
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>addDelegateForDataTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTask
+                uploadProgress<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSProgress <span class="token operator">*</span>uploadProgress<span class="token punctuation">)</span><span class="token punctuation">)</span> uploadProgressBlock
+              downloadProgress<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSProgress <span class="token operator">*</span>downloadProgress<span class="token punctuation">)</span><span class="token punctuation">)</span> downloadProgressBlock
+             completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSURLResponse <span class="token operator">*</span>response<span class="token punctuation">,</span> id responseObject<span class="token punctuation">,</span> NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler
+<span class="token punctuation">{</span>
+    AFURLSessionManagerTaskDelegate <span class="token operator">*</span>delegate <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>AFURLSessionManagerTaskDelegate alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// AFURLSessionManagerTaskDelegate与AFURLSessionManager建立相互关系</span>
+    delegate<span class="token punctuation">.</span>manager <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+    delegate<span class="token punctuation">.</span>completionHandler <span class="token operator">=</span> completionHandler<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 这个taskDescriptionForSessionTasks用来发送开始和挂起通知的时候会用到,就是用这个值来Post通知，来两者对应</span>
+    dataTask<span class="token punctuation">.</span>taskDescription <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>taskDescriptionForSessionTasks<span class="token punctuation">;</span>
 
-    // 将AF delegate对象与 dataTask建立关系
-    [self setDelegate:delegate forTask:dataTask];
+    <span class="token comment" spellcheck="true">// 将AF delegate对象与 dataTask建立关系</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span> setDelegate<span class="token punctuation">:</span>delegate forTask<span class="token punctuation">:</span>dataTask<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    // 设置AF delegate的上传进度，下载进度块
-    delegate.uploadProgressBlock = uploadProgressBlock;
-    delegate.downloadProgressBlock = downloadProgressBlock;
-}
-</code></pre><p>将<strong>AF delegate</strong>对象与<strong>dataTask</strong>建立关系</p>
-<pre><code>- (void)setDelegate:(AFURLSessionManagerTaskDelegate *)delegate
-            forTask:(NSURLSessionTask *)task
-{
-    // 断言，如果没有这个参数，debug下crash在这
-    NSParameterAssert(task);
-    NSParameterAssert(delegate);
+    <span class="token comment" spellcheck="true">// 设置AF delegate的上传进度，下载进度块</span>
+    delegate<span class="token punctuation">.</span>uploadProgressBlock <span class="token operator">=</span> uploadProgressBlock<span class="token punctuation">;</span>
+    delegate<span class="token punctuation">.</span>downloadProgressBlock <span class="token operator">=</span> downloadProgressBlock<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将<strong>AF delegate</strong>对象与<strong>dataTask</strong>建立关系</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setDelegate<span class="token punctuation">:</span><span class="token punctuation">(</span>AFURLSessionManagerTaskDelegate <span class="token operator">*</span><span class="token punctuation">)</span>delegate
+            forTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 断言，如果没有这个参数，debug下crash在这</span>
+    <span class="token function">NSParameterAssert</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">NSParameterAssert</span><span class="token punctuation">(</span>delegate<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    // 加锁保证字典线程安全
-    [self.lock lock];
+    <span class="token comment" spellcheck="true">// 加锁保证字典线程安全</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>lock lock<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    // 将AF delegate放入以taskIdentifier标记的字典中（同一个NSURLSession中的taskIdentifier是唯一的）
-self.mutableTaskDelegatesKeyedByTaskIdentifier[@(task.taskIdentifier)] = delegate;
+    <span class="token comment" spellcheck="true">// 将AF delegate放入以taskIdentifier标记的字典中（同一个NSURLSession中的taskIdentifier是唯一的）</span>
+<span class="token keyword">self</span><span class="token punctuation">.</span>mutableTaskDelegatesKeyedByTaskIdentifier<span class="token punctuation">[</span><span class="token operator">@</span><span class="token punctuation">(</span>task<span class="token punctuation">.</span>taskIdentifier<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> delegate<span class="token punctuation">;</span>
 
-    // 为AF delegate 设置task 的progress监听
-    [delegate setupProgressForTask:task];
+    <span class="token comment" spellcheck="true">// 为AF delegate 设置task 的progress监听</span>
+    <span class="token punctuation">[</span>delegate setupProgressForTask<span class="token punctuation">:</span>task<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    // 添加task开始和暂停的通知
-    [self addNotificationObserverForTask:task];
-    [self.lock unlock];
-}
-</code></pre><p>以上两个方法创建了一个AFURLSessionManagerTaskDelegate的代理，把这个代理和task的taskIdentifier一一对应，放到我们最早初始化的字典里，建立起映射。</p>
+    <span class="token comment" spellcheck="true">// 添加task开始和暂停的通知</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span> addNotificationObserverForTask<span class="token punctuation">:</span>task<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>lock unlock<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上两个方法创建了一个AFURLSessionManagerTaskDelegate的代理，把这个代理和task的taskIdentifier一一对应，放到我们最早初始化的字典里，建立起映射。</p>
 <p>我们把AFUrlSessionManager作为了所有的task的delegate。当我们请求网络的时候，这些代理开始调用了：</p>
 <p><strong>NSURLSessionDelegate：</strong></p>
-<ul>
-<li><p>(void)URLSession:(NSURLSession <em>)session<br>didBecomeInvalidWithError:(NSError </em>)error；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession <em>)session<br>didReceiveChallenge:(NSURLAuthenticationChallenge </em>)challenge<br>completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler;</p>
-</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+didBecomeInvalidWithError<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span><span class="token punctuation">)</span>error；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+didReceiveChallenge<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLAuthenticationChallenge <span class="token operator">*</span><span class="token punctuation">)</span>challenge
+ completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSURLSessionAuthChallengeDisposition disposition<span class="token punctuation">,</span> NSURLCredential <span class="token operator">*</span>credential<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>NSURLSessionTaskDelegate：</strong></p>
-<ul>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>        task:(NSURLSessionTask *)task
-</code></pre><p>willPerformHTTPRedirection:(NSHTTPURLResponse *)response</p>
-<pre><code>  newRequest:(NSURLRequest *)request
-</code></pre><p>completionHandler:(void (^)(NSURLRequest *))completionHandler；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>        task:(NSURLSessionTask *)task
-</code></pre><p>didReceiveChallenge:(NSURLAuthenticationChallenge <em>)challenge<br>completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential </em>credential))completionHandler；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>        task:(NSURLSessionTask *)task
-</code></pre><p>needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>        task:(NSURLSessionTask *)task
-</code></pre><p> didSendBodyData:(int64_t)bytesSent<br>  totalBytesSent:(int64_t)totalBytesSent<br>totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>        task:(NSURLSessionTask *)task
-</code></pre><p>didCompleteWithError:(NSError *)error；</p>
-</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+willPerformHTTPRedirection<span class="token punctuation">:</span><span class="token punctuation">(</span>NSHTTPURLResponse <span class="token operator">*</span><span class="token punctuation">)</span>response
+        newRequest<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>request
+ completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+didReceiveChallenge<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLAuthenticationChallenge <span class="token operator">*</span><span class="token punctuation">)</span>challenge
+ completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSURLSessionAuthChallengeDisposition disposition<span class="token punctuation">,</span> NSURLCredential <span class="token operator">*</span>credential<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+ needNewBodyStream<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSInputStream <span class="token operator">*</span>bodyStream<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+   didSendBodyData<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>bytesSent
+    totalBytesSent<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>totalBytesSent
+totalBytesExpectedToSend<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>totalBytesExpectedToSend；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+didCompleteWithError<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span><span class="token punctuation">)</span>error；
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>NSURLSessionDataDelegate：</strong></p>
-<ul>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>    dataTask:(NSURLSessionDataTask *)dataTask
-</code></pre><p>didReceiveResponse:(NSURLResponse *)response<br>completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>    dataTask:(NSURLSessionDataTask *)dataTask
-</code></pre><p>didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>    dataTask:(NSURLSessionDataTask *)dataTask
-</code></pre><p>  didReceiveData:(NSData *)data；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>    dataTask:(NSURLSessionDataTask *)dataTask
-</code></pre><p>willCacheResponse:(NSCachedURLResponse <em>)proposedResponse<br>completionHandler:(void (^)(NSCachedURLResponse </em>cachedResponse))completionHandler；</p>
-<p><strong>NSURLSessionDownloadDelegate：</strong></p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>downloadTask:(NSURLSessionDownloadTask *)downloadTask
-</code></pre><p>didFinishDownloadingToURL:(NSURL *)location；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>downloadTask:(NSURLSessionDownloadTask *)downloadTask
-didWriteData:(int64_t)bytesWritten
-</code></pre><p>totalBytesWritten:(int64_t)totalBytesWritten<br>totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite；</p>
-</li>
-<li><p>(void)URLSession:(NSURLSession *)session</p>
-<pre><code>downloadTask:(NSURLSessionDownloadTask *)downloadTask
-</code></pre><p>didResumeAtOffset:(int64_t)fileOffset<br>expectedTotalBytes:(int64_t)expectedTotalBytes；</p>
-</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+          dataTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTask
+didReceiveResponse<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLResponse <span class="token operator">*</span><span class="token punctuation">)</span>response
+ completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSURLSessionResponseDisposition disposition<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+          dataTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTask
+didBecomeDownloadTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDownloadTask <span class="token operator">*</span><span class="token punctuation">)</span>downloadTask；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+          dataTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTask
+    didReceiveData<span class="token punctuation">:</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span><span class="token punctuation">)</span>data；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+          dataTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTask
+ willCacheResponse<span class="token punctuation">:</span><span class="token punctuation">(</span>NSCachedURLResponse <span class="token operator">*</span><span class="token punctuation">)</span>proposedResponse
+ completionHandler<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSCachedURLResponse <span class="token operator">*</span>cachedResponse<span class="token punctuation">)</span><span class="token punctuation">)</span>completionHandler；
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p> <strong>NSURLSessionDownloadDelegate：</strong></p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+      downloadTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDownloadTask <span class="token operator">*</span><span class="token punctuation">)</span>downloadTask
+didFinishDownloadingToURL<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURL <span class="token operator">*</span><span class="token punctuation">)</span>location；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+      downloadTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDownloadTask <span class="token operator">*</span><span class="token punctuation">)</span>downloadTask
+      didWriteData<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>bytesWritten
+ totalBytesWritten<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>totalBytesWritten
+totalBytesExpectedToWrite<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>totalBytesExpectedToWrite；
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+      downloadTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDownloadTask <span class="token operator">*</span><span class="token punctuation">)</span>downloadTask
+ didResumeAtOffset<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>fileOffset
+expectedTotalBytes<span class="token punctuation">:</span><span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span>expectedTotalBytes；
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li><p>AFURLSessionManager一共实现了如上所列举的一大堆NSUrlSession相关的代理。</p>
 </li>
@@ -795,102 +808,130 @@ didWriteData:(int64_t)bytesWritten
 </li>
 </ul>
 <p><strong>NSURLSessionTaskDelegate：</strong></p>
-<ul>
-<li>(void)URLSession:(__unused NSURLSession *)session<pre><code>        task:(NSURLSessionTask *)task
-</code></pre>didCompleteWithError:(NSError *)error;</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>__unused NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+didCompleteWithError<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span><span class="token punctuation">)</span>error<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><strong>NSURLSessionDataTaskDelegate：</strong></p>
-<ul>
-<li>(void)URLSession:(__unused NSURLSession *)session<pre><code>    dataTask:(__unused NSURLSessionDataTask *)dataTask
-</code></pre>  didReceiveData:(NSData *)data;</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>__unused NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+          dataTask<span class="token punctuation">:</span><span class="token punctuation">(</span>__unused NSURLSessionDataTask <span class="token operator">*</span><span class="token punctuation">)</span>dataTask
+    didReceiveData<span class="token punctuation">:</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span><span class="token punctuation">)</span>data<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><strong>NSURLSessionDownloadTaskDelegate：</strong></p>
-<ul>
-<li>(void)URLSession:(NSURLSession *)session<pre><code>downloadTask:(NSURLSessionDownloadTask *)downloadTask
-</code></pre>didFinishDownloadingToURL:(NSURL *)location;</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+      downloadTask<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionDownloadTask <span class="token operator">*</span><span class="token punctuation">)</span>downloadTask
+didFinishDownloadingToURL<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURL <span class="token operator">*</span><span class="token punctuation">)</span>location<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>AFUrlSessionManager对这一大堆代理做了一些公共的处理，而转发到AF自定义代理的3条，则负责把每个task对应的数据回调出去。</p>
 <p>总结一下，这些代理主要是做了一些额外的处理，并且调用了它的属性Block：</p>
-<p>@interface AFURLSessionManager ()<br>@property (readwrite, nonatomic, copy) AFURLSessionDidBecomeInvalidBlock sessionDidBecomeInvalid;<br>@property (readwrite, nonatomic, copy) AFURLSessionDidReceiveAuthenticationChallengeBlock sessionDidReceiveAuthenticationChallenge;<br>@property (readwrite, nonatomic, copy) AFURLSessionDidFinishEventsForBackgroundURLSessionBlock didFinishEventsForBackgroundURLSession;<br>@end</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> <span class="token function">AFURLSessionManager</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>readwrite<span class="token punctuation">,</span> nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> AFURLSessionDidBecomeInvalidBlock sessionDidBecomeInvalid<span class="token punctuation">;</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>readwrite<span class="token punctuation">,</span> nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> AFURLSessionDidReceiveAuthenticationChallengeBlock sessionDidReceiveAuthenticationChallenge<span class="token punctuation">;</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>readwrite<span class="token punctuation">,</span> nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> AFURLSessionDidFinishEventsForBackgroundURLSessionBlock didFinishEventsForBackgroundURLSession<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>等属性……</p>
 <p>我们可以利用这些Block，做一些自定义的处理，Block会随着代理调用而被调用，这些代理帮我们做了一些类似数据分片、断点续传、https认证等工作</p>
 <p>除此之外，有3个代理方法回调了我们的task的AF代理，包括<strong>请求完成</strong>的代理，<strong>收到数据</strong>的代理，以及<strong>下载完成</strong>的代理，以第一个为例：</p>
-<ul>
-<li><p>(void)URLSession:(NSURLSession <em>)session task:(NSURLSessionTask </em>)task didCompleteWithError:(NSError <em>)error<br>{<br> // 根据task去取我们一开始创建绑定的delegate<br>  AFURLSessionManagerTaskDelegate </em>delegate = [self delegateForTask:task];</p>
-<p>  // delegate may be nil when completing a task in the background<br>  if (delegate) {<br>  // 把代理转发给我们绑定的delegate</p>
-<pre><code>  [delegate URLSession:session task:task didCompleteWithError:error];
-</code></pre><p>  // 转发完移除delegate </p>
-<pre><code> [self removeDelegateForTask:task];
-</code></pre><p>  }<br>  // 公用Block回调<br>  if (self.taskDidComplete) {</p>
-<pre><code>  self.taskDidComplete(session, task, error);
-</code></pre><p>  }<br>}</p>
-</li>
-</ul>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task didCompleteWithError<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span><span class="token punctuation">)</span>error
+<span class="token punctuation">{</span>
+   <span class="token comment" spellcheck="true">// 根据task去取我们一开始创建绑定的delegate</span>
+    AFURLSessionManagerTaskDelegate <span class="token operator">*</span>delegate <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> delegateForTask<span class="token punctuation">:</span>task<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// delegate may be nil when completing a task in the background</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>delegate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 把代理转发给我们绑定的delegate</span>
+        <span class="token punctuation">[</span>delegate URLSession<span class="token punctuation">:</span>session task<span class="token punctuation">:</span>task didCompleteWithError<span class="token punctuation">:</span>error<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 转发完移除delegate </span>
+       <span class="token punctuation">[</span><span class="token keyword">self</span> removeDelegateForTask<span class="token punctuation">:</span>task<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 公用Block回调</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>taskDidComplete<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">taskDidComplete</span><span class="token punctuation">(</span>session<span class="token punctuation">,</span> task<span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>通过我们之前设置的task和AF代理映射，去调用AF代理，并且把这个task从映射字典中移除。</p>
 <p>接着就调用了AF的代理：(自定义代理3条中的一条)</p>
-<p>// AF实现的代理！被从urlsession那转发到这</p>
-<ul>
-<li><p>(void)URLSession:(__unused NSURLSession *)session</p>
-<pre><code>        task:(NSURLSessionTask *)task
-</code></pre><p>didCompleteWithError:(NSError *)error<br>{</p>
-<p>// 强引用self.manager，防止被提前释放；因为self.manager声明为weak,类似Block<br>  __strong AFURLSessionManager *manager = self.manager;</p>
-<p>  __block id responseObject = nil;</p>
-<p> // 用来存储一些相关信息，来发送通知用的<br>  __block NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];<br> // 存储responseSerializer响应解析对象<br>  userInfo[AFNetworkingTaskDidCompleteResponseSerializerKey] = manager.responseSerializer;</p>
-<p>  // Performance Improvement from #2672<br>  // <strong>注意这行代码的用法，感觉写的很Nice…把请求到的数据data传出去，然后就不要这个值了释放内存</strong><br>  NSData *data = nil;<br>  if (self.mutableData) {</p>
-<pre><code>  data = [self.mutableData copy];
-  //We no longer need the reference, so nil it out to gain back some memory.
-  self.mutableData = nil;
-</code></pre><p>  }</p>
-<p>  // 继续给userinfo填数据<br>  if (self.downloadFileURL) {</p>
-<pre><code>  userInfo[AFNetworkingTaskDidCompleteAssetPathKey] = self.downloadFileURL;
-</code></pre><p>  } else if (data) {</p>
-<pre><code>  userInfo[AFNetworkingTaskDidCompleteResponseDataKey] = data;
-</code></pre><p>  }<br>  // 错误处理<br>  if (error) {</p>
-<pre><code>  userInfo[AFNetworkingTaskDidCompleteErrorKey] = error;
-</code></pre><p>  // 可以自己自定义完成组 和自定义完成queue,完成回调</p>
-<pre><code>  dispatch_group_async(manager.completionGroup ?: url_session_manager_completion_group(), manager.completionQueue ?: dispatch_get_main_queue(), ^{
-      if (self.completionHandler) {
-          self.completionHandler(task.response, responseObject, error);
-      }
-</code></pre><p>   // 主线程中完成通知</p>
-<pre><code>      dispatch_async(dispatch_get_main_queue(), ^{
-          [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidCompleteNotification object:task userInfo:userInfo];
-      });
-  });
-</code></pre><p>  } else {</p>
-<pre><code>  dispatch_async(url_session_manager_processing_queue(), ^{
-      NSError *serializationError = nil;
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token comment" spellcheck="true">// AF实现的代理！被从urlsession那转发到这</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>URLSession<span class="token punctuation">:</span><span class="token punctuation">(</span>__unused NSURLSession <span class="token operator">*</span><span class="token punctuation">)</span>session
+              task<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionTask <span class="token operator">*</span><span class="token punctuation">)</span>task
+didCompleteWithError<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span><span class="token punctuation">)</span>error
+<span class="token punctuation">{</span>
 
-      // 解析数据
-      responseObject = [manager.responseSerializer responseObjectForResponse:task.response data:data error:&amp;serializationError];
+ <span class="token comment" spellcheck="true">// 强引用self.manager，防止被提前释放；因为self.manager声明为weak,类似Block </span>
+    __strong AFURLSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>manager<span class="token punctuation">;</span>
 
-      // 如果是下载文件，那么responseObject为下载的路径
-      if (self.downloadFileURL) {
-          responseObject = self.downloadFileURL;
-      }
+    __block id responseObject <span class="token operator">=</span> nil<span class="token punctuation">;</span>
 
-      // 写入userInfo
-      if (responseObject) {
-   userInfo[AFNetworkingTaskDidCompleteSerializedResponseKey] = responseObject;
-      }
-     // 如果解析错误
-      if (serializationError) {
-          userInfo[AFNetworkingTaskDidCompleteErrorKey] = serializationError;
-      }
-     // 回调结果
-      dispatch_group_async(manager.completionGroup ?: url_session_manager_completion_group(), manager.completionQueue ?: dispatch_get_main_queue(), ^{
-          if (self.completionHandler) {
-              self.completionHandler(task.response, responseObject, serializationError);
-          }
+   <span class="token comment" spellcheck="true">// 用来存储一些相关信息，来发送通知用的</span>
+    __block NSMutableDictionary <span class="token operator">*</span>userInfo <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableDictionary dictionary<span class="token punctuation">]</span><span class="token punctuation">;</span>
+   <span class="token comment" spellcheck="true">// 存储responseSerializer响应解析对象</span>
+    userInfo<span class="token punctuation">[</span>AFNetworkingTaskDidCompleteResponseSerializerKey<span class="token punctuation">]</span> <span class="token operator">=</span> manager<span class="token punctuation">.</span>responseSerializer<span class="token punctuation">;</span>
 
-          dispatch_async(dispatch_get_main_queue(), ^{
-              [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidCompleteNotification object:task userInfo:userInfo];
-          });
-      });
-  });
-</code></pre><p>  }<br>}</p>
-</li>
-</ul>
+    <span class="token comment" spellcheck="true">// Performance Improvement from #2672</span>
+    <span class="token comment" spellcheck="true">// **注意这行代码的用法，感觉写的很Nice...把请求到的数据data传出去，然后就不要这个值了释放内存** </span>
+    NSData <span class="token operator">*</span>data <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>mutableData<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>mutableData copy<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//We no longer need the reference, so nil it out to gain back some memory.</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>mutableData <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 继续给userinfo填数据</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>downloadFileURL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        userInfo<span class="token punctuation">[</span>AFNetworkingTaskDidCompleteAssetPathKey<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>downloadFileURL<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        userInfo<span class="token punctuation">[</span>AFNetworkingTaskDidCompleteResponseDataKey<span class="token punctuation">]</span> <span class="token operator">=</span> data<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 错误处理</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        userInfo<span class="token punctuation">[</span>AFNetworkingTaskDidCompleteErrorKey<span class="token punctuation">]</span> <span class="token operator">=</span> error<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 可以自己自定义完成组 和自定义完成queue,完成回调</span>
+        <span class="token function">dispatch_group_async</span><span class="token punctuation">(</span>manager<span class="token punctuation">.</span>completionGroup <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token function">url_session_manager_completion_group</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> manager<span class="token punctuation">.</span>completionQueue <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>completionHandler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">completionHandler</span><span class="token punctuation">(</span>task<span class="token punctuation">.</span>response<span class="token punctuation">,</span> responseObject<span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+     <span class="token comment" spellcheck="true">// 主线程中完成通知</span>
+            <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+                <span class="token punctuation">[</span><span class="token punctuation">[</span>NSNotificationCenter defaultCenter<span class="token punctuation">]</span> postNotificationName<span class="token punctuation">:</span>AFNetworkingTaskDidCompleteNotification object<span class="token punctuation">:</span>task userInfo<span class="token punctuation">:</span>userInfo<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">url_session_manager_processing_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+            NSError <span class="token operator">*</span>serializationError <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 解析数据</span>
+            responseObject <span class="token operator">=</span> <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>responseSerializer responseObjectForResponse<span class="token punctuation">:</span>task<span class="token punctuation">.</span>response data<span class="token punctuation">:</span>data error<span class="token punctuation">:</span><span class="token operator">&amp;</span>serializationError<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 如果是下载文件，那么responseObject为下载的路径</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>downloadFileURL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                responseObject <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>downloadFileURL<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token comment" spellcheck="true">// 写入userInfo</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>responseObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         userInfo<span class="token punctuation">[</span>AFNetworkingTaskDidCompleteSerializedResponseKey<span class="token punctuation">]</span> <span class="token operator">=</span> responseObject<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+           <span class="token comment" spellcheck="true">// 如果解析错误</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>serializationError<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                userInfo<span class="token punctuation">[</span>AFNetworkingTaskDidCompleteErrorKey<span class="token punctuation">]</span> <span class="token operator">=</span> serializationError<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+           <span class="token comment" spellcheck="true">// 回调结果</span>
+            <span class="token function">dispatch_group_async</span><span class="token punctuation">(</span>manager<span class="token punctuation">.</span>completionGroup <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token function">url_session_manager_completion_group</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> manager<span class="token punctuation">.</span>completionQueue <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>completionHandler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">completionHandler</span><span class="token punctuation">(</span>task<span class="token punctuation">.</span>response<span class="token punctuation">,</span> responseObject<span class="token punctuation">,</span> serializationError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+
+                <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+                    <span class="token punctuation">[</span><span class="token punctuation">[</span>NSNotificationCenter defaultCenter<span class="token punctuation">]</span> postNotificationName<span class="token punctuation">:</span>AFNetworkingTaskDidCompleteNotification object<span class="token punctuation">:</span>task userInfo<span class="token punctuation">:</span>userInfo<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>虽然这个方法有点长，但是它主要做了两件事：</p>
 <ol>
 <li><p>调用responseSerializer按照我们设置的格式，解析请求到的数据。</p>
