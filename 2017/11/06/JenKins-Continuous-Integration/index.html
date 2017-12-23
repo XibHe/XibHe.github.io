@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="11月 06, 2017" />
-        <meta property="article:modified_time" content="11月 08, 2017" />
+        <meta property="article:modified_time" content="12月 23, 2017" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "利用JenKins持续集成iOS项目时遇到的问题",
     "url": "http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/index.html",
     "datePublished": "11月 06, 2017",
-    "dateModified": "11月 08, 2017",
+    "dateModified": "12月 23, 2017",
     "description": "爱苹果,爱生活。",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -615,7 +615,9 @@
 <p>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>的错误。</p>
-<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
+<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration10.png" alt=""></p>
+<p>参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
 <h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h3 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h3><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
