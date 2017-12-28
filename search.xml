@@ -135,7 +135,13 @@
       <title><![CDATA[AFNetworking到底做了什么？]]></title>
       <url>/2017/11/26/AF3.x/</url>
       <content type="html"><![CDATA[<p>最近在对接一个demo，主要是调用一下SDK，实现一些功能。发现这个demo的网络请求部分是基于<strong>NSURLConnection</strong>做的一些简单调用。用起来感觉总是怪怪的，于是就想切换回自己一直在用的<strong>AFNetworking</strong>。结果，和我想的还是不太一致。同时，也暴露出一个严重的问题：对<strong>AFNetworking</strong>实现原理，到底做了什么？可以说是一窍不通。之前一直以为对<strong>AFNetworking</strong>很熟悉了，现在看来，也只是停留在调用<strong>AFHTTPSessionManager</strong>的表明。</p>
-<p>之前的调用是做了一层简单的封装，将请求时用到的各种参数在一个继承自NSObject的类中统一配置。如下，</p>
+<p><strong>NSURLSession</strong>， <strong>NSURLSessionDataTask</strong>这两个类是iOS做网络请求的核心类，而AFNetworking则是对其做了一系列封装，简化了使用系统原生API做网络请求的过程。</p>
+<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
+<ul>
+<li>2017 年 11 月，第一版。</li>
+<li>2017 年 12 月，对具体的步骤进行归类整理。</li>
+</ul>
+<p>对<strong>AFNetworking</strong>调用是做了一层简单的封装，将请求时用到的各种参数在一个继承自NSObject的类中统一配置。如下，</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>postWithUrl<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString<span class="token operator">*</span><span class="token punctuation">)</span>url params<span class="token punctuation">:</span><span class="token punctuation">(</span>NSDictionary<span class="token operator">*</span><span class="token punctuation">)</span>params  success<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpSuccessBlock<span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpFailureBlock<span class="token punctuation">)</span>failure
 <span class="token punctuation">{</span>
     AFHTTPSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPSessionManager manager<span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -188,7 +194,7 @@
     <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
  <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>demo在网络请求时，会将参数转换并设置到<strong>HTTPBody</strong>中，上面那种直接使用AFHTTPSessionManager进行POST请求的方式就不行，其无法在请求时将请求的参数设置到request的HTTPBody中。于是，尝试通过新建一个<strong>NSMutableURLRequest</strong>请求，通过设置它的<strong>HTTPBody</strong>到达目的。如下，</p>
+<p>demo在网络请求时，会将参数转换并设置到<strong>HTTPBody</strong>中，上面那种直接使用<strong>AFHTTPSessionManager</strong>进行POST请求的方式就不行，其无法在请求时将请求的参数设置到request的HTTPBody中。于是，尝试通过新建一个<strong>NSMutableURLRequest</strong>请求，通过设置它的<strong>HTTPBody</strong>到达目的。如下，</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>postWithUrl<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString<span class="token operator">*</span><span class="token punctuation">)</span>url params<span class="token punctuation">:</span><span class="token punctuation">(</span>NSDictionary<span class="token operator">*</span><span class="token punctuation">)</span>params  success<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpSuccessBlock<span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span>HttpFailureBlock<span class="token punctuation">)</span>failure
 <span class="token punctuation">{</span>
     AFHTTPSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPSessionManager manager<span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -222,40 +228,52 @@ NSMutableURLRequest <span class="token operator">*</span>request <span class="to
  <span class="token punctuation">[</span>request setHTTPBody<span class="token punctuation">:</span>data<span class="token punctuation">]</span><span class="token punctuation">;</span>        
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>而manager.requestSerializer用于设置<strong>AFHTTPRequestSerializer</strong>(请求参数解析类)的，之所以会报解析或者服务器先关错误，是由于没有设置网络请求的解析方式导致。而responseSerializer默认使用了JSON的解析方式，这也是为什么当使用AFN进行网络请求时，JSON会自动进行解析的原因。这里如果想进行默认的request和response序列化，就要在manager的默认设置完成之后，在开始进行网络访问前使用：</p>
+<p>而<strong>manager.requestSerializer</strong>用于设置<strong>AFHTTPRequestSerializer</strong>(请求参数解析类)的，之所以会报解析或者服务器先关错误，是由于没有设置网络请求的解析方式导致。而<strong>responseSerializer</strong>默认使用了JSON的解析方式，这也是为什么当使用AFN进行网络请求时，JSON会自动进行解析的原因。这里如果想进行默认的request和response序列化，就要在manager的默认设置完成之后，在开始进行网络访问前使用：</p>
 <pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
 manager.requestSerializer = [AFJSONRequestSerializer serializer];
 manager.responseSerializer = [AFJSONResponseSerializer serializer];
-</code></pre><p>——————————————————华丽的转载线————————————————————-</p>
-<h2 id="AFNetworking到底做了什么？"><a href="#AFNetworking到底做了什么？" class="headerlink" title="AFNetworking到底做了什么？"></a>AFNetworking到底做了什么？</h2><p><strong>NSURLSession</strong>， <strong>NSURLSessionDataTask</strong>这两个类是iOS做网络请求的核心类，而AFNetworking则是对其做了一系列封装，简化了使用系统原生API做网络请求的过程。</p>
-<ol>
-<li>AFHTTPSessionManager不做实事，只是提供对外接口</li>
-</ol>
+</code></pre><p>即可实现返回数据的自动解析。</p>
+<h2 id="AFNetworking到底做了什么？"><a href="#AFNetworking到底做了什么？" class="headerlink" title="AFNetworking到底做了什么？"></a>AFNetworking到底做了什么？</h2><h3 id="AFNetworking概述"><a href="#AFNetworking概述" class="headerlink" title="AFNetworking概述"></a>AFNetworking概述</h3><p><img src="http://7xrlu3.com1.z0.glb.clouddn.com/2016-03-21-afnetworking-arch.png" alt=""><br><a href="https://draveness.me/afnetworking1" target="_blank" rel="external">图片所在原文链接</a></p>
+<p>AF分为如下5个功能模块：</p>
+<ul>
+<li>网络通信模块(AFURLSessionManager、AFHTTPSessionManger)</li>
+<li>网络通信信息序列化/反序列化模块(Serialization)</li>
+<li>网络状态监听模块(Reachability)</li>
+<li>网络通信安全策略模块(Security)</li>
+<li>对于iOS UIKit库的扩展(UIKit)</li>
+</ul>
+<p>AF3.x是基于NSURLSession来封装的。所以这个类围绕着NSURLSession做了一系列的上层封装。而其余的四个模块，均是为了配合AFURLSessionManager类的网络通信做一些必要的处理工作。如上图，所示。</p>
+<p>其中AFHTTPSessionManager是继承于AFURLSessionManager的，我们一般做网络请求都是用这个类，但是它本身是没有做实事的，只是做了一些简单的封装，把请求逻辑分发给父类AFURLSessionManager去做。 </p>
+<p><a href="https://www.jianshu.com/p/856f0e26279d" target="_blank" rel="external">以上内容原文链接</a></p>
+<h3 id="对外接口类AFHTTPSessionManager"><a href="#对外接口类AFHTTPSessionManager" class="headerlink" title="对外接口类AFHTTPSessionManager"></a>对外接口类AFHTTPSessionManager</h3><p>AFHTTPSessionManager不做实事，只是提供了对外调用的接口。</p>
 <ul>
 <li>调用父类方法进行初始化</li>
-<li>同样调用父类方法拿到task，</li>
-<li>AFHTTPSessionManager还做了一件很重要的事，就是把传过来的参数，编码成我们请求时需要的<strong>request</strong>，并且传给父类去做网络请求</li>
 </ul>
-<p>NSURLSession， NSURLSessionDataTask</p>
+<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithBaseURL<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURL <span class="token operator">*</span><span class="token punctuation">)</span>url
+           sessionConfiguration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionConfiguration <span class="token operator">*</span><span class="token punctuation">)</span>configuration
+<span class="token punctuation">{</span>
+    <span class="token keyword">self</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">super</span> initWithSessionConfiguration<span class="token punctuation">:</span>configuration<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//....</span>
+    <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>类似网络请求方法中，调用父类方法拿到task，这个类仅仅是把得到的task，resume即可</li>
+</ul>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"> NSURLSessionDataTask <span class="token operator">*</span>dataTask <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> dataTaskWithHTTPMethod<span class="token punctuation">:</span><span class="token string">@"GET"</span>                                                   URLString<span class="token punctuation">:</span>URLString parameters<span class="token punctuation">:</span>parameters uploadProgress<span class="token punctuation">:</span>nil                                             downloadProgress<span class="token punctuation">:</span>downloadProgress                                                        success<span class="token punctuation">:</span>success                                                       failure<span class="token punctuation">:</span>failure<span class="token punctuation">]</span><span class="token punctuation">;</span>
  <span class="token comment" spellcheck="true">// 开始任务</span>
  <span class="token punctuation">[</span>dataTask resume<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>AFHTTPSessionManager还做了一件很重要的事，就是把传过来的参数，编码成我们请求时需要的<strong>request</strong>，并且传给父类去做网络请求。</li>
+</ul>
+<p>NSURLSession， NSURLSessionDataTask</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec">NSMutableURLRequest <span class="token operator">*</span>request <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>requestSerializer requestWithMethod<span class="token punctuation">:</span>method URLString<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span>URLString relativeToURL<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>baseURL<span class="token punctuation">]</span> absoluteString<span class="token punctuation">]</span> parameters<span class="token punctuation">:</span>parameters error<span class="token punctuation">:</span><span class="token operator">&amp;</span>serializationError<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol>
-<li>请求参数解析类—AFHTTPRequestSerializer</li>
-</ol>
-<p>核心方法：</p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>NSMutableURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>requestWithMethod<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>method
-                                 URLString<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>URLString
-                                parameters<span class="token punctuation">:</span><span class="token punctuation">(</span>nullable id<span class="token punctuation">)</span>parameters
-                                     error<span class="token punctuation">:</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span> _Nullable __autoreleasing <span class="token operator">*</span><span class="token punctuation">)</span>error<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<ol>
-<li>AF请求核心类，AFURLSessionManager</li>
-</ol>
-<p><strong>NSURLSessionDataTask,</strong><br>AFHTTPSessionManager的初始化方法，触发了这个类所有的初始化<br>初始化方法：</p>
+<h3 id="AFNetworking请求核心类：AFURLSessionManager"><a href="#AFNetworking请求核心类：AFURLSessionManager" class="headerlink" title="AFNetworking请求核心类：AFURLSessionManager"></a>AFNetworking请求核心类：AFURLSessionManager</h3><p><strong>NSURLSessionDataTask,</strong><br>AFHTTPSessionManager的初始化方法，触发了这个类所有的初始化<br>初始化方法：</p>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithSessionConfiguration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionConfiguration <span class="token operator">*</span><span class="token punctuation">)</span>configuration；
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithSessionConfiguration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLSessionConfiguration <span class="token operator">*</span><span class="token punctuation">)</span>configuration <span class="token punctuation">{</span>
@@ -615,8 +633,24 @@ didCompleteWithError<span class="token punctuation">:</span><span class="token p
 </li>
 </ol>
 <p>到这里，AF的整个主线流程就完了，当然，我们跳过了很多细节没有讲，比如responseSerializer的各种格式的解析过程，还有为了监听task的开始和挂起通知，所做的<strong>method swizzling</strong>，这里对iOS7的兼容问题的处理，算是相当精彩了。</p>
+<p><a href="https://www.jianshu.com/p/f32bd79233da" target="_blank" rel="external">以上内容原文链接</a></p>
+<h3 id="处理请求和响应：AFURLSerialization"><a href="#处理请求和响应：AFURLSerialization" class="headerlink" title="处理请求和响应：AFURLSerialization"></a>处理请求和响应：AFURLSerialization</h3><p>对发出请求以及接收响应的过程进行序列化，这涉及到两个模块：</p>
+<ul>
+<li>AFURLResponseSerialization</li>
+<li>AFURLRequestSerialization</li>
+</ul>
+<p>前者是处理响应的模块，将请求返回的数据解析成对应的格式。而后者的主要作用是修改请求（主要是 HTTP 请求）的头部，提供了一些语义明确的接口设置 HTTP 头部字段。<br>我们首先会对 <strong>AFURLResponseSerialization</strong> 进行简单的介绍，因为这个模块使用在 <strong>AFURLSessionManager</strong> 也就是核心类中，而后者 <strong>AFURLRequestSerialization* 主要用于 </strong>AFHTTPSessionManager** 中，因为它主要用于修改 HTTP 头部。</p>
+<p>有关解析类的详情见原文：</p>
+<p><a href="https://draveness.me/afnetworking3#AFURLRequestSerialization" target="_blank" rel="external">处理请求和响应 AFURLSerialization（三)</a></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本来想自己写关于AFN的使用心得，但发现自己的水平有限，不能把AFN主要做了什么？它是如何实现网络请求和解析的？这些问题说明白。只能将大牛文章中的精彩内容粘贴出来，做了一个简短的整理。这里引述<a href="https://www.jianshu.com/u/14431e509ae8" target="_blank" rel="external">涂耀辉</a>在<a href="https://www.jianshu.com/p/7ed7c0be15b4" target="_blank" rel="external">AFNetworking到底做了什么? (终)</a>一文中所说的一句话：</p>
+<blockquote>
+<p>AFNetworking中凝聚了太多大牛的思想，根本不是你看完几遍源码所能去议论的。</p>
+</blockquote>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.v2ex.com/amp/t/358780" target="_blank" rel="external">如何使用 AFNetworking 3.0 设置 Request.HttpBody</a> </p>
 <p><a href="http://www.jianshu.com/p/856f0e26279d" target="_blank" rel="external">AFNetworking到底做了什么？</a> </p>
+<p><a href="https://www.jianshu.com/p/f32bd79233da" target="_blank" rel="external">AFNetworking到底做了什么？(二)</a></p>
+<p><a href="https://draveness.me/afnetworking1" target="_blank" rel="external">AFNetworking 概述（一）</a></p>
+<p><a href="https://draveness.me/afnetworking3#AFURLRequestSerialization" target="_blank" rel="external">处理请求和响应 AFURLSerialization（三)</a></p>
 ]]></content>
       
         <categories>
@@ -2236,9 +2270,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2327,9 +2361,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -3426,7 +3460,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#100;&#101;&#x76;&#x65;&#108;&#x6f;&#112;&#101;&#x72;&#112;&#101;&#x6e;&#103;&#104;&#101;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#111;&#x6d;">&#100;&#101;&#x76;&#x65;&#108;&#x6f;&#112;&#101;&#x72;&#112;&#101;&#x6e;&#103;&#104;&#101;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x64;&#x65;&#118;&#101;&#108;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#x31;&#54;&#51;&#46;&#99;&#x6f;&#109;">&#x64;&#x65;&#118;&#101;&#108;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#x31;&#54;&#51;&#46;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -3437,6 +3471,12 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -3587,12 +3627,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
