@@ -152,7 +152,7 @@
     <link href="http://XibHe.github.io/2017/11/26/AF3.x/"/>
     <id>http://XibHe.github.io/2017/11/26/AF3.x/</id>
     <published>2017-11-25T16:00:00.000Z</published>
-    <updated>2017-12-28T03:18:10.000Z</updated>
+    <updated>2017-12-28T03:19:36.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近在对接一个demo，主要是调用一下SDK，实现一些功能。发现这个demo的网络请求部分是基于<strong>NSURLConnection</strong>做的一些简单调用。用起来感觉总是怪怪的，于是就想切换回自己一直在用的<strong>AFNetworking</strong>。结果，和我想的还是不太一致。同时，也暴露出一个严重的问题：对<strong>AFNetworking</strong>实现原理，到底做了什么？可以说是一窍不通。之前一直以为对<strong>AFNetworking</strong>很熟悉了，现在看来，也只是停留在调用<strong>AFHTTPSessionManager</strong>的表明。</p>
 <p>之前的调用是做了一层简单的封装，将请求时用到的各种参数在一个继承自NSObject的类中统一配置。如下，</p>
@@ -2305,9 +2305,9 @@ context<span class="token punctuation">[</span><span class="token string">@"jsOb
       <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
     
     
-      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
-    
       <category term="开源" scheme="http://XibHe.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="待办事项提醒" scheme="http://XibHe.github.io/tags/%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9%E6%8F%90%E9%86%92/"/>
     
   </entry>
   

@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://XibHe.github.io/about/index.html</loc>
+    
+    <lastmod>2017-12-28T03:33:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://XibHe.github.io/2017/11/26/AF3.x/</loc>
     
-    <lastmod>2017-12-28T03:18:10.000Z</lastmod>
+    <lastmod>2017-12-28T03:19:36.000Z</lastmod>
     
   </url>
   
@@ -229,13 +236,6 @@
     <loc>http://XibHe.github.io/links/index.html</loc>
     
     <lastmod>2017-09-10T09:22:19.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://XibHe.github.io/about/index.html</loc>
-    
-    <lastmod>2017-06-22T15:44:45.000Z</lastmod>
     
   </url>
   
