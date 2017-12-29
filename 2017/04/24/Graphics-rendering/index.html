@@ -510,32 +510,32 @@
     
         <h2 id="图形绘制"><a href="#图形绘制" class="headerlink" title="图形绘制"></a>图形绘制</h2><p>iOS系统本身提供了两套绘图的框架，即<font color="#FA8072">UIBezierPath</font> 和<font color="#FA8072"> Core Graphics</font>。而前者所属UIKit，其实是对Core Graphics框架关于path的进一步封装，所以使用起来比较简单。但是毕竟Core Graphics更接近底层，所以它更加强大。</p>
 <h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>UIKit中的UIBezierPath是Core Graphics框架关于path的一个封装。可以创建基于矢量的路径，例如椭圆或者矩形，或者有多个直线和曲线段组成的形状。我们可以用moveToPoint: 和 addLineToPoint:方法去构建。moveToPoint:设置我们想要创建形状的起点。从这点开始，我们可以用方法addLineToPoint:去创建一个形状的线段。我们可以连续的创建line，每一个line的起点都是先前的终点，终点就是指定的点。closePath可以在最后一个点和第一个点之间画一条线段。</p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>drawRect<span class="token punctuation">:</span><span class="token punctuation">(</span>CGRect<span class="token punctuation">)</span>rect
-<span class="token punctuation">{</span>
-    UIColor <span class="token operator">*</span>color <span class="token operator">=</span> <span class="token punctuation">[</span>UIColor colorWithRed<span class="token punctuation">:</span><span class="token number">0</span> green<span class="token punctuation">:</span><span class="token number">0.7</span> blue<span class="token punctuation">:</span><span class="token number">0</span> alpha<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>color set<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<pre><code class="objectivec">- (void)drawRect:(CGRect)rect
+{
+    UIColor *color = [UIColor colorWithRed:0 green:0.7 blue:0 alpha:1];
+    [color set];
 
-    UIBezierPath<span class="token operator">*</span> aPath <span class="token operator">=</span> <span class="token punctuation">[</span>UIBezierPath bezierPath<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    aPath<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">5.0</span><span class="token punctuation">;</span>
+    UIBezierPath* aPath = [UIBezierPath bezierPath];
+    aPath.lineWidth = 5.0;
 
-    aPath<span class="token punctuation">.</span>lineCapStyle <span class="token operator">=</span> kCGLineCapRound<span class="token punctuation">;</span>
-    aPath<span class="token punctuation">.</span>lineJoinStyle <span class="token operator">=</span> kCGLineCapRound<span class="token punctuation">;</span>
+    aPath.lineCapStyle = kCGLineCapRound;
+    aPath.lineJoinStyle = kCGLineCapRound;
 
-    <span class="token comment" spellcheck="true">// 起点</span>
-    <span class="token punctuation">[</span>aPath moveToPoint<span class="token punctuation">:</span><span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">100.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    // 起点
+    [aPath moveToPoint:CGPointMake(100.0, 0.0)];
 
-    <span class="token comment" spellcheck="true">// 绘制线条</span>
-    <span class="token punctuation">[</span>aPath addLineToPoint<span class="token punctuation">:</span><span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">200.0</span><span class="token punctuation">,</span> <span class="token number">40.0</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>aPath addLineToPoint<span class="token punctuation">:</span><span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">160</span><span class="token punctuation">,</span> <span class="token number">140</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>aPath addLineToPoint<span class="token punctuation">:</span><span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">40.0</span><span class="token punctuation">,</span> <span class="token number">140</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>aPath addLineToPoint<span class="token punctuation">:</span><span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">40.0</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>aPath closePath<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//第五条线通过调用closePath方法得到的</span>
+    // 绘制线条
+    [aPath addLineToPoint:CGPointMake(200.0, 40.0)];
+    [aPath addLineToPoint:CGPointMake(160, 140)];
+    [aPath addLineToPoint:CGPointMake(40.0, 140)];
+    [aPath addLineToPoint:CGPointMake(0.0, 40.0)];
+    [aPath closePath];//第五条线通过调用closePath方法得到的
 
-    <span class="token comment" spellcheck="true">//根据坐标点连线</span>
-    <span class="token punctuation">[</span>aPath stroke<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>aPath fill<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    //根据坐标点连线
+    [aPath stroke];
+    [aPath fill];
+}
+</code></pre>
 <h3 id="UIBezierPath-CAShapeLayer"><a href="#UIBezierPath-CAShapeLayer" class="headerlink" title="UIBezierPath+CAShapeLayer"></a>UIBezierPath+CAShapeLayer</h3><p>CAShapeLayer 继承自 CALayer ，因此，可使用 CALayer 的所有属性。但是， CAShapeLayer 需要和贝塞尔曲线配合使用才有意义。<br>查看官网说明:</p>
 <blockquote>
 <p>/* The shape layer draws a cubic Bezier spline in its coordinate space.</p>
@@ -557,48 +557,48 @@
 <li>贝塞尔曲线给CAShapeLayer提供路径,CAShapeLayer在提供的路径中进行渲染。路径会闭环,所以绘制出了Shape</li>
 <li>用于CAShapeLayer的贝塞尔曲线作为path，其path是一个首尾相接的闭环的曲线，即使该贝塞尔曲线不是一个闭环的曲线</li>
 </ul>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>viewDidLoad <span class="token punctuation">{</span>
-    <span class="token punctuation">[</span><span class="token keyword">super</span> viewDidLoad<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    _triangleView <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> initWithFrame<span class="token punctuation">:</span><span class="token function">CGRectMake</span><span class="token punctuation">(</span>screenWidth <span class="token operator">/</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> screenWidth <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> screenHeight <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    _triangleView<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token punctuation">[</span>UIColor orangeColor<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>view addSubview<span class="token punctuation">:</span>_triangleView<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    _triangleView<span class="token punctuation">.</span>layer<span class="token punctuation">.</span>mask <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> createMaskLayerWithView<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+<pre><code class="objectivec">- (void)viewDidLoad {
+    [super viewDidLoad];
+    _triangleView = [[UIView alloc] initWithFrame:CGRectMake(screenWidth / 4, 200, screenWidth / 2, screenHeight / 2)];
+    _triangleView.backgroundColor = [UIColor orangeColor];
+    [self.view addSubview:_triangleView];
+    _triangleView.layer.mask = [self createMaskLayerWithView];
+}
 
-<span class="token operator">-</span> <span class="token punctuation">(</span>CALayer <span class="token operator">*</span><span class="token punctuation">)</span>createMaskLayerWithView
-<span class="token punctuation">{</span>
-    CGFloat viewWidth <span class="token operator">=</span> <span class="token function">CGRectGetWidth</span><span class="token punctuation">(</span>_triangleView<span class="token punctuation">.</span>frame<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGFloat viewHeight <span class="token operator">=</span> <span class="token function">CGRectGetHeight</span><span class="token punctuation">(</span>_triangleView<span class="token punctuation">.</span>frame<span class="token punctuation">)</span><span class="token punctuation">;</span>
+- (CALayer *)createMaskLayerWithView
+{
+    CGFloat viewWidth = CGRectGetWidth(_triangleView.frame);
+    CGFloat viewHeight = CGRectGetHeight(_triangleView.frame);
 
-    CGFloat rightSpace <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
-    CGFloat topSpace <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+    CGFloat rightSpace = 10.;
+    CGFloat topSpace = 15.;
 
-    <span class="token comment" spellcheck="true">// 起点</span>
-    CGPoint point1 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    // 起点
+    CGPoint point1 = CGPointMake(0, 0);
 
-    <span class="token comment" spellcheck="true">// 绘制线条</span>
-    CGPoint point2 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span>viewWidth<span class="token operator">-</span>rightSpace<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGPoint point3 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span>viewWidth<span class="token operator">-</span>rightSpace<span class="token punctuation">,</span> topSpace<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGPoint point4 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span>viewWidth<span class="token punctuation">,</span> topSpace<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGPoint point5 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span>viewWidth<span class="token operator">-</span>rightSpace<span class="token punctuation">,</span> topSpace<span class="token operator">+</span><span class="token number">10</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGPoint point6 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span>viewWidth<span class="token operator">-</span>rightSpace<span class="token punctuation">,</span> viewHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGPoint point7 <span class="token operator">=</span> <span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> viewHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    // 绘制线条
+    CGPoint point2 = CGPointMake(viewWidth-rightSpace, 0);
+    CGPoint point3 = CGPointMake(viewWidth-rightSpace, topSpace);
+    CGPoint point4 = CGPointMake(viewWidth, topSpace);
+    CGPoint point5 = CGPointMake(viewWidth-rightSpace, topSpace+10.);
+    CGPoint point6 = CGPointMake(viewWidth-rightSpace, viewHeight);
+    CGPoint point7 = CGPointMake(0, viewHeight);
 
-    UIBezierPath <span class="token operator">*</span>path <span class="token operator">=</span> <span class="token punctuation">[</span>UIBezierPath bezierPath<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path moveToPoint<span class="token punctuation">:</span>point1<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path addLineToPoint<span class="token punctuation">:</span>point2<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path addLineToPoint<span class="token punctuation">:</span>point3<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path addLineToPoint<span class="token punctuation">:</span>point4<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path addLineToPoint<span class="token punctuation">:</span>point5<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path addLineToPoint<span class="token punctuation">:</span>point6<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path addLineToPoint<span class="token punctuation">:</span>point7<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>path closePath<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:point1];
+    [path addLineToPoint:point2];
+    [path addLineToPoint:point3];
+    [path addLineToPoint:point4];
+    [path addLineToPoint:point5];
+    [path addLineToPoint:point6];
+    [path addLineToPoint:point7];
+    [path closePath];
 
-    CAShapeLayer <span class="token operator">*</span>layer <span class="token operator">=</span> <span class="token punctuation">[</span>CAShapeLayer layer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    layer<span class="token punctuation">.</span>path <span class="token operator">=</span> path<span class="token punctuation">.</span>CGPath<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> layer<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.path = path.CGPath;
+    return layer;
+}
+</code></pre>
 <h2 id="CoreGraphics"><a href="#CoreGraphics" class="headerlink" title="CoreGraphics"></a>CoreGraphics</h2><p>这是一个绘图专用的API族，它经常被称为QuartZ或QuartZ 2D。Core Graphics是iOS上所有绘图功能的基石，包括UIKit，Core Graphics是高度集成于UIView和其他UIKit部分，Core Graphics数据结构和函数可以通过前缀CG来识别。</p>
 <p>步骤:</p>
 <ul>
@@ -607,31 +607,31 @@
 <li>3.设置一些修饰属性；</li>
 <li>4.渲染到上下文，完成绘图。</li>
 </ul>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>drawRect<span class="token punctuation">:</span><span class="token punctuation">(</span>CGRect<span class="token punctuation">)</span>rect
-<span class="token punctuation">{</span>
-    CGContextRef c <span class="token operator">=</span> <span class="token function">UIGraphicsGetCurrentContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre><code class="objectivec">- (void)drawRect:(CGRect)rect
+{
+    CGContextRef c = UIGraphicsGetCurrentContext();
 
-    <span class="token function">CGContextSetRGBStrokeColor</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// black</span>
-    <span class="token function">CGContextSetLineWidth</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGMutablePathRef bubblePath <span class="token operator">=</span> <span class="token function">CGPathCreateMutable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGContextSetRGBStrokeColor(c, 0.0, 0.0, 0.0, 1.0);    // black
+    CGContextSetLineWidth(c, 1);
+    CGMutablePathRef bubblePath = CGPathCreateMutable();
 
-    <span class="token comment" spellcheck="true">// 这里的点是三角形的尖尖</span>
-    <span class="token function">CGPathMoveToPoint</span><span class="token punctuation">(</span>bubblePath<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 其中的一条边的终点</span>
-    <span class="token function">CGPathAddLineToPoint</span><span class="token punctuation">(</span>bubblePath<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 另一条边的终点</span>
-    <span class="token function">CGPathAddLineToPoint</span><span class="token punctuation">(</span>bubblePath<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width<span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    // 这里的点是三角形的尖尖
+    CGPathMoveToPoint(bubblePath, NULL, self.frame.origin.x / 2, self.frame.origin.y);
+    // 其中的一条边的终点
+    CGPathAddLineToPoint(bubblePath, NULL, 0, self.frame.size.height / 3);
+    // 另一条边的终点
+    CGPathAddLineToPoint(bubblePath, NULL, self.frame.size.width, self.frame.size.height / 3);
 
-    <span class="token function">CGPathCloseSubpath</span><span class="token punctuation">(</span>bubblePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">CGContextSaveGState</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">CGContextAddPath</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> bubblePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">CGContextClip</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGPathCloseSubpath(bubblePath);
+    CGContextSaveGState(c);
+    CGContextAddPath(c, bubblePath);
+    CGContextClip(c);
 
-    <span class="token function">CGContextSetFillColorWithColor</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIColor blueColor<span class="token punctuation">]</span> CGColor<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">CGContextFillRect</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>bounds<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">CGPathRelease</span><span class="token punctuation">(</span>bubblePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    CGContextSetFillColorWithColor(c, [[UIColor blueColor] CGColor]);
+    CGContextFillRect(c, self.bounds);
+    CGPathRelease(bubblePath);
+}
+</code></pre>
 <p>注意事项:</p>
 <ul>
 <li>1.绘图需要 CGContextRef,CGContextRef即图形上下文。可以这么理解，我们绘图是需要一个载体或者说输出目标，它用来显示绘图信息，并且决定绘制的东西输出到哪个地方。可以形象的比喻context就像一个“画板”，我们得把图形绘制到这个画板上。所以，绘图必须要先有context;</li>
@@ -640,69 +640,69 @@
 </ul>
 <h3 id="CGContextAddArcToPoint-amp-amp-CGPathAddArcToPoint"><a href="#CGContextAddArcToPoint-amp-amp-CGPathAddArcToPoint" class="headerlink" title="CGContextAddArcToPoint &amp;&amp; CGPathAddArcToPoint"></a>CGContextAddArcToPoint &amp;&amp; CGPathAddArcToPoint</h3><p>CGContextAddArcToPoint与CGPathAddArcToPoint这两函数是根据两切线及角度来画弧度,设置弧度CGFloat radius。</p>
 <p>画一个四个角都是圆角的矩形,</p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>viewDidLoad <span class="token punctuation">{</span>
-    <span class="token punctuation">[</span><span class="token keyword">super</span> viewDidLoad<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// Do any additional setup after loading the view.</span>
-    <span class="token punctuation">[</span><span class="token keyword">self</span> drawArcToPoint2<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+<pre><code class="objectivec">- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    [self drawArcToPoint2];
+}
 
-<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>drawArcToPoint2
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//创建CGContextRef</span>
-    <span class="token function">UIGraphicsBeginImageContext</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>view<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    CGContextRef gc <span class="token operator">=</span> <span class="token function">UIGraphicsGetCurrentContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+- (void)drawArcToPoint2
+{
+    //创建CGContextRef
+    UIGraphicsBeginImageContext(self.view.bounds.size);
+    CGContextRef gc = UIGraphicsGetCurrentContext();
 
-    <span class="token comment" spellcheck="true">//===绘画逻辑 ===</span>
-    <span class="token comment" spellcheck="true">//创建用于转移坐标的Transform,如许我们不消遵守实际显示做坐标策画</span>
-    CGAffineTransform transform <span class="token operator">=</span> <span class="token function">CGAffineTransformMakeTranslation</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//创建CGMutablePathRef</span>
-    CGMutablePathRef path <span class="token operator">=</span> <span class="token function">CGPathCreateMutable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//半径为10</span>
-    CGFloat radius <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    //===绘画逻辑 ===
+    //创建用于转移坐标的Transform,如许我们不消遵守实际显示做坐标策画
+    CGAffineTransform transform = CGAffineTransformMakeTranslation(200,200);
+    //创建CGMutablePathRef
+    CGMutablePathRef path = CGPathCreateMutable();
+    //半径为10
+    CGFloat radius = 10;
 
-    <span class="token comment" spellcheck="true">//初始点为(10, 0),起点要从10开始，否则，在左上角会出现线条</span>
-    <span class="token function">CGPathMoveToPoint</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token operator">&amp;</span>transform<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//右上角和右下角两个点,画出半个圆角</span>
-    <span class="token function">CGPathAddArcToPoint</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token operator">&amp;</span>transform<span class="token punctuation">,</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> radius<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//右下角,画出别的半个圆角</span>
-    <span class="token function">CGPathAddArcToPoint</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token operator">&amp;</span>transform<span class="token punctuation">,</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> radius<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//左下角</span>
-    <span class="token function">CGPathAddArcToPoint</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token operator">&amp;</span>transform<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> radius<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//左上角</span>
-    <span class="token function">CGPathAddArcToPoint</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token operator">&amp;</span>transform<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> radius<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    //初始点为(10, 0),起点要从10开始，否则，在左上角会出现线条
+    CGPathMoveToPoint(path, &amp;transform, 10, 0);
+    //右上角和右下角两个点,画出半个圆角
+    CGPathAddArcToPoint(path, &amp;transform,200, 0, 200, 200, radius);
+    //右下角,画出别的半个圆角
+    CGPathAddArcToPoint(path, &amp;transform,200, 200, 0, 200, radius);
+    //左下角
+    CGPathAddArcToPoint(path, &amp;transform,0, 200, 0,0, radius);
+    //左上角
+    CGPathAddArcToPoint(path, &amp;transform,0, 0, 200, 0, radius);
 
-    <span class="token comment" spellcheck="true">//将CGMutablePathRef添加到当前Context内</span>
-    <span class="token function">CGContextAddPath</span><span class="token punctuation">(</span>gc<span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span><span class="token punctuation">[</span>UIColor grayColor<span class="token punctuation">]</span> setFill<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span><span class="token punctuation">[</span>UIColor blueColor<span class="token punctuation">]</span> setStroke<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token function">CGContextSetLineWidth</span><span class="token punctuation">(</span>gc<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    //将CGMutablePathRef添加到当前Context内
+    CGContextAddPath(gc, path);
+    [[UIColor grayColor] setFill];
+    [[UIColor blueColor] setStroke];
+    CGContextSetLineWidth(gc,2);
 
-    <span class="token comment" spellcheck="true">//履行绘画</span>
-    <span class="token function">CGContextDrawPath</span><span class="token punctuation">(</span>gc<span class="token punctuation">,</span>kCGPathFillStroke<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//从Context中获取图像,并显示在界面上</span>
-    UIImage <span class="token operator">*</span>img <span class="token operator">=</span> <span class="token function">UIGraphicsGetImageFromCurrentImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">UIGraphicsEndImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    UIImageView <span class="token operator">*</span>imgView <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIImageView alloc<span class="token punctuation">]</span> initWithImage<span class="token punctuation">:</span>img<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>view addSubview<span class="token punctuation">:</span>imgView<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    //履行绘画
+    CGContextDrawPath(gc,kCGPathFillStroke);
+    //从Context中获取图像,并显示在界面上
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
+    [self.view addSubview:imgView];
+}
+</code></pre>
 <h3 id="CAShapedLayer处理"><a href="#CAShapedLayer处理" class="headerlink" title="CAShapedLayer处理"></a>CAShapedLayer处理</h3><p>理论上我们可以构造出任意想要的形状，但是有些形状如果你不熟悉几何知识的话是构造不出正确path的，从代码上我们可以看到我们可以通过设置CALayer的contents属性来设置显示的内容，那我们是不是可以通过设置CAShapedLayer的contents来设maskLayer呢？答案是肯定的，代码如下：</p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setup4
-<span class="token punctuation">{</span>
-    CAShapeLayer <span class="token operator">*</span>maskLayer <span class="token operator">=</span> <span class="token punctuation">[</span>CAShapeLayer layer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    maskLayer<span class="token punctuation">.</span>fillColor <span class="token operator">=</span> <span class="token punctuation">[</span>UIColor blackColor<span class="token punctuation">]</span><span class="token punctuation">.</span>CGColor<span class="token punctuation">;</span>
-    maskLayer<span class="token punctuation">.</span>strokeColor <span class="token operator">=</span> <span class="token punctuation">[</span>UIColor clearColor<span class="token punctuation">]</span><span class="token punctuation">.</span>CGColor<span class="token punctuation">;</span>
-    maskLayer<span class="token punctuation">.</span>frame <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>bounds<span class="token punctuation">;</span>
-    maskLayer<span class="token punctuation">.</span>contentsCenter <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    maskLayer<span class="token punctuation">.</span>contentsScale <span class="token operator">=</span> <span class="token punctuation">[</span>UIScreen mainScreen<span class="token punctuation">]</span><span class="token punctuation">.</span>scale<span class="token punctuation">;</span>                 <span class="token comment" spellcheck="true">//非常关键设置自动拉伸的效果且不变形</span>
-    maskLayer<span class="token punctuation">.</span>contents <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span><span class="token string">@"gray_bubble_right@2x.png"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>CGImage<span class="token punctuation">;</span>
+<pre><code class="objectivec">- (void)setup4
+{
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.fillColor = [UIColor blackColor].CGColor;
+    maskLayer.strokeColor = [UIColor clearColor].CGColor;
+    maskLayer.frame = self.bounds;
+    maskLayer.contentsCenter = CGRectMake(0.5, 0.5, 0.1, 0.1);
+    maskLayer.contentsScale = [UIScreen mainScreen].scale;                 //非常关键设置自动拉伸的效果且不变形
+    maskLayer.contents = (id)[UIImage imageNamed:@&quot;gray_bubble_right@2x.png&quot;].CGImage;
 
-    CALayer <span class="token operator">*</span>contentLayer <span class="token operator">=</span> <span class="token punctuation">[</span>CALayer layer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    contentLayer<span class="token punctuation">.</span>mask <span class="token operator">=</span> _maskLayer<span class="token punctuation">;</span>
-    contentLayer<span class="token punctuation">.</span>frame <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>bounds<span class="token punctuation">;</span>
-    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>layer addSublayer<span class="token punctuation">:</span>_contentLayer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    CALayer *contentLayer = [CALayer layer];
+    contentLayer.mask = _maskLayer;
+    contentLayer.frame = self.bounds;
+    [self.layer addSublayer:_contentLayer];
+}
+</code></pre>
 <h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>使用CGPathAddArcToPoint绘制带有箭头的弹窗菜单,如图，<br><img src="http://odchyrav4.bkt.clouddn.com/814765ED-432C-4614-87DF-4A275E136BF8.png" alt="弹窗菜单"></p>
 <p>在绘制四个边的圆角时，无法对应到特定的四个角的位置，导致绘制不出该效果的图片。</p>
 <h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>Github ：<a href="https://github.com/XibHe/DrawTriangle" target="_blank" rel="external">https://github.com/XibHe/DrawTriangle</a></p>

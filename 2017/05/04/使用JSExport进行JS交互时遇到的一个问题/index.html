@@ -519,15 +519,15 @@
     
         <p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec">JSContext <span class="token operator">*</span>context <span class="token operator">=</span> <span class="token punctuation">[</span>webView valueForKeyPath<span class="token punctuation">:</span><span class="token string">@"documentView.webView.mainFrame.javaScriptContext"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-context<span class="token punctuation">[</span><span class="token string">@"jsObject"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre><code class="objectivec">JSContext *context = [webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
+context[@&quot;jsObject&quot;] = self;
+</code></pre>
 <p>这句代码，从</p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>webViewDidFinishLoad<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre><code class="objectivec">- (void)webViewDidFinishLoad:(UIWebView *)webView
+</code></pre>
 <p>移到，</p>
-<pre class="line-numbers language-objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>webView<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebView <span class="token operator">*</span><span class="token punctuation">)</span>webView shouldStartLoadWithRequest<span class="token punctuation">:</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span><span class="token punctuation">)</span>request navigationType<span class="token punctuation">:</span><span class="token punctuation">(</span>UIWebViewNavigationType<span class="token punctuation">)</span>navigationType
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre><code class="objectivec">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+</code></pre>
 <p>该代理方法中，就能每次都调用JS与OC的交互方法。</p>
 <h2 id="JavaScriptCore使用注意"><a href="#JavaScriptCore使用注意" class="headerlink" title="JavaScriptCore使用注意"></a>JavaScriptCore使用注意</h2><p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是<font color="#FA8072">在刚开始调用此方法的线程中去执行那段JavaStript方法的代码。</font></p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>

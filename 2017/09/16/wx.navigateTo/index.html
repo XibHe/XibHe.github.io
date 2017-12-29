@@ -563,54 +563,54 @@
 <p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
 <p>那么，能否在微信扫一扫页面做相应处理呢？比如，点击扫一扫左上角的返回按钮时，直接返回到首页。由于扫一扫页面是直接调用wx.scanCode而来的，其并不是以压栈的方式出现在页面控制的层级中。因此，无法通过getCurrentPages()函数获取对应的层级关系。</p>
 <p>另外一种方式，针对方案2的问题，需要在点击“商品信息”页的“保存”按钮后做出特别处理，于是在点击保存绑定的事件中设置:</p>
-<pre class="line-numbers language-js"><code class="language-js">saveTap<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-   wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      url<span class="token punctuation">:</span> requestUrl<span class="token punctuation">.</span>LookForGoodsUrl
-      data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"userId"</span><span class="token punctuation">:</span> userId<span class="token punctuation">,</span>
-        <span class="token string">"goodsId"</span><span class="token punctuation">:</span> numResult<span class="token punctuation">,</span>
-        <span class="token string">"name"</span><span class="token punctuation">:</span> name<span class="token punctuation">,</span>
-        <span class="token string">"factory"</span><span class="token punctuation">:</span> factory<span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      header<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">'content-type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>code <span class="token operator">==</span> <span class="token string">'0000'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">// 保存成功</span>
-           wx<span class="token punctuation">.</span><span class="token function">redirectTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-              url<span class="token punctuation">:</span> <span class="token string">'../homePage/homePage'</span>
-           <span class="token punctuation">}</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span>  
-      <span class="token punctuation">}</span>
-   <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code class="js">saveTap: function (res) {
+   wx.request({
+      url: requestUrl.LookForGoodsUrl
+      data: {
+        &quot;userId&quot;: userId,
+        &quot;goodsId&quot;: numResult,
+        &quot;name&quot;: name,
+        &quot;factory&quot;: factory,
+      },
+      header: {
+        &#39;content-type&#39;: &#39;application/json&#39;
+      },
+      success: function (res) {
+        if (res.data.code == &#39;0000&#39;) {
+            // 保存成功
+           wx.redirectTo({
+              url: &#39;../homePage/homePage&#39;
+           })
+        }  
+      }
+   })
+}
+</code></pre>
 <p>将最新商品信息上传至服务器，关闭当前页面，跳转到应用内的某个页面。再调用:</p>
-<pre class="line-numbers language-js"><code class="language-js">wx<span class="token punctuation">.</span><span class="token function">scanCode</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  <span class="token keyword">var</span> numResult <span class="token operator">=</span> res<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>numResult<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'69'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-     wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-        url<span class="token punctuation">:</span> requestUrl<span class="token punctuation">.</span>LookForGoodsUrl
-        data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-           <span class="token string">"userId"</span><span class="token punctuation">:</span> userId<span class="token punctuation">,</span>
-           <span class="token string">"goodsId"</span><span class="token punctuation">:</span> numResult<span class="token punctuation">,</span>
-         <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        header<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-           <span class="token string">'content-type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>state <span class="token operator">==</span> <span class="token string">'1'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-               <span class="token comment" spellcheck="true">// 存在该商品</span>
-               wx<span class="token punctuation">.</span><span class="token function">redirectTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-                   url<span class="token punctuation">:</span> <span class="token string">'../goodsInfo/goodsInfo?goodsChart='</span> <span class="token operator">+</span> goodsChart <span class="token operator">+</span> <span class="token string">'&amp;goodsId='</span> <span class="token operator">+</span> goodsId<span class="token punctuation">,</span>
-               <span class="token punctuation">}</span><span class="token punctuation">)</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-     <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code class="js">wx.scanCode({
+  var numResult = res.result;
+  if (numResult.substring(0, 2) == &#39;69&#39;) {
+     wx.request({
+        url: requestUrl.LookForGoodsUrl
+        data: {
+           &quot;userId&quot;: userId,
+           &quot;goodsId&quot;: numResult,
+         },
+        header: {
+           &#39;content-type&#39;: &#39;application/json&#39;
+        },
+        success: function (res) {
+            if (res.data.state == &#39;1&#39;) {
+               // 存在该商品
+               wx.redirectTo({
+                   url: &#39;../goodsInfo/goodsInfo?goodsChart=&#39; + goodsChart + &#39;&amp;goodsId=&#39; + goodsId,
+               })
+            }
+        }
+     })
+  }
+})
+</code></pre>
 <p>调用扫一扫，获取商品条码，将获取的条码作为参数上传服务器得到服务器返回的商品信息。再将这些信息传递并跳转至“商品信息”页，展示这些信息。再次扫描商品条码时，重复以上操作。</p>
 <p>但是为了在商品信息页面点击“保存”按钮时关闭当前页面，使用了wx.redirectTo，会先返回到首页（homePage），然后再调出扫一扫页面。这期间会出现短暂（大概2~3秒钟）的停顿，停顿期间页面(homePage)仍然可以操作，会误触页面上的其他点击事件。最后，即使在该页面(homePage)加上loading，以防止误触。仍然无法回避短暂停顿后再跳转扫一扫页面的问题。</p>
 <p>最后的解决方案是: 点击商品信息页的“保存”按钮后，将该按钮隐藏。这样当从扫一扫页面返回商品信息页时就不会出现重复保存数据的问题了。</p>
