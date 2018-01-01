@@ -7,7 +7,7 @@
       <url>/2017/12/30/2017deadline/</url>
       <content type="html"><![CDATA[<p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
 <h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>对我这个年龄来说，结婚的很少，更别提孩子了。但我已经为人夫，为人父了！似乎用两三年的时间走完了别人十几年的路。太过年轻的我，总会时不时忘记自己身为父亲的责任，我媳妇(花花)总会不厌其烦的唤起我作为父亲该承担的责任。家里的大事小情，在花花的安排下井井有条。孩子的奶粉，尿不湿也不用我来操心，为了分担我的压力，花花早早给儿子断了母乳，离家挣钱。对花花我即心疼又愧疚，我不能一直用年轻作为借口，逃避身为男人的责任。<strong>家庭永远是第一位</strong>！</p>
-<p><img src="https://img1.doubanio.com/view/photo/l/public/p924229558.jpg" alt=""></p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/2017deadline_%201.jpg" alt=""></p>
 <blockquote>
 <p>每个人都有属于自己的人生遥控器，它无时无刻不掌握在你自己的手中，你可以随时按快进键让时间从你的手中逃走，你也可以按回退键，想想自己曾经的错过与失误，你也可以按跳过键，它的另外一个名字叫做逃避…… 从前有个精灵一直在寻找彩虹那端的金罐，但最后，他发现那只是一罐麦片。</p>
 </blockquote>
@@ -2326,9 +2326,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2417,9 +2417,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -3516,7 +3516,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#100;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#x65;&#114;&#x70;&#x65;&#x6e;&#103;&#104;&#101;&#64;&#49;&#x36;&#x33;&#x2e;&#99;&#x6f;&#x6d;">&#100;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#x65;&#114;&#x70;&#x65;&#x6e;&#103;&#104;&#101;&#64;&#49;&#x36;&#x33;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#103;&#104;&#x65;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;">&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#103;&#104;&#x65;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -3525,14 +3525,14 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
       <content type="html"></content>
     </entry>
     
