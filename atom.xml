@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-01-01T08:37:10.000Z</updated>
+  <updated>2018-01-01T08:50:29.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2017/12/30/2017deadline/"/>
     <id>http://XibHe.github.io/2017/12/30/2017deadline/</id>
     <published>2017-12-29T16:00:00.000Z</published>
-    <updated>2018-01-01T08:37:10.000Z</updated>
+    <updated>2018-01-01T08:50:29.000Z</updated>
     
     <content type="html"><![CDATA[<p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
 <h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>对我这个年龄来说，结婚的很少，更别提孩子了。但我已经为人夫，为人父了！似乎用两三年的时间走完了别人十几年的路。太过年轻的我，总会时不时忘记自己身为父亲的责任，我媳妇(花花)总会不厌其烦的唤起我作为父亲该承担的责任。家里的大事小情，在花花的安排下井井有条。孩子的奶粉，尿不湿也不用我来操心，为了分担我的压力，花花早早给儿子断了母乳，离家挣钱。对花花我即心疼又愧疚，我不能一直用年轻作为借口，逃避身为男人的责任。<strong>家庭永远是第一位</strong>！</p>
@@ -33,8 +33,7 @@
 <p>相比之下这篇文章 — <a href="http://xibhe.com/2017/11/26/AF3.x/" target="_blank" rel="external">AFNetworking到底做了什么？</a> 写起来就不那么顺利，自己没有切实经历过，整个<strong>AFNetworking</strong>的源码，马马虎虎的读了两遍，不能透彻理解其中的精髓。也只能转载别人的观点。</p>
 <p>自从给自己定下了一周至少写一篇博客的目标后，每到周末就特纠结，搜肠刮肚的想着如何结合实际开发构思出一篇好博文。有时实在没有好的点子，就翻译<strong>Medium</strong>和<strong>湾区日报</strong>上推荐的英文文章，或者写一些个人心得体会。</p>
 <p>今年写的一些技术性文章也有不尽如人意的地方，有些文章，写的很粗浅，没有刨根问底追溯到本质上。有些文章是迫于一周要写一篇博文而拼凑成的，今年不会如此只求量而不求质了。但以文字的形式记录分享开发心得的习惯，一旦养成，就不会轻易舍弃，这算是2017年一个明显的收获吧！</p>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、</p>
-<p><font size="4" face="黑体"> 《黑客与画家》 </font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、<font size="4" face="黑体">《黑客与画家》</font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
 <blockquote>
 <p>与其说看书不如说看目录，从目录里找到感兴趣的章节，看掉，看到中途没兴趣了，就放下下次再看。工作中碰到什么问题不明白需要参考了，还是看目录，才大概会在什么章节里，探索一番，中间如果碰到感兴趣的，看掉，看到中间没兴趣了，放下，下次再看。要不了多久，整本书的70%-80%都翻遍了，其中有20%-30%翻了不止一遍，这些往往是核心的知识；至于剩下的20%没看过的，以后或许有机会的，没机会也不要紧，很多时候自己已经通过各种机缘学到了。</p>
 <p>所以看技术厚书不在于多块或多慢，而是从容。</p>

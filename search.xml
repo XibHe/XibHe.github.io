@@ -16,8 +16,7 @@
 <p>相比之下这篇文章 — <a href="http://xibhe.com/2017/11/26/AF3.x/" target="_blank" rel="external">AFNetworking到底做了什么？</a> 写起来就不那么顺利，自己没有切实经历过，整个<strong>AFNetworking</strong>的源码，马马虎虎的读了两遍，不能透彻理解其中的精髓。也只能转载别人的观点。</p>
 <p>自从给自己定下了一周至少写一篇博客的目标后，每到周末就特纠结，搜肠刮肚的想着如何结合实际开发构思出一篇好博文。有时实在没有好的点子，就翻译<strong>Medium</strong>和<strong>湾区日报</strong>上推荐的英文文章，或者写一些个人心得体会。</p>
 <p>今年写的一些技术性文章也有不尽如人意的地方，有些文章，写的很粗浅，没有刨根问底追溯到本质上。有些文章是迫于一周要写一篇博文而拼凑成的，今年不会如此只求量而不求质了。但以文字的形式记录分享开发心得的习惯，一旦养成，就不会轻易舍弃，这算是2017年一个明显的收获吧！</p>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、</p>
-<p><font size="4" face="黑体"> 《黑客与画家》 </font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、<font size="4" face="黑体">《黑客与画家》</font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
 <blockquote>
 <p>与其说看书不如说看目录，从目录里找到感兴趣的章节，看掉，看到中途没兴趣了，就放下下次再看。工作中碰到什么问题不明白需要参考了，还是看目录，才大概会在什么章节里，探索一番，中间如果碰到感兴趣的，看掉，看到中间没兴趣了，放下，下次再看。要不了多久，整本书的70%-80%都翻遍了，其中有20%-30%翻了不止一遍，这些往往是核心的知识；至于剩下的20%没看过的，以后或许有机会的，没机会也不要紧，很多时候自己已经通过各种机缘学到了。</p>
 <p>所以看技术厚书不在于多块或多慢，而是从容。</p>
@@ -3516,7 +3515,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#100;&#x65;&#x76;&#101;&#x6c;&#111;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#x67;&#104;&#x65;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">&#100;&#x65;&#x76;&#101;&#x6c;&#111;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#x67;&#104;&#x65;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#100;&#x65;&#x76;&#101;&#108;&#x6f;&#x70;&#x65;&#114;&#112;&#x65;&#110;&#x67;&#104;&#101;&#64;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#100;&#x65;&#x76;&#101;&#108;&#x6f;&#x70;&#x65;&#114;&#112;&#x65;&#110;&#x67;&#104;&#101;&#64;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -3527,12 +3526,6 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -3683,6 +3676,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
