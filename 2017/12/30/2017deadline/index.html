@@ -43,7 +43,7 @@
     
     <title>
         
-            (译)HTTPS的工作原理 | 
+            2017年度总结 | 
         
         XibHe&#39;s Blog
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="爱苹果,爱生活。">
-    <meta name="keywords" content="null,译文,HTTPS,HTTPS的工作原理">
+    <meta name="keywords" content="null,2017,年度总结">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -220,7 +220,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="XibHe&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://XibHe.github.io/2017/04/27/HTTPS/">
+    <meta name="msapplication-starturl" content="http://XibHe.github.io/2017/12/30/2017deadline/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="XibHe&#39;s Blog">
@@ -235,16 +235,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://XibHe.github.io/2017/04/27/HTTPS/">
+    <meta property="og:url" content="http://XibHe.github.io/2017/12/30/2017deadline/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="(译)HTTPS的工作原理 | XibHe&#39;s Blog">
+    <meta property="og:title" content="2017年度总结 | XibHe&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png">
     <meta property="og:description" content="爱苹果,爱生活。">
-    <meta property="og:article:tag" content="译文"> <meta property="og:article:tag" content="HTTPS"> <meta property="og:article:tag" content="HTTPS的工作原理"> 
+    <meta property="og:article:tag" content="2017"> <meta property="og:article:tag" content="年度总结"> 
 
     
-        <meta property="article:published_time" content="Thu Apr 27 2017 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Oct 14 2017 10:48:05 GMT+0800">
+        <meta property="article:published_time" content="Sat Dec 30 2017 00:00:00 GMT+0800">
+        <meta property="article:modified_time" content="Mon Jan 01 2018 16:21:51 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -252,7 +252,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://XibHe.github.io/2017/04/27/HTTPS/index.html" />
+        <link rel="canonical" href="http://XibHe.github.io/2017/12/30/2017deadline/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -264,10 +264,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://XibHe.github.io/2017/04/27/HTTPS/index.html",
-    "headline": "(译)HTTPS的工作原理",
-    "datePublished": "Thu Apr 27 2017 00:00:00 GMT+0800",
-    "dateModified": "Sat Oct 14 2017 10:48:05 GMT+0800",
+    "mainEntityOfPage": "http://XibHe.github.io/2017/12/30/2017deadline/index.html",
+    "headline": "2017年度总结",
+    "datePublished": "Sat Dec 30 2017 00:00:00 GMT+0800",
+    "dateModified": "Mon Jan 01 2018 16:21:51 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -285,7 +285,7 @@
             "url": "/img/favicon.png"
         }
     },
-    "keywords": ",译文,HTTPS,HTTPS的工作原理null",
+    "keywords": ",2017,年度总结null",
     "description": "爱苹果,爱生活。",
 }
 </script>
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-什么是HTTPS以及它做了什么"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.什么是HTTPS以及它做了什么?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-如何建立SSL连接"><span class="post-toc-number">2.</span> <span class="post-toc-text">2.如何建立SSL连接</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-证书"><span class="post-toc-number">3.</span> <span class="post-toc-text">3.证书</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1信任"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">3.1信任</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2数字签名"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">3.2数字签名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3自签名"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3.3自签名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-4你相信什么？"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">3.4你相信什么？</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-真的很有趣的事实"><span class="post-toc-number">4.</span> <span class="post-toc-text">4.真的很有趣的事实</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1咖啡店可以通过网络监控我的HTTPS流量吗"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1咖啡店可以通过网络监控我的HTTPS流量吗?</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2我的公司可以通过网络监控我的HTTPS流量吗？"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2我的公司可以通过网络监控我的HTTPS流量吗？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3那么Lavabit和联邦调查局怎么了？"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">4.3那么Lavabit和联邦调查局怎么了？</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-结论"><span class="post-toc-number">5.</span> <span class="post-toc-text">5.结论</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原文地址"><span class="post-toc-number">6.</span> <span class="post-toc-text">原文地址</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#家庭"><span class="post-toc-number">1.</span> <span class="post-toc-text">家庭</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#博客"><span class="post-toc-number">2.</span> <span class="post-toc-text">博客</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#读书"><span class="post-toc-number">3.</span> <span class="post-toc-text">读书</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#新部门"><span class="post-toc-number">4.</span> <span class="post-toc-text">新部门</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#新技术"><span class="post-toc-number">5.</span> <span class="post-toc-text">新技术</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#愿景"><span class="post-toc-number">6.</span> <span class="post-toc-text">愿景</span></a></li></ol>
     </ul>
     
 
@@ -381,10 +381,10 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/wallhaven-353502.jpg)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/AF3.x_%20thumbnail.jpg)">
     
             <p class="article-headline-p">
-                (译)HTTPS的工作原理
+                2017年度总结
             </p>
         </div>
 
@@ -403,7 +403,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>XibHe</strong>
-        <span>4月 27, 2017</span>
+        <span>12月 30, 2017</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -425,7 +425,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACcUlEQVR42u3ay27DMAwEwPz/T7fXHlp3l7KUB0anonAcTQ6ksOLj66PXAw8PDw8PDw8P78V4j3j98qIf/79+Pnln/ql/3oOHh4d3hPdPqb3kJV98vfXrn6zdGx4eHt5JXrK5GWmGafeGh4eH9/q8/CjctgQ8PDy8T+XNyvqb9T08PDy85TDiry9Ijt1t6PCErAUPDw8v5q1EDLv/Pnq/h4eHhxfw6pGmYFttWU+ePDRThoeHhxfw8kKct5P8YL3SGPDw8PCexWtDhzwUuG4D7bVZcf2Gh4eHt5mXF/c2cl35bN48or6Hh4eHdysvL985e2Ukq71Uq2NcPDw8vGVeW7iT5tGGtrOD+5+7xcPDwzvCmw2hJk0lIc3+szQZgYeHh7fMaw/Ts2CiHTjId4KHh4d3kteW5ryp5GFEe4y+YXQADw8Pb4GXH6Nn8W4+NJCHHcPRATw8PLybeHmTmJX19kpsdg2Gh4eHd5I3G5bKG0AyIjAbXCiO1Hh4eHgbeO0FWDuMNXt/GzHj4eHhneTNwtwE2Q5jtY1k2Pfw8PDwbuXNAoU2rp09Hx3K8fDw8J7EWy/6+WDBynXasDHg4eHh3cqbDaTmEe1sIKCImPHw8PCO8/IGkDePvD3kaymMwMPDw1vgtau90FoPLNpjPR4eHt5u3qwQJ0fhPGjI35b8iHh4eHhneO3VVxvO5rHClsaAh4eHt42XF+u2eawcl5MBVjw8PLx35CWlv20bw1AYDw8P7w15bQNYeaYII/Dw8PA28PLxqbui2DywuHkyAg8PD2+ZN4sAkoDg3ndGR3k8PDy8zbzPW3h4eHh4eHh4eC+wvgHfUF3Jf4e+kgAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACb0lEQVR42u3aW46DMBAEQO5/6d0DRJCe8QOIiq9oQ7CLlTyjto+/n74OPDw8PDw8PDy8h/GO+Pr81ekAJ/dXn9mcGx4eHt4W3pelNp7K9eTO7k8+F+aGh4eHt5F3NqHq8NWlP//2em54eHh4z+clyPwJybh4eHh47+UlYUQSHzy0MODh4eFNDSOqoUMv9r0ta8HDw8OLeeNL+brPW/f38PDw8AJe9cqHyUtCddPrywzx8PDwFvPyhXhkiyt/Wm8+eHh4eDt5I0t5tTwkzXr+nCiMwMPDw1vGGwlnk6U8GSWZT/QPwMPDw1vM67XRVcBIi5y/bjw8PLz9vGRC1aMA18WjV2zKMS4eHh7eVF4yoV4MkbyyvI0uPAcPDw9vMS8vA8kSny/o4y/ltLTg4eHhLeYlRSI/ClBtu/NGubBFh4eHh7eRdx0QjGyb9Q4W5AUGDw8Pbycv377q3V99KSNHE/Dw8PD28PJlvRwKFI8F9EKKckuNh4eHN4lXjQN6pSIPgntHvvDw8PD285LQIY8MRiLdvO0uFAY8PDy8Sbzq0ai8wR1/Bb32Gg8PD+9eXh5SzA1q83IyVBjw8PDwJvGS5rVXNmYVni+/xcPDw9vOq8aveXTbCzuWHLrCw8PDm3RcNd/u6sUK1ZLQe2V4eHh4q3lHfOXsnJFHtM1DV3h4eHjLeMnUq1Fv77jAksKAh4eHt4yXtMj5gYDeVlZeovDw8PDey8sLQ7VsNENkPDw8vFfx8ntGAt9mGIGHh4e3gJcs09W/jAQW18/Bw8PDu5dXjQDy4auxQt5Anwa+eHh4eIt5v3fh4eHh4eHh4eE94PoH/+F8uCmQbuIAAAAASUVORK5CYII=">
     
 </ul>
 
@@ -439,7 +439,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/HTTPS/">HTTPS</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/HTTPS的工作原理/">HTTPS的工作原理</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/译文/">译文</a>
+        <a class="post_tag-link" href="/tags/2017/">2017</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/年度总结/">年度总结</a>
     </ul>
     
 
@@ -456,7 +456,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=(译)HTTPS的工作原理&url=http://XibHe.github.io/2017/04/27/HTTPS/index.html&pic=http://XibHe.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=2017年度总结&url=http://XibHe.github.io/2017/12/30/2017deadline/index.html&pic=http://XibHe.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -465,7 +465,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=(译)HTTPS的工作原理&url=http://XibHe.github.io/2017/04/27/HTTPS/index.html&via=XibHe" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=2017年度总结&url=http://XibHe.github.io/2017/12/30/2017deadline/index.html&via=XibHe" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -474,7 +474,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://XibHe.github.io/2017/04/27/HTTPS/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://XibHe.github.io/2017/12/30/2017deadline/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -489,7 +489,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=(译)HTTPS的工作原理&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2017/04/27/HTTPS/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=2017年度总结&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2017/12/30/2017deadline/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -508,44 +508,38 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>HTTPS只是标准HTTP协议涂上一层美味的SSL/TLS加密信息。 除非出现严重错误,它可以防止人们因<a href="https://en.wikipedia.org/wiki/Alice_and_Bob" target="_blank" rel="external">infamous Eve</a>查看或修改那些构成你浏览中产生的请求；让你可以安全的在你的电脑和服务器之间发送密码、通信和信用卡信息等数据。当绿色小挂锁和字母“https”出在你的地址栏时，并不意味你所访问的网站仍是之前的，而不是已经被篡改过的，当你打开网页时这些标识至少帮助你安全地访问网页。</p>
-<h2 id="1-什么是HTTPS以及它做了什么"><a href="#1-什么是HTTPS以及它做了什么" class="headerlink" title="1.什么是HTTPS以及它做了什么?"></a>1.什么是HTTPS以及它做了什么?</h2><p>HTTPS是著名的HTTP协议，是在SSL / TLS(以下简称为“SSL”)加密层之上。服务器和客户端仍然通过完全相同的HTTP协议进行通信，但二者的通信是建立在一个安全的SSL连接,加密和解密请求和响应体系之上的。SSL有两个主要目的:</p>
-<ul>
-<li>验证你所访问的服务器的正确性</li>
-<li>确保你与服务器之间的数据通信，无论是你发送给服务器的还是服务器返回给你的信息不被篡改</li>
-</ul>
-<p>真正非常聪明的部分是任何人都可以拦截您与服务器交换的每一个消息，包括您同意使用密钥和加密策略的消息，仍然无法读取任何实际发送的数据。</p>
-<h2 id="2-如何建立SSL连接"><a href="#2-如何建立SSL连接" class="headerlink" title="2.如何建立SSL连接"></a>2.如何建立SSL连接</h2><p>通过握手建立客户端和服务器之间的SSL连接，其目的是:</p>
-<ul>
-<li>为了确实与客户端通信服务器的正确性</li>
-<li>双方已经同意一个“密码套件”，其中包括二者将用于交换数据的加密算法</li>
-<li>双方已就此算法达成任何必要的密钥</li>
-</ul>
-<p>一旦连接建立，双方可以使用约定的算法和密钥来安全地发送消息给彼此。我们将把握手分为3个主要阶段 - 发送Client Hello报文，证书交换和密钥交换。</p>
-<p>1.客户端发送Client Hello报文 — 握手开始于客户端发送Client Hello报文。这包含服务器通过SSL连接到客户端所需的所有信息，包括各种密码套件及其支持的最大SSL版本。服务器使用Server Hello报文进行响应，报文中包含客户端所需的类似信息，包括根据客户端的偏好决定将使用哪个加密套件和SSL版本。</p>
-<p>2.证书交换 — 现在连接已经建立起来了，服务器必须向客户端证明其身份。这是使用SSL证书来实现的，这是一个很小的类似于护照的东西。SSL证书包含各种数据，包括所有者的名称，附加的属性（例如域），证书的公钥，数字签名和有关证书有效期的信息。客户端检查隐式信任该证书，或者它被隐式信任的几个证书颁发机构（CA）之一被验证和信任。更多关于证书的要求。注意服务器还可以要求通过证书证明客户端的身份，但这通常只发生在非常敏感的应用程序中。</p>
-<p>3.密钥交换 — 客户端和服务器交换的实际消息数据的加密将使用一种对称算法来完成，该算法在发送Client Hello报文阶段已被认可。对称算法使用单个密钥进行加密和解密，与需要公钥/私钥对的不对称算法相反。双方需要就此单一的对称密钥达成一致，即使用非对称加密和服务器的公钥/私钥可以安全地实现这一过程。</p>
-<p>客户端生成用于主对称算法的随机密钥。它使用在发送Client Hello报文阶段中同意的算法和服务器的公钥（在其SSL证书上找到）对其进行加密。它将此加密密钥发送到服务器，使用服务器的私钥对其进行解密，握手会话中有趣部分就这样完成了。双方都充满乐意，如同他们正在和正确的人交谈，并且秘密地同意对对方加密他们即将发送的数据的密钥。HTTP请求和响应现在可以通过对明文消息进行加密后发送。</p>
-<h2 id="3-证书"><a href="#3-证书" class="headerlink" title="3.证书"></a>3.证书</h2><h3 id="3-1信任"><a href="#3-1信任" class="headerlink" title="3.1信任"></a>3.1信任</h3><p>在最基本的层次上，SSL证书只是一个文本文件，任何具有文本编辑器的人都可以创建一个。实际上，您可以创建一个证书，声称您是Google Inc.，并且你掌握域名gmail.com。如果这是事实，SSL就是一个笑话;身份验证基本上是客户端询问服务器“你是Google吗？”，服务器回复“呃，是的，这是一张纸，’我是Google’写的”，客户说“好，这是我所有的数据”。阻止这场闹剧的魔法是在数字签名中，允许一方验证另一方的纸张是否合法。<br>为什么你可能信任证书有两个明智的原因：</p>
-<ul>
-<li>如果它在你隐含信任证书的列表上</li>
-<li>如果能够证明它是被上述列表中的一个证书的控制器所信任</li>
-</ul>
-<p>第一个标准很容易检查。您的浏览器具有可从其中查看，添加和删除证书颁发机构(CA)可信SSL证书预先安装的列表。这些证书由一个集中的（在理论上，一般在实践中）组织来控制，这些组织非常安全，可靠和值得信赖，如Symantec，Comodo和GoDaddy。如果服务器从该列表中提供证书，那么您可以信任它。</p>
-<p>第二个标准很难。服务器很容易说：“er，我的名字是er，来自微软，你信任Symantec和er，他们完全相信我，所以很酷。”一个有点聪明的客户端可能会去问Symantec“我有一个来自微软的服务请求，说你相信他们，这是真的吗？”但即使Symantec说“是的，我们知道他们，微软是合法的”，您仍然不知道声称是Microsoft的服务器实际上真的是微软还是某些入侵者。这时候数字签名该登场了。</p>
-<h3 id="3-2数字签名"><a href="#3-2数字签名" class="headerlink" title="3.2数字签名"></a>3.2数字签名</h3><p>如前所述，SSL证书具有关联的公钥/私钥对。公钥作为证书的一部分分发，私钥被保密。这对非对称密钥用于SSL握手，以交换另一个密钥，供双方对数据加密和解密。客户端使用服务器的公钥加密对称密钥，并将其安全地发送到服务器，服务器使用其私钥对其进行解密。任何人都可以使用公钥加密，但只有服务器可以使用私钥进行解密。</p>
-<p>数字签名的情况恰恰相反。证书可以由另一个机构“签署”，从而有效地记录在案，“我们已经证实该证书的控制人也控制证书上列出的属性（域名）”。在这种情况下，权限使用其私钥（广义地说）加密证书的内容，并且该密文作为数字签名附加到证书中。任何人都拥有权限使用公钥对该签名进行解密，并验证其是否为预期的解密值。但只有证书的所有者才能使用私钥加密内容，所以只有所有者才能实际创建一个有效的签名。</p>
-<p>因此，如果服务器声称拥有由Symantec（或其他CA）签署的Microsoft.com的证书，那么您的浏览器不需要为此签名。如果是合法的，Symantec将使用（超秘密）私钥来生成服务器的SSL证书的数字签名，因此您的浏览器使用可以使用（超公共）公钥来检查该签名是否有效。Symantec将采取措施确保他们正在签署的组织真正拥有Microsoft.com，因此，鉴于您的客户信任Symantec，可以确定它真的在与微软公司对话。</p>
-<h3 id="3-3自签名"><a href="#3-3自签名" class="headerlink" title="3.3自签名"></a>3.3自签名</h3><p>请注意，所有根CA证书都是“自签名”，这意味着使用自己的私钥生成数字签名的证书。根CA证书没有什么特别之处 — 你可以生成自己的自签名证书，并使用它来签署其他证书。 但是，由于您的随机证书不会作为CA预先加载到任何浏览器的任何地方，所以他们都不会相信你所签署的自己的或他人的证书。你是有效地说“呃，我真的是微软，这里是我自己签发并签署的身份证件”，所有正常运行的浏览器都会弹出一个非常严重的错误信息，以回应你的诡计。</p>
-<p>这给所有浏览器和操作系统发行商带来了巨大的负担，只能信任干净的根CAs，因为他们的用户最终信任vet网站并保持证书安全的组织。<a href="http://security.stackexchange.com/questions/11464/getting-a-root-ca-accepted-in-systems-and-browsers" target="_blank" rel="external">这不是一件容易的事</a>。</p>
-<h3 id="3-4你相信什么？"><a href="#3-4你相信什么？" class="headerlink" title="3.4你相信什么？"></a>3.4你相信什么？</h3><p>有趣的是，你的客户在技术上并不试图验证是否应该信任发送证书的一方，而是应该信任证书中包含的公开密钥。SSL证书是完全公开和公共的，因此任何攻击者都可以获取Microsoft的证书，拦截客户端对Microsoft.com的请求，并向其提供合法的证书。客户端会接受这一点，并开始愉快地握手。 但是，当客户端加密将用于实际数据加密的密钥时，它将使用该真实证书中的真实的Microsoft公钥进行此操作。由于攻击者没有Microsoft私钥来解密，所以他们现在被终止了。即使握手完成，它们仍然无法解密密钥，因此无法解密客户端向其发送的任何数据。只要攻击者不控制受信任的证书的私钥，正常的秩序就会顺利进行下去。如果客户骗取了受信任的证书，攻击者控制了证书和公钥，那么麻烦就开始了。</p>
-<h2 id="4-真的很有趣的事实"><a href="#4-真的很有趣的事实" class="headerlink" title="4.真的很有趣的事实"></a>4.真的很有趣的事实</h2><h3 id="4-1咖啡店可以通过网络监控我的HTTPS流量吗"><a href="#4-1咖啡店可以通过网络监控我的HTTPS流量吗" class="headerlink" title="4.1咖啡店可以通过网络监控我的HTTPS流量吗?"></a>4.1咖啡店可以通过网络监控我的HTTPS流量吗?</h3><p>不。公钥密码使用方法的魔力意味着攻击者可以观察客户端和服务器之间交换的每一个字节数据，并且仍然不知道你们之间所说的话大致等于多少交换的数据量。然而，你的正常HTTP流量在不安全的Wi-Fi网络上仍然非常脆弱，而且脆弱的网站可能会成为任何数量的解决方案的受害者，这些方法可能会欺骗您通过纯HTTP或在完全错误的地方发送HTTPS流量。例如，即使登录表单通过HTTPS提交用户名/密码组合，如果表单本身通过HTTP安全地加载，那么攻击者可能会在到达您的计算机的途中拦截表单的HTML，在修改后将登录详细信息发送到他们自己的服务器。</p>
-<h3 id="4-2我的公司可以通过网络监控我的HTTPS流量吗？"><a href="#4-2我的公司可以通过网络监控我的HTTPS流量吗？" class="headerlink" title="4.2我的公司可以通过网络监控我的HTTPS流量吗？"></a>4.2我的公司可以通过网络监控我的HTTPS流量吗？</h3><p>如果使用由自己公司控制的机器，那么是可以监控的。请记住，在每个信任链的根源都是一个隐含信任的CA，并且这些权限的列表存储在您的浏览器中。您的公司可以使用他们的机器访问权限，将自己的自签名证书添加到这个CA列表中。然后他们可以拦截您的所有HTTPS请求，提供声称代表相应网站的证书，由他们的假CA签名，因此毫无疑问，您的浏览器信任这些CA签名。由于使用其狡猾的证书的公钥对所有HTTPS请求进行加密，所以可以使用相应的私钥来解密和检查（甚至修改）您的请求，然后将其发送到其预期位置。他们可能不会这样做。但他们可以。<br>顺便提一句，这也是你如何使用代理来检查和修改<a href="http://nickfishman.com/post/50557873036/reverse-engineering-native-apps-by-intercepting-network" target="_blank" rel="external">iPhone应用程序所提供的</a>其他无法访问的HTTPS请求。</p>
-<h3 id="4-3那么Lavabit和联邦调查局怎么了？"><a href="#4-3那么Lavabit和联邦调查局怎么了？" class="headerlink" title="4.3那么Lavabit和联邦调查局怎么了？"></a>4.3那么Lavabit和联邦调查局怎么了？</h3><p>Lavabit是2013年NSA泄漏疯狂期间爱德华·斯诺登（Edward Snowden）的超级安全的电子邮件提供商。正如我们所看到的，无数标准黑客可以允许联邦调查局看到Lavabit和其客户之间的任何数据。没有Lavabit SSL证书的私人密钥，黑客们是不可能监听到这些数据的。然而，一位有益的美国法官告诉Lavaff创始人Ladar Levison，他不得不交出这个钥匙，有效地让联邦调查局自由地监视核心的内容。Levison通过在4点类型的11个硬拷贝页面上交出2,560个字符的键，试图停下来，但是被要求执行一个命令，必须以有用的格式交出私钥，否则将会面对每天5000美元的罚款。<br>一旦他遵守了这个命令，Lavad的CA证书颁发机构GoDaddy就会认为证书被破坏了，就撤销了证书。这将Lavabit证书添加到证书吊销列表（CRL）中，该证书撤销列表（CRL）是客户端不再信任以提供安全连接的可信证书的列表。妥协的结果，自签名或其他不可信任的证书导致浏览器显示一个大的红色错误消息，并且阻止或彻底禁止用户进一步的操作。不幸的是，浏览器将继续信任破坏的证书，直到它们将最新的更新提交给CRL，这个过程在实践中显然是<a href="https://news.netcraft.com/archives/2013/05/13/how-certificate-revocation-doesnt-work-in-practice.html" target="_blank" rel="external">不完美的</a>。</p>
-<h2 id="5-结论"><a href="#5-结论" class="headerlink" title="5.结论"></a>5.结论</h2><p>HTTPS不是不可破解的，SSL协议必须不断发展，因为对其的新攻击一直在快速的<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#Attacks_against_TLS.2FSSL" target="_blank" rel="external">发展演化</a>。但是，如果看不到您的消息，那么传输秘密数据的方式仍然是令人印象深刻的方式。当然，这里没有提及许多实现细节，例如握手消息的确切格式和顺序，缩短的握手来接收最近的会话而不必重新协商密钥和密码套件，以及每个阶段可用的许多不同的加密选项。要记住的关键是，尽管HTTPS将数据安全地保护到目的地，但绝对不会对您（作为用户或开发人员），保护您免受XSS或数据库泄漏或任何其他事情造成的严重影响。时刻保持警惕。 在威尔·史密斯的不朽言辞中，“在黑暗中行走，要时刻注意，防止突发的暴力。”。<br>如果你喜欢这片文章，你可能会喜欢我的另一篇文章<a href="http://robertheaton.com/2015/04/06/the-ssl-freak-vulnerability/" target="_blank" rel="external">解释SSL2015年FREAK漏洞的细节</a>。</p>
-<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="http://robertheaton.com/2014/03/27/how-does-https-actually-work/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">How does HTTPS actually work?</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font size="4" face="黑体"> 《图解HTTP》 </font>
-
+        <p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
+<h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>对我这个年龄来说，结婚的很少，更别提孩子了。但我已经为人夫，为人父了！似乎用两三年的时间走完了别人十几年的路。太过年轻的我，总会时不时忘记自己身为父亲的责任，我媳妇(花花)总会不厌其烦的唤起我作为父亲该承担的责任。家里的大事小情，在花花的安排下井井有条。孩子的奶粉，尿不湿也不用我来操心，为了分担我的压力，花花早早给儿子断了母乳，离家挣钱。对花花我即心疼又愧疚，我不能一直用年轻作为借口，逃避身为男人的责任。<strong>家庭永远是第一位</strong>！</p>
+<p><img src="https://img1.doubanio.com/view/photo/l/public/p924229558.jpg" alt=""></p>
+<blockquote>
+<p>每个人都有属于自己的人生遥控器，它无时无刻不掌握在你自己的手中，你可以随时按快进键让时间从你的手中逃走，你也可以按回退键，想想自己曾经的错过与失误，你也可以按跳过键，它的另外一个名字叫做逃避…… 从前有个精灵一直在寻找彩虹那端的金罐，但最后，他发现那只是一罐麦片。</p>
+</blockquote>
+<h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><p>年初给自己定下了一个目标：每周至少写一篇博客。到目前为止，算上这篇，一共是25篇。这25篇文章中，有5篇是译文，5篇是个人感悟，剩下15篇是技术上的分享。技术上的分享有些很肤浅，和大咖们由浅入深的技术文章比起来有些相形见绌。但我还是会坚持写下去的，须知泰山非一日之功。</p>
+<p>写一篇鞭辟入里的爽文真的很费时间，前期需要阅读大量的相关文章，技术文档。最难得还是将所要描述的知识点与实际的代码，产品需求结合起来。因此，当你在自己的项目中解决了一个棘手的bug，或者实现了一个复杂的产品需求时，你再将这些解决问题的方案写成博客，就会有一种“下笔如有神”的感觉。就好比最近写了一篇名为<a href="http://xibhe.com/2017/11/06/JenKins-Continuous-Integration/" target="_blank" rel="external">利用JenKins持续集成iOS项目时遇到的问题</a>博文，通篇写下爱特别顺畅。因为这些流程都是我切身经历过得，在这里也只是再复述一篇操作流程而已。</p>
+<p>相比之下这篇文章 — <a href="http://xibhe.com/2017/11/26/AF3.x/" target="_blank" rel="external">AFNetworking到底做了什么？</a> 写起来就不那么顺利，自己没有切实经历过，整个<strong>AFNetworking</strong>的源码，马马虎虎的读了两遍，不能透彻理解其中的精髓。也只能转载别人的观点。</p>
+<p>自从给自己定下了一周至少写一篇博客的目标后，每到周末就特纠结，搜肠刮肚的想着如何结合实际开发构思出一篇好博文。有时实在没有好的点子，就翻译<strong>Medium</strong>和<strong>湾区日报</strong>上推荐的英文文章，或者写一些个人心得体会。</p>
+<p>今年写的一些技术性文章也有不尽如人意的地方，有些文章，写的很粗浅，没有刨根问底追溯到本质上。有些文章是迫于一周要写一篇博文而拼凑成的，今年不会如此只求量而不求质了。但以文字的形式记录分享开发心得的习惯，一旦养成，就不会轻易舍弃，这算是2017年一个明显的收获吧！</p>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、</p>
+<p><font size="4" face="黑体"> 《黑客与画家》 </font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
+<blockquote>
+<p>与其说看书不如说看目录，从目录里找到感兴趣的章节，看掉，看到中途没兴趣了，就放下下次再看。工作中碰到什么问题不明白需要参考了，还是看目录，才大概会在什么章节里，探索一番，中间如果碰到感兴趣的，看掉，看到中间没兴趣了，放下，下次再看。要不了多久，整本书的70%-80%都翻遍了，其中有20%-30%翻了不止一遍，这些往往是核心的知识；至于剩下的20%没看过的，以后或许有机会的，没机会也不要紧，很多时候自己已经通过各种机缘学到了。</p>
+<p>所以看技术厚书不在于多块或多慢，而是从容。</p>
+</blockquote>
+<p>其中，我认为结合书中知识点，<strong>理论联系实践</strong>是最为有效的掌握知识点的方法。读一些非技术的书籍，最重要的是能够让自己心安。</p>
+<blockquote>
+<p>此心安处是吾乡</p>
+</blockquote>
+<p>关于买书，今年没有买一本书。因为去年买的书，大概有七八本吧！只看完了三本，还有向公司申请采购的3本技术书籍，手中库存的书足够我看了。2018年在此立一个flag：<strong>看完6本书！</strong></p>
+<h2 id="新部门"><a href="#新部门" class="headerlink" title="新部门"></a>新部门</h2><p>今年12月份时被调到一个新部门，开始接触到公司最为核心的项目。想想就有些小激动啊！因此，也会给自己提出更高的要求，写功能模块时要注意与其他功能的耦合性，兼顾需要考虑程序的性能，容错机制的相应。现有的开发模式，耦合性太高，如何实现高可用的组件化，降低功能模块间的耦合性？将是我们这个团队在18年需要重点考录的问题。希望能为这次项目模块的优化重构尽自己的一份力量。</p>
+<h2 id="新技术"><a href="#新技术" class="headerlink" title="新技术"></a>新技术</h2><p>9月初接触微信小程序，和部门另外两个H5一起开发公司的一款小程序。中间吃了小程序产品原型还是是基于原生App思维而设计的亏，同时，也由于自己没有完全吃透小程序开发文档，在实现一些功能时踩了<a href="http://xibhe.com/2017/09/25/wx-mini-AppSummary/" target="_blank" rel="external">坑</a>。</p>
+<p>这次小程序开发经历使我意识到自己的技术短板，陷入对技术的狂热之中。因为崇拜某项特定的技术，只是因为自己熟悉这种技术。我很自然的会相信自己选择的是最好的，然后这会让我经常忽略一些与之相悖的意见。由于不了解其他技术，就倾向于选择自己最熟悉的技术并先入为主的认为它是最好的。因此陷入了对自己熟悉技术的狂热之中而无法自拔。这样只会使我们变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
+<blockquote>
+<p>请勿陷入对技术的狂热之中</p>
+</blockquote>
+<p>若是早已习惯了这种堆代码、堆逻辑的开发流程，渐渐麻木，在技术上不再积极进取，不再学习新技术。这种开发者被称为“码农”，“搬砖工”。很不幸，我自己就是这样的“码农”。</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/introspect2.jpg" alt=""></p>
+<p>2018年，新的一年，要在原有技术的基础之上找到突破口，将自己以前囫囵吞枣的知识点再好好品味一番。同时，也不能仅仅局限于iOS一方面的技术。</p>
+<h2 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h2><p>家人身体健康，自己技术日臻成熟。</p>
 <p>–EOF–</p>
 <p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 
@@ -598,21 +592,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2017/05/04/使用JSExport进行JS交互时遇到的一个问题/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2017/04/24/Graphics-rendering/" id="post_nav-older" class="next-content">
+        <a href="/2017/12/09/Build a Movement/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
