@@ -2326,9 +2326,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -2417,9 +2417,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -3516,7 +3516,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#103;&#104;&#x65;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;">&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#103;&#104;&#x65;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#100;&#x65;&#x76;&#101;&#x6c;&#111;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#x67;&#104;&#x65;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">&#100;&#x65;&#x76;&#101;&#x6c;&#111;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#x67;&#104;&#x65;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -3525,14 +3525,14 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
