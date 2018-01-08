@@ -40,6 +40,14 @@
 <p>若是早已习惯了这种堆代码、堆逻辑的开发流程，渐渐麻木，在技术上不再积极进取，不再学习新技术。这种开发者被称为“码农”，“搬砖工”。很不幸，我自己就是这样的“码农”。</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/introspect2.jpg" alt=""></p>
 <p>2018年，新的一年，要在原有技术的基础之上找到突破口，将自己以前囫囵吞枣的知识点再好好品味一番。同时，也不能仅仅局限于iOS一方面的技术。</p>
+<p>今年最直观的感觉是自己对于新技术的渴望，缺少那种如饥食渴的痴迷感。苹果开发者大会上的ARKit，CoreML，SiriKit这些新技术，对于我这个iOS开发者竟然毫无吸引力可言。这是我身上存在的一个大的缺陷，也是程序员堕落，不思进取的开始。<strong>对于程序员来说，最大的悲哀并不是35岁后被华为辞退，也不是42岁后跳楼。</strong> 而是：</p>
+<blockquote>
+<p>不再向往新技术。</p>
+</blockquote>
+<p><img src="https://pic2.zhimg.com/50/60d0fc12d47766fb3aa46c1ee147578d_hd.jpg" alt=""></p>
+<blockquote>
+<p>stay hungry，stay foolish.</p>
+</blockquote>
 <h2 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h2><p>家人身体健康，自己技术日臻成熟。</p>
 <p>–EOF–</p>
 <p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
@@ -3513,6 +3521,12 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -3520,18 +3534,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#100;&#x65;&#118;&#x65;&#108;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#x6e;&#x67;&#104;&#101;&#64;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#100;&#x65;&#118;&#x65;&#108;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#x6e;&#x67;&#104;&#101;&#64;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x64;&#x65;&#x76;&#101;&#x6c;&#111;&#x70;&#x65;&#x72;&#112;&#101;&#x6e;&#x67;&#x68;&#x65;&#64;&#x31;&#54;&#51;&#46;&#99;&#x6f;&#109;">&#x64;&#x65;&#x76;&#101;&#x6c;&#111;&#x70;&#x65;&#x72;&#112;&#101;&#x6e;&#x67;&#x68;&#x65;&#64;&#x31;&#54;&#51;&#46;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
