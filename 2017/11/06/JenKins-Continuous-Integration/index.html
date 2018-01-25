@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Mon Nov 06 2017 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Dec 23 2017 10:47:25 GMT+0800">
+        <meta property="article:modified_time" content="Fri Jan 26 2018 00:13:49 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/index.html",
     "headline": "利用JenKins持续集成iOS项目时遇到的问题",
     "datePublished": "Mon Nov 06 2017 00:00:00 GMT+0800",
-    "dateModified": "Sat Dec 23 2017 10:47:25 GMT+0800",
+    "dateModified": "Fri Jan 26 2018 00:13:49 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#持续集成的优点"><span class="post-toc-number">1.</span> <span class="post-toc-text">持续集成的优点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#持续化集成工具—JenKins"><span class="post-toc-number">2.</span> <span class="post-toc-text">持续化集成工具—JenKins</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开始安装JenKins"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">开始安装JenKins</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装插件"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">安装插件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置构建环境"><span class="post-toc-number">3.</span> <span class="post-toc-text">配置构建环境</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建项目"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">新建项目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#源码管理"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">源码管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建触发器"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">构建触发器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建环境"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">构建环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建-构建步骤"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">构建(构建步骤)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建后操作"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">构建后操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构建项目时遇到的几个问题"><span class="post-toc-number">4.</span> <span class="post-toc-text">构建项目时遇到的几个问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-pod-command-not-found"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">1. pod: command not found</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-ruby-executable-hooks-No-such-file-or-directory"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">2. ruby_executable_hooks: No such file or directory</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">3. `find_spec_for_exe’: can’t find gem cocoapods (>= 0.a) (Gem::GemNotFoundException)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">4. in `find_spec_for_exe’: can’t find gem cocoapods (>= 0.a)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-构建时报-NSLocalizedRecoverySuggestion-Add-a-profile-to-the-“provisioningProfiles”-dictionary-in-your-Export-Options-property-list"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">6. 构建时报 NSLocalizedRecoverySuggestion=Add a profile to the “provisioningProfiles” dictionary in your Export Options property list.</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format"><span class="post-toc-number">4.7.</span> <span class="post-toc-text">7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format.</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在最后"><span class="post-toc-number">5.</span> <span class="post-toc-text">写在最后</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">6.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#更新说明"><span class="post-toc-number">1.</span> <span class="post-toc-text">更新说明</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#持续集成的优点"><span class="post-toc-number">2.</span> <span class="post-toc-text">持续集成的优点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#持续化集成工具—JenKins"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续化集成工具—JenKins</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开始安装JenKins"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">开始安装JenKins</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装插件"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">安装插件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置构建环境"><span class="post-toc-number">4.</span> <span class="post-toc-text">配置构建环境</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建项目"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">新建项目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#源码管理"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">源码管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建触发器"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">构建触发器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建环境"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">构建环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建-构建步骤"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">构建(构建步骤)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建后操作"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">构建后操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构建项目时遇到的几个问题"><span class="post-toc-number">5.</span> <span class="post-toc-text">构建项目时遇到的几个问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-pod-command-not-found"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1. pod: command not found</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-ruby-executable-hooks-No-such-file-or-directory"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2. ruby_executable_hooks: No such file or directory</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3. `find_spec_for_exe’: can’t find gem cocoapods (>= 0.a) (Gem::GemNotFoundException)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">4. in `find_spec_for_exe’: can’t find gem cocoapods (>= 0.a)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-构建时报-NSLocalizedRecoverySuggestion-Add-a-profile-to-the-“provisioningProfiles”-dictionary-in-your-Export-Options-property-list"><span class="post-toc-number">5.6.</span> <span class="post-toc-text">6. 构建时报 NSLocalizedRecoverySuggestion=Add a profile to the “provisioningProfiles” dictionary in your Export Options property list.</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format"><span class="post-toc-number">5.7.</span> <span class="post-toc-text">7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format.</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在最后"><span class="post-toc-number">6.</span> <span class="post-toc-text">写在最后</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -510,6 +510,11 @@
     
         <p>持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团队开发更加快捷。</p>
 <p>CI是一种开发实践。实践应该包含3个基本模块，一个可以自动构建的过程，自动编译代码，可以自动分发，部署和测试。一个代码仓库，SVN或者Git。最后一个是一个持续集成的服务器。通过持续集成，可以让我们通过自动化等手段高频率地去获取产品反馈并响应反馈的过程。</p>
+<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
+<ul>
+<li>2017 年 11 月，第一版。</li>
+<li>2018 年 01 月，替换一些图片，增加上传ipa包到FTP。</li>
+</ul>
 <h2 id="持续集成的优点"><a href="#持续集成的优点" class="headerlink" title="持续集成的优点"></a>持续集成的优点</h2><ol>
 <li>缩减开发周期，快速迭代版本</li>
 <li>自动化流水线操作带来的高效</li>
@@ -524,8 +529,16 @@
 <li>静态代码分析，可以检测出很多代码的问题，比如潜在的内存泄露的问题。</li>
 <li>随时部署，Jenkins在打包完成之后可以设定之后的操作，这个时候往往就是提交app到跑测试用例的系统，或者部署到内测平台生成二维码。</li>
 </ol>
-<h3 id="开始安装JenKins"><a href="#开始安装JenKins" class="headerlink" title="开始安装JenKins"></a>开始安装JenKins</h3><p>方法一: <a href="https://jenkins.io" target="_blank" rel="external">直接下载安装包</a><br>需要注意选择自定义安装，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-2.png?attname=" alt=""></p>
-<p>取消”Start at boot as jenKins”的勾选，<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/install-3.png?attname=" alt=""></p>
+<h3 id="开始安装JenKins"><a href="#开始安装JenKins" class="headerlink" title="开始安装JenKins"></a>开始安装JenKins</h3><p>方法一: <a href="https://jenkins.io" target="_blank" rel="external">直接下载安装包</a></p>
+<p>注意：此时有两种安装方式是</p>
+<ul>
+<li>标准安装，如下图</li>
+</ul>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration11.png" alt=""></p>
+<ul>
+<li>自定义安装，此时应该取消<strong>Start at boot as “jenkins”</strong>勾选，如下图</li>
+</ul>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration12.png" alt=""></p>
 <p>安装完成后在Terminal中输入,</p>
 <blockquote>
 <p>open /Applications/Jenkins/jenkins.war</p>
@@ -549,7 +562,8 @@
 <blockquote>
 <p>defaults write /Library/Preferences/org.jenkins-ci httpPort 7070</p>
 </blockquote>
-<p><strong>推荐使用方法二安装JenKins，使用命令行可以避免后面构建项目时，报一些莫名其妙的权限错误。</strong></p>
+<font color="ff6d55"><strong>强烈推荐使用方法二安装JenKins，使用命令行可以避免后面构建项目时，报一些莫名其妙的权限错误。</strong> </font>
+
 <h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>若使用git做源码管理，则需要安装</p>
 <ul>
 <li>GIT plugin</li>
@@ -559,11 +573,16 @@
 <ul>
 <li>Keychains and Provisioning Profiles Management</li>
 </ul>
-<p>由于需要使用Xcode编译环境，因此必须要安装插件</p>
+<p>由于需要使用Xcode编译环境，因此必须要安装插件 (<strong>当然，也可以不安装Xcode integration插件，使用shell脚本命令进行打包</strong>)</p>
 <ul>
 <li>Xcode integration</li>
 </ul>
-<p>下面这两个方式都可以找到插件管理<br><img src="http://7xkqix.com1.z0.glb.clouddn.com/plugin-1.png?attname=" alt=""></p>
+<p>若最后构建生成的ipa包，需要上传到FTP，则需要安装上传FTP的插件</p>
+<ul>
+<li>FTP publisher plugin</li>
+</ul>
+<p>我们需要依次选择 <strong>系统管理-&gt;管理插件</strong>，在<strong>“可选插件”</strong>中选中<strong>“Keychains and Provisioning Profiles Management”</strong>和<strong>“FTP publisher plugin”</strong>这两项，然后安装。如图，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration13.png" alt=""></p>
 <h2 id="配置构建环境"><a href="#配置构建环境" class="headerlink" title="配置构建环境"></a>配置构建环境</h2><p>在配置构建环境前，我们先来导入一下打包证书，点击系统管理，找到刚才添加的插件<font color="ff6d55">Keychains and Provisioning Profiles Management</font>，点击选取文件，导入名为<font color="ff6d55">login.keychain</font>的钥匙串文件。</p>
 <blockquote>
 <p>这个Keychain其实在<strong>/Users/管理员用户名/Library/keychains/login.keychain</strong>,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到<strong>/Users/管理员用户名/.jenkins/workspace/项目目录名称</strong>，(.jenkins是隐藏文件)。</p>
@@ -581,12 +600,18 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/1194012-b52d3d102c21f004.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration2.png" alt=""></p>
 <p>其中，Repository URL对应的是svn的路径，Credentials为登录svn时的用户账号密码，点击”Add”按钮添加即可。Check-out Strategy最好选择每次update最新代码前都revert下，而不是“Use ‘svn update’ as much as possible” ，因为我使用的是CocoaPods管理的第三方，每次打包运行pod install会修改了工程配置文件，如果下次自动打包前不先revert再update的话会出现冲突。</p>
-<h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里就是告诉jenkins什么时候自动构建,这里我同时设置了每周一到周五在每天的8点到9点之间执行一次,当然也可以不设置。</p>
-<p><img src="http://7xkqix.com1.z0.glb.clouddn.com/triggerinfo.png?attname=" alt=""></p>
+<h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里是设置自动化测试的地方。涉及的内容很多，暂不做深入研究，这里先不设置，有自动化测试需求的可以好好研究这里的设置。</p>
+<ul>
+<li><p>Poll SCM (poll source code management) 轮询源码管理<br>需要设置源码的路径才能起到轮询的效果。一般设置为类似结果： 0/5 <em> </em> <em> </em> 每5分钟轮询一次</p>
+</li>
+<li><p>Build periodically (定时build)<br>一般设置为类似： 00 20 <em> </em> * 每天 20点执行定时build 。当然两者的设置都是一样可以通用的。</p>
+</li>
+</ul>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration14.png" alt=""></p>
 <h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“<strong>Keychains andProvisioning Profiles Management</strong>”和“<strong>Mobile Provisioning Profiles</strong>”。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2367707-b8668d49ff828810.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2367707-e86675d8dc8c675e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>这里Code Signing Identity和Provisioning Profile选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
+<p>这里的<strong>Code Signing Identity</strong>和<strong>Provisioning Profile</strong>选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
 <h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br><strong>pod install –verbose –no-repo-update</strong>安装下第三方库。</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration3.png" alt=""></p>
 <p><font color="ff6d55" size="5">注意:</font>执行pod install命令时，需要cd到pod文件所在的目录，<font color="ff6d55">${WORKSPACE}</font>是项目在JenKins中的工作目录，而我的项目由于多套了一层目录BusinessMall，因此需要加上这层目录<font color="ff6d55">${WORKSPACE}/BusinessMall</font>，否则，在构建时就会报:</p>
@@ -627,9 +652,16 @@
 <p>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>的错误。</p>
-<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><p>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</p>
+<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><ul>
+<li>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</li>
+</ul>
 <p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration10.png" alt=""></p>
 <p>参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
+<ul>
+<li>将ipa包上传到FTP服务器</li>
+</ul>
+<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration15.png" alt=""></p>
+<p>如图，选择<strong>“Publish artiffacts to FTP”</strong>，其中，<strong>FTP site</strong>就是在<strong>系统管理-&gt;系统设置</strong>中，增加的一项名为<strong>“FTP repository hosts”</strong>的配置里已经设置好的host和端口。<strong>Source</strong>为构建生成的ipa包的存放路径。</p>
 <h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h3 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h3><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
