@@ -3,6 +3,63 @@
   
     
     <entry>
+      <title><![CDATA[使用WKWebView进行性能调优]]></title>
+      <url>/2018/02/03/WKWebView-disabuse/</url>
+      <content type="html"><![CDATA[<p>最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。</p>
+<h2 id="走的弯路"><a href="#走的弯路" class="headerlink" title="走的弯路"></a>走的弯路</h2><p>最开始时并没有意识到是webView的原因，反而因为前几天刚解决了一个UI线程的bug，将这个卡顿问题主观上当做线程问题去解决。基于此做了以下操作：</p>
+<blockquote>
+<p>1.增加webView加载失败的代理方法；</p>
+<p>2.在加载完成和加载失败时，取消加载进度动画的展示；</p>
+</blockquote>
+<p>但测试时还是会造成卡顿。</p>
+<h2 id="问题的复现"><a href="#问题的复现" class="headerlink" title="问题的复现"></a>问题的复现</h2><p>这时考虑到用户应该是在弱网环境下进行操作，遇到的问题。于是，使用网络封包分析工具Charles模拟慢速网络。选择Throttle present：56 kbps Modem。此时，在点击页面上切换上的切换按钮，先切换到那个加载H5的页面，然后再来回切换其他几个页面，就会出现APP卡死的情况。(这里需要说明的是其他切换的页面有4个同样是加载H5页面，一共有8个主界面)。</p>
+<p>现在问题基本可以明确了，每次加载H5页面时都要初始化webView导致了程序内存消耗过大，造成APP卡死。</p>
+<h2 id="控制台报错"><a href="#控制台报错" class="headerlink" title="控制台报错"></a>控制台报错</h2><p>Domain=NSURLErrorDomain Code=-999 </p>
+<pre><code class="objectivec">&lt;LZoutsourceViewController.m : 226&gt; -[LZoutsourceViewController webView:didFailProvisionalNavigation:withError:]
+2018-01-31 21:02:22.084257+0800 CloudOfficeTest[9230:4603782] error:Error Domain=NSURLErrorDomain Code=-999 &quot;(null)&quot; UserInfo={NSErrorFailingURLStringKey=http://test.net/h5/zskt/spkt.html? _WKRecoveryAttempterErrorKey=&lt;WKReloadFrameErrorRecoveryAttempter: 0x1c0822d20&gt;}
+</code></pre>
+<p>NSURLConnection finished with error - code -1002</p>
+<pre><code class="objectivec">2018-01-31 21:35:56.144596+0800 CloudOfficeTest[9301:4618465] NSURLConnection finished with error - code -1002
+2018-01-31 21:36:02.742996+0800 CloudOfficeTest[9301:4618815] TIC TCP Conn Failed [14:0x1c41702c0]: 3:-9802 Err(-9802)
+</code></pre>
+<p>failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</p>
+<pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
+</code></pre>
+<h2 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView</p>
+<h2 id="WebView性能优化总结"><a href="#WebView性能优化总结" class="headerlink" title="WebView性能优化总结"></a>WebView性能优化总结</h2><p>一个加载网页的过程中，native、网络、后端处理、CPU都会参与，各自都有必要的工作和依赖关系；让他们相互并行处理而不是相互阻塞才可以让网页加载更快：</p>
+<p>&gt;</p>
+<ul>
+<li>WebView初始化慢，可以在初始化同时先请求数据，让后端和网络不要闲着。</li>
+<li>后端处理慢，可以让服务器分trunk输出，在后端计算的同时前端也加载网络静态资源。</li>
+<li>脚本执行慢，就让脚本在最后运行，不阻塞页面解析。</li>
+<li>同时，合理的预加载、预缓存可以让加载速度的瓶颈更小。</li>
+<li>WebView初始化慢，就随时初始化好一个WebView待用。</li>
+<li>DNS和链接慢，想办法复用客户端使用的域名和链接。</li>
+<li>脚本执行慢，可以把框架代码拆分出来，在请求页面之前就执行好。</li>
+</ul>
+<p>以上是美团点评技术团队关于<a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能优化</a>的总结。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能、体验分析与优化</a></p>
+<p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">webView:decidePolicyForNavigationAction:decisionHandler:</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 解惑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> wkWebView </tag>
+            
+            <tag> webView性能调优 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[2017年度总结]]></title>
       <url>/2017/12/30/2017deadline/</url>
       <content type="html"><![CDATA[<p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
@@ -2368,9 +2425,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2459,9 +2516,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -3558,12 +3615,18 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x64;&#101;&#x76;&#101;&#108;&#x6f;&#x70;&#x65;&#x72;&#x70;&#x65;&#110;&#x67;&#x68;&#101;&#64;&#x31;&#54;&#x33;&#46;&#x63;&#111;&#x6d;">&#x64;&#101;&#x76;&#101;&#108;&#x6f;&#x70;&#x65;&#x72;&#x70;&#x65;&#110;&#x67;&#x68;&#101;&#64;&#x31;&#54;&#x33;&#46;&#x63;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x64;&#101;&#118;&#x65;&#x6c;&#111;&#112;&#x65;&#114;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#111;&#109;">&#x64;&#101;&#118;&#x65;&#x6c;&#111;&#112;&#x65;&#114;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
@@ -3719,12 +3782,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

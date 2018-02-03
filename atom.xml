@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-01-14T12:42:04.000Z</updated>
+  <updated>2018-02-03T08:47:25.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,66 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用WKWebView进行性能调优</title>
+    <link href="http://XibHe.github.io/2018/02/03/WKWebView-disabuse/"/>
+    <id>http://XibHe.github.io/2018/02/03/WKWebView-disabuse/</id>
+    <published>2018-02-02T16:00:00.000Z</published>
+    <updated>2018-02-03T08:47:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。</p>
+<h2 id="走的弯路"><a href="#走的弯路" class="headerlink" title="走的弯路"></a>走的弯路</h2><p>最开始时并没有意识到是webView的原因，反而因为前几天刚解决了一个UI线程的bug，将这个卡顿问题主观上当做线程问题去解决。基于此做了以下操作：</p>
+<blockquote>
+<p>1.增加webView加载失败的代理方法；</p>
+<p>2.在加载完成和加载失败时，取消加载进度动画的展示；</p>
+</blockquote>
+<p>但测试时还是会造成卡顿。</p>
+<h2 id="问题的复现"><a href="#问题的复现" class="headerlink" title="问题的复现"></a>问题的复现</h2><p>这时考虑到用户应该是在弱网环境下进行操作，遇到的问题。于是，使用网络封包分析工具Charles模拟慢速网络。选择Throttle present：56 kbps Modem。此时，在点击页面上切换上的切换按钮，先切换到那个加载H5的页面，然后再来回切换其他几个页面，就会出现APP卡死的情况。(这里需要说明的是其他切换的页面有4个同样是加载H5页面，一共有8个主界面)。</p>
+<p>现在问题基本可以明确了，每次加载H5页面时都要初始化webView导致了程序内存消耗过大，造成APP卡死。</p>
+<h2 id="控制台报错"><a href="#控制台报错" class="headerlink" title="控制台报错"></a>控制台报错</h2><p>Domain=NSURLErrorDomain Code=-999 </p>
+<pre><code class="objectivec">&lt;LZoutsourceViewController.m : 226&gt; -[LZoutsourceViewController webView:didFailProvisionalNavigation:withError:]
+2018-01-31 21:02:22.084257+0800 CloudOfficeTest[9230:4603782] error:Error Domain=NSURLErrorDomain Code=-999 &quot;(null)&quot; UserInfo={NSErrorFailingURLStringKey=http://test.net/h5/zskt/spkt.html? _WKRecoveryAttempterErrorKey=&lt;WKReloadFrameErrorRecoveryAttempter: 0x1c0822d20&gt;}
+</code></pre>
+<p>NSURLConnection finished with error - code -1002</p>
+<pre><code class="objectivec">2018-01-31 21:35:56.144596+0800 CloudOfficeTest[9301:4618465] NSURLConnection finished with error - code -1002
+2018-01-31 21:36:02.742996+0800 CloudOfficeTest[9301:4618815] TIC TCP Conn Failed [14:0x1c41702c0]: 3:-9802 Err(-9802)
+</code></pre>
+<p>failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</p>
+<pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
+</code></pre>
+<h2 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView</p>
+<h2 id="WebView性能优化总结"><a href="#WebView性能优化总结" class="headerlink" title="WebView性能优化总结"></a>WebView性能优化总结</h2><p>一个加载网页的过程中，native、网络、后端处理、CPU都会参与，各自都有必要的工作和依赖关系；让他们相互并行处理而不是相互阻塞才可以让网页加载更快：</p>
+<p>&gt;</p>
+<ul>
+<li>WebView初始化慢，可以在初始化同时先请求数据，让后端和网络不要闲着。</li>
+<li>后端处理慢，可以让服务器分trunk输出，在后端计算的同时前端也加载网络静态资源。</li>
+<li>脚本执行慢，就让脚本在最后运行，不阻塞页面解析。</li>
+<li>同时，合理的预加载、预缓存可以让加载速度的瓶颈更小。</li>
+<li>WebView初始化慢，就随时初始化好一个WebView待用。</li>
+<li>DNS和链接慢，想办法复用客户端使用的域名和链接。</li>
+<li>脚本执行慢，可以把框架代码拆分出来，在请求页面之前就执行好。</li>
+</ul>
+<p>以上是美团点评技术团队关于<a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能优化</a>的总结。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能、体验分析与优化</a></p>
+<p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">webView:decidePolicyForNavigationAction:decisionHandler:</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。&lt;/p&gt;
+&lt;h2 id=&quot;走的弯路&quot;&gt;&lt;a href=&quot;#走的弯路&quot; class
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="wkWebView" scheme="http://XibHe.github.io/tags/wkWebView/"/>
+    
+      <category term="webView性能调优" scheme="http://XibHe.github.io/tags/webView%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/"/>
+    
+  </entry>
   
   <entry>
     <title>2017年度总结</title>
@@ -2346,67 +2406,6 @@ context[@&quot;jsObject&quot;] = self;
       <category term="CGPathAddLineToPoint" scheme="http://XibHe.github.io/tags/CGPathAddLineToPoint/"/>
     
       <category term="CGPathAddArcToPoint" scheme="http://XibHe.github.io/tags/CGPathAddArcToPoint/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Harden your mind</title>
-    <link href="http://XibHe.github.io/2017/03/31/Harden-your-mind/"/>
-    <id>http://XibHe.github.io/2017/03/31/Harden-your-mind/</id>
-    <published>2017-03-30T16:00:00.000Z</published>
-    <updated>2017-10-14T02:47:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>前段时间看了casa的直播《闲话iOS架构》，收看直播时，很多人在聊天里发言询问<font color="#FA8072">迅速提高技术有什么捷径</font>?而casa的回答是<font color="#FA8072">多想多练</font>。casa直播背景是一个书架，书架上摆满了书，中途一直有人发消息询问大神背后的书架都有什么书？给我最直观的感觉是大家很浮躁，总是想通过一种事半功倍的方式快速摘取成功果实，却忽略了平时的积累，正是这些小的积累，造就大的爆发。</p>
-<p>《闲话iOS架构》提到的内容如下:</p>
-<blockquote>
-<ul>
-<li>1.《批判性思维》</li>
-<li>2.高效烧脑，低效伤身.</li>
-<li>3.protocol,categary</li>
-<li>4.注释一般写在垃圾代码那里。剩下的都是代码自注释</li>
-<li>5.极致了，怎么保证扩展性?并不矛盾</li>
-<li>6.框架ctmater?</li>
-<li>7.reactive cocoa</li>
-<li>8.APImanager</li>
-<li>9.组件化</li>
-<li>10.class template</li>
-<li>12.OCLink 可以部分review</li>
-<li>13.有if就要有else,逻辑上的，思维考虑的对称，不是强制代码必须要这样做</li>
-<li>14.以前一直用shell  现在用swift REPL </li>
-<li>15.架构的限制是指规范</li>
-<li>16.组件化和模块化到底怎么区分，一个东东的不同叫法，实际上应该叫模块化</li>
-<li>17.《Cocoa设计模式》</li>
-<li>18.如何看待新技术, mvvm，Reactive cocoa，rac</li>
-<li>19.没有最全面的技术，只有最合适的技术。</li>
-<li>20.CTMediator组件化方案</li>
-<li>21.CTNetwokring和YTKNetworking，离散型，集约型</li>
-<li>22.codeReview</li>
-<li>23.继承的缺点，破坏了代码结构</li>
-<li>24.RN,weex</li>
-<li>25.复用的东西拆成组件</li>
-<li>26.《The Art of Capacity Planning》</li>
-<li>27.腾讯开源的Mars,引出大一统和多元化，</li>
-<li>28.网易，无埋点打log，网易乐得无埋点数据收集sdk</li>
-</ul>
-</blockquote>
-<p>casa所讲的内容多是通过平时代码积累得来的方法论，如果没有一定的代码积累和长期的项目实践是很难彻底理解这些内容的。iOS应用架构看着很高大上，但需要在牢固的基础之上一层层堆砌成高楼。忽视这些必要的步骤，一味粉饰自己，到头来也只是黄粱一梦一场空。再回过头来看目前国内知识付费现象，觉得是一个泡沫。正如知乎上所说，<font color="#FA8072">知识付费，抓的不是人的求知欲，抓的是人的焦虑感</font>。人们焦虑，希望有人告诉他们捷径，如何更快的获得成功。<font color="#FA8072">这里莫名的想到成功学，成功的永远是成功学的讲师。当代知识产品最大的痛点就是:不看书。</font></p>
-<p>我们急切的接受别人输出的价值观，却选择性的忽略掉自己的内心真正的诉求。书上得来总觉浅，听人道出方觉深，互补的只是不愿意努力看书或是去实践的懒惰。知识经济本质上就是粉丝经济的另一种表现形式。最后，还是想强调一下，作为一名攻城狮通过解决日常遇到的问题，或由浅而深，或发散思维都可以一步步引导至问题的核心。切忌自以为是，舍本逐末。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前段时间看了casa的直播《闲话iOS架构》，收看直播时，很多人在聊天里发言询问&lt;font color=&quot;#FA8072&quot;&gt;迅速提高技术有什么捷径&lt;/font&gt;?而casa的回答是&lt;font color=&quot;#FA8072&quot;&gt;多想多练&lt;/font&gt;。casa直播背景是一个书架
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://XibHe.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="Harden your mind" scheme="http://XibHe.github.io/tags/Harden-your-mind/"/>
-    
-      <category term="知识付费" scheme="http://XibHe.github.io/tags/%E7%9F%A5%E8%AF%86%E4%BB%98%E8%B4%B9/"/>
     
   </entry>
   
