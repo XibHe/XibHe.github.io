@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sat Feb 03 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sun Feb 11 2018 21:13:18 GMT+0800">
+        <meta property="article:modified_time" content="Sun Feb 11 2018 21:16:04 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/02/03/WKWebView-disabuse/index.html",
     "headline": "使用WKWebView进行性能调优",
     "datePublished": "Sat Feb 03 2018 00:00:00 GMT+0800",
-    "dateModified": "Sun Feb 11 2018 21:13:18 GMT+0800",
+    "dateModified": "Sun Feb 11 2018 21:16:04 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#走的弯路"><span class="post-toc-number">1.</span> <span class="post-toc-text">走的弯路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题的复现"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题的复现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制台报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">控制台报错</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换UIWebView为WKWebView中遇到的问题及解决方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">替换UIWebView为WKWebView中遇到的问题及解决方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优化方案总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">优化方案总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebView性能优化总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">WebView性能优化总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#走的弯路"><span class="post-toc-number">1.</span> <span class="post-toc-text">走的弯路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题的复现"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题的复现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制台报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">控制台报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Domain-NSURLErrorDomain-Code-999"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. Domain=NSURLErrorDomain Code=-999</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NSURLConnection-finished-with-error-code-1002"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. NSURLConnection finished with error - code -1002</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换UIWebView为WKWebView中遇到的问题及解决方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">替换UIWebView为WKWebView中遇到的问题及解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-替换原有的JS交互方法为"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">1. 替换原有的JS交互方法为:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-无法同步WKWebView的Cookie"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">2. 无法同步WKWebView的Cookie</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优化方案总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">优化方案总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebView性能优化总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">WebView性能优化总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -518,16 +518,13 @@
 <h2 id="问题的复现"><a href="#问题的复现" class="headerlink" title="问题的复现"></a>问题的复现</h2><p>这时考虑到用户应该是在弱网环境下进行操作，遇到的问题。于是，使用网络封包分析工具Charles模拟慢速网络。选择Throttle present：56 kbps Modem。此时，再切换页面，先切换到那个加载H5的页面，然后再来回切换其他几个页面，就会出现APP卡死的情况。(这里需要说明的是其他切换的页面有4个同样是加载H5页面，一共有8个主界面)。</p>
 <p>现在问题基本可以明确了，每次加载H5页面时都要初始化webView导致了程序内存消耗过大，造成APP卡死。</p>
 <h2 id="控制台报错"><a href="#控制台报错" class="headerlink" title="控制台报错"></a>控制台报错</h2><p>调试时，在程序频繁切换刷新页面直至卡死阶段，控制台一直报错，主要报错如下：</p>
-<p>###1. <strong>Domain=NSURLErrorDomain Code=-999</strong></p>
-<pre><code class="objectivec">&lt;LZoutsourceViewController.m : 226&gt; -[LZoutsourceViewController webView:didFailProvisionalNavigation:withError:]
+<h3 id="1-Domain-NSURLErrorDomain-Code-999"><a href="#1-Domain-NSURLErrorDomain-Code-999" class="headerlink" title="1. Domain=NSURLErrorDomain Code=-999"></a>1. <strong>Domain=NSURLErrorDomain Code=-999</strong></h3><pre><code class="objectivec">&lt;LZoutsourceViewController.m : 226&gt; -[LZoutsourceViewController webView:didFailProvisionalNavigation:withError:]
 2018-01-31 21:02:22.084257+0800 CloudOfficeTest[9230:4603782] error:Error Domain=NSURLErrorDomain Code=-999 &quot;(null)&quot; UserInfo={NSErrorFailingURLStringKey=http://test.net/h5/zskt/spkt.html? _WKRecoveryAttempterErrorKey=&lt;WKReloadFrameErrorRecoveryAttempter: 0x1c0822d20&gt;}
 </code></pre>
-<p>###2. <strong>NSURLConnection finished with error - code -1002</strong></p>
-<pre><code class="objectivec">2018-01-31 21:35:56.144596+0800 CloudOfficeTest[9301:4618465] NSURLConnection finished with error - code -1002
+<h3 id="2-NSURLConnection-finished-with-error-code-1002"><a href="#2-NSURLConnection-finished-with-error-code-1002" class="headerlink" title="2. NSURLConnection finished with error - code -1002"></a>2. <strong>NSURLConnection finished with error - code -1002</strong></h3><pre><code class="objectivec">2018-01-31 21:35:56.144596+0800 CloudOfficeTest[9301:4618465] NSURLConnection finished with error - code -1002
 2018-01-31 21:36:02.742996+0800 CloudOfficeTest[9301:4618815] TIC TCP Conn Failed [14:0x1c41702c0]: 3:-9802 Err(-9802)
 </code></pre>
-<p>###3. <strong>failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</strong></p>
-<pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
+<h3 id="3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><a href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode" class="headerlink" title="3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode"></a>3. <strong>failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</strong></h3><pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
 <p>其中，前两个错误都有错误码，分别对应</p>
 <blockquote>
@@ -554,15 +551,13 @@
 </code></pre>
 <p>这个方法主要用于处理UIWebView与JS交互的，到目前为止，仍然不能定位到究竟是UIWebView与JS交互时发生了什么？才导致报这个错误。只是隐隐的感觉到可能和初始化UIWebView时的内存消耗有关，毕竟WKWebView的内存消耗相比UIWebView低了一个数量级。</p>
 <p>于是，索性就将加载会卡顿的页面替换为WKWebView来加载H5，但替换过程中遇到了一些问题。</p>
-<h2 id="替换UIWebView为WKWebView中遇到的问题及解决方法"><a href="#替换UIWebView为WKWebView中遇到的问题及解决方法" class="headerlink" title="替换UIWebView为WKWebView中遇到的问题及解决方法"></a>替换UIWebView为WKWebView中遇到的问题及解决方法</h2><p>###1. 替换原有的JS交互方法为:</p>
-<pre><code class="objectivec"> [_jsBridge registerHandler:@&quot;openWalletAction&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
+<h2 id="替换UIWebView为WKWebView中遇到的问题及解决方法"><a href="#替换UIWebView为WKWebView中遇到的问题及解决方法" class="headerlink" title="替换UIWebView为WKWebView中遇到的问题及解决方法"></a>替换UIWebView为WKWebView中遇到的问题及解决方法</h2><h3 id="1-替换原有的JS交互方法为"><a href="#1-替换原有的JS交互方法为" class="headerlink" title="1. 替换原有的JS交互方法为:"></a>1. 替换原有的JS交互方法为:</h3><pre><code class="objectivec"> [_jsBridge registerHandler:@&quot;openWalletAction&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
         [weakSelf openWalletAction];
         responseCallback(@&quot;Response from closefullCallback&quot;);
  }];
 </code></pre>
 <p>加载H5页面时闪退。</p>
-<p>###2. 无法同步WKWebView的Cookie   </p>
-<h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
+<h3 id="2-无法同步WKWebView的Cookie"><a href="#2-无法同步WKWebView的Cookie" class="headerlink" title="2. 无法同步WKWebView的Cookie"></a>2. 无法同步WKWebView的Cookie</h3><h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
 <h2 id="WebView性能优化总结"><a href="#WebView性能优化总结" class="headerlink" title="WebView性能优化总结"></a>WebView性能优化总结</h2><p>一个加载网页的过程中，native、网络、后端处理、CPU都会参与，各自都有必要的工作和依赖关系；让他们相互并行处理而不是相互阻塞才可以让网页加载更快：</p>
 <ul>
 <li>WebView初始化慢，可以在初始化同时先请求数据，让后端和网络不要闲着。</li>

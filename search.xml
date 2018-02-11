@@ -15,16 +15,13 @@
 <h2 id="问题的复现"><a href="#问题的复现" class="headerlink" title="问题的复现"></a>问题的复现</h2><p>这时考虑到用户应该是在弱网环境下进行操作，遇到的问题。于是，使用网络封包分析工具Charles模拟慢速网络。选择Throttle present：56 kbps Modem。此时，再切换页面，先切换到那个加载H5的页面，然后再来回切换其他几个页面，就会出现APP卡死的情况。(这里需要说明的是其他切换的页面有4个同样是加载H5页面，一共有8个主界面)。</p>
 <p>现在问题基本可以明确了，每次加载H5页面时都要初始化webView导致了程序内存消耗过大，造成APP卡死。</p>
 <h2 id="控制台报错"><a href="#控制台报错" class="headerlink" title="控制台报错"></a>控制台报错</h2><p>调试时，在程序频繁切换刷新页面直至卡死阶段，控制台一直报错，主要报错如下：</p>
-<p>###1. <strong>Domain=NSURLErrorDomain Code=-999</strong></p>
-<pre><code class="objectivec">&lt;LZoutsourceViewController.m : 226&gt; -[LZoutsourceViewController webView:didFailProvisionalNavigation:withError:]
+<h3 id="1-Domain-NSURLErrorDomain-Code-999"><a href="#1-Domain-NSURLErrorDomain-Code-999" class="headerlink" title="1. Domain=NSURLErrorDomain Code=-999"></a>1. <strong>Domain=NSURLErrorDomain Code=-999</strong></h3><pre><code class="objectivec">&lt;LZoutsourceViewController.m : 226&gt; -[LZoutsourceViewController webView:didFailProvisionalNavigation:withError:]
 2018-01-31 21:02:22.084257+0800 CloudOfficeTest[9230:4603782] error:Error Domain=NSURLErrorDomain Code=-999 &quot;(null)&quot; UserInfo={NSErrorFailingURLStringKey=http://test.net/h5/zskt/spkt.html? _WKRecoveryAttempterErrorKey=&lt;WKReloadFrameErrorRecoveryAttempter: 0x1c0822d20&gt;}
 </code></pre>
-<p>###2. <strong>NSURLConnection finished with error - code -1002</strong></p>
-<pre><code class="objectivec">2018-01-31 21:35:56.144596+0800 CloudOfficeTest[9301:4618465] NSURLConnection finished with error - code -1002
+<h3 id="2-NSURLConnection-finished-with-error-code-1002"><a href="#2-NSURLConnection-finished-with-error-code-1002" class="headerlink" title="2. NSURLConnection finished with error - code -1002"></a>2. <strong>NSURLConnection finished with error - code -1002</strong></h3><pre><code class="objectivec">2018-01-31 21:35:56.144596+0800 CloudOfficeTest[9301:4618465] NSURLConnection finished with error - code -1002
 2018-01-31 21:36:02.742996+0800 CloudOfficeTest[9301:4618815] TIC TCP Conn Failed [14:0x1c41702c0]: 3:-9802 Err(-9802)
 </code></pre>
-<p>###3. <strong>failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</strong></p>
-<pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
+<h3 id="3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><a href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode" class="headerlink" title="3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode"></a>3. <strong>failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</strong></h3><pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
 <p>其中，前两个错误都有错误码，分别对应</p>
 <blockquote>
@@ -51,15 +48,13 @@
 </code></pre>
 <p>这个方法主要用于处理UIWebView与JS交互的，到目前为止，仍然不能定位到究竟是UIWebView与JS交互时发生了什么？才导致报这个错误。只是隐隐的感觉到可能和初始化UIWebView时的内存消耗有关，毕竟WKWebView的内存消耗相比UIWebView低了一个数量级。</p>
 <p>于是，索性就将加载会卡顿的页面替换为WKWebView来加载H5，但替换过程中遇到了一些问题。</p>
-<h2 id="替换UIWebView为WKWebView中遇到的问题及解决方法"><a href="#替换UIWebView为WKWebView中遇到的问题及解决方法" class="headerlink" title="替换UIWebView为WKWebView中遇到的问题及解决方法"></a>替换UIWebView为WKWebView中遇到的问题及解决方法</h2><p>###1. 替换原有的JS交互方法为:</p>
-<pre><code class="objectivec"> [_jsBridge registerHandler:@&quot;openWalletAction&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
+<h2 id="替换UIWebView为WKWebView中遇到的问题及解决方法"><a href="#替换UIWebView为WKWebView中遇到的问题及解决方法" class="headerlink" title="替换UIWebView为WKWebView中遇到的问题及解决方法"></a>替换UIWebView为WKWebView中遇到的问题及解决方法</h2><h3 id="1-替换原有的JS交互方法为"><a href="#1-替换原有的JS交互方法为" class="headerlink" title="1. 替换原有的JS交互方法为:"></a>1. 替换原有的JS交互方法为:</h3><pre><code class="objectivec"> [_jsBridge registerHandler:@&quot;openWalletAction&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
         [weakSelf openWalletAction];
         responseCallback(@&quot;Response from closefullCallback&quot;);
  }];
 </code></pre>
 <p>加载H5页面时闪退。</p>
-<p>###2. 无法同步WKWebView的Cookie   </p>
-<h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
+<h3 id="2-无法同步WKWebView的Cookie"><a href="#2-无法同步WKWebView的Cookie" class="headerlink" title="2. 无法同步WKWebView的Cookie"></a>2. 无法同步WKWebView的Cookie</h3><h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
 <h2 id="WebView性能优化总结"><a href="#WebView性能优化总结" class="headerlink" title="WebView性能优化总结"></a>WebView性能优化总结</h2><p>一个加载网页的过程中，native、网络、后端处理、CPU都会参与，各自都有必要的工作和依赖关系；让他们相互并行处理而不是相互阻塞才可以让网页加载更快：</p>
 <ul>
 <li>WebView初始化慢，可以在初始化同时先请求数据，让后端和网络不要闲着。</li>
@@ -3644,6 +3639,18 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -3651,18 +3658,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#100;&#x65;&#118;&#x65;&#108;&#x6f;&#112;&#101;&#x72;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#100;&#x65;&#118;&#x65;&#108;&#x6f;&#112;&#101;&#x72;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#100;&#101;&#x76;&#101;&#x6c;&#x6f;&#112;&#x65;&#114;&#112;&#101;&#x6e;&#x67;&#x68;&#x65;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#109;">&#100;&#101;&#x76;&#101;&#x6c;&#x6f;&#112;&#x65;&#114;&#112;&#101;&#x6e;&#x67;&#x68;&#x65;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
@@ -3812,12 +3813,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
