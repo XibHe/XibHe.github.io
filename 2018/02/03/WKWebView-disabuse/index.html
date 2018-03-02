@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sat Feb 03 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sun Feb 11 2018 21:16:04 GMT+0800">
+        <meta property="article:modified_time" content="Fri Mar 02 2018 16:37:37 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/02/03/WKWebView-disabuse/index.html",
     "headline": "使用WKWebView进行性能调优",
     "datePublished": "Sat Feb 03 2018 00:00:00 GMT+0800",
-    "dateModified": "Sun Feb 11 2018 21:16:04 GMT+0800",
+    "dateModified": "Fri Mar 02 2018 16:37:37 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#走的弯路"><span class="post-toc-number">1.</span> <span class="post-toc-text">走的弯路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题的复现"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题的复现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制台报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">控制台报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Domain-NSURLErrorDomain-Code-999"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. Domain=NSURLErrorDomain Code=-999</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NSURLConnection-finished-with-error-code-1002"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. NSURLConnection finished with error - code -1002</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换UIWebView为WKWebView中遇到的问题及解决方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">替换UIWebView为WKWebView中遇到的问题及解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-替换原有的JS交互方法为"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">1. 替换原有的JS交互方法为:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-无法同步WKWebView的Cookie"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">2. 无法同步WKWebView的Cookie</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优化方案总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">优化方案总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebView性能优化总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">WebView性能优化总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#走的弯路"><span class="post-toc-number">1.</span> <span class="post-toc-text">走的弯路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题的复现"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题的复现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制台报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">控制台报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Domain-NSURLErrorDomain-Code-999"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. Domain=NSURLErrorDomain Code=-999</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NSURLConnection-finished-with-error-code-1002"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. NSURLConnection finished with error - code -1002</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体替换步骤"><span class="post-toc-number">4.</span> <span class="post-toc-text">具体替换步骤</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换UIWebView为WKWebView后遇到的问题及解决方法"><span class="post-toc-number">5.</span> <span class="post-toc-text">替换UIWebView为WKWebView后遇到的问题及解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1. 使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-WKWebView加载完网页后，点击里面的按钮，不跳转的问题。"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2. WKWebView加载完网页后，点击里面的按钮，不跳转的问题。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-如何同步WKWebView的Cookie"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3. 如何同步WKWebView的Cookie</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优化方案总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">优化方案总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebView性能优化总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">WebView性能优化总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -549,15 +549,180 @@
 
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id&lt;WebPolicyDecisionListener&gt;)listener
 </code></pre>
-<p>这个方法主要用于处理UIWebView与JS交互的，到目前为止，仍然不能定位到究竟是UIWebView与JS交互时发生了什么？才导致报这个错误。只是隐隐的感觉到可能和初始化UIWebView时的内存消耗有关，毕竟WKWebView的内存消耗相比UIWebView低了一个数量级。</p>
-<p>于是，索性就将加载会卡顿的页面替换为WKWebView来加载H5，但替换过程中遇到了一些问题。</p>
-<h2 id="替换UIWebView为WKWebView中遇到的问题及解决方法"><a href="#替换UIWebView为WKWebView中遇到的问题及解决方法" class="headerlink" title="替换UIWebView为WKWebView中遇到的问题及解决方法"></a>替换UIWebView为WKWebView中遇到的问题及解决方法</h2><h3 id="1-替换原有的JS交互方法为"><a href="#1-替换原有的JS交互方法为" class="headerlink" title="1. 替换原有的JS交互方法为:"></a>1. 替换原有的JS交互方法为:</h3><pre><code class="objectivec"> [_jsBridge registerHandler:@&quot;openWalletAction&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
-        [weakSelf openWalletAction];
-        responseCallback(@&quot;Response from closefullCallback&quot;);
- }];
+<p>这个方法是框架<strong><a href="https://github.com/marcuswestin/WebViewJavascriptBridge" target="_blank" rel="external">WebViewJavascriptBridge</a></strong>中的方法，主要用于处理UIWebView与JS交互。到目前为止，仍然不能定位到究竟是UIWebView与JS交互时发生了什么？才导致报这个错误。只是隐隐的感觉到可能和初始化UIWebView时的内存消耗有关，毕竟WKWebView的内存消耗相比UIWebView低了一个数量级。于是，将加载会卡顿的页面替换为<strong>WKWebView</strong>来加载H5页面，通过降低频繁初始化消耗的内存，减少页面卡死的概率。但在替换后遇到一些比较棘手的问题。</p>
+<h2 id="具体替换步骤"><a href="#具体替换步骤" class="headerlink" title="具体替换步骤"></a>具体替换步骤</h2><ul>
+<li>引入WKWebView的代理，生成<strong>WKWebViewJavascriptBridge</strong>桥接对象</li>
+</ul>
+<pre><code class="objectivec">#import &quot;WKWebViewJavascriptBridge.h&quot;
+#import &quot;LZWKWebKitSupport.h&quot;
+
+@interface LZPartnerMainViewController ()&lt;WKNavigationDelegate&gt;
+
+@property WKWebViewJavascriptBridge *jsBridge;
+/**WKWebView**/
+@property (nonatomic, strong) WKWebView *wkWebView;
 </code></pre>
-<p>加载H5页面时闪退。</p>
-<h3 id="2-无法同步WKWebView的Cookie"><a href="#2-无法同步WKWebView的Cookie" class="headerlink" title="2. 无法同步WKWebView的Cookie"></a>2. 无法同步WKWebView的Cookie</h3><h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
+<ul>
+<li>初始化WKWebView</li>
+</ul>
+<pre><code class="objectivec">- (void)viewDidLoad 
+{
+_wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
+[_wkWebView addObserver:self forKeyPath:@&quot;estimatedProgress&quot; options:NSKeyValueObservingOptionNew context:nil];
+[self.view addSubview:_wkWebView];
+
+self.jsBridge = [WKWebViewJavascriptBridge bridgeForWebView:_wkWebView];
+[self.jsBridge setWebViewDelegate:self];
+
+// 使用WKWebViewJavascriptBridge进行桥接，OC端注册方法，由js端进行调用
+    [_jsBridge registerHandler:@&quot;testObjcCallback&quot; handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@&quot;data:%@&quot;,data);
+        NSString *urlStr = nil;
+        NSString *processIsTop = nil;
+        if ([data isKindOfClass:[NSString class]]) {
+            urlStr = data;
+        }else{
+            NSDictionary *dic = data;
+            urlStr = dic[@&quot;url&quot;];
+            processIsTop = dic[@&quot;processIsTop&quot;];
+        }
+        responseCallback(@&quot;Response from testObjcCallback&quot;);
+    }];
+}
+</code></pre>
+<p>注意，这里通过<strong>LZWKWebKitSupport</strong>来初始化一个<strong>WkWebView</strong>是为了同步Cookie，后面会具体说到为什么要同步Cookie及如何同步。</p>
+<ul>
+<li>设置WkWebView的代理方法</li>
+</ul>
+<pre><code class="objectivec">#pragma mark - WKNavigationDelegate
+// 开始加载
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
+{
+    self.loadingView.hidden = NO;
+    NSLog(@&quot;didCommitNavigation&quot;);
+}
+
+// 加载完成
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    self.loadingView.hidden = YES;
+    NSLog(@&quot;didFinishNavigation&quot;);
+}
+
+// 加载失败
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
+{
+    // code = -999
+    if ([error code] == NSURLErrorCancelled) {
+        return;
+    }
+    NSLog(@&quot;didFailProvisionalNavigation error.code = %ld&quot;,error.code);
+}
+
+#pragma mark - wkwebviewDelegate
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+//接收到服务器响应 后决定是否允许跳转，主要用来处理请求失败的情况。
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
+{
+    decisionHandler(WKNavigationResponsePolicyAllow);
+    NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
+
+    // 读取cookies
+    NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+
+    if (response.statusCode &amp;&amp; response.statusCode != 200) {
+        LZErrorHintType type = LZErrorHintType404;
+        if (![[Singleton shareInstance] hasNet]) {
+            type = LZErrorHintTypeNet;
+        }
+        __weak typeof(self) weakSelf = self;
+        if (!_errorView) {
+            //弹出错误界面，点击刷新按钮刷新界面
+            LZErrorHintView *errorView = [[LZErrorHintView alloc] initWithFrame:self.view.bounds type:type refreshBlock:^{
+                [weakSelf loadHTMLPage];
+            }];
+            weakSelf.errorView = errorView;
+            [self.view addSubview:errorView];
+        }
+        return;
+    }
+    if ([[Singleton shareInstance] hasNet]) {
+        if (_errorView) {
+            [_errorView removeFromSuperview];
+            _errorView = nil;
+        }
+    }else{
+        if(!_errorView){
+            __weak typeof(self) weakSelf = self;
+            LZErrorHintView *errorView = [[LZErrorHintView alloc] initWithFrame:self.view.bounds type:LZErrorHintTypeNet refreshBlock:^{
+                [weakSelf viewWillAppear:YES];
+            }];
+            _errorView = errorView;
+            errorView.tag = 2200;
+            [self.view addSubview:errorView];
+        }
+    }
+}
+</code></pre>
+<h2 id="替换UIWebView为WKWebView后遇到的问题及解决方法"><a href="#替换UIWebView为WKWebView后遇到的问题及解决方法" class="headerlink" title="替换UIWebView为WKWebView后遇到的问题及解决方法"></a>替换UIWebView为WKWebView后遇到的问题及解决方法</h2><h3 id="1-使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。"><a href="#1-使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。" class="headerlink" title="1. 使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。"></a>1. 使用<strong>WKWebViewJavascriptBridge</strong>进行桥接时，加载H5页面闪退。</h3><p>这里需要更新<strong>WebViewJavaScriptBridge</strong>桥接框架中WKWebView的桥接方法，</p>
+<pre><code class="objectivec">- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (webView != _webView) { return; }
+    NSURL *url = navigationAction.request.URL;
+    __strong typeof(_webViewDelegate) strongDelegate = _webViewDelegate;
+
+    if ([_base isWebViewJavascriptBridgeURL:url]) {
+        if ([_base isBridgeLoadedURL:url]) {
+            [_base injectJavascriptFile];
+        } else if ([_base isQueueMessageURL:url]) {
+            [self WKFlushMessageQueue];
+        } else {
+            [_base logUnkownMessage:url];
+        }
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return; 
+        // 对比之前的方法，这个地方多了一个return
+    }
+
+    if (strongDelegate &amp;&amp; [strongDelegate respondsToSelector:@selector(webView:decidePolicyForNavigationAction:decisionHandler:)]) {
+        [_webViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
+    } else {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
+}
+</code></pre>
+<h3 id="2-WKWebView加载完网页后，点击里面的按钮，不跳转的问题。"><a href="#2-WKWebView加载完网页后，点击里面的按钮，不跳转的问题。" class="headerlink" title="2. WKWebView加载完网页后，点击里面的按钮，不跳转的问题。"></a>2. WKWebView加载完网页后，点击里面的按钮，不跳转的问题。</h3><p>设置WKWebView的另一个代理WKUIDelegate，从名称能看出它是webView在user interface上的代理，</p>
+<pre><code class="objectivec">// 创建新的webView
+// 可以指定配置对象、导航动作对象、window特性。如果没用实现这个方法，不会加载链接，如果返回的是原webview会崩溃。
+-(WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
+{
+if (!navigationAction.targetFrame.isMainFrame) {
+    [webView loadRequest:navigationAction.request];
+}
+    return nil;
+}
+</code></pre>
+<p>要调用下面的方法是有条件的，WKNavigationDelegate中的该方法是用户点击网页上的链接，需打开新页面时，将先调，是否允许跳转到链接。</p>
+<pre><code class="objectivec">- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler｛
+ WKFrameInfo *sFrame = navigationAction.sourceFrame;//navigationAction的出处
+ WKFrameInfo *tFrame = navigationAction.targetFrame;//navigationAction的目标
+//只有当  tFrame.mainFrame == NO；时，表明这个 WKNavigationAction 将会新开一个页面。
+// 才会调用createWebViewWithConfiguration这个代理方法。
+｝
+</code></pre>
+<p>这样就新开一个webView，如果我们只是显示网页，这样会消耗性能，没有必要。</p>
+<h3 id="3-如何同步WKWebView的Cookie"><a href="#3-如何同步WKWebView的Cookie" class="headerlink" title="3. 如何同步WKWebView的Cookie"></a>3. <font color="#esww">如何同步WKWebView的Cookie</font></h3><p>在将UIWebView替换为WKWebView后加载速度提高了，页面卡死的问题基本没有再出现过。但遇到了一个更加棘手的问题，之前使用的是UIWebView，它会对首次加载H5页面后的用户登录信息进行同步，这样我由当前的H5页面跳转到一个新的UIWebView进行请求时，会自动找到上个页面同步的用户信息，从而加载当前用户对应的内容。</p>
+<blockquote>
+<p><strong>WKWebView Cookie 问题在于 WKWebView 发起的请求不会自动带上存储于 NSHTTPCookieStorage 容器中的 Cookie。</strong></p>
+</blockquote>
+<p>因此，如何实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie</strong>（session Cookie and persistent Cookie）数据。是决定能否继续使用<strong>WKWebView</strong>的关键。如果不能解决这个问题，就只能再继续使用之前的 <strong>UIWebView</strong> 了。</p>
+<h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
 <h2 id="WebView性能优化总结"><a href="#WebView性能优化总结" class="headerlink" title="WebView性能优化总结"></a>WebView性能优化总结</h2><p>一个加载网页的过程中，native、网络、后端处理、CPU都会参与，各自都有必要的工作和依赖关系；让他们相互并行处理而不是相互阻塞才可以让网页加载更快：</p>
 <ul>
 <li>WebView初始化慢，可以在初始化同时先请求数据，让后端和网络不要闲着。</li>
@@ -573,6 +738,7 @@
 <p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">webView:decidePolicyForNavigationAction:decisionHandler:</a></p>
 <p><a href="https://mp.weixin.qq.com/s/rhYKLIbXOsUJC_n6dt9UfA" target="_blank" rel="external">WKWebView 那些坑</a></p>
 <p><a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+<p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">Developer wknavigationdelegate documentation</a></p>
 <p>未完，待续……</p>
 
         
