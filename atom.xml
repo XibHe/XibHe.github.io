@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-03-03T08:27:39.000Z</updated>
+  <updated>2018-03-03T08:52:50.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/02/03/WKWebView-disabuse/"/>
     <id>http://XibHe.github.io/2018/02/03/WKWebView-disabuse/</id>
     <published>2018-02-02T16:00:00.000Z</published>
-    <updated>2018-03-03T08:27:39.000Z</updated>
+    <updated>2018-03-03T08:52:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。</p>
 <h2 id="走的弯路"><a href="#走的弯路" class="headerlink" title="走的弯路"></a>走的弯路</h2><p>最开始时并没有意识到是webView的原因，反而因为前几天刚解决了一个UI线程的bug，将这个卡顿问题主观上当做线程问题去解决。基于此做了以下操作：</p>
@@ -249,9 +249,9 @@ if (!navigationAction.targetFrame.isMainFrame) {
 <p>看来以后搜索技术文章，不能太片面了，一定要结合一些大厂的权威技术文章来具体分析。</p>
 <p>下一步，就是如何在发起请求时注入 通过 <strong>NSHTTPCookieStorage</strong> 获取的<strong>Cookie</strong>。网上关于 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 注入方法有以下几种:</p>
 <ol>
-<li><p><strong>JS 注入</strong> —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
+<li><p>JS 注入 —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
 </li>
-<li><p><strong>WKHTTPCookieStore</strong> —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+<li><p>WKHTTPCookieStore —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
 </li>
 <li><p>利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
 </li>

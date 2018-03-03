@@ -232,9 +232,9 @@ if (!navigationAction.targetFrame.isMainFrame) {
 <p>看来以后搜索技术文章，不能太片面了，一定要结合一些大厂的权威技术文章来具体分析。</p>
 <p>下一步，就是如何在发起请求时注入 通过 <strong>NSHTTPCookieStorage</strong> 获取的<strong>Cookie</strong>。网上关于 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 注入方法有以下几种:</p>
 <ol>
-<li><p><strong>JS 注入</strong> —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
+<li><p>JS 注入 —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
 </li>
-<li><p><strong>WKHTTPCookieStore</strong> —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+<li><p>WKHTTPCookieStore —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
 </li>
 <li><p>利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
 </li>
@@ -2806,9 +2806,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -2897,9 +2897,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -3996,7 +3996,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#x65;&#x76;&#101;&#108;&#111;&#x70;&#x65;&#114;&#x70;&#x65;&#x6e;&#103;&#104;&#x65;&#64;&#x31;&#54;&#51;&#46;&#99;&#111;&#109;">&#100;&#x65;&#x76;&#101;&#108;&#111;&#x70;&#x65;&#114;&#x70;&#x65;&#x6e;&#103;&#104;&#x65;&#64;&#x31;&#54;&#51;&#46;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x64;&#x65;&#x76;&#x65;&#108;&#111;&#112;&#x65;&#x72;&#x70;&#x65;&#x6e;&#103;&#104;&#101;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;">&#x64;&#x65;&#x76;&#x65;&#108;&#111;&#112;&#x65;&#x72;&#x70;&#x65;&#x6e;&#103;&#104;&#101;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
