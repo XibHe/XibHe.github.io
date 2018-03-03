@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sat Feb 03 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Fri Mar 02 2018 16:37:37 GMT+0800">
+        <meta property="article:modified_time" content="Sat Mar 03 2018 16:27:39 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/02/03/WKWebView-disabuse/index.html",
     "headline": "使用WKWebView进行性能调优",
     "datePublished": "Sat Feb 03 2018 00:00:00 GMT+0800",
-    "dateModified": "Fri Mar 02 2018 16:37:37 GMT+0800",
+    "dateModified": "Sat Mar 03 2018 16:27:39 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#走的弯路"><span class="post-toc-number">1.</span> <span class="post-toc-text">走的弯路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题的复现"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题的复现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制台报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">控制台报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Domain-NSURLErrorDomain-Code-999"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. Domain=NSURLErrorDomain Code=-999</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NSURLConnection-finished-with-error-code-1002"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. NSURLConnection finished with error - code -1002</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体替换步骤"><span class="post-toc-number">4.</span> <span class="post-toc-text">具体替换步骤</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换UIWebView为WKWebView后遇到的问题及解决方法"><span class="post-toc-number">5.</span> <span class="post-toc-text">替换UIWebView为WKWebView后遇到的问题及解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1. 使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-WKWebView加载完网页后，点击里面的按钮，不跳转的问题。"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2. WKWebView加载完网页后，点击里面的按钮，不跳转的问题。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-如何同步WKWebView的Cookie"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3. 如何同步WKWebView的Cookie</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优化方案总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">优化方案总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebView性能优化总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">WebView性能优化总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#走的弯路"><span class="post-toc-number">1.</span> <span class="post-toc-text">走的弯路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题的复现"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题的复现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制台报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">控制台报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Domain-NSURLErrorDomain-Code-999"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. Domain=NSURLErrorDomain Code=-999</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NSURLConnection-finished-with-error-code-1002"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. NSURLConnection finished with error - code -1002</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-failed-to-return-after-waiting-10-seconds-main-run-loop-mode-kCFRunLoopDefaultMode"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体替换步骤"><span class="post-toc-number">4.</span> <span class="post-toc-text">具体替换步骤</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#替换UIWebView为WKWebView后遇到的问题及解决方法"><span class="post-toc-number">5.</span> <span class="post-toc-text">替换UIWebView为WKWebView后遇到的问题及解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1. 使用WKWebViewJavascriptBridge进行桥接时，加载H5页面闪退。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-WKWebView加载完网页后，点击里面的按钮，不跳转的问题。"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2. WKWebView加载完网页后，点击里面的按钮，不跳转的问题。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-如何同步WKWebView的Cookie"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3. 如何同步WKWebView的Cookie</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通过-WKProcessPool-实现多个-WKWebView-之间共享-Cookie"><span class="post-toc-number">6.</span> <span class="post-toc-text">通过 WKProcessPool 实现多个 WKWebView 之间共享 Cookie</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-新建一个名为-LZWKWebKitSupport-的类，用于生成一个统一的，全局使用同一个-WKProcessPool-的-WKWebView-对象。"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">1. 新建一个名为 LZWKWebKitSupport 的类，用于生成一个统一的，全局使用同一个 WKProcessPool 的 WKWebView 对象。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-在加载H5的地方初始化-LZWKWebKitSupport，并在-WKNavigationDelegate-中获取-cookie，并设置到本地。"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">2. 在加载H5的地方初始化 LZWKWebKitSupport，并在 WKNavigationDelegate 中获取 cookie，并设置到本地。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-在从第一个H5页面跳转至第二个H5页面时，在发起请求时注入Cookie。"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">3. 在从第一个H5页面跳转至第二个H5页面时，在发起请求时注入Cookie。</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebView性能优化总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">WebView性能优化总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -717,12 +717,194 @@ if (!navigationAction.targetFrame.isMainFrame) {
 ｝
 </code></pre>
 <p>这样就新开一个webView，如果我们只是显示网页，这样会消耗性能，没有必要。</p>
-<h3 id="3-如何同步WKWebView的Cookie"><a href="#3-如何同步WKWebView的Cookie" class="headerlink" title="3. 如何同步WKWebView的Cookie"></a>3. <font color="#esww">如何同步WKWebView的Cookie</font></h3><p>在将UIWebView替换为WKWebView后加载速度提高了，页面卡死的问题基本没有再出现过。但遇到了一个更加棘手的问题，之前使用的是UIWebView，它会对首次加载H5页面后的用户登录信息进行同步，这样我由当前的H5页面跳转到一个新的UIWebView进行请求时，会自动找到上个页面同步的用户信息，从而加载当前用户对应的内容。</p>
+<h3 id="3-如何同步WKWebView的Cookie"><a href="#3-如何同步WKWebView的Cookie" class="headerlink" title="3. 如何同步WKWebView的Cookie"></a>3. <font color="#FF0000">如何同步WKWebView的Cookie</font></h3><p>在将UIWebView替换为WKWebView后加载速度提高了，页面卡死的问题基本没有再出现过。但遇到了一个更加棘手的问题，之前使用的是UIWebView，它会对首次加载H5页面后的用户登录信息进行同步，这样我由当前的H5页面跳转到一个新的UIWebView进行请求时，会自动找到上个页面同步的用户信息，从而加载当前用户对应的内容。</p>
 <blockquote>
 <p><strong>WKWebView Cookie 问题在于 WKWebView 发起的请求不会自动带上存储于 NSHTTPCookieStorage 容器中的 Cookie。</strong></p>
 </blockquote>
-<p>因此，如何实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie</strong>（session Cookie and persistent Cookie）数据。是决定能否继续使用<strong>WKWebView</strong>的关键。如果不能解决这个问题，就只能再继续使用之前的 <strong>UIWebView</strong> 了。</p>
-<h2 id="优化方案总结"><a href="#优化方案总结" class="headerlink" title="优化方案总结"></a>优化方案总结</h2><p>列举程序中有哪些页面用到了webView，哪些用到了WKWebView，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用WkWebView加载，剩下的使用的是UIWebView加载页面，产生卡顿问题的页面是用UIWebView加载的H5。</p>
+<p>因此，如何实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie</strong>（session Cookie and persistent Cookie）数据。是决定能否继续使用<strong>WKWebView</strong>的关键。如果不能解决这个问题，就只能再继续使用之前的 <strong>UIWebView</strong> 了，之前所做的一切都没有用处了。</p>
+<p>解决多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie</strong> 的问题，首先要弄明白三个问题？</p>
+<ol>
+<li><strong>WKWebView</strong> 与 <strong>webView</strong> 在 <strong>Cookie</strong> 设置，读取上有什么不同？</li>
+<li><strong>WKWebView</strong> 会将对应的 <strong>Cookie</strong> 存在什么地方？</li>
+<li>如何取到 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 并将其注入到要访问的下一个 <strong>WKWebView</strong> 中？</li>
+</ol>
+<p>结合以上三个问题，在网上搜索很多关于 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 存储在什么地方？ 这些资料普遍认为 <strong>WKWebView</strong> 拥有自己的私有存储，不会将 <strong>Cookie</strong> 存入到标准的 <strong>Cookie</strong> 容器 <strong>NSHTTPCookieStorage</strong> 中。但在实际项目中，却发现 <strong>WKWebView</strong> 实例可以读取到存储于 <strong>NSHTTPCookieStorage</strong> 中的 <strong>Cookie</strong>。最后，看到了<a href="https://bugly.qq.com/v2/" target="_blank" rel="external">腾讯Bugly</a>的一篇技术文章 —- <a href="https://mp.weixin.qq.com/s/rhYKLIbXOsUJC_n6dt9UfA" target="_blank" rel="external">WKWebView 那些坑</a>，也印证了我的观点。</p>
+<blockquote>
+<p>实践发现 WKWebView 实例其实也会将 Cookie 存储于 NSHTTPCookieStorage 中，但存储时机有延迟，在iOS 8上，当页面跳转的时候，当前页面的 Cookie 会写入 NSHTTPCookieStorage 中，而在 iOS 10 上，JS 执行 document.cookie 或服务器 set-cookie 注入的 Cookie 会很快同步到 NSHTTPCookieStorage 中。</p>
+</blockquote>
+<p>看来以后搜索技术文章，不能太片面了，一定要结合一些大厂的权威技术文章来具体分析。</p>
+<p>下一步，就是如何在发起请求时注入 通过 <strong>NSHTTPCookieStorage</strong> 获取的<strong>Cookie</strong>。网上关于 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 注入方法有以下几种:</p>
+<ol>
+<li><p><strong>JS 注入</strong> —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
+</li>
+<li><p><strong>WKHTTPCookieStore</strong> —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+</li>
+<li><p>利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+</li>
+<li><p>通过让所有 <strong>WKWebView</strong> 共享同一个 <strong>WKProcessPool</strong> 实例，可以实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie（session Cookie and persistent Cookie）</strong> 数据。不过 <strong>WKWebView WKProcessPool</strong> 实例在 app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</p>
+</li>
+</ol>
+<p>方法1，经过测试行不通，可能是后台读取 <strong>Cookie</strong> 的方式有问题；方法2，是 <strong>iOS 11</strong> 的 <strong>API</strong> ，不具有普适性；方法3，在测试时无法通过 <strong>url</strong> 匹配到 <strong>Cookie</strong>；最后，只剩下方法4了，需要注意在特殊场景下 <strong>Cookie</strong> 丢失的情况：</p>
+<blockquote>
+<p>app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</p>
+</blockquote>
+<p>但以我们的应用为例，哪怕是主动杀进程，重新打开应用；还是应用突然闪退，重新打开应用。首次加载某个含有用户登录验证的H5页面时，需要在发起请求的地方拼上用户特定信息的参数，因此，即使之前存储的 <strong>Cookie</strong> 数据丢失了，也会在首次加载时重新获取。如下：</p>
+<pre><code class="objectivec">Singleton *sin = [Singleton shareInstance];
+NSString *baseIpPort = [LZUserDefaults objectForKey:PreferenceKey_SystemInit_ZyPartnerIPPort];
+NSString *urlString = [[NSString stringWithFormat:@&quot;%@/test1/test2?Id=%@&amp;Name=%@&amp;Pid=%@&quot;,baseIpPort,sin.clinicId,[LZUserDefaults objectForKey:PreferenceKey_Name],[LZUserDefaults objectForKey:PreferenceKey_Pid]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+request.HTTPMethod = @&quot;POST&quot;;
+request.timeoutInterval = 15.0f;
+[_wkWebView loadRequest:request];
+</code></pre>
+<h2 id="通过-WKProcessPool-实现多个-WKWebView-之间共享-Cookie"><a href="#通过-WKProcessPool-实现多个-WKWebView-之间共享-Cookie" class="headerlink" title="通过 WKProcessPool 实现多个 WKWebView 之间共享 Cookie"></a>通过 WKProcessPool 实现多个 WKWebView 之间共享 Cookie</h2><h3 id="1-新建一个名为-LZWKWebKitSupport-的类，用于生成一个统一的，全局使用同一个-WKProcessPool-的-WKWebView-对象。"><a href="#1-新建一个名为-LZWKWebKitSupport-的类，用于生成一个统一的，全局使用同一个-WKProcessPool-的-WKWebView-对象。" class="headerlink" title="1. 新建一个名为 LZWKWebKitSupport 的类，用于生成一个统一的，全局使用同一个 WKProcessPool 的 WKWebView 对象。"></a>1. 新建一个名为 <strong>LZWKWebKitSupport</strong> 的类，用于生成一个统一的，全局使用同一个 <strong>WKProcessPool</strong> 的 <strong>WKWebView</strong> 对象。</h3><pre><code class="objectivec">// LZWKWebKitSupport.h
+
+#import &lt;Foundation/Foundation.h&gt;
+#import &lt;WebKit/WebKit.h&gt;
+
+@interface LZWKWebKitSupport : NSObject
+@property (nonatomic, strong,readonly) WKProcessPool *processPool;
++ (instancetype)sharedSupport;
++ (WKWebView *)createSharableWKWebView:(BOOL)isFullScreen isShowNav:(BOOL)showNav;
+@end
+</code></pre>
+<pre><code class="objectivec">// LZWKWebKitSupport.m
+#import &quot;LZWKWebKitSupport.h&quot;
+@interface LZWKWebKitSupport()
+@end
+
+@implementation LZWKWebKitSupport
++ (instancetype)sharedSupport {
+    static LZWKWebKitSupport *_instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        _instance = [LZWKWebKitSupport new];
+    });
+    return  _instance;
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.processPool = [WKProcessPool new];
+    }
+    return self;
+}
+
++ (WKWebView *)createSharableWKWebView:(BOOL)isFullScreen isShowNav:(BOOL)showNav
+{
+    WKUserContentController* userContentController = [WKUserContentController new];
+    NSMutableString *cookies = [NSMutableString string];
+    WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource:[cookies copy]                                                        injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+    [userContentController addUserScript:cookieScript];    
+    WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
+    // 一下两个属性是允许H5视频自动播放,并且全屏,可忽略
+    configuration.allowsInlineMediaPlayback = YES;
+    configuration.mediaPlaybackRequiresUserAction = NO;
+    // 全局使用同一个processPool
+    configuration.processPool = [[LZWKWebKitSupport sharedSupport] processPool];
+    configuration.userContentController = userContentController;
+    // 考虑到左侧菜单栏，需要设置webView的不同frame
+    WKWebView *wk_webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, y, width, height) configuration:configuration];
+
+    return wk_webView;
+}
+@end
+</code></pre>
+<h3 id="2-在加载H5的地方初始化-LZWKWebKitSupport，并在-WKNavigationDelegate-中获取-cookie，并设置到本地。"><a href="#2-在加载H5的地方初始化-LZWKWebKitSupport，并在-WKNavigationDelegate-中获取-cookie，并设置到本地。" class="headerlink" title="2. 在加载H5的地方初始化 LZWKWebKitSupport，并在 WKNavigationDelegate 中获取 cookie，并设置到本地。"></a>2. 在加载H5的地方初始化 <strong>LZWKWebKitSupport</strong>，并在 <strong>WKNavigationDelegate</strong> 中获取 <strong>cookie</strong>，并设置到本地。</h3><pre><code class="objectivec">// 初始化LZWKWebKitSupport
+- (void)viewDidLoad{
+_wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
+[self.view addSubview:_wkWebView];
+}
+</code></pre>
+<pre><code class="objectivec">#pragma mark - wkwebviewDelegate
+//接收到服务器响应 后决定是否允许跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
+{
+    decisionHandler(WKNavigationResponsePolicyAllow);
+    NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
+    // 读取cookie，并设置到本地
+    NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+}
+</code></pre>
+<h3 id="3-在从第一个H5页面跳转至第二个H5页面时，在发起请求时注入Cookie。"><a href="#3-在从第一个H5页面跳转至第二个H5页面时，在发起请求时注入Cookie。" class="headerlink" title="3. 在从第一个H5页面跳转至第二个H5页面时，在发起请求时注入Cookie。"></a>3. 在从第一个H5页面跳转至第二个H5页面时，在发起请求时注入Cookie。</h3><p>这里以跳转到 <strong>LZDetailViewController</strong> 页面为例，先是通过<strong>LZWKWebKitSupport</strong> 初始化一个 <strong>WKWebView</strong></p>
+<pre><code class="objectivec">// LZDetailViewController.m
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    //初始化视图
+    [self setUpSubViews];   
+}
+
+- (void)setUpSubViews{
+    _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:NO];
+    _wkWebView.UIDelegate = self;
+    [self.view addSubview:_wkWebView];
+    _jsBridge = [WKWebViewJavascriptBridge bridgeForWebView:_wkWebView];
+    [_jsBridge setWebViewDelegate:self];
+}
+</code></pre>
+<p>然后在加载请求时，注入之前设置的 <strong>Cookie</strong></p>
+<pre><code class="objectivec">- (void)loadUrl{
+    if (!_urlStr) {
+        return;
+    }
+
+    NSURL *url = [NSURL URLWithString:_urlStr];
+    NSMutableString *cookies = [NSMutableString string];
+    NSMutableURLRequest *requestObj = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0];
+    // 一般都只需要同步BJSESSIONID,可视不同需求自己做更改
+    NSString * BJSESSIONID;
+    // 获取本地所有的Cookie
+    NSArray *tmp = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    for (NSHTTPCookie * cookie in tmp) {
+        if ([cookie.name isEqualToString:@&quot;BJSESSIONID&quot;]) {
+            BJSESSIONID = cookie.value;
+            break;
+        }
+    }
+    if (BJSESSIONID.length) {
+        // 格式化Cookie
+        [cookies appendFormat:@&quot;BJSESSIONID=%@;&quot;,BJSESSIONID];
+    }
+    // 注入Cookie
+    [requestObj setValue:cookies forHTTPHeaderField:@&quot;Cookie&quot;];
+    // 加载请求
+    [self.wkWebView loadRequest:requestObj];
+}
+</code></pre>
+<p>通过以上三步就可以达到同步 <strong>Cookie</strong> 的目的，现在看来之前通过 <strong>JS脚本</strong> 注入 <strong>Cookie</strong> 失败，可能是由于后台需要同步 <strong>BJSESSIONID</strong>，而<strong>BJSESSIONID</strong> 是 <strong>HtppOnly</strong>，不允许通过js脚本修改。</p>
+<p>最后，需要特别注意的一点是：<font color="#FF0000">考虑在加载H5页前，是否需要清除某些H5页面的 <strong>Cookie</strong> ? </font></p>
+<p>这里对于我们的项目而言，加载的需要验证用户身份信息的H5页面，是需要清除 <strong>Cookie</strong> 的，因为用户的权限不同，所看到的界面就不同，在同一台设备下切换不同的用户时，如果不清除之前的 <strong>Cookie</strong>，所展示的就是上一个用户的信息。</p>
+<pre><code class="objectivec">- (void)deleteWKCookies
+{
+    // 清除WKWebView缓存的cookie(根据ip)
+    if ([[UIDevice currentDevice].systemVersion floatValue] &gt;= 9.0){
+
+        NSString *iPPort = [LZUserDefaults objectForKey:PreferenceKey_SystemInit_ZyIPPort];
+        NSArray *iPPortArray = [iPPort componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@&quot;/&quot;]];
+        NSString *recordIP;
+        if ([iPPortArray count] &gt; 2) {
+            recordIP = partnerIPPortArray[2];
+        }
+
+        WKWebsiteDataStore *dateStore = [WKWebsiteDataStore defaultDataStore];
+        [dateStore fetchDataRecordsOfTypes:[WKWebsiteDataStore allWebsiteDataTypes] completionHandler:^(NSArray&lt;WKWebsiteDataRecord *&gt; * __nonnull records) {
+            for (WKWebsiteDataRecord *record  in records)
+            {
+                // 以www.baidu.com为例，是否包含baidu.com
+                if ([recordIP containsString:record.displayName])
+                {
+                    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:record.dataTypes forDataRecords:@[record] completionHandler:^{
+                        NSLog(@&quot;Cookies for %@ deleted successfully&quot;,record.displayName);
+                    }];
+                }
+            }
+        }];
+    }
+}
+</code></pre>
 <h2 id="WebView性能优化总结"><a href="#WebView性能优化总结" class="headerlink" title="WebView性能优化总结"></a>WebView性能优化总结</h2><p>一个加载网页的过程中，native、网络、后端处理、CPU都会参与，各自都有必要的工作和依赖关系；让他们相互并行处理而不是相互阻塞才可以让网页加载更快：</p>
 <ul>
 <li>WebView初始化慢，可以在初始化同时先请求数据，让后端和网络不要闲着。</li>
@@ -733,13 +915,15 @@ if (!navigationAction.targetFrame.isMainFrame) {
 <li>DNS和链接慢，想办法复用客户端使用的域名和链接。</li>
 <li>脚本执行慢，可以把框架代码拆分出来，在请求页面之前就执行好。</li>
 </ul>
-<p>以上是美团点评技术团队关于<a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能优化</a>的总结。</p>
+<p>上面是美团点评技术团队关于<a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能优化</a>的总结。</p>
+<p>对比我们项目中有哪些页面用到了 <strong>UIWebView</strong>，哪些用到了 <strong>WKWebView</strong>，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用 <strong>WkWebView</strong> 加载，剩下的使用的是 <strong>UIWebView</strong> 加载页面，发生卡顿的页面多是频繁初始化 <strong>UIWebView</strong> 加载H5时发生的。</p>
+<p>这里我们的项目中使用<strong>UIWebView</strong> 和 <strong>WKWebView</strong> 的地方有很多，没有一个管理类去居中调控的话，后期维护起来会很耗时，而且很容易出现bug。下一步的优化就是要构建这样一种集构建，配置，分发，操控为一身的通用类。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能、体验分析与优化</a></p>
 <p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">webView:decidePolicyForNavigationAction:decisionHandler:</a></p>
 <p><a href="https://mp.weixin.qq.com/s/rhYKLIbXOsUJC_n6dt9UfA" target="_blank" rel="external">WKWebView 那些坑</a></p>
 <p><a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
 <p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">Developer wknavigationdelegate documentation</a></p>
-<p>未完，待续……</p>
+<p><a href="https://forums.developer.apple.com/thread/50057" target="_blank" rel="external">WKWebView and UIWebView Cookie</a></p>
 
         
     
