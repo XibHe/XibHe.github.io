@@ -7,14 +7,9 @@
       <url>/2018/02/03/WKWebView-disabuse/</url>
       <content type="html"><![CDATA[<p>最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。</p>
 <h2 id="错误的尝试"><a href="#错误的尝试" class="headerlink" title="错误的尝试"></a>错误的尝试</h2><p>最开始时并没有意识到是webView的原因，反而因为前几天刚解决了一个UI线程的bug，将这个卡顿问题主观上当做线程问题去解决。基于此做了以下操作：</p>
-<ol>
-<li><p>增加webView加载失败的代理方法；</p>
-</li>
-<li><p>在加载完成和加载失败时，取消加载进度动画的展示；</p>
-</li>
-<li><p>在将项目中的页面替换为 <strong>WKWebView</strong> 后，发现在访问下个H5页面时，无法共享 <strong>Cookie</strong> 的问题（下面会详细说下这个问题是如何解决的），导致无法获取到已经验证成功的用户登录信息。</p>
-</li>
-</ol>
+<p>####1. 增加webView加载失败的代理方法；</p>
+<p>####2. 在加载完成和加载失败时，取消加载进度动画的展示；</p>
+<p>####3. 在将项目中的页面替换为 <strong>WKWebView</strong> 后，发现在访问下个H5页面时，无法共享 <strong>Cookie</strong> 的问题（下面会详细说下这个问题是如何解决的），导致无法获取到已经验证成功的用户登录信息。</p>
 <p>先期采用方法1和方法2，但测试时还是会造成卡顿。后期替换为 <strong>WKWebView</strong> 后，亟待解决 <strong>Cookie</strong> 无法共享的问题，想着能不能在每次加载H5页面时，都在请求链接后面拼上用户信息的各种参数，经测试，这样做仍然无法解决页面跳转后读取用户信息的bug。而且还因每次访问页面频繁与服务器进行验证，给服务器带来了性能压力。</p>
 <h2 id="问题的复现"><a href="#问题的复现" class="headerlink" title="问题的复现"></a>问题的复现</h2><p>这时考虑到用户应该是在弱网环境下进行操作，遇到的问题。于是，使用网络封包分析工具Charles模拟慢速网络。选择Throttle present：56 kbps Modem。此时，再切换页面，先切换到那个加载H5的页面，然后再来回切换其他几个页面，就会出现APP卡死的情况。(这里需要说明的是其他切换的页面有4个同样是加载H5页面，一共有8个主界面)。</p>
 <p>现在问题基本可以明确了，每次加载H5页面时都要初始化webView导致了程序内存消耗过大，造成APP卡死。</p>
@@ -235,16 +230,10 @@ if (!navigationAction.targetFrame.isMainFrame) {
 </blockquote>
 <p>看来以后搜索技术文章，不能太片面了，一定要结合一些大厂的权威技术文章来具体分析。</p>
 <p>下一步，就是如何在发起请求时注入 通过 <strong>NSHTTPCookieStorage</strong> 获取的<strong>Cookie</strong>。网上关于 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 注入方法有以下几种:</p>
-<ol>
-<li><p>JS 注入 —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
-</li>
-<li><p>WKHTTPCookieStore —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
-</li>
-<li><p>利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
-</li>
-<li><p>通过让所有 <strong>WKWebView</strong> 共享同一个 <strong>WKProcessPool</strong> 实例，可以实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie（session Cookie and persistent Cookie）</strong> 数据。不过 <strong>WKWebView WKProcessPool</strong> 实例在 app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</p>
-</li>
-</ol>
+<p>####1. JS注入 —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
+<p>####2. WKHTTPCookieStore —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+<p>####3. 利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
+<p>####4. 通过让所有 <strong>WKWebView</strong> 共享同一个 <strong>WKProcessPool</strong> 实例，可以实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie（session Cookie and persistent Cookie）</strong> 数据。不过 <strong>WKWebView WKProcessPool</strong> 实例在 app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</p>
 <p>方法1，经过测试行不通，可能是后台读取 <strong>Cookie</strong> 的方式有问题；方法2，是 <strong>iOS 11</strong> 的 <strong>API</strong> ，不具有普适性；方法3，在测试时无法通过 <strong>url</strong> 匹配到 <strong>Cookie</strong>；最后，只剩下方法4了，需要注意在特殊场景下 <strong>Cookie</strong> 丢失的情况：</p>
 <blockquote>
 <p>app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</p>
@@ -2811,9 +2800,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -2902,9 +2891,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4001,7 +3990,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x64;&#x65;&#x76;&#101;&#108;&#111;&#x70;&#x65;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#x31;&#54;&#x33;&#46;&#99;&#111;&#109;">&#x64;&#x65;&#x76;&#101;&#108;&#111;&#x70;&#x65;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#x31;&#54;&#x33;&#46;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#100;&#x65;&#x76;&#x65;&#x6c;&#111;&#x70;&#x65;&#114;&#x70;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#x31;&#54;&#51;&#46;&#99;&#111;&#x6d;">&#100;&#x65;&#x76;&#x65;&#x6c;&#111;&#x70;&#x65;&#114;&#x70;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#x31;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
