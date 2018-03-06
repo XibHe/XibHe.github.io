@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-03-05T09:43:15.000Z</updated>
+  <updated>2018-03-05T09:47:18.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,19 +20,16 @@
     <link href="http://XibHe.github.io/2018/02/03/WKWebView-disabuse/"/>
     <id>http://XibHe.github.io/2018/02/03/WKWebView-disabuse/</id>
     <published>2018-02-02T16:00:00.000Z</published>
-    <updated>2018-03-05T09:43:15.000Z</updated>
+    <updated>2018-03-05T09:47:18.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。</p>
 <h2 id="错误的尝试"><a href="#错误的尝试" class="headerlink" title="错误的尝试"></a>错误的尝试</h2><p>最开始时并没有意识到是webView的原因，反而因为前几天刚解决了一个UI线程的bug，将这个卡顿问题主观上当做线程问题去解决。基于此做了以下操作：</p>
-<ol>
-<li><p>增加webView加载失败的代理方法；</p>
-</li>
-<li><p>在加载完成和加载失败时，取消加载进度动画的展示；</p>
-</li>
-<li><p>在将项目中的页面替换为 <strong>WKWebView</strong> 后，发现在访问下个H5页面时，无法共享 <strong>Cookie</strong> 的问题（下面会详细说下这个问题是如何解决的），导致无法获取到已经验证成功的用户登录信息。</p>
-</li>
-</ol>
-<p>先期采用方法1和方法2，但测试时还是会造成卡顿。后期替换为 <strong>WKWebView</strong> 后，亟待解决 <strong>Cookie</strong> 无法共享的问题，想着能不能在每次加载H5页面时，都在请求链接后面拼上用户信息的各种参数，经测试，这样做仍然无法解决页面跳转后读取用户信息的bug。而且还因每次访问页面频繁与服务器进行验证，给服务器带来了性能压力。</p>
+<pre><code>1. 增加webView加载失败的代理方法；
+
+2. 在加载完成和加载失败时，取消加载进度动画的展示；
+
+3. 在将项目中的页面替换为 **WKWebView** 后，发现在访问下个H5页面时，无法共享 **Cookie** 的问题（下面会详细说下这个问题是如何解决的），导致无法获取到已经验证成功的用户登录信息。
+</code></pre><p>先期采用方法1和方法2，但测试时还是会造成卡顿。后期替换为 <strong>WKWebView</strong> 后，亟待解决 <strong>Cookie</strong> 无法共享的问题，想着能不能在每次加载H5页面时，都在请求链接后面拼上用户信息的各种参数，经测试，这样做仍然无法解决页面跳转后读取用户信息的bug。而且还因每次访问页面频繁与服务器进行验证，给服务器带来了性能压力。</p>
 <h2 id="问题的复现"><a href="#问题的复现" class="headerlink" title="问题的复现"></a>问题的复现</h2><p>这时考虑到用户应该是在弱网环境下进行操作，遇到的问题。于是，使用网络封包分析工具Charles模拟慢速网络。选择Throttle present：56 kbps Modem。此时，再切换页面，先切换到那个加载H5的页面，然后再来回切换其他几个页面，就会出现APP卡死的情况。(这里需要说明的是其他切换的页面有4个同样是加载H5页面，一共有8个主界面)。</p>
 <p>现在问题基本可以明确了，每次加载H5页面时都要初始化webView导致了程序内存消耗过大，造成APP卡死。</p>
 <h2 id="控制台报错"><a href="#控制台报错" class="headerlink" title="控制台报错"></a>控制台报错</h2><p>调试时，在程序频繁切换刷新页面直至卡死阶段，控制台一直报错，主要报错如下：</p>
