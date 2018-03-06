@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sat Feb 03 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Tue Mar 06 2018 10:08:05 GMT+0800">
+        <meta property="article:modified_time" content="Tue Mar 06 2018 10:11:28 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/02/03/WKWebView-disabuse/index.html",
     "headline": "使用WKWebView进行性能调优",
     "datePublished": "Sat Feb 03 2018 00:00:00 GMT+0800",
-    "dateModified": "Tue Mar 06 2018 10:08:05 GMT+0800",
+    "dateModified": "Tue Mar 06 2018 10:11:28 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -736,14 +736,10 @@ if (!navigationAction.targetFrame.isMainFrame) {
 <p>看来以后搜索技术文章，不能太片面了，一定要结合一些大厂的权威技术文章来具体分析。</p>
 <p>下一步，就是如何在发起请求时注入 通过 <strong>NSHTTPCookieStorage</strong> 获取的<strong>Cookie</strong>。网上关于 <strong>WKWebView</strong> 的 <strong>Cookie</strong> 注入方法有以下几种:</p>
 <ol>
-<li><p>JS注入 —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></p>
-</li>
-<li><p>WKHTTPCookieStore —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
-</li>
-<li><p>利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
-</li>
-<li><p>通过让所有 <strong>WKWebView</strong> 共享同一个 <strong>WKProcessPool</strong> 实例，可以实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie（session Cookie and persistent Cookie）</strong> 数据。不过 <strong>WKWebView WKProcessPool</strong> 实例在 app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</p>
-</li>
+<li>JS注入 —- 在初始化 <strong>WKWebView</strong> 的时候，通过 <strong>WKUserScript</strong> 设置，使用<strong>javascript</strong> 注入 <strong>Cookie</strong>，一开始发送 <strong>NSMutableURLRequest</strong> 请求的时候也要加上 <strong>Cookie</strong>，并且保证两个地方的设置的cookie一致。参考 — <a href="https://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview" target="_blank" rel="external">Can I set the cookies to be used by a WKWebView?</a></li>
+<li>WKHTTPCookieStore —- 利用 <strong>iOS11 API WKHTTPCookieStore</strong> 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></li>
+<li>利用 <strong>iOS11</strong> 之前的 API 解决 <strong>WKWebView</strong> 首次请求不携带 <strong>Cookie</strong> 的问题。参考 — <a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></li>
+<li>通过让所有 <strong>WKWebView</strong> 共享同一个 <strong>WKProcessPool</strong> 实例，可以实现多个 <strong>WKWebView</strong> 之间共享 <strong>Cookie（session Cookie and persistent Cookie）</strong> 数据。不过 <strong>WKWebView WKProcessPool</strong> 实例在 app 杀进程重启后会被重置，导致 <strong>WKProcessPool</strong> 中的 <strong>Cookie</strong>、<strong>session Cookie</strong> 数据丢失，目前也无法实现 <strong>WKProcessPool</strong> 实例本地化保存。</li>
 </ol>
 <p>方法1，经过测试行不通，可能是后台读取 <strong>Cookie</strong> 的方式有问题；方法2，是 <strong>iOS 11</strong> 的 <strong>API</strong> ，不具有普适性；方法3，在测试时无法通过 <strong>url</strong> 匹配到 <strong>Cookie</strong>；最后，只剩下方法4了，需要注意在特殊场景下 <strong>Cookie</strong> 丢失的情况：</p>
 <blockquote>
