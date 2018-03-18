@@ -5,11 +5,24 @@
     <entry>
       <title><![CDATA[RunLoop浅见]]></title>
       <url>/2018/03/18/RunLoopAnalysis/</url>
-      <content type="html"><![CDATA[<p>上一篇博客介绍了如何<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，以及使用中遇到的问题。当在弱网环境下频繁切换 <strong>H5</strong> 页面时，就会出现应用卡死的情况。此时，控制台会报三个错误，其中一个错误是：</p>
+      <content type="html"><![CDATA[<p>上一篇博客介绍了使用 <strong>WKWebView</strong> 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 <strong>H5</strong> 页面时，就会出现应用卡死的情况。<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，控制台会报三个错误，其中一个错误是：</p>
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
 <p>错误中出现了 <strong>main run loop mode: kCFRunLoopDefaultMode</strong> 的信息提示，最后虽然将项目中的 <strong>UIWebView</strong> 替换为 <strong>WKWebView</strong> ( <strong>WKWebView</strong> 的内存消耗相比 <strong>UIWebView</strong> 低了一个数量级)。但却没有将这个报 <strong>RunLoop</strong> 的错误解释清楚，今天就结合一些实例叙述一下自己对 <strong>RunLoop</strong> 的浅见。</p>
-<h2 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h2><h2 id="RunLoop-的作用"><a href="#RunLoop-的作用" class="headerlink" title="RunLoop 的作用"></a>RunLoop 的作用</h2><h2 id="RunLoop-的结构"><a href="#RunLoop-的结构" class="headerlink" title="RunLoop 的结构"></a>RunLoop 的结构</h2><h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><h2 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h2><h2 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font color="#FF0000">未完，待续……</font>
+<h2 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h2><p><strong>Runloop</strong> 就是一个运行循环，一个死循环，为保证程序会一直运行不退出。</p>
+<h2 id="RunLoop-的作用"><a href="#RunLoop-的作用" class="headerlink" title="RunLoop 的作用"></a>RunLoop 的作用</h2><ol>
+<li>保住程序不退出；</li>
+<li>负责监听事件，网络，触摸，时钟等。</li>
+<li>渲染 UI</li>
+</ol>
+<h2 id="RunLoop-的结构"><a href="#RunLoop-的结构" class="headerlink" title="RunLoop 的结构"></a>RunLoop 的结构</h2><h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><ol>
+<li>NSDefaultRunLoopMode 默认模式</li>
+<li>UITrackingRunLoopMode UI模式</li>
+<li>NSRunLoopCommonModes 占位模式</li>
+<li>初始化模式</li>
+<li>系统内核模式</li>
+</ol>
+<h2 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h2><h2 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font color="#FF0000">未完，待续……</font>
 ]]></content>
       
         <categories>
@@ -4021,7 +4034,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x64;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#x65;&#x72;&#112;&#x65;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;">&#x64;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#x65;&#x72;&#112;&#x65;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x64;&#101;&#x76;&#101;&#x6c;&#x6f;&#112;&#101;&#x72;&#112;&#x65;&#110;&#103;&#104;&#x65;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#111;&#x6d;">&#x64;&#101;&#x76;&#101;&#x6c;&#x6f;&#112;&#101;&#x72;&#112;&#x65;&#110;&#103;&#104;&#x65;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
