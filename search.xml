@@ -3,14 +3,14 @@
   
     
     <entry>
-      <title><![CDATA[RunLoop浅见]]></title>
+      <title><![CDATA[RunLoop]]></title>
       <url>/2018/03/18/RunLoopAnalysis/</url>
       <content type="html"><![CDATA[<p>上一篇博客介绍了使用 <strong>WKWebView</strong> 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 <strong>H5</strong> 页面时，就会出现应用卡死的情况。<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，控制台会报三个错误，其中一个错误是：</p>
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
 <p>错误中出现了 <strong>main run loop mode: kCFRunLoopDefaultMode</strong> 的信息提示，最后虽然将项目中的 <strong>UIWebView</strong> 替换为 <strong>WKWebView</strong> ( <strong>WKWebView</strong> 的内存消耗相比 <strong>UIWebView</strong> 低了一个数量级)。但却没有将这个报 <strong>RunLoop</strong> 的错误解释清楚，今天就结合一些实例叙述一下自己对 <strong>RunLoop</strong> 的浅见。</p>
 <h2 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h2><p><strong>Runloop</strong> 是 <strong>iOS</strong> 底层机制，就是一个运行循环，确切的说是为了保证程序会一直运行不退出的死循环。</p>
-<p>在 <strong>iOS</strong> 中的入口函数执行类似逻辑，这里打印只会输出 <strong>执行了!!!</strong>，主线程死循环。</p>
+<p>在 <strong>iOS</strong> 中的入口函数执行类似逻辑，这里打印只会输出 <strong>执行了!!!</strong>，并不会输出 <strong>有没有执行???</strong>，这里开启了一个和主线程相关的 <strong>RunLoop</strong>，导致 <strong>UIApplicationMain</strong> 不会返回，一直处在运行中。</p>
 <pre><code class="objectivec">int main(int argc, char * argv[]) {
     @autoreleasepool {
         NSLog(@&quot;执行了!!!&quot;);
@@ -42,12 +42,107 @@
 <p>如何管理事件/消息，如何让线程在没有处理消息时休眠，以避免资源占用；在有消息到来时立刻被唤醒。</p>
 </blockquote>
 <p>所以，<strong>RunLoop</strong> 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面的 <strong>Event Loop</strong> 逻辑。线程执行了这个函数后，就会一直处于这个函数内部 <strong>接受消息 –&gt; 等待 –&gt; 处理</strong> 的循环中，直到这个循环结束（比如，传入 <strong>quit</strong> 消息），函数返回。</p>
+<p><strong>OSX/iOS</strong> 系统中，提供了两个这样的对象：<strong>NSRunLoop</strong> 和 <strong>CFRunLoopRef</strong>。<strong>NSRunLoop</strong> 是基于 <strong>CFRunLoopRef</strong> 的封装，提供了面向对象的 <strong>API</strong>，但这些 <strong>API</strong> 不是线程安全的。<strong>CFRunLoopRef</strong> 是在 <strong>CoreFoundation</strong> 框架内的，它提供了纯 <strong>C函数</strong> 的 <strong>API</strong>，所以这些 <strong>API</strong> 都是线程安全的。</p>
 <h2 id="RunLoop-的作用"><a href="#RunLoop-的作用" class="headerlink" title="RunLoop 的作用"></a>RunLoop 的作用</h2><ol>
-<li>保住程序不退出；</li>
-<li>负责监听事件，网络，触摸，时钟等。</li>
-<li>渲染 UI</li>
+<li>保住程序不退出，持续运行；</li>
+<li>负责监听程序中的各种事件，如：网络，触摸，定时器等；</li>
+<li>渲染 <strong>UI</strong>；</li>
+<li>节省 <strong>CPU</strong> 资源，提高程序性能。</li>
 </ol>
-<h2 id="RunLoop-的结构"><a href="#RunLoop-的结构" class="headerlink" title="RunLoop 的结构"></a>RunLoop 的结构</h2><h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><ol>
+<h2 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h2><p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop 与线程的关系</strong> 中的叙述。</p>
+<p>苹果不允许直接创建 <strong>RunLoop</strong>，它只提供了两个自动获取的函数：<strong>CFRunLoopGetMain()</strong> 和 <strong>CFRunLoopGetCurrent()</strong>。 这两个函数内部的逻辑大概是下面这样:</p>
+<pre><code class="c">/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef
+static CFMutableDictionaryRef loopsDic;
+/// 访问 loopsDic 时的锁
+static CFSpinLock_t loopsLock;
+
+/// 获取一个 pthread 对应的 RunLoop。
+CFRunLoopRef _CFRunLoopGet(pthread_t thread) {
+    OSSpinLockLock(&amp;loopsLock);
+
+    if (!loopsDic) {
+        // 第一次进入时，初始化全局Dic，并先为主线程创建一个 RunLoop。
+        loopsDic = CFDictionaryCreateMutable();
+        CFRunLoopRef mainLoop = _CFRunLoopCreate();
+        CFDictionarySetValue(loopsDic, pthread_main_thread_np(), mainLoop);
+    }
+
+    /// 直接从 Dictionary 里获取。
+    CFRunLoopRef loop = CFDictionaryGetValue(loopsDic, thread));
+
+    if (!loop) {
+        /// 取不到时，创建一个
+        loop = _CFRunLoopCreate();
+        CFDictionarySetValue(loopsDic, thread, loop);
+        /// 注册一个回调，当线程销毁时，顺便也销毁其对应的 RunLoop。
+        _CFSetTSD(..., thread, loop, __CFFinalizeRunLoop);
+    }
+
+    OSSpinLockUnLock(&amp;loopsLock);
+    return loop;
+}
+
+CFRunLoopRef CFRunLoopGetMain() {
+    return _CFRunLoopGet(pthread_main_thread_np());
+}
+
+CFRunLoopRef CFRunLoopGetCurrent() {
+    return _CFRunLoopGet(pthread_self());
+}
+</code></pre>
+<ol>
+<li>线程和 <strong>RunLoop</strong> 是一一对应的；</li>
+<li>线程刚刚创建时并没有 <strong>RunLoop</strong>，如果你不主动获取，那它一直不会有；</li>
+<li><strong>RunLoop</strong> 的创建发生在第一次获取时，<strong>RunLoop</strong> 的销毁发生在线程结束时；</li>
+<li>只能在一个线程的内部获取其 <strong>RunLoop</strong> (主线程除外)。</li>
+</ol>
+<h2 id="CoreFoundation-中-RunLoop-的组成结构"><a href="#CoreFoundation-中-RunLoop-的组成结构" class="headerlink" title="CoreFoundation 中 RunLoop 的组成结构"></a>CoreFoundation 中 RunLoop 的组成结构</h2><p><strong>CoreFoundation</strong> 中关于 <strong>RunLoop</strong> 有4个类和一个枚举</p>
+<ul>
+<li><p><strong>CFRunLoopModeRef</strong> // 运行模式，每次调用时只能选择一种，在不同模式中做不同的操作。</p>
+</li>
+<li><p>__CFRunLoop <em> <strong>CFRunLoopRef</strong>; // 获得当前 <em>*RunLoop</em></em></p>
+</li>
+<li><p>__CFRunLoopSource <em> <em>*CFRunLoopSourceRef</em></em>; // 事件源</p>
+</li>
+<li><p>__CFRunLoopObserver <em> <em>*CFRunLoopObserverRef</em></em>; // 观察者</p>
+</li>
+<li><p>__CFRunLoopTimer <em> <em>*CFRunLoopTimerRef</em></em>; // 定时器时间</p>
+</li>
+</ul>
+<p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop 对外接口</strong> 中的叙述。</p>
+<p>其中 <strong>CFRunLoopModeRef</strong> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
+<p><img src="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png" alt="CFRunLoopModeRef的关系"></p>
+<ol>
+<li><p><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</p>
+</li>
+<li><p><strong>CFRunLoopSourceRef</strong>是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。</p>
+<ul>
+<li><p><strong>Source0</strong> 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 <strong>CFRunLoopSourceSignal(source)</strong>，将这个 <strong>Source</strong> 标记为待处理，然后手动调用 <strong>CFRunLoopWakeUp(runloop)</strong> 来唤醒 <strong>RunLoop</strong>，让其处理这个事件。</p>
+</li>
+<li><p><strong>Source1</strong> 包含了一个 <strong>mach_port</strong> 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 <strong>Source</strong> 能主动唤醒 <strong>RunLoop</strong> 的线程。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>CFRunLoopTimerRef</strong> 是基于时间的触发器，它和 <strong>NSTimer</strong> 是 <strong>toll-free bridged</strong> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <strong>RunLoop</strong> 时，<strong>RunLoop</strong> 会注册对应的时间点，当时间点到期时，<strong>RunLoop</strong> 会被唤醒一执行那个回调。</p>
+</li>
+<li><p><strong>CFRunLoopObserverRef</strong> 是观察者，每个 <strong>Observer</strong> 都包含了一个回调（函数指针），当 <strong>RunLoop</strong> 的状态发生变化时，观察者就能通过回调接受这个变化。可以观察的时间点有以下几个：</p>
+</li>
+</ol>
+<pre><code class="objectivec">/* Run Loop Observer Activities */
+typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+    kCFRunLoopEntry = (1UL &lt;&lt; 0), // 即将进入Loop
+    kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1), // 即将处理 Timer
+    kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),// 即将处理 Source
+    kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),// 即将进入休眠
+    kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),// 即将进入休眠
+    kCFRunLoopExit         = (1UL &lt;&lt; 7), // 即将退出Loop
+    kCFRunLoopAllActivities = 0x0FFFFFFFU
+};
+</code></pre>
+<blockquote>
+<p>上面的 <strong>Source/Timer/Observer</strong> 被统称为 <strong>mode item</strong>，一个 <strong>item</strong> 可以同时加入多个 <strong>mode</strong>。但一个 <strong>item</strong> 被重复加入同一个 <strong>mode</strong> 时，是不会有效果的。如果一个 <strong>mode</strong> 中一个 <strong>item</strong> 都没有，则 <strong>RunLoop</strong> 会直接退出，不进入循环。</p>
+</blockquote>
+<h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><ol>
 <li>NSDefaultRunLoopMode 默认模式</li>
 <li>UITrackingRunLoopMode UI模式</li>
 <li>NSRunLoopCommonModes 占位模式</li>
@@ -2877,9 +2972,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -2968,9 +3063,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4060,6 +4155,12 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -4067,7 +4168,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#101;&#x76;&#101;&#x6c;&#111;&#112;&#101;&#114;&#x70;&#101;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;">&#x64;&#101;&#x76;&#101;&#x6c;&#111;&#112;&#101;&#114;&#x70;&#101;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#100;&#101;&#x76;&#101;&#108;&#111;&#112;&#x65;&#x72;&#112;&#101;&#x6e;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;">&#100;&#101;&#x76;&#101;&#108;&#111;&#112;&#x65;&#x72;&#112;&#101;&#x6e;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -4084,7 +4185,10 @@ pod setup
     <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
-      <content type="html"><![CDATA[<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
+      <content type="html"><![CDATA[<h3 id="2018-03-19"><a href="#2018-03-19" class="headerlink" title="2018/03/19"></a>2018/03/19</h3><blockquote>
+<p>娱乐是无聊者的事业，事业是有产者的娱乐。</p>
+</blockquote>
+<h3 id="2017-10-27"><a href="#2017-10-27" class="headerlink" title="2017/10/27"></a>2017/10/27</h3><blockquote>
 <p>做正确的事情，等着被开除。</p>
 <p>谷歌新员工(我们称做“Nooglers”)经常会问我是如何让自己做事这么高效的。我半开玩笑的告诉他们这很简单：我选择做正确的事情，为谷歌，为世界，然后回到座位上，等着被开除。如果没有被开除，那我就是做了正确的事情——为所有人。如果被开除了，那选错了老板。总之，两方面，我都是赢。这是我的职业发展策略。</p>
 </blockquote>
@@ -4228,12 +4332,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
