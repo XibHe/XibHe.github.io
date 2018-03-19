@@ -9,7 +9,39 @@
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
 <p>错误中出现了 <strong>main run loop mode: kCFRunLoopDefaultMode</strong> 的信息提示，最后虽然将项目中的 <strong>UIWebView</strong> 替换为 <strong>WKWebView</strong> ( <strong>WKWebView</strong> 的内存消耗相比 <strong>UIWebView</strong> 低了一个数量级)。但却没有将这个报 <strong>RunLoop</strong> 的错误解释清楚，今天就结合一些实例叙述一下自己对 <strong>RunLoop</strong> 的浅见。</p>
-<h2 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h2><p><strong>Runloop</strong> 就是一个运行循环，一个死循环，为保证程序会一直运行不退出。</p>
+<h2 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h2><p><strong>Runloop</strong> 是 <strong>iOS</strong> 底层机制，就是一个运行循环，确切的说是为了保证程序会一直运行不退出的死循环。</p>
+<p>在 <strong>iOS</strong> 中的入口函数执行类似逻辑，这里打印只会输出 <strong>执行了!!!</strong>，主线程死循环。</p>
+<pre><code class="objectivec">int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        NSLog(@&quot;执行了!!!&quot;);
+        // 主线程死循环 --- RunLoop
+        int a = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        NSLog(@&quot;有没有执行???&quot;);
+        return a;
+    }
+}
+</code></pre>
+<p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop的概念</strong> 中的叙述。</p>
+<p>一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常代码逻辑是这样的：</p>
+<pre><code class="c">function loop() {
+    initialize();
+    do {
+        var message = get_next_message();
+        process_message(message);
+    } while (message != quit);
+}
+</code></pre>
+<p>这种模型通常被称作<a href="https://en.wikipedia.org/wiki/Event_loop" target="_blank" rel="external">Event loop</a>。<strong>Event Loop</strong> 在很多系统和框架里都有实现，比如：</p>
+<ul>
+<li><strong>Node.js</strong> 的事件处理</li>
+<li><strong>Windows</strong> 程序的消息循环</li>
+<li><strong>OSX/iOS</strong> 的 <strong>RunLoop</strong></li>
+</ul>
+<p>实现这种模型的关键的在于：</p>
+<blockquote>
+<p>如何管理事件/消息，如何让线程在没有处理消息时休眠，以避免资源占用；在有消息到来时立刻被唤醒。</p>
+</blockquote>
+<p>所以，<strong>RunLoop</strong> 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面的 <strong>Event Loop</strong> 逻辑。线程执行了这个函数后，就会一直处于这个函数内部 <strong>接受消息 –&gt; 等待 –&gt; 处理</strong> 的循环中，直到这个循环结束（比如，传入 <strong>quit</strong> 消息），函数返回。</p>
 <h2 id="RunLoop-的作用"><a href="#RunLoop-的作用" class="headerlink" title="RunLoop 的作用"></a>RunLoop 的作用</h2><ol>
 <li>保住程序不退出；</li>
 <li>负责监听事件，网络，触摸，时钟等。</li>
@@ -22,7 +54,8 @@
 <li>初始化模式</li>
 <li>系统内核模式</li>
 </ol>
-<h2 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h2><h2 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><font color="#FF0000">未完，待续……</font>
+<h2 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h2><h2 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
+<font color="#FF0000">未完，待续……</font>
 ]]></content>
       
         <categories>
@@ -2844,9 +2877,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -2935,9 +2968,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -4034,18 +4067,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x64;&#101;&#x76;&#101;&#x6c;&#x6f;&#112;&#101;&#x72;&#112;&#x65;&#110;&#103;&#104;&#x65;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#111;&#x6d;">&#x64;&#101;&#x76;&#101;&#x6c;&#x6f;&#112;&#101;&#x72;&#112;&#x65;&#110;&#103;&#104;&#x65;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#101;&#x76;&#101;&#x6c;&#111;&#112;&#101;&#114;&#x70;&#101;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;">&#x64;&#101;&#x76;&#101;&#x6c;&#111;&#112;&#101;&#114;&#x70;&#101;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
@@ -4201,6 +4228,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
