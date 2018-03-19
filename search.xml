@@ -96,9 +96,9 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <li><strong>RunLoop</strong> 的创建发生在第一次获取时，<strong>RunLoop</strong> 的销毁发生在线程结束时；</li>
 <li>只能在一个线程的内部获取其 <strong>RunLoop</strong> (主线程除外)。</li>
 </ol>
-<h2 id="CoreFoundation-中-RunLoop-的组成结构"><a href="#CoreFoundation-中-RunLoop-的组成结构" class="headerlink" title="CoreFoundation 中 RunLoop 的组成结构"></a>CoreFoundation 中 RunLoop 的组成结构</h2><p><strong>CoreFoundation</strong> 中关于 <strong>RunLoop</strong> 有4个类和一个枚举</p>
+<h2 id="CoreFoundation-中-RunLoop-的组成结构"><a href="#CoreFoundation-中-RunLoop-的组成结构" class="headerlink" title="CoreFoundation 中 RunLoop 的组成结构"></a>CoreFoundation 中 RunLoop 的组成结构</h2><p><strong>CoreFoundation</strong> 中关于 <strong>RunLoop</strong> 有5个类：</p>
 <ul>
-<li><p><strong>CFRunLoopModeRef</strong> // 运行模式，每次调用时只能选择一种，在不同模式中做不同的操作。</p>
+<li><p>CFRunLoopModeRef // 运行模式，每次调用时只能选择一种，在不同模式中做不同的操作。</p>
 </li>
 <li><p>__CFRunLoop <em> <strong>CFRunLoopRef</strong>; // 获得当前 <em>*RunLoop</em></em></p>
 </li>
@@ -111,7 +111,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 </ul>
 <p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop 对外接口</strong> 中的叙述。</p>
 <p>其中 <strong>CFRunLoopModeRef</strong> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
-<p><img src="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png" alt="CFRunLoopModeRef的关系"></p>
+<p><img src="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
 <li><p><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</p>
 </li>
@@ -2972,9 +2972,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -3063,9 +3063,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4155,6 +4155,12 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -4162,7 +4168,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#100;&#x65;&#118;&#101;&#x6c;&#x6f;&#112;&#101;&#114;&#112;&#x65;&#110;&#103;&#x68;&#101;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;">&#100;&#x65;&#118;&#101;&#x6c;&#x6f;&#112;&#101;&#114;&#112;&#x65;&#110;&#103;&#x68;&#101;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#x65;&#118;&#x65;&#x6c;&#111;&#x70;&#101;&#114;&#112;&#x65;&#110;&#103;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;">&#x64;&#x65;&#118;&#x65;&#x6c;&#111;&#x70;&#101;&#114;&#112;&#x65;&#110;&#103;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -4173,12 +4179,6 @@ pod setup
     <entry>
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
       <content type="html"></content>
     </entry>
     
