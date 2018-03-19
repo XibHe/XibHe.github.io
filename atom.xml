@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-03-19T10:43:10.000Z</updated>
+  <updated>2018-03-19T10:43:59.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>RunLoop</title>
+    <title>深入理解RunLoop</title>
     <link href="http://XibHe.github.io/2018/03/18/RunLoopAnalysis/"/>
     <id>http://XibHe.github.io/2018/03/18/RunLoopAnalysis/</id>
     <published>2018-03-17T16:00:00.000Z</published>
-    <updated>2018-03-19T10:43:10.000Z</updated>
+    <updated>2018-03-19T10:43:59.000Z</updated>
     
     <content type="html"><![CDATA[<p>上一篇博客介绍了使用 <strong>WKWebView</strong> 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 <strong>H5</strong> 页面时，就会出现应用卡死的情况。<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，控制台会报三个错误，其中一个错误是：</p>
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
