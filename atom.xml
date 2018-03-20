@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-03-20T07:44:52.000Z</updated>
+  <updated>2018-03-20T07:49:51.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/03/18/RunLoopAnalysis/"/>
     <id>http://XibHe.github.io/2018/03/18/RunLoopAnalysis/</id>
     <published>2018-03-17T16:00:00.000Z</published>
-    <updated>2018-03-20T07:44:52.000Z</updated>
+    <updated>2018-03-20T07:49:51.000Z</updated>
     
     <content type="html"><![CDATA[<p>上一篇博客介绍了使用 <em>WKWebView</em> 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 <em>H5</em> 页面时，就会出现应用卡死的情况。<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，控制台会报三个错误，其中一个错误是：</p>
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
@@ -129,14 +129,12 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
 <li><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</li>
-<li><p><strong>CFRunLoopSourceRef</strong> 是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。</p>
-<ul>
+<li><strong>CFRunLoopSourceRef</strong> 是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。<ol>
 <li><strong>Source0</strong> 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 <strong>CFRunLoopSourceSignal(source)</strong>，将这个 <strong>Source</strong> 标记为待处理，然后手动调用 <strong>CFRunLoopWakeUp(runloop)</strong> 来唤醒 <strong>RunLoop</strong>，让其处理这个事件。</li>
 <li><strong>Source1</strong> 包含了一个 <strong>mach_port</strong> 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 <strong>Source</strong> 能主动唤醒 <strong>RunLoop</strong> 的线程。</li>
-</ul>
+</ol>
 </li>
-<li><p><strong>CFRunLoopTimerRef</strong> 是基于时间的触发器，它和 <strong>NSTimer</strong> 是 <strong>toll-free bridged</strong> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <strong>RunLoop</strong> 时，<strong>RunLoop</strong> 会注册对应的时间点，当时间点到期时，<strong>RunLoop</strong> 会被唤醒一执行那个回调。</p>
-</li>
+<li><strong>CFRunLoopTimerRef</strong> 是基于时间的触发器，它和 <strong>NSTimer</strong> 是 <strong>toll-free bridged</strong> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <strong>RunLoop</strong> 时，<strong>RunLoop</strong> 会注册对应的时间点，当时间点到期时，<strong>RunLoop</strong> 会被唤醒一执行那个回调。</li>
 <li><strong>CFRunLoopObserverRef</strong> 是观察者，每个 <strong>Observer</strong> 都包含了一个回调（函数指针），当 <strong>RunLoop</strong> 的状态发生变化时，观察者就能通过回调接受这个变化。可以观察的时间点有以下几个：</li>
 </ol>
 <pre><code class="objectivec">/* Run Loop Observer Activities */
