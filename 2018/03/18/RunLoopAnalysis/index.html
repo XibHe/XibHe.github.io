@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sun Mar 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Mon Mar 19 2018 18:56:39 GMT+0800">
+        <meta property="article:modified_time" content="Tue Mar 20 2018 15:00:12 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/03/18/RunLoopAnalysis/index.html",
     "headline": "深入理解RunLoop",
     "datePublished": "Sun Mar 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Mon Mar 19 2018 18:56:39 GMT+0800",
+    "dateModified": "Tue Mar 20 2018 15:00:12 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -524,7 +524,8 @@
     }
 }
 </code></pre>
-<p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop的概念</strong> 中的叙述。</p>
+<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <strong>RunLoop的概念</strong> 中的叙述。</font>
+
 <p>一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常代码逻辑是这样的：</p>
 <pre><code class="c">function loop() {
     initialize();
@@ -552,7 +553,8 @@
 <li>渲染 <strong>UI</strong>；</li>
 <li>节省 <strong>CPU</strong> 资源，提高程序性能。</li>
 </ol>
-<h2 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h2><p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop 与线程的关系</strong> 中的叙述。</p>
+<h2 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h2><font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <strong>RunLoop 与线程的关系</strong> 中的叙述。</font>
+
 <p>苹果不允许直接创建 <strong>RunLoop</strong>，它只提供了两个自动获取的函数：<strong>CFRunLoopGetMain()</strong> 和 <strong>CFRunLoopGetCurrent()</strong>。 这两个函数内部的逻辑大概是下面这样:</p>
 <pre><code class="c">/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef
 static CFMutableDictionaryRef loopsDic;
@@ -607,7 +609,8 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <li>__CFRunLoopObserver <em> <em>*CFRunLoopObserverRef</em></em>; // 观察者</li>
 <li>__CFRunLoopTimer <em> <em>*CFRunLoopTimerRef</em></em>; // 定时器时间</li>
 </ul>
-<p>下面这段内容摘抄自<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>中 <strong>RunLoop 对外接口</strong> 中的叙述。</p>
+<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <strong>RunLoop 对外接口</strong> 中的叙述。</font>
+
 <p>其中 <strong>CFRunLoopModeRef</strong> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
@@ -634,13 +637,48 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <blockquote>
 <p>上面的 <strong>Source/Timer/Observer</strong> 被统称为 <strong>mode item</strong>，一个 <strong>item</strong> 可以同时加入多个 <strong>mode</strong>。但一个 <strong>item</strong> 被重复加入同一个 <strong>mode</strong> 时，是不会有效果的。如果一个 <strong>mode</strong> 中一个 <strong>item</strong> 都没有，则 <strong>RunLoop</strong> 会直接退出，不进入循环。</p>
 </blockquote>
-<h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><ol>
-<li>NSDefaultRunLoopMode 默认模式</li>
-<li>UITrackingRunLoopMode UI模式</li>
-<li>NSRunLoopCommonModes 占位模式</li>
+<h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><p>关于 <strong>RunLoop</strong> 的 <strong>Mode</strong> 可以通过下面的例子，展开来说，</p>
+<pre><code class="objectivec">- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerCurrentThread) userInfo:nil repeats:YES];
+    // 将timer加入到RunLoop中
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+}
+
+- (void)timerCurrentThread
+{
+    static int a = 0;
+    NSLog(@&quot;当前线程%@---%d&quot;,[NSThread currentThread],a++);
+}
+</code></pre>
+<p>这里将 <em>timer</em> 加入到 <em>RunLoop</em> 中，通过当前运行的 <em>RunLoop</em><br>观察事件的执行。这里需要注意给 <em>timer</em> 添加的是 <em>NSDefaultRunLoopMode</em> 模式。</p>
+<p>那么，在上面例子的基础上，我再添加一个 <em>UITextView</em> 控件，编译运行后，当滑动控件时，发现控制台不会继续输出 <em>timerCurrentThread</em> 方法中的打印。是因为阻塞了主线程导致的吗？不是的，这里 <em>RunLoop</em> 无法同时处理屏幕触摸事件和 <em>timer</em> 回调。此时，试着将模式替换为 <em>UITrackingRunLoopMode</em>，</p>
+<pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+</code></pre>
+<p>再滑动 <em>UITextView</em> 控件，控制台会继续输出。结合上面的所说的一个 <em>RunLoop</em> 包含若干个 <em>Mode</em>，每个 <em>Mode</em> 又包含若干个 <em>Source/Timer/Observer</em>，例子中的关系可以这样表示，如图所示，</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_02.png" alt=""></p>
+<p>这里在 <em>UITrackingRunLoopMode</em>（UI模式）下的优先级最高，当通过触摸事件唤醒该模式时，当前 <em>RunLoop</em> 会忽落掉其它模式，优先处理UI模式下的事件。 同样在UI模式下，没有触摸手机屏幕时，即使有 <em>timer</em> 回调也不会继续处理，因此，当不再滑动控件时，控制台就不会再有任何输出了。如果想要兼顾默认模式和UI模式，可以这样做：</p>
+<pre><code class="objectivec">    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+</code></pre>
+<p>将 <em>timer</em> 同时添加到两种模式中，在触摸屏幕时(UI模式)，会处理 <em>timer</em> 回调，当不在触摸屏幕时(默认模式)，也会处理 <em>timer</em> 回调。那么有没有一种模式可以兼顾这两种模式呢？答案是肯定的。如下，</p>
+<pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+</code></pre>
+<p>这里的 <em>NSRunLoopCommonModes</em> (占位模式)，相当于前两种模式的叠加。</p>
+<blockquote>
+<p>这里有个概念叫 “CommonModes”：一个 Mode 可以将自己标记为”Common”属性（通过将其 ModeName 添加到 RunLoop 的 “commonModes” 中）。每当 RunLoop 的内容发生变化时，RunLoop 都会自动将 _commonModeItems 里的 Source/Observer/Timer 同步到具有 “Common” 标记的所有Mode里。</p>
+<p>— 摘录自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
+</blockquote>
+<p>系统默认注册了5个Mode，如下：</p>
+<ol>
+<li><em>NSDefaultRunLoopMode</em> 默认模式</li>
+<li><em>UITrackingRunLoopMode</em> UI模式</li>
+<li><em>NSRunLoopCommonModes</em> 占位模式</li>
 <li>初始化模式</li>
 <li>系统内核模式</li>
 </ol>
+<p>经常用到的是前三种模式。</p>
 <h2 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h2><h2 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
 <font color="#FF0000">未完，待续……</font>
 
