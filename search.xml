@@ -111,14 +111,16 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <p>其中 <em>CFRunLoopModeRef</em> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
-<li><em>CFRunLoopModeRef</em>，一个 <em>RunLoop</em> 包含若干个 <em>Mode</em><br>，每个 <em>Mode</em> 又包含若干个 <em>Source/Timer/Observer</em>。每次调用 RunLoop的主函数时，只能指定其中一个 <em>Mode</em>，这个 <em>Mode</em> 被称为 <em>CurrentMode</em>。如果需要切换 <em>Mode</em>，只能退出 <em>RunLoop</em>，再重新指定一个 <em>Mode</em> 进入。这样做主要是为了分隔开不同组的 <em>Source/Timer/Observer</em>，让其互不影响。</li>
-<li><em>CFRunLoopSourceRef</em>是事件产生的地方。<em>source</em> 有两个版本：<em>source0</em> 和 <em>source1</em>。<ul>
-<li><em>Source0</em> 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 <em>CFRunLoopSourceSignal(source)</em>，将这个 <em>Source</em> 标记为待处理，然后手动调用 <em>CFRunLoopWakeUp(runloop)</em> 来唤醒 <em>RunLoop</em>，让其处理这个事件。</li>
-<li><em>Source1</em> 包含了一个 <em>mach_port</em> 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 <em>Source</em> 能主动唤醒 <em>RunLoop</em> 的线程。</li>
+<li><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</li>
+<li><p><strong>CFRunLoopSourceRef</strong> 是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。</p>
+<ul>
+<li><strong>Source0</strong> 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 <strong>CFRunLoopSourceSignal(source)</strong>，将这个 <strong>Source</strong> 标记为待处理，然后手动调用 <strong>CFRunLoopWakeUp(runloop)</strong> 来唤醒 <strong>RunLoop</strong>，让其处理这个事件。</li>
+<li><strong>Source1</strong> 包含了一个 <strong>mach_port</strong> 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 <strong>Source</strong> 能主动唤醒 <strong>RunLoop</strong> 的线程。</li>
 </ul>
 </li>
-<li><em>CFRunLoopTimerRef</em> 是基于时间的触发器，它和 <em>NSTimer</em> 是 <em>toll-free bridged</em> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <em>RunLoop</em> 时，<em>RunLoop</em> 会注册对应的时间点，当时间点到期时，<em>RunLoop</em> 会被唤醒一执行那个回调。</li>
-<li><em>CFRunLoopObserverRef</em> 是观察者，每个 <em>Observer</em> 都包含了一个回调（函数指针），当 <em>RunLoop</em> 的状态发生变化时，观察者就能通过回调接受这个变化。可以观察的时间点有以下几个：</li>
+<li><p><strong>CFRunLoopTimerRef</strong> 是基于时间的触发器，它和 <strong>NSTimer</strong> 是 <strong>toll-free bridged</strong> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <strong>RunLoop</strong> 时，<strong>RunLoop</strong> 会注册对应的时间点，当时间点到期时，<strong>RunLoop</strong> 会被唤醒一执行那个回调。</p>
+</li>
+<li><strong>CFRunLoopObserverRef</strong> 是观察者，每个 <strong>Observer</strong> 都包含了一个回调（函数指针），当 <strong>RunLoop</strong> 的状态发生变化时，观察者就能通过回调接受这个变化。可以观察的时间点有以下几个：</li>
 </ol>
 <pre><code class="objectivec">/* Run Loop Observer Activities */
 typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
@@ -4182,12 +4184,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -4195,12 +4191,24 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x64;&#x65;&#118;&#101;&#108;&#111;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#103;&#x68;&#x65;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#x6f;&#109;">&#x64;&#x65;&#118;&#101;&#108;&#111;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#103;&#x68;&#x65;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#112;&#101;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#111;&#109;">&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#112;&#101;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
@@ -4353,12 +4361,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
