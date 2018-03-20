@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-03-20T07:00:12.000Z</updated>
+  <updated>2018-03-20T07:14:14.000Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,14 +20,14 @@
     <link href="http://XibHe.github.io/2018/03/18/RunLoopAnalysis/"/>
     <id>http://XibHe.github.io/2018/03/18/RunLoopAnalysis/</id>
     <published>2018-03-17T16:00:00.000Z</published>
-    <updated>2018-03-20T07:00:12.000Z</updated>
+    <updated>2018-03-20T07:14:14.000Z</updated>
     
-    <content type="html"><![CDATA[<p>上一篇博客介绍了使用 <strong>WKWebView</strong> 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 <strong>H5</strong> 页面时，就会出现应用卡死的情况。<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，控制台会报三个错误，其中一个错误是：</p>
+    <content type="html"><![CDATA[<p>上一篇博客介绍了使用 <em>WKWebView</em> 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 <em>H5</em> 页面时，就会出现应用卡死的情况。<a href="http://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a>，控制台会报三个错误，其中一个错误是：</p>
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
-<p>错误中出现了 <strong>main run loop mode: kCFRunLoopDefaultMode</strong> 的信息提示，最后虽然将项目中的 <strong>UIWebView</strong> 替换为 <strong>WKWebView</strong> ( <strong>WKWebView</strong> 的内存消耗相比 <strong>UIWebView</strong> 低了一个数量级)。但却没有将这个报 <strong>RunLoop</strong> 的错误解释清楚，今天就结合一些实例叙述一下自己对 <strong>RunLoop</strong> 的浅见。</p>
-<h2 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h2><p><strong>Runloop</strong> 是 <strong>iOS</strong> 底层机制，就是一个运行循环，确切的说是为了保证程序会一直运行不退出的死循环。</p>
-<p>在 <strong>iOS</strong> 中的入口函数执行类似逻辑，这里打印只会输出 <strong>执行了!!!</strong>，并不会输出 <strong>有没有执行???</strong>，这里开启了一个和主线程相关的 <strong>RunLoop</strong>，导致 <strong>UIApplicationMain</strong> 不会返回，一直处在运行中。</p>
+<p>错误中出现了 <em>main run loop mode: kCFRunLoopDefaultMode</em> 的信息提示，最后虽然将项目中的 <em>UIWebView</em> 替换为 <em>WKWebView</em> ( <em>WKWebView</em>的内存消耗相比 <em>UIWebView</em> 低了一个数量级)。但却没有将这个报 <em>RunLoop</em> 的错误解释清楚，今天就结合一些实例叙述一下自己对 <em>RunLoop</em> 的浅见。</p>
+<h3 id="RunLoop-是什么"><a href="#RunLoop-是什么" class="headerlink" title="RunLoop 是什么"></a>RunLoop 是什么</h3><p><em>Runloop</em> 是 <em>iOS</em> 底层机制，就是一个运行循环，确切的说是为了保证程序会一直运行不退出的死循环。</p>
+<p>在 <em>iOS</em> 中的入口函数执行类似逻辑，这里打印只会输出 <em>执行了!!!</em>，并不会输出 <em>有没有执行???</em>，这里开启了一个和主线程相关的 <em>RunLoop</em>，导致 <em>UIApplicationMain</em> 不会返回，一直处在运行中。</p>
 <pre><code class="objectivec">int main(int argc, char * argv[]) {
     @autoreleasepool {
         NSLog(@&quot;执行了!!!&quot;);
@@ -38,7 +38,7 @@
     }
 }
 </code></pre>
-<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <strong>RunLoop的概念</strong> 中的叙述。</font>
+<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop的概念</em> 中的叙述。</font>
 
 <p>一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常代码逻辑是这样的：</p>
 <pre><code class="c">function loop() {
@@ -49,27 +49,27 @@
     } while (message != quit);
 }
 </code></pre>
-<p>这种模型通常被称作<a href="https://en.wikipedia.org/wiki/Event_loop" target="_blank" rel="external">Event loop</a>。<strong>Event Loop</strong> 在很多系统和框架里都有实现，比如：</p>
+<p>这种模型通常被称作<a href="https://en.wikipedia.org/wiki/Event_loop" target="_blank" rel="external">Event loop</a>。<em>Event Loop</em> 在很多系统和框架里都有实现，比如：</p>
 <ul>
-<li><strong>Node.js</strong> 的事件处理</li>
-<li><strong>Windows</strong> 程序的消息循环</li>
-<li><strong>OSX/iOS</strong> 的 <strong>RunLoop</strong></li>
+<li><em>Node.js</em> 的事件处理</li>
+<li><em>Windows</em> 程序的消息循环</li>
+<li><em>OSX/iOS</em> 的 <em>RunLoop</em></li>
 </ul>
 <p>实现这种模型的关键的在于：</p>
 <blockquote>
 <p>如何管理事件/消息，如何让线程在没有处理消息时休眠，以避免资源占用；在有消息到来时立刻被唤醒。</p>
 </blockquote>
-<p>所以，<strong>RunLoop</strong> 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面的 <strong>Event Loop</strong> 逻辑。线程执行了这个函数后，就会一直处于这个函数内部 <strong>接受消息 –&gt; 等待 –&gt; 处理</strong> 的循环中，直到这个循环结束（比如，传入 <strong>quit</strong> 消息），函数返回。</p>
-<p><strong>OSX/iOS</strong> 系统中，提供了两个这样的对象：<strong>NSRunLoop</strong> 和 <strong>CFRunLoopRef</strong>。<strong>NSRunLoop</strong> 是基于 <strong>CFRunLoopRef</strong> 的封装，提供了面向对象的 <strong>API</strong>，但这些 <strong>API</strong> 不是线程安全的。<strong>CFRunLoopRef</strong> 是在 <strong>CoreFoundation</strong> 框架内的，它提供了纯 <strong>C函数</strong> 的 <strong>API</strong>，所以这些 <strong>API</strong> 都是线程安全的。</p>
-<h2 id="RunLoop-的作用"><a href="#RunLoop-的作用" class="headerlink" title="RunLoop 的作用"></a>RunLoop 的作用</h2><ol>
+<p>所以，<em>RunLoop</em> 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面的 <em>Event Loop</em> 逻辑。线程执行了这个函数后，就会一直处于这个函数内部 <em>接受消息 –&gt; 等待 –&gt; 处理</em> 的循环中，直到这个循环结束（比如，传入 <em>quit</em> 消息），函数返回。</p>
+<p><em>OSX/iOS</em> 系统中，提供了两个这样的对象：<em>NSRunLoop</em> 和 <em>CFRunLoopRef</em>。<em>NSRunLoop</em> 是基于 <em>CFRunLoopRef</em> 的封装，提供了面向对象的 <em>API</em>，但这些 <em>API</em> 不是线程安全的。<em>CFRunLoopRef</em> 是在 <em>CoreFoundation</em> 框架内的，它提供了纯 <em>C函数</em> 的 <em>API</em>，所以这些 <em>API</em> 都是线程安全的。</p>
+<h3 id="RunLoop-的作用"><a href="#RunLoop-的作用" class="headerlink" title="RunLoop 的作用"></a>RunLoop 的作用</h3><ol>
 <li>保住程序不退出，持续运行；</li>
 <li>负责监听程序中的各种事件，如：网络，触摸，定时器等；</li>
-<li>渲染 <strong>UI</strong>；</li>
-<li>节省 <strong>CPU</strong> 资源，提高程序性能。</li>
+<li>渲染 <em>UI</em>；</li>
+<li>节省 <em>CPU</em> 资源，提高程序性能。</li>
 </ol>
-<h2 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h2><font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <strong>RunLoop 与线程的关系</strong> 中的叙述。</font>
+<h3 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h3><font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 与线程的关系</em> 中的叙述。</font>
 
-<p>苹果不允许直接创建 <strong>RunLoop</strong>，它只提供了两个自动获取的函数：<strong>CFRunLoopGetMain()</strong> 和 <strong>CFRunLoopGetCurrent()</strong>。 这两个函数内部的逻辑大概是下面这样:</p>
+<p>苹果不允许直接创建 <em>RunLoop</em>，它只提供了两个自动获取的函数：<em>CFRunLoopGetMain()</em> 和 <em>CFRunLoopGetCurrent()</em>。 这两个函数内部的逻辑大概是下面这样:</p>
 <pre><code class="c">/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef
 static CFMutableDictionaryRef loopsDic;
 /// 访问 loopsDic 时的锁
@@ -110,32 +110,32 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 }
 </code></pre>
 <ol>
-<li>线程和 <strong>RunLoop</strong> 是一一对应的；</li>
-<li>线程刚刚创建时并没有 <strong>RunLoop</strong>，如果你不主动获取，那它一直不会有；</li>
-<li><strong>RunLoop</strong> 的创建发生在第一次获取时，<strong>RunLoop</strong> 的销毁发生在线程结束时；</li>
-<li>只能在一个线程的内部获取其 <strong>RunLoop</strong> (主线程除外)。</li>
+<li>线程和 <em>RunLoop</em> 是一一对应的；</li>
+<li>线程刚刚创建时并没有 <em>RunLoop</em>，如果你不主动获取，那它一直不会有；</li>
+<li><em>RunLoop</em> 的创建发生在第一次获取时，<em>RunLoop</em> 的销毁发生在线程结束时；</li>
+<li>只能在一个线程的内部获取其 <em>RunLoop</em> (主线程除外)。</li>
 </ol>
-<h2 id="CoreFoundation-中-RunLoop-的组成结构"><a href="#CoreFoundation-中-RunLoop-的组成结构" class="headerlink" title="CoreFoundation 中 RunLoop 的组成结构"></a>CoreFoundation 中 RunLoop 的组成结构</h2><p><strong>CoreFoundation</strong> 中关于 <strong>RunLoop</strong> 有5个类：</p>
+<h3 id="CoreFoundation-中-RunLoop-的组成结构"><a href="#CoreFoundation-中-RunLoop-的组成结构" class="headerlink" title="CoreFoundation 中 RunLoop 的组成结构"></a>CoreFoundation 中 RunLoop 的组成结构</h3><p><em>CoreFoundation</em> 中关于 <em>RunLoop</em> 有5个类：</p>
 <ul>
-<li><strong>CFRunLoopModeRef</strong> // 运行模式，每次调用时只能选择一种，在不同模式中做不同的操作。</li>
-<li>__CFRunLoop <em> <strong>CFRunLoopRef</strong>; // 获得当前 <em>*RunLoop</em></em></li>
-<li>__CFRunLoopSource <em> <em>*CFRunLoopSourceRef</em></em>; // 事件源</li>
-<li>__CFRunLoopObserver <em> <em>*CFRunLoopObserverRef</em></em>; // 观察者</li>
-<li>__CFRunLoopTimer <em> <em>*CFRunLoopTimerRef</em></em>; // 定时器时间</li>
+<li><em>CFRunLoopModeRef</em> // 运行模式，每次调用时只能选择一种，在不同模式中做不同的操作。</li>
+<li>__CFRunLoop <em> </em>CFRunLoopRef<em>; // 获得当前 </em>RunLoop*</li>
+<li>__CFRunLoopSource <em> </em>CFRunLoopSourceRef*; // 事件源</li>
+<li>__CFRunLoopObserver <em> </em>CFRunLoopObserverRef*; // 观察者</li>
+<li>__CFRunLoopTimer <em> </em>CFRunLoopTimerRef*; // 定时器时间</li>
 </ul>
-<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <strong>RunLoop 对外接口</strong> 中的叙述。</font>
+<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 对外接口</em> 中的叙述。</font>
 
-<p>其中 <strong>CFRunLoopModeRef</strong> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
+<p>其中 <em>CFRunLoopModeRef</em> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
-<li><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</li>
-<li><strong>CFRunLoopSourceRef</strong>是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。<ul>
-<li><strong>Source0</strong> 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 <strong>CFRunLoopSourceSignal(source)</strong>，将这个 <strong>Source</strong> 标记为待处理，然后手动调用 <strong>CFRunLoopWakeUp(runloop)</strong> 来唤醒 <strong>RunLoop</strong>，让其处理这个事件。</li>
-<li><strong>Source1</strong> 包含了一个 <strong>mach_port</strong> 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 <strong>Source</strong> 能主动唤醒 <strong>RunLoop</strong> 的线程。</li>
+<li><em>CFRunLoopModeRef</em>，一个 <em>RunLoop</em> 包含若干个 <em>Mode</em><br>，每个 <em>Mode</em> 又包含若干个 <em>Source/Timer/Observer</em>。每次调用 RunLoop的主函数时，只能指定其中一个 <em>Mode</em>，这个 <em>Mode</em> 被称为 <em>CurrentMode</em>。如果需要切换 <em>Mode</em>，只能退出 <em>RunLoop</em>，再重新指定一个 <em>Mode</em> 进入。这样做主要是为了分隔开不同组的 <em>Source/Timer/Observer</em>，让其互不影响。</li>
+<li><em>CFRunLoopSourceRef</em>是事件产生的地方。<em>source</em> 有两个版本：<em>source0</em> 和 <em>source1</em>。<ul>
+<li><em>Source0</em> 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 <em>CFRunLoopSourceSignal(source)</em>，将这个 <em>Source</em> 标记为待处理，然后手动调用 <em>CFRunLoopWakeUp(runloop)</em> 来唤醒 <em>RunLoop</em>，让其处理这个事件。</li>
+<li><em>Source1</em> 包含了一个 <em>mach_port</em> 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 <em>Source</em> 能主动唤醒 <em>RunLoop</em> 的线程。</li>
 </ul>
 </li>
-<li><strong>CFRunLoopTimerRef</strong> 是基于时间的触发器，它和 <strong>NSTimer</strong> 是 <strong>toll-free bridged</strong> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <strong>RunLoop</strong> 时，<strong>RunLoop</strong> 会注册对应的时间点，当时间点到期时，<strong>RunLoop</strong> 会被唤醒一执行那个回调。</li>
-<li><strong>CFRunLoopObserverRef</strong> 是观察者，每个 <strong>Observer</strong> 都包含了一个回调（函数指针），当 <strong>RunLoop</strong> 的状态发生变化时，观察者就能通过回调接受这个变化。可以观察的时间点有以下几个：</li>
+<li><em>CFRunLoopTimerRef</em> 是基于时间的触发器，它和 <em>NSTimer</em> 是 <em>toll-free bridged</em> 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 <em>RunLoop</em> 时，<em>RunLoop</em> 会注册对应的时间点，当时间点到期时，<em>RunLoop</em> 会被唤醒一执行那个回调。</li>
+<li><em>CFRunLoopObserverRef</em> 是观察者，每个 <em>Observer</em> 都包含了一个回调（函数指针），当 <em>RunLoop</em> 的状态发生变化时，观察者就能通过回调接受这个变化。可以观察的时间点有以下几个：</li>
 </ol>
 <pre><code class="objectivec">/* Run Loop Observer Activities */
 typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
@@ -149,9 +149,9 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 };
 </code></pre>
 <blockquote>
-<p>上面的 <strong>Source/Timer/Observer</strong> 被统称为 <strong>mode item</strong>，一个 <strong>item</strong> 可以同时加入多个 <strong>mode</strong>。但一个 <strong>item</strong> 被重复加入同一个 <strong>mode</strong> 时，是不会有效果的。如果一个 <strong>mode</strong> 中一个 <strong>item</strong> 都没有，则 <strong>RunLoop</strong> 会直接退出，不进入循环。</p>
+<p>上面的 <em>Source/Timer/Observer</em> 被统称为 <em>mode item</em>，一个 <em>item</em> 可以同时加入多个 <em>mode</em>。但一个 <em>item</em> 被重复加入同一个 <em>mode</em> 时，是不会有效果的。如果一个 <em>mode</em> 中一个 <em>item</em> 都没有，则 <em>RunLoop</em> 会直接退出，不进入循环。</p>
 </blockquote>
-<h2 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h2><p>关于 <strong>RunLoop</strong> 的 <strong>Mode</strong> 可以通过下面的例子，展开来说，</p>
+<h3 id="RunLoop的-Mode"><a href="#RunLoop的-Mode" class="headerlink" title="RunLoop的 Mode"></a>RunLoop的 Mode</h3><p>关于 <em>RunLoop</em> 的 <em>Mode</em> 可以通过下面的例子，展开来说，</p>
 <pre><code class="objectivec">- (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -173,8 +173,8 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <p>再滑动 <em>UITextView</em> 控件，控制台会继续输出。结合上面的所说的一个 <em>RunLoop</em> 包含若干个 <em>Mode</em>，每个 <em>Mode</em> 又包含若干个 <em>Source/Timer/Observer</em>，例子中的关系可以这样表示，如图所示，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_02.png" alt=""></p>
 <p>这里在 <em>UITrackingRunLoopMode</em>（UI模式）下的优先级最高，当通过触摸事件唤醒该模式时，当前 <em>RunLoop</em> 会忽落掉其它模式，优先处理UI模式下的事件。 同样在UI模式下，没有触摸手机屏幕时，即使有 <em>timer</em> 回调也不会继续处理，因此，当不再滑动控件时，控制台就不会再有任何输出了。如果想要兼顾默认模式和UI模式，可以这样做：</p>
-<pre><code class="objectivec">    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+<pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+[[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
 </code></pre>
 <p>将 <em>timer</em> 同时添加到两种模式中，在触摸屏幕时(UI模式)，会处理 <em>timer</em> 回调，当不在触摸屏幕时(默认模式)，也会处理 <em>timer</em> 回调。那么有没有一种模式可以兼顾这两种模式呢？答案是肯定的。如下，</p>
 <pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -193,13 +193,13 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <li>系统内核模式</li>
 </ol>
 <p>经常用到的是前三种模式。</p>
-<h2 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h2><h2 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
+<h3 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h3><h3 id="RunLoop-实现的功能"><a href="#RunLoop-实现的功能" class="headerlink" title="RunLoop 实现的功能"></a>RunLoop 实现的功能</h3><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
 <font color="#FF0000">未完，待续……</font>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;上一篇博客介绍了使用 &lt;strong&gt;WKWebView&lt;/strong&gt; 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 &lt;strong&gt;H5&lt;/strong&gt; 页面时，就会出现应用卡死的情况。&lt;a href=&quot;http://xibhe.com/2018/02
+      &lt;p&gt;上一篇博客介绍了使用 &lt;em&gt;WKWebView&lt;/em&gt; 进行性能调优，以及使用中遇到的问题。当在弱网环境下频繁切换 &lt;em&gt;H5&lt;/em&gt; 页面时，就会出现应用卡死的情况。&lt;a href=&quot;http://xibhe.com/2018/02/03/WKWebView-di
     
     </summary>
     
