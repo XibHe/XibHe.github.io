@@ -21,7 +21,7 @@
     }
 }
 </code></pre>
-<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop的概念</em> 中的叙述。</font>
+<font color="#DC143C" size="3">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop的概念</em> 中的叙述。</font>
 
 <p>一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常代码逻辑是这样的：</p>
 <pre><code class="c">function loop() {
@@ -50,7 +50,7 @@
 <li>渲染 <em>UI</em>；</li>
 <li>节省 <em>CPU</em> 资源，提高程序性能。</li>
 </ol>
-<h3 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h3><font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 与线程的关系</em> 中的叙述。</font>
+<h3 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h3><font color="#DC143C" size="3">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 与线程的关系</em> 中的叙述。</font>
 
 <p>苹果不允许直接创建 <em>RunLoop</em>，它只提供了两个自动获取的函数：<em>CFRunLoopGetMain()</em> 和 <em>CFRunLoopGetCurrent()</em>。 这两个函数内部的逻辑大概是下面这样:</p>
 <pre><code class="c">/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef
@@ -106,7 +106,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <li>__CFRunLoopObserver <em> </em>CFRunLoopObserverRef*; // 观察者</li>
 <li>__CFRunLoopTimer <em> </em>CFRunLoopTimerRef*; // 定时器时间</li>
 </ul>
-<font color="#DC143C" size="4">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 对外接口</em> 中的叙述。</font>
+<font color="#DC143C" size="3">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 对外接口</em> 中的叙述。</font>
 
 <p>其中 <em>CFRunLoopModeRef</em> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
@@ -2999,9 +2999,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -3090,9 +3090,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4188,6 +4188,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -4195,18 +4201,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x64;&#x65;&#118;&#x65;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#112;&#101;&#110;&#103;&#104;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;">&#x64;&#x65;&#118;&#x65;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#112;&#101;&#110;&#103;&#104;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#100;&#x65;&#118;&#101;&#108;&#x6f;&#x70;&#x65;&#x72;&#112;&#x65;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#x6d;">&#100;&#x65;&#118;&#101;&#108;&#x6f;&#x70;&#x65;&#x72;&#112;&#x65;&#x6e;&#x67;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
