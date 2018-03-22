@@ -837,7 +837,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
     <entry>
       <title><![CDATA[AFNetworking到底做了什么？]]></title>
       <url>/2017/11/26/AF3.x/</url>
-      <content type="html"><![CDATA[<p>最近在对接一个demo，主要是调用一下SDK，实现一些功能。发现这个demo的网络请求部分是基于<strong>NSURLConnection</strong>做的一些简单调用。用起来感觉总是怪怪的，于是就想切换回自己一直在用的<strong>AFNetworking</strong>。结果，和我想的还是不太一致。同时，也暴露出一个严重的问题：对<strong>AFNetworking</strong>实现原理，到底做了什么？可以说是一窍不通。之前一直以为对<strong>AFNetworking</strong>很熟悉了，现在看来，也只是停留在调用<strong>AFHTTPSessionManager</strong>的表明。</p>
+      <content type="html"><![CDATA[<p>最近在对接一个demo，主要是调用一下SDK，实现一些功能。发现这个demo的网络请求部分是基于<strong>NSURLConnection</strong>做的一些简单调用。用起来感觉总是怪怪的，于是就想切换回自己一直在用的<strong>AFNetworking</strong>。结果，和我想的还是不太一致。同时，也暴露出一个严重的问题：对<strong>AFNetworking</strong>实现原理，到底做了什么？可以说是一窍不通。之前一直以为对<strong>AFNetworking</strong>很熟悉了，现在看来，也只是停留在调用<strong>AFHTTPSessionManager</strong>的表面。</p>
 <p><strong>NSURLSession</strong>， <strong>NSURLSessionDataTask</strong>这两个类是iOS做网络请求的核心类，而AFNetworking则是对其做了一系列封装，简化了使用系统原生API做网络请求的过程。</p>
 <h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
 <ul>
@@ -4195,18 +4195,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x64;&#101;&#118;&#101;&#108;&#111;&#112;&#x65;&#114;&#x70;&#x65;&#110;&#103;&#104;&#x65;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#x64;&#101;&#118;&#101;&#108;&#111;&#112;&#x65;&#114;&#x70;&#x65;&#110;&#103;&#104;&#x65;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x64;&#101;&#118;&#101;&#108;&#111;&#112;&#x65;&#114;&#112;&#101;&#x6e;&#x67;&#104;&#101;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#109;">&#x64;&#101;&#118;&#101;&#108;&#111;&#112;&#x65;&#114;&#112;&#101;&#x6e;&#x67;&#104;&#101;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
@@ -4359,6 +4353,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
