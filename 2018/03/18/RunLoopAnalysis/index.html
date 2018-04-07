@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sun Mar 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Apr 07 2018 22:24:57 GMT+0800">
+        <meta property="article:modified_time" content="Sat Apr 07 2018 22:29:23 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/03/18/RunLoopAnalysis/index.html",
     "headline": "深入理解RunLoop",
     "datePublished": "Sun Mar 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Sat Apr 07 2018 22:24:57 GMT+0800",
+    "dateModified": "Sat Apr 07 2018 22:29:23 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#更新说明"><span class="post-toc-number">1.</span> <span class="post-toc-text">更新说明</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-是什么"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">RunLoop 是什么</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-的作用"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">RunLoop 的作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-与线程的关系"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">RunLoop 与线程的关系</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CoreFoundation-中-RunLoop-的组成结构"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">CoreFoundation 中 RunLoop 的组成结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop的-Mode"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">RunLoop的 Mode</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-的内部逻辑"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">RunLoop 的内部逻辑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用-RunLoop-解决一些问题"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">利用 RunLoop 解决一些问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-RunLoop-渲染UI-—-减少滑动卡顿"><span class="post-toc-number">1.7.1.</span> <span class="post-toc-text">1. RunLoop 渲染UI — 减少滑动卡顿</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-通过-RunLoop-让Crash的App回光返照"><span class="post-toc-number">1.7.2.</span> <span class="post-toc-text">2. 通过 RunLoop 让Crash的App回光返照</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写在最后"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">写在最后</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">参考资料</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#更新说明"><span class="post-toc-number">1.</span> <span class="post-toc-text">更新说明</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-是什么"><span class="post-toc-number">2.</span> <span class="post-toc-text">RunLoop 是什么</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-的作用"><span class="post-toc-number">3.</span> <span class="post-toc-text">RunLoop 的作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-与线程的关系"><span class="post-toc-number">4.</span> <span class="post-toc-text">RunLoop 与线程的关系</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CoreFoundation-中-RunLoop-的组成结构"><span class="post-toc-number">5.</span> <span class="post-toc-text">CoreFoundation 中 RunLoop 的组成结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop的-Mode"><span class="post-toc-number">6.</span> <span class="post-toc-text">RunLoop的 Mode</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RunLoop-的内部逻辑"><span class="post-toc-number">7.</span> <span class="post-toc-text">RunLoop 的内部逻辑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用-RunLoop-解决一些问题"><span class="post-toc-number">8.</span> <span class="post-toc-text">利用 RunLoop 解决一些问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-RunLoop-渲染UI-—-减少滑动卡顿"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">1. RunLoop 渲染UI — 减少滑动卡顿</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-通过-RunLoop-让-Crash-的-App-回光返照"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">2. 通过 RunLoop 让 Crash 的 App 回光返照</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写在最后"><span class="post-toc-number">9.</span> <span class="post-toc-text">写在最后</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">10.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -512,7 +512,7 @@
 <pre><code class="objectivec">2018-02-01 11:09:01.952689+0800 CloudOfficeTest[614:68129] void SendDelegateMessage(NSInvocation *): delegate (webView:decidePolicyForNavigationAction:request:frame:decisionListener:) failed to return after waiting 10 seconds. main run loop mode: kCFRunLoopDefaultMode
 </code></pre>
 <p>错误中出现了 <em>main run loop mode: kCFRunLoopDefaultMode</em> 的信息提示，最后虽然将项目中的 <em>UIWebView</em> 替换为 <em>WKWebView</em> ( <em>WKWebView</em>的内存消耗相比 <em>UIWebView</em> 低了一个数量级)。但却没有将这个报 <em>RunLoop</em> 的错误解释清楚，今天就结合一些实例叙述一下自己对 <em>RunLoop</em> 的浅见。</p>
-<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
+<h3 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h3><p>更新记录:</p>
 <ul>
 <li>2018 年 03 月，第一版。</li>
 <li>2018 年 04 月，补充利用 RunLoop 解决一些问题的 Demo。</li>
@@ -728,7 +728,7 @@ void callback(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *i
     [vc.tasks removeObjectAtIndex:0];
 }
 </code></pre>
-<h4 id="2-通过-RunLoop-让Crash的App回光返照"><a href="#2-通过-RunLoop-让Crash的App回光返照" class="headerlink" title="2. 通过 RunLoop 让Crash的App回光返照"></a>2. 通过 RunLoop 让Crash的App回光返照</h4><p>由 <em>SIGABRT</em> 引起的 <em>crash</em> 是系统发这个 <em>SIGABRT</em> 给 App，程序收到这个<em>SIGABRT</em> 后，就会把主线程的 <em>RunLoop</em> 杀死，程序就挂掉了。这个例子只针对 <em>SIGABRT</em> 引起的 <em>Crash</em> 有效。</p>
+<h4 id="2-通过-RunLoop-让-Crash-的-App-回光返照"><a href="#2-通过-RunLoop-让-Crash-的-App-回光返照" class="headerlink" title="2. 通过 RunLoop 让 Crash 的 App 回光返照"></a>2. 通过 RunLoop 让 Crash 的 App 回光返照</h4><p>由 <em>SIGABRT</em> 引起的 <em>crash</em> 是系统发这个 <em>SIGABRT</em> 给 App，程序收到这个<em>SIGABRT</em> 后，就会把主线程的 <em>RunLoop</em> 杀死，程序就挂掉了。这个例子只针对 <em>SIGABRT</em> 引起的 <em>Crash</em> 有效。</p>
 <pre><code class="objectivec">CFRunLoopRef runloop = CFRunLoopGetCurrent();  
     //获取所有Mode，因为可能有很多Mode，每个Mode都需要跑，此处可以选择提交下崩溃信息之类的  
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@&quot;程序崩溃了&quot; message:@&quot;崩溃信息&quot; delegate:nil cancelButtonTitle:@&quot;取消&quot; otherButtonTitles:nil];  
