@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-04-19T09:22:01.953Z</updated>
+  <updated>2018-05-07T09:33:58.470Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,9 +20,90 @@
     <link href="http://XibHe.github.io/2018/04/18/SQLOptimize/"/>
     <id>http://XibHe.github.io/2018/04/18/SQLOptimize/</id>
     <published>2018-04-17T16:00:00.000Z</published>
-    <updated>2018-04-19T09:22:01.953Z</updated>
+    <updated>2018-05-07T09:33:58.470Z</updated>
+    
+    <content type="html"><![CDATA[<p>前段时间遇到一个问题，程序中查询患者信息的功能，当患者数据量超过 <strong>30000</strong> 条时，会出现卡顿，APP 无响应的问题。在处理这个需求时，需要将本地数据库中的全部患者数据查询出来，然后按照从 <strong>A - Z</strong> 的患者首字母进行分组排序。对于不属于 <strong>A - Z</strong> 的数据，将其分为 <strong>#</strong> 组。</p>
+<h2 id="卡顿问题的解决"><a href="#卡顿问题的解决" class="headerlink" title="卡顿问题的解决"></a>卡顿问题的解决</h2><p>尝试了 4 种不同的方案，如下：</p>
+<ol>
+<li>算法角度上，以空间换时间，一下子就创建好 26 个存放 A - Z 首字母排序的数组，以减少循环次数为目的，循环一次，找到对应首字母序列的数据，从数据源中移除这些数据；然后，继续开始下一次遍历，以此类推，直到查询出所有排序数组。（时间复杂度，空间复杂度）</li>
+</ol>
+<p><strong>桶排序算法</strong></p>
+<ol>
+<li>几种不同遍历方式的比较，试图通过比较查询效率，找到最快的遍历方式。</li>
+</ol>
+<ul>
+<li>经典 for 循环</li>
+<li>for in (NSFastEnumeration)</li>
+<li>KVC 集合运算符 </li>
+<li>enumerateObjectsUsingBlock</li>
+<li>enumerateObjectsWithOptions(NSEnumerationConcurrent) </li>
+</ul>
+<ol>
+<li>折中方案，为了避免查询时卡死主线程，将查询方法放在 <strong>异步线程</strong> 里，然后在 <strong>主线程</strong> 中刷新数据源。如下：</li>
+</ol>
+<pre><code class="objectivec">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+
+        for (char a = &#39;A&#39;; a &lt;=&#39;Z&#39;; a ++) {
+            LZPatientListSectionModel *sectionModel = [[LZPatientListSectionModel alloc] init];
+            sectionModel.sectionTitle = [NSString stringWithFormat:@&quot;%c&quot;,a];
+
+            for (PationMoedl *pationModel in _allPatients) {
+                //PationMoedl *pationModel = _allPatients[i];
+                if (pationModel.userShortName.length &gt; 0) {
+                    char temp = [pationModel.userShortName characterAtIndex:0];
+                    if (a == temp) {
+                        [sectionModel.patientList addObject:pationModel];
+                        [tempArray removeObject:pationModel];
+                    }
+                }
+            }
+            if (sectionModel.patientList.count &gt;0) {
+                [self.patientArray addObject:sectionModel];
+            }
+        }
+
+        LZPatientListSectionModel *sectionModel = [[LZPatientListSectionModel alloc] init];
+        sectionModel.sectionTitle = @&quot;#&quot;;
+        if (tempArray.count &gt; 0) {
+            [sectionModel.patientList addObjectsFromArray:tempArray];
+            [self.patientArray insertObject:sectionModel atIndex:0];
+        }
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_patientTableView reloadData];
+            [MBProgressHUD hideHUDForView:self];
+        });
+
+     });
+</code></pre>
+<ol>
+<li>方案4也是最终采用的方案，主要时间排序的功能用 <strong>SQL</strong> 语句去实现，在每次遍历时，传入一个当前的序列，通过执行数据库查询语句得到一个分好的序列数组，这样就大大减少了 <strong>for</strong> 循环的次数，提高了速度。但为了不卡死线程，仍然需要与 <strong>GCD</strong> 结合起来使用。如下：</li>
+</ol>
+<pre><code class="objectivec">// 其他非 A-Z 的数据
+        NSArray *otherArray = [[LZDatabaseHelper sharedInstance] getPatientMistakeGroup];
+        if (otherArray &amp;&amp; otherArray.count &gt; 0) {
+            LZPatientListSectionModel *sectionModel = [[LZPatientListSectionModel alloc] init];
+            sectionModel.sectionTitle = @&quot;#&quot;;
+            [sectionModel.patientList addObjectsFromArray:otherArray];
+            [self.patientArray insertObject:sectionModel atIndex:0];
+        }
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_patientTableView reloadData];
+            [MBProgressHUD hideHUDForView:self];
+        });
+
+    });
+</code></pre>
+<h2 id="关于数据库查询语句的优化"><a href="#关于数据库查询语句的优化" class="headerlink" title="关于数据库查询语句的优化"></a>关于数据库查询语句的优化</h2><h2 id="一个关于-CoreData-的问题"><a href="#一个关于-CoreData-的问题" class="headerlink" title="一个关于 CoreData 的问题"></a>一个关于 CoreData 的问题</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>第一手资料永远是官方文档！！！</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.sqlite.org/search?s=d&amp;q=regexp" target="_blank" rel="external">sqlite.org Documentation</a></p>
+<p><a href="https://www.w3cschool.cn/sql/7vn4tfq0.html" target="_blank" rel="external">w3cschool SQL</a></p>
+<p><a href="https://stackoverflow.com/questions/7793488/regex-in-sqlite-and-objectivec" target="_blank" rel="external">Regex in SQLite and ObjectiveC</a></p>
+]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;前段时间遇到一个问题，程序中查询患者信息的功能，当患者数据量超过 &lt;strong&gt;30000&lt;/strong&gt; 条时，会出现卡顿，APP 无响应的问题。在处理这个需求时，需要将本地数据库中的全部患者数据查询出来，然后按照从 &lt;strong&gt;A - Z&lt;/strong&gt; 的患
     
     </summary>
     
