@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Apr 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Mon May 14 2018 23:49:25 GMT+0800">
+        <meta property="article:modified_time" content="Tue May 15 2018 00:07:56 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/04/18/SQLOptimize/index.html",
     "headline": "从一个数据量过多的优化说起",
     "datePublished": "Wed Apr 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Mon May 14 2018 23:49:25 GMT+0800",
+    "dateModified": "Tue May 15 2018 00:07:56 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -683,6 +683,7 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 </code></pre>
 <pre><code class="objectivec"> *** Terminating app due to uncaught exception &#39;NSInvalidArgumentException&#39;, reason: &#39;CoreData: Cannot load NSManagedObjectModel.  nil is an illegal URL parameter&#39;
 </code></pre>
+<p><strong>Core Data</strong> 数据库的名字和封装类里的名字是一致的。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
 <li>第一手资料永远是官方文档！！！</li>
 <li>算法真的真的很重要! ! !</li>
@@ -690,11 +691,14 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>使用 <strong>GCD</strong> 多线程技术来处理耗时任务；</li>
 <li>算法，不同遍历方式进行比较，<strong>SQL</strong>查询语句的优化，<strong>GCD</strong> 这几种方式相结合总能给人意想不到的惊喜，没有一种解决方案是孤立存在的。</li>
 </ul>
+<p>对症下药吧！将提高查询效率和减少遍历次数二者相结合。做完这次优化后，还是想问一句：这是最优的方案吗？还可以进一步优化吗? </p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.sqlite.org/search?s=d&amp;q=regexp" target="_blank" rel="external">sqlite.org Documentation</a></p>
 <p><a href="https://www.w3cschool.cn/sql/7vn4tfq0.html" target="_blank" rel="external">w3cschool SQL</a></p>
 <p><a href="https://stackoverflow.com/questions/7793488/regex-in-sqlite-and-objectivec" target="_blank" rel="external">Regex in SQLite and ObjectiveC</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/Core_Data" target="_blank" rel="external">Core Data</a></p>
-<font color="#e5622" size="5">未完待续……</font>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+
         
     
 
