@@ -164,8 +164,7 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>不要把SQL语句写得太复杂</li>
 <li>避免过度使用 Select * 查询所有数据 （实际使用时只需要某一个或几个字段）</li>
 <li>统一 <strong>SQL</strong> 语句的写法 (主要区分大小写)</li>
-<li><p><strong>SQL</strong> 语句的拓展</p>
-<ul>
+<li><strong>SQL</strong> 语句的拓展<ul>
 <li><em>sqlite</em> 截取字符串前几位后再进行查询</li>
 <li>在 <em>sqlite</em> 中使用 <em>regex</em> 进行查询</li>
 </ul>
@@ -174,8 +173,7 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <p>之前没有在 <strong>SQLite</strong> 中使用过 <strong>regex</strong> 还以为不支持呢，最后几经波折，在官网上找到了对应的文档！</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
 <ul>
-<li><p>SUBSTR()，SQL 中的 substring 函数是用来抓出一个栏位资料中的其中一部分。这个函数的名称在不同的数据库中不完全一样：</p>
-<ul>
+<li>SUBSTR()，SQL 中的 substring 函数是用来抓出一个栏位资料中的其中一部分。这个函数的名称在不同的数据库中不完全一样：<ul>
 <li>MySQL: SUBSTR( ), SUBSTRING( )</li>
 <li>Oracle: SUBSTR( )</li>
 <li>SQL Server: SUBSTRING( )</li>
@@ -3302,9 +3300,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -3393,9 +3391,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4492,7 +4490,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#101;&#114;&#x70;&#101;&#x6e;&#103;&#104;&#x65;&#64;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#109;">&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#101;&#114;&#x70;&#101;&#x6e;&#103;&#104;&#x65;&#64;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
