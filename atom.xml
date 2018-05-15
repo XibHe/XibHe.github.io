@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-05-15T05:55:30.114Z</updated>
+  <updated>2018-05-15T05:57:10.571Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/04/18/SQLOptimize/"/>
     <id>http://XibHe.github.io/2018/04/18/SQLOptimize/</id>
     <published>2018-04-17T16:00:00.000Z</published>
-    <updated>2018-05-15T05:55:30.114Z</updated>
+    <updated>2018-05-15T05:57:10.571Z</updated>
     
     <content type="html"><![CDATA[<p>前段时间遇到一个问题，程序中查询患者信息的功能，当患者数据量超过 <strong>30000</strong> 条时，会出现卡顿，APP 无响应的问题。在处理这个需求时，需要将本地数据库中的全部患者数据查询出来，然后按照从 <strong>A - Z</strong> 的患者首字母进行分组排序。对于不属于 <strong>A - Z</strong> 的数据，将其分为 <strong>#</strong> 组。</p>
 <h2 id="卡顿问题的解决"><a href="#卡顿问题的解决" class="headerlink" title="卡顿问题的解决"></a>卡顿问题的解决</h2><p>原来的代码逻辑如下：</p>
@@ -181,7 +181,8 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>不要把SQL语句写得太复杂</li>
 <li>避免过度使用 Select * 查询所有数据 （实际使用时只需要某一个或几个字段）</li>
 <li>统一 <strong>SQL</strong> 语句的写法 (主要区分大小写)</li>
-<li><strong>SQL</strong> 语句的拓展<ul>
+<li><p><strong>SQL</strong> 语句的拓展</p>
+<ul>
 <li><em>sqlite</em> 截取字符串前几位后再进行查询</li>
 <li>在 <em>sqlite</em> 中使用 <em>regex</em> 进行查询</li>
 </ul>

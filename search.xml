@@ -164,7 +164,8 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>不要把SQL语句写得太复杂</li>
 <li>避免过度使用 Select * 查询所有数据 （实际使用时只需要某一个或几个字段）</li>
 <li>统一 <strong>SQL</strong> 语句的写法 (主要区分大小写)</li>
-<li><strong>SQL</strong> 语句的拓展<ul>
+<li><p><strong>SQL</strong> 语句的拓展</p>
+<ul>
 <li><em>sqlite</em> 截取字符串前几位后再进行查询</li>
 <li>在 <em>sqlite</em> 中使用 <em>regex</em> 进行查询</li>
 </ul>
@@ -4484,6 +4485,28 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#101;&#114;&#x70;&#101;&#x6e;&#103;&#104;&#x65;&#64;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#109;">&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#101;&#114;&#x70;&#101;&#x6e;&#103;&#104;&#x65;&#64;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#109;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-04-07"><a href="#2018-04-07" class="headerlink" title="2018/04/07"></a>2018/04/07</h3><blockquote>
@@ -4635,28 +4658,6 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x64;&#101;&#118;&#101;&#x6c;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#101;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#x64;&#101;&#118;&#101;&#x6c;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#101;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
     </entry>
     
