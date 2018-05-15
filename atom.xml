@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-05-15T05:58:41.922Z</updated>
+  <updated>2018-05-15T07:08:51.938Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/04/18/SQLOptimize/"/>
     <id>http://XibHe.github.io/2018/04/18/SQLOptimize/</id>
     <published>2018-04-17T16:00:00.000Z</published>
-    <updated>2018-05-15T05:58:41.922Z</updated>
+    <updated>2018-05-15T07:08:51.938Z</updated>
     
     <content type="html"><![CDATA[<p>前段时间遇到一个问题，程序中查询患者信息的功能，当患者数据量超过 <strong>30000</strong> 条时，会出现卡顿，APP 无响应的问题。在处理这个需求时，需要将本地数据库中的全部患者数据查询出来，然后按照从 <strong>A - Z</strong> 的患者首字母进行分组排序。对于不属于 <strong>A - Z</strong> 的数据，将其分为 <strong>#</strong> 组。</p>
 <h2 id="卡顿问题的解决"><a href="#卡顿问题的解决" class="headerlink" title="卡顿问题的解决"></a>卡顿问题的解决</h2><p>原来的代码逻辑如下：</p>
@@ -176,6 +176,16 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>将查询到的非 A-Z 插入到患者数据源中；</li>
 <li>主线程中刷新列表。</li>
 </ol>
+<p>这里将最为耗时的对应首字母遍历数据操作，通过 <strong>SQL</strong> 查询语句来实现。那么 <strong>SQL</strong> 语句的查询速度究竟如何呢？可以在处理 <strong>SQL</strong> 查询的方法里增加计算方法执行耗时的代码：</p>
+<pre><code class="objectivec">// 记录开始时间，放在方法执行的最前面
+NSDate *startDate = [NSDate date];
+
+// 记录结束时间，放到方法执行结束的位置
+NSDate *finishDate = [NSDate date];
+NSTimeInterval interval = [finishDate timeIntervalSinceDate:startDate];
+NSLog(@&quot;查询全部患者数据耗时: %f&quot;,interval);
+</code></pre>
+<p>返回的时间戳大概为 <strong>0.45</strong> 毫秒。</p>
 <h2 id="关于数据库查询语句的优化"><a href="#关于数据库查询语句的优化" class="headerlink" title="关于数据库查询语句的优化"></a>关于数据库查询语句的优化</h2><ol>
 <li>建立索引</li>
 <li>不要把SQL语句写得太复杂</li>

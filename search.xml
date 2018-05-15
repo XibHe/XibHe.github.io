@@ -159,6 +159,16 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>将查询到的非 A-Z 插入到患者数据源中；</li>
 <li>主线程中刷新列表。</li>
 </ol>
+<p>这里将最为耗时的对应首字母遍历数据操作，通过 <strong>SQL</strong> 查询语句来实现。那么 <strong>SQL</strong> 语句的查询速度究竟如何呢？可以在处理 <strong>SQL</strong> 查询的方法里增加计算方法执行耗时的代码：</p>
+<pre><code class="objectivec">// 记录开始时间，放在方法执行的最前面
+NSDate *startDate = [NSDate date];
+
+// 记录结束时间，放到方法执行结束的位置
+NSDate *finishDate = [NSDate date];
+NSTimeInterval interval = [finishDate timeIntervalSinceDate:startDate];
+NSLog(@&quot;查询全部患者数据耗时: %f&quot;,interval);
+</code></pre>
+<p>返回的时间戳大概为 <strong>0.45</strong> 毫秒。</p>
 <h2 id="关于数据库查询语句的优化"><a href="#关于数据库查询语句的优化" class="headerlink" title="关于数据库查询语句的优化"></a>关于数据库查询语句的优化</h2><ol>
 <li>建立索引</li>
 <li>不要把SQL语句写得太复杂</li>
@@ -3300,9 +3310,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -3391,9 +3401,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -4483,22 +4493,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
@@ -4656,6 +4650,22 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x64;&#101;&#118;&#x65;&#108;&#111;&#x70;&#x65;&#114;&#x70;&#x65;&#110;&#x67;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;">&#x64;&#101;&#118;&#x65;&#108;&#111;&#x70;&#x65;&#114;&#x70;&#x65;&#110;&#x67;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
     </entry>
     
