@@ -172,6 +172,24 @@ dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 </ol>
 <p>之前没有在 <strong>SQLite</strong> 中使用过 <strong>regex</strong> 还以为不支持呢，最后几经波折，在官网上找到了对应的文档！</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
+<ul>
+<li><p>SUBSTR()，SQL 中的 substring 函数是用来抓出一个栏位资料中的其中一部分。这个函数的名称在不同的数据库中不完全一样：</p>
+<ul>
+<li>MySQL: SUBSTR( ), SUBSTRING( )</li>
+<li>Oracle: SUBSTR( )</li>
+<li>SQL Server: SUBSTRING( )</li>
+</ul>
+</li>
+</ul>
+<pre><code class="objectivec">// 根据 A - Z 进行分组查询
+NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(userShortName,1,1) = &#39;%@&#39; &quot;,clinkId,orderNumber];
+</code></pre>
+<ul>
+<li>GLOB 用来连接正则表达式的关键字</li>
+</ul>
+<pre><code class="objectivec">// 查询非 A - Z 的数据
+NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(userShortName,1,1) GLOB &#39;[^A-Z]&#39; &quot;,clinkId];
+</code></pre>
 <h2 id="一个关于-CoreData-的问题"><a href="#一个关于-CoreData-的问题" class="headerlink" title="一个关于 CoreData 的问题"></a>一个关于 CoreData 的问题</h2><p><strong>Core Data</strong> 是 <strong>iOS5</strong> 之后才出现的一个框架，本质上是对 <strong>SQLite</strong> 的一个封装，它允许按照实体-属性-值模型组织数据，并以 <strong>XML</strong>，二进制文件或<strong>SQLite</strong> 数据文件的格式将其序列化。<strong>Core Data</strong> 允许用户使用代表实体和实体间关系的高层对象来操作数据。它也可以管理序列化的数据，提供对象生存期管理与 <strong>object graph</strong> 管理，包括存储。<strong>Core Data</strong> 直接与 <strong>SQLite</strong> 交互，避免开发者使用原本的 <strong>SQL</strong> 语句。</p>
 <p>这里在尝试使用 <strong>Core Data</strong> 时遇到一个问题，在获取模型路径，创建模型对象时，一直报错：</p>
 <pre><code class="objectivec">    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@&quot;testModel&quot; withExtension:@&quot;momd&quot;];
@@ -4472,22 +4490,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x64;&#x65;&#118;&#101;&#108;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#110;&#103;&#x68;&#x65;&#x40;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#x6d;">&#x64;&#x65;&#118;&#101;&#108;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#110;&#103;&#x68;&#x65;&#x40;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#x6d;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-04-07"><a href="#2018-04-07" class="headerlink" title="2018/04/07"></a>2018/04/07</h3><blockquote>
@@ -4639,6 +4641,22 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x64;&#x65;&#x76;&#101;&#108;&#111;&#112;&#x65;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#x64;&#x65;&#x76;&#101;&#108;&#111;&#112;&#x65;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
     </entry>
     
