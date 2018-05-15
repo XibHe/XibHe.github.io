@@ -4484,12 +4484,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-04-07"><a href="#2018-04-07" class="headerlink" title="2018/04/07"></a>2018/04/07</h3><blockquote>
@@ -4645,6 +4639,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -4652,7 +4652,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x64;&#x65;&#x76;&#101;&#108;&#111;&#112;&#x65;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#x64;&#x65;&#x76;&#101;&#108;&#111;&#112;&#x65;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x64;&#101;&#118;&#101;&#x6c;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#101;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#x64;&#101;&#118;&#101;&#x6c;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#101;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
