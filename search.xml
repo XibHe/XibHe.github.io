@@ -4500,7 +4500,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x64;&#101;&#118;&#101;&#108;&#x6f;&#x70;&#101;&#114;&#x70;&#x65;&#x6e;&#x67;&#104;&#101;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;">&#x64;&#101;&#118;&#101;&#108;&#x6f;&#x70;&#101;&#114;&#x70;&#x65;&#x6e;&#x67;&#104;&#101;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#100;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#101;&#x40;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;">&#100;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#101;&#x40;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -4511,6 +4511,12 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -4667,12 +4673,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
