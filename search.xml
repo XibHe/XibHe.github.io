@@ -174,6 +174,12 @@ NSLog(@&quot;查询全部患者数据耗时: %f&quot;,interval);
 <li>不要把SQL语句写得太复杂</li>
 <li>避免过度使用 Select * 查询所有数据 （实际使用时只需要某一个或几个字段）</li>
 <li>统一 <strong>SQL</strong> 语句的写法 (主要区分大小写)</li>
+<li><strong>REPLACE INTO</strong> 语句的使用<ul>
+<li><em>REPLACE</em> 作用与 <em>INSERT</em> 完全一致，但如果旧表中的行具有相同的值作为一个新行 <em>PRIMARY KEY</em> 或 <em>UNIQUE</em> 索引，旧行插入新行之前删除。</li>
+<li><em>REPLACE</em> 是一个 <em>MySQL</em> 扩展 <em>SQL</em> 标准。它要么插入要么先删除再插入。</li>
+<li>注意，除非表有一个 <em>PRIMARY KEY</em> 或 <em>UNIQUE</em> 索引，否则使用 <em>REPLACE</em> 语句是没有意义的。</li>
+</ul>
+</li>
 <li><strong>SQL</strong> 语句的拓展<ul>
 <li><em>sqlite</em> 截取字符串前几位后再进行查询</li>
 <li>在 <em>sqlite</em> 中使用 <em>regex</em> 进行查询</li>
@@ -218,6 +224,7 @@ NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShort
 <p>对症下药吧！将提高查询效率和减少遍历次数二者相结合。做完这次优化后，还是想问一句：这是最优的方案吗？还可以进一步优化吗? </p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.sqlite.org/search?s=d&amp;q=regexp" target="_blank" rel="external">sqlite.org Documentation</a></p>
 <p><a href="https://www.w3cschool.cn/sql/7vn4tfq0.html" target="_blank" rel="external">w3cschool SQL</a></p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/replace.html" target="_blank" rel="external">13.2.9 REPLACE Syntax</a></p>
 <p><a href="https://stackoverflow.com/questions/7793488/regex-in-sqlite-and-objectivec" target="_blank" rel="external">Regex in SQLite and ObjectiveC</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/Core_Data" target="_blank" rel="external">Core Data</a></p>
 <p>–EOF–</p>
@@ -3310,9 +3317,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -3401,9 +3408,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -4493,30 +4500,8 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#100;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#101;&#x40;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;">&#100;&#x65;&#118;&#x65;&#x6c;&#x6f;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#101;&#x40;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -4673,6 +4658,28 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#100;&#x65;&#118;&#x65;&#108;&#x6f;&#x70;&#101;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;">&#100;&#x65;&#118;&#x65;&#108;&#x6f;&#x70;&#101;&#114;&#112;&#101;&#110;&#x67;&#104;&#x65;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
