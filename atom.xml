@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-06-07T13:01:41.590Z</updated>
+  <updated>2018-06-07T14:40:59.130Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从一个蓝牙打印说起</title>
+    <link href="http://XibHe.github.io/2018/05/28/Compiling/"/>
+    <id>http://XibHe.github.io/2018/05/28/Compiling/</id>
+    <published>2018-05-27T16:00:00.000Z</published>
+    <updated>2018-06-07T14:40:59.130Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="编译器" scheme="http://XibHe.github.io/tags/%E7%BC%96%E8%AF%91%E5%99%A8/"/>
+    
+      <category term="环境变量" scheme="http://XibHe.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>从一个数据量过多的优化说起</title>
@@ -2961,49 +2981,6 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     
     
       <category term="《黑客与画家》" scheme="http://XibHe.github.io/tags/%E3%80%8A%E9%BB%91%E5%AE%A2%E4%B8%8E%E7%94%BB%E5%AE%B6%E3%80%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用JSExport进行JS交互时遇到的一个问题</title>
-    <link href="http://XibHe.github.io/2017/05/04/%E4%BD%BF%E7%94%A8JSExport%E8%BF%9B%E8%A1%8CJS%E4%BA%A4%E4%BA%92%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98/"/>
-    <id>http://XibHe.github.io/2017/05/04/使用JSExport进行JS交互时遇到的一个问题/</id>
-    <published>2017-05-03T16:00:00.000Z</published>
-    <updated>2017-10-14T02:47:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>将之前的放在VC里的JS交互方法抽离到单独的一个类中，这个类继承NSObject。不做任何特别的处理，将  </p>
-<pre><code class="objectivec">JSContext *context = [webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
-context[@&quot;jsObject&quot;] = self;
-</code></pre>
-<p>这句代码，从</p>
-<pre><code class="objectivec">- (void)webViewDidFinishLoad:(UIWebView *)webView
-</code></pre>
-<p>移到，</p>
-<pre><code class="objectivec">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-</code></pre>
-<p>该代理方法中，就能每次都调用JS与OC的交互方法。</p>
-<h2 id="JavaScriptCore使用注意"><a href="#JavaScriptCore使用注意" class="headerlink" title="JavaScriptCore使用注意"></a>JavaScriptCore使用注意</h2><p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是<font color="#FA8072">在刚开始调用此方法的线程中去执行那段JavaStript方法的代码。</font></p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://blog.csdn.net/lwjok2007/article/details/47058795" target="_blank" rel="external">iOS js oc相互调用（JavaScriptCore）（二）</a><br><a href="http://blog.csdn.net/si392950818/article/details/51646996" target="_blank" rel="external">ios 与 js交互一点心得</a></p>
-<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a href="https://github.com/XibHe/JSExportTest" target="_blank" rel="external">点击下载</a></p>
-<h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>这里只有获取购物车最新商品数量时，无法调用JS交互方法，其他的JS交互方法仍然可以调用。那么<font color="#FA8072">获取JSContext的时机是什么</font></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在使用JSExport与OC和JS进行通信，遇到一个问题，无法调用JS传递的最新购物车商品数量的交互方法。&lt;/p&gt;
-&lt;h2 id=&quot;解决方法&quot;&gt;&lt;a href=&quot;#解决方法&quot; class=&quot;headerlink&quot; title=&quot;解决方法&quot;&gt;&lt;/a&gt;解决方法&lt;/h2&gt;&lt;p&gt;将
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="JSExport" scheme="http://XibHe.github.io/tags/JSExport/"/>
-    
-      <category term="JS里通过对象调用方法" scheme="http://XibHe.github.io/tags/JS%E9%87%8C%E9%80%9A%E8%BF%87%E5%AF%B9%E8%B1%A1%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95/"/>
     
   </entry>
   
