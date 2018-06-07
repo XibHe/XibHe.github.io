@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Apr 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Wed May 23 2018 11:09:52 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jun 07 2018 20:42:44 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/04/18/SQLOptimize/index.html",
     "headline": "从一个数据量过多的优化说起",
     "datePublished": "Wed Apr 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Wed May 23 2018 11:09:52 GMT+0800",
+    "dateModified": "Thu Jun 07 2018 20:42:44 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -683,31 +683,31 @@ NSLog(@&quot;查询全部患者数据耗时: %f&quot;,interval);
 <li>注意，除非表有一个 <em>PRIMARY KEY</em> 或 <em>UNIQUE</em> 索引，否则使用 <em>REPLACE</em> 语句是没有意义的。</li>
 </ul>
 </li>
-<li><strong>SQL</strong> 语句的拓展<ul>
+<li><p><strong>SQL</strong> 语句的拓展</p>
+<ul>
 <li><em>sqlite</em> 截取字符串前几位后再进行查询</li>
 <li>在 <em>sqlite</em> 中使用 <em>regex</em> 进行查询</li>
+<li><p>SUBSTR()，SQL 中的 substring 函数是用来抓出一个栏位资料中的其中一部分。这个函数的名称在不同的数据库中不完全一样：</p>
+<blockquote>
+<p>MySQL: SUBSTR( ), SUBSTRING( )<br>Oracle: SUBSTR( )<br>SQL Server: SUBSTRING( )</p>
+</blockquote>
+</li>
+<li><p>upper()函数，将小写转化为大写；lower()函数，将大写转化为小写。</p>
+</li>
 </ul>
 </li>
 </ol>
-<p>之前没有在 <strong>SQLite</strong> 中使用过 <strong>regex</strong> 还以为不支持呢，最后几经波折，在官网上找到了对应的文档！</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
-<ul>
-<li>SUBSTR()，SQL 中的 substring 函数是用来抓出一个栏位资料中的其中一部分。这个函数的名称在不同的数据库中不完全一样：<ul>
-<li>MySQL: SUBSTR( ), SUBSTRING( )</li>
-<li>Oracle: SUBSTR( )</li>
-<li>SQL Server: SUBSTRING( )</li>
-</ul>
-</li>
-</ul>
 <pre><code class="objectivec">// 根据 A - Z 进行分组查询
-NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(userShortName,1,1) = &#39;%@&#39; &quot;,clinkId,orderNumber];
+NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(upper(userShortName),1,1) = &#39;%@&#39; &quot;,clinkId,orderNumber];
 </code></pre>
 <ul>
 <li>GLOB 用来连接正则表达式的关键字</li>
 </ul>
 <pre><code class="objectivec">// 查询非 A - Z 的数据
-NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(userShortName,1,1) GLOB &#39;[^A-Z]&#39; &quot;,clinkId];
+NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(upper(userShortName),1,1) GLOB &#39;[^A-Z]&#39; &quot;,clinkId];
 </code></pre>
+<p>之前没有在 <strong>SQLite</strong> 中使用过 <strong>regex</strong> 还以为不支持呢，最后几经波折，在官网上找到了对应的文档！</p>
+<p><img src="http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
 <h2 id="一个关于-CoreData-的问题"><a href="#一个关于-CoreData-的问题" class="headerlink" title="一个关于 CoreData 的问题"></a>一个关于 CoreData 的问题</h2><p><strong>Core Data</strong> 是 <strong>iOS5</strong> 之后才出现的一个框架，本质上是对 <strong>SQLite</strong> 的一个封装，它允许按照实体-属性-值模型组织数据，并以 <strong>XML</strong>，二进制文件或<strong>SQLite</strong> 数据文件的格式将其序列化。<strong>Core Data</strong> 允许用户使用代表实体和实体间关系的高层对象来操作数据。它也可以管理序列化的数据，提供对象生存期管理与 <strong>object graph</strong> 管理，包括存储。<strong>Core Data</strong> 直接与 <strong>SQLite</strong> 交互，避免开发者使用原本的 <strong>SQL</strong> 语句。</p>
 <p>这里在尝试使用 <strong>Core Data</strong> 时遇到一个问题，在获取模型路径，创建模型对象时，一直报错：</p>
 <pre><code class="objectivec">    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@&quot;testModel&quot; withExtension:@&quot;momd&quot;];
