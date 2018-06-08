@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-06-07T14:40:59.130Z</updated>
+  <updated>2018-06-08T13:30:53.438Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,9 +20,29 @@
     <link href="http://XibHe.github.io/2018/05/28/Compiling/"/>
     <id>http://XibHe.github.io/2018/05/28/Compiling/</id>
     <published>2018-05-27T16:00:00.000Z</published>
-    <updated>2018-06-07T14:40:59.130Z</updated>
+    <updated>2018-06-08T13:30:53.438Z</updated>
+    
+    <content type="html"><![CDATA[<p>遇到使用 <strong>80mm蓝牙打印机</strong> 时无法打印的问题，解决方案有三种：</p>
+<ol>
+<li><p>将 <strong>Build Settings</strong> 里面的 <strong>Apple LLVM 9.0 - Preprocessing - Preprocessor Macros</strong> 这里。在 <strong>release</strong> 下增加配置项 <strong>DEBUG = 1</strong>，即可打印。</p>
+</li>
+<li><p>将 <strong>Build Settings</strong> 里面的 <strong>Optimization Level</strong> 的 <strong>release</strong> 对应的配置项改为 <strong>None[-OO]</strong> </p>
+</li>
+<li><p>将蓝牙打印页面的预览视图中所有 <strong>#define NSLog(format, …) do</strong> 对应的 <strong>NSLog</strong> 注释掉。 </p>
+</li>
+</ol>
+<p>为了解决这个问题，先要排出其他干扰：</p>
+<ol>
+<li>构建一个最简单的打印模板，打印一行最简单的日期，将打印功能尽可能的简单化，看是否是由打印功能本身引起的；</li>
+<li>需要对比 <strong>release</strong> 与 <strong>debug</strong> 两种模式的不同，尤其是在调用 <strong>CoreBluetooth</strong> 时的不同。</li>
+</ol>
+]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;遇到使用 &lt;strong&gt;80mm蓝牙打印机&lt;/strong&gt; 时无法打印的问题，解决方案有三种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;将 &lt;strong&gt;Build Settings&lt;/strong&gt; 里面的 &lt;strong&gt;Apple LLVM 9.0 - Preproce
     
     </summary>
     
