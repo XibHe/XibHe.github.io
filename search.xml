@@ -19,6 +19,74 @@
 <li>构建一个最简单的打印模板，打印一行最简单的日期，将打印功能尽可能的简单化，看是否是由打印功能本身引起的；</li>
 <li>需要对比 <strong>release</strong> 与 <strong>debug</strong> 两种模式的不同，尤其是在调用 <strong>CoreBluetooth</strong> 时的不同。</li>
 </ol>
+<p>每次选择蓝牙打印机打印处方单时，控制台就会输出线程相关的错误，如下：</p>
+<pre><code class="objectivec">Main Thread Checker: UI API called on a background thread: -[UIApplication windows]
+PID: 3340, TID: 1191905, Thread name: (none), Queue name: com.apple.root.default-qos.overcommit, QoS: 21
+Backtrace:
+4   LZBasisComponents                   0x0000000101baad4c +[MBProgressHUD hideHUDForView:animated:] + 132
+5   LZBasisComponents                   0x0000000101baab9c +[MBProgressHUD(MJ) hideHUDForView:] + 72
+6   LZBasisComponents                   0x0000000101baabf0 +[MBProgressHUD(MJ) hideHUD] + 48
+7   CloudOfficeTest                     0x0000000100aee2c8 -[LZBluetoothPrintView startPrint] + 300
+8   Foundation                          0x00000001828de860 &lt;redacted&gt; + 996
+9   libsystem_pthread.dylib             0x0000000181b1831c &lt;redacted&gt; + 308
+10  libsystem_pthread.dylib             0x0000000181b181e8 &lt;redacted&gt; + 0
+11  libsystem_pthread.dylib             0x0000000181b16c28 thread_start + 4
+2018-05-18 15:52:30.568985+0800 CloudOfficeTest[3340:1191905] [reports] Main Thread Checker: UI API called on a background thread: -[UIApplication windows]
+PID: 3340, TID: 1191905, Thread name: (none), Queue name: com.apple.root.default-qos.overcommit, QoS: 21
+Backtrace:
+4   LZBasisComponents                   0x0000000101baad4c +[MBProgressHUD hideHUDForView:animated:] + 132
+5   LZBasisComponents                   0x0000000101baab9c +[MBProgressHUD(MJ) hideHUDForView:] + 72
+6   LZBasisComponents                   0x0000000101baabf0 +[MBProgressHUD(MJ) hideHUD] + 48
+7   CloudOfficeTest                     0x0000000100aee2c8 -[LZBluetoothPrintView startPrint] + 300
+8   Foundation                          0x00000001828de860 &lt;redacted&gt; + 996
+9   libsystem_pthread.dylib             0x0000000181b1831c &lt;redacted&gt; + 308
+10  libsystem_pthread.dylib             0x0000000181b181e8 &lt;redacted&gt; + 0
+11  libsystem_pthread.dylib             0x0000000181b16c28 thread_start + 4
+</code></pre>
+<pre><code class="objectivec">//读取特征中的数据
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+
+    NSLog(@&quot;enter didUpdateValueForCharacteristic!&quot;);
+    NSLog(@&quot;read data=%@!&quot;,characteristic.value);
+}
+</code></pre>
+<p>如果将此处的 <strong>NSLog</strong> 输出注释掉是否也可以打印？</p>
+<p>控制台会一直输出打印类 <strong>LZBluetoothPrintView</strong> 的一个方法 </p>
+<pre><code class="objectivec">&lt;LZBluetoothPrintView.m : 382&gt; -[LZBluetoothPrintView peripheral:didUpdateValueForCharacteristic:error:]
+2018-05-18 15:52:38.778826+0800 CloudOfficeTest[3340:1191349] enter didUpdateValueForCharacteristic!
+</code></pre>
+<pre><code>2018-05-18 15:52:38.777163+0800 CloudOfficeTest[3340:1191905] [reports] Main Thread Checker: UI API called on a background thread: -[UIView subviews]
+PID: 3340, TID: 1191905, Thread name: (none), Queue name: com.apple.root.default-qos.overcommit, QoS: 21
+Backtrace:
+4   LZBasisComponents                   0x0000000101bab1d4 +[MBProgressHUD HUDForView:] + 112
+5   LZBasisComponents                   0x0000000101baadb0 +[MBProgressHUD hideHUDForView:animated:] + 232
+6   LZBasisComponents                   0x0000000101baab9c +[MBProgressHUD(MJ) hideHUDForView:] + 72
+7   LZBasisComponents                   0x0000000101baabf0 +[MBProgressHUD(MJ) hideHUD] + 48
+8   CloudOfficeTest                     0x0000000100aee2c8 -[LZBluetoothPrintView startPrint] + 300
+9   Foundation                          0x00000001828de860 &lt;redacted&gt; + 996
+10  libsystem_pthread.dylib             0x0000000181b1831c &lt;redacted&gt; + 308
+11  libsystem_pthread.dylib             0x0000000181b181e8 &lt;redacted&gt; + 0
+12  libsystem_pthread.dylib             0x0000000181b16c28 thread_start + 4
+</code></pre><pre><code>2018-05-18 15:52:38.876328+0800 CloudOfficeTest[3340:1191725] This application is modifying the autolayout engine from a background thread after the engine was accessed from the main thread. This can lead to engine corruption and weird crashes.
+ Stack:(
+    0   Foundation                          0x00000001829f266c &lt;redacted&gt; + 96
+    1   Foundation                          0x00000001829f2350 &lt;redacted&gt; + 76
+    2   Foundation                          0x0000000182822da0 &lt;redacted&gt; + 132
+    3   Foundation                          0x00000001829f0458 &lt;redacted&gt; + 112
+    4   UIKit                               0x000000018b610b18 &lt;redacted&gt; + 172
+    5   UIKit                               0x000000018b32234c &lt;redacted&gt; + 1348
+    6   QuartzCore                          0x0000000185edbec8 &lt;redacted&gt; + 184
+    7   QuartzCore                          0x0000000185edffa8 &lt;redacted&gt; + 332
+    8   QuartzCore                          0x0000000185e4ea98 &lt;redacted&gt; + 336
+    9   QuartzCore                          0x0000000185e74eb4 &lt;redacted&gt; + 540
+    10  QuartzCore                          0x0000000185e7559c &lt;redacted&gt; + 244
+    11  libsystem_pthread.dylib             0x0000000181b17680 &lt;redacted&gt; + 572
+    12  libsystem_pthread.dylib             0x0000000181b173d0 &lt;redacted&gt; + 88
+    13  libsystem_pthread.dylib             0x0000000181b17168 _pthread_wqthread + 1340
+    14  libsystem_pthread.dylib             0x0000000181b16c20 start_wqthread + 4
+)
+</code></pre><p>然后，怀疑是 <strong>NSThread</strong> 的问题</p>
+<p><font size="6" color="#51afc9"> 未完待续！ <font></font></font></p>
 ]]></content>
       
         <categories>
@@ -3359,9 +3427,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -3450,9 +3518,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -4548,28 +4616,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#100;&#101;&#x76;&#101;&#108;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#103;&#104;&#x65;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#109;">&#100;&#101;&#x76;&#101;&#108;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#110;&#103;&#104;&#x65;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#109;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-05-24"><a href="#2018-05-24" class="headerlink" title="2018/05/24"></a>2018/05/24</h3><blockquote>
@@ -4724,6 +4770,28 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#x6e;&#x67;&#x68;&#101;&#64;&#x31;&#54;&#51;&#46;&#x63;&#111;&#109;">&#100;&#101;&#118;&#101;&#x6c;&#x6f;&#x70;&#x65;&#x72;&#x70;&#101;&#x6e;&#x67;&#x68;&#101;&#64;&#x31;&#54;&#51;&#46;&#x63;&#111;&#109;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
     </entry>
     
