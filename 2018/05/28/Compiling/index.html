@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Mon May 28 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Fri Jul 13 2018 16:58:23 GMT+0800">
+        <meta property="article:modified_time" content="Fri Jul 13 2018 17:12:02 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/05/28/Compiling/index.html",
     "headline": "从一个蓝牙打印说起",
     "datePublished": "Mon May 28 2018 00:00:00 GMT+0800",
-    "dateModified": "Fri Jul 13 2018 16:58:23 GMT+0800",
+    "dateModified": "Fri Jul 13 2018 17:12:02 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可能打造无法打印的原因"><span class="post-toc-number">1.</span> <span class="post-toc-text">可能打造无法打印的原因</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-需要打印的处方药品过多，排列太过复杂造成"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.需要打印的处方药品过多，排列太过复杂造成</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-线程问题，未在主线程刷新UI导致"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.线程问题，未在主线程刷新UI导致</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-当-Edit-Scheme-中-Build-Configuration-为-Debug-时，就可以调用蓝牙打印机进行打印。"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3.当 Edit Scheme 中 Build Configuration 为 Debug 时，就可以调用蓝牙打印机进行打印。</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#不同的解决方案"><span class="post-toc-number">2.</span> <span class="post-toc-text">不同的解决方案</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案一：将-Build-Settings-里面的-Apple-LLVM-9-0-Preprocessing-Preprocessor-Macros-这里。在-release-下增加配置项-DEBUG-1，即可打印。"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">方案一：将 Build Settings 里面的 Apple LLVM 9.0 - Preprocessing - Preprocessor Macros 这里。在 release 下增加配置项 DEBUG = 1，即可打印。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案二：将-Build-Settings-里面的-Optimization-Level-的-release-对应的配置项改为-None-OO"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">方案二：将 Build Settings 里面的 Optimization Level 的 release 对应的配置项改为 None[-OO]</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案三：将蓝牙打印页面的预览视图中所有-define-NSLog-format-…-do-对应的-NSLog-注释掉。"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">方案三：将蓝牙打印页面的预览视图中所有 #define NSLog(format, …) do 对应的 NSLog 注释掉。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案四：从源码编译入手，利用-Clang-在编译为可执行文件前，过滤编译过程中影响打印的操作。"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">方案四：从源码编译入手，利用 Clang 在编译为可执行文件前，过滤编译过程中影响打印的操作。</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">3.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可能打造无法打印的原因"><span class="post-toc-number">1.</span> <span class="post-toc-text">可能打造无法打印的原因</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-需要打印的处方药品过多，排列太过复杂造成"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.需要打印的处方药品过多，排列太过复杂造成</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-线程问题，未在主线程刷新UI导致"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.线程问题，未在主线程刷新UI导致</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-当-Edit-Scheme-中-Build-Configuration-为-Debug-时，就可以调用蓝牙打印机进行打印。"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3.当 Edit Scheme 中 Build Configuration 为 Debug 时，就可以调用蓝牙打印机进行打印。</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#不同的解决方案"><span class="post-toc-number">2.</span> <span class="post-toc-text">不同的解决方案</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案一：将-Build-Settings-里面的-Apple-LLVM-9-0-Preprocessing-Preprocessor-Macros-这里。在-release-下增加配置项-DEBUG-1，即可打印。"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">方案一：将 Build Settings 里面的 Apple LLVM 9.0 - Preprocessing - Preprocessor Macros 这里。在 release 下增加配置项 DEBUG = 1，即可打印。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案二：将-Build-Settings-里面的-Optimization-Level-的-release-对应的配置项改为-None-OO"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">方案二：将 Build Settings 里面的 Optimization Level 的 release 对应的配置项改为 None[-OO]</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案三：将蓝牙打印页面的预览视图中所有-define-NSLog-format-…-do-对应的-NSLog-注释掉。"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">方案三：将蓝牙打印页面的预览视图中所有 #define NSLog(format, …) do 对应的 NSLog 注释掉。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方案四：从源码编译入手，利用-Clang-在编译为可执行文件前，过滤编译过程中影响打印的操作。"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">方案四：从源码编译入手，利用 Clang 在编译为可执行文件前，过滤编译过程中影响打印的操作。</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#从源码到可执行文件"><span class="post-toc-number">3.</span> <span class="post-toc-text">从源码到可执行文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-libclang进行语法分析"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">1. libclang进行语法分析</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-LibTooling"><span class="post-toc-number">3.0.2.</span> <span class="post-toc-text">2. LibTooling</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-ClangPlugin"><span class="post-toc-number">3.0.3.</span> <span class="post-toc-text">3. ClangPlugin</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -612,16 +612,12 @@ Backtrace:
 </ul>
 <h4 id="方案三：将蓝牙打印页面的预览视图中所有-define-NSLog-format-…-do-对应的-NSLog-注释掉。"><a href="#方案三：将蓝牙打印页面的预览视图中所有-define-NSLog-format-…-do-对应的-NSLog-注释掉。" class="headerlink" title="方案三：将蓝牙打印页面的预览视图中所有 #define NSLog(format, …) do 对应的 NSLog 注释掉。"></a><del>方案三：将蓝牙打印页面的预览视图中所有 <strong>#define NSLog(format, …) do</strong> 对应的 <strong>NSLog</strong> 注释掉。<del></del></del></h4><p>最后发现将打印页面的所有输出语句注释掉不会起到任何作用，因此，只剩下 <strong>方案二</strong> 可行了。</p>
 <h4 id="方案四：从源码编译入手，利用-Clang-在编译为可执行文件前，过滤编译过程中影响打印的操作。"><a href="#方案四：从源码编译入手，利用-Clang-在编译为可执行文件前，过滤编译过程中影响打印的操作。" class="headerlink" title="方案四：从源码编译入手，利用 Clang 在编译为可执行文件前，过滤编译过程中影响打印的操作。"></a>方案四：从源码编译入手，利用 <strong>Clang</strong> 在编译为可执行文件前，过滤编译过程中影响打印的操作。</h4><p>相对而言，这种方式是最复杂，最有难度的一种方式。但却能追本溯源，从根本上明白为什么无法打印？</p>
-<p>###从源码到可执行文件</p>
-<p>Low Level Virtual Machine (LLVM) 是一个开源的编译器架构，Clang 是 LLVM 的一个编译器前端，它目前支持 C, C++, Objective-C 以及 Objective-C++ 等编程语言。Clang 对源程序进行词法分析和语义分析，并将分析结果转换为 Abstract Syntax Tree ( 抽象语法树 ) ，最后使用 LLVM 作为后端代码的生成器。</p>
+<h3 id="从源码到可执行文件"><a href="#从源码到可执行文件" class="headerlink" title="从源码到可执行文件"></a>从源码到可执行文件</h3><p>Low Level Virtual Machine (LLVM) 是一个开源的编译器架构，Clang 是 LLVM 的一个编译器前端，它目前支持 C, C++, Objective-C 以及 Objective-C++ 等编程语言。Clang 对源程序进行词法分析和语义分析，并将分析结果转换为 Abstract Syntax Tree ( 抽象语法树 ) ，最后使用 LLVM 作为后端代码的生成器。</p>
 <p>利用<a href="http://www.alonemonkey.com/2016/12/21/learning-llvm/" target="_blank" rel="external">LLVM</a> 将源码编译为可被不同语言识别的中间表示(IR)。</p>
-<p><strong>可以用Clang做什么?</strong></p>
-<p>####1. libclang进行语法分析</p>
-<p>可以使用libclang里面提供的方法对源文件进行语法分析，分析它的语法树，遍历语法树上面的每一个节点。可以用于检查拼写错误，或者做字符串加密。</p>
-<p>####2. LibTooling</p>
-<p>对语法树有完全的控制权，可以作为一个单独的命令使用，如：clang-format</p>
-<p>####3. ClangPlugin</p>
-<p>对语法树有完全的控制权，作为插件注入到编译流程中，可以影响build和决定编译过程。目录:llvm/tools/clang/examples</p>
+<p>####可以用Clang做什么?####</p>
+<h5 id="1-libclang进行语法分析"><a href="#1-libclang进行语法分析" class="headerlink" title="1. libclang进行语法分析"></a>1. libclang进行语法分析</h5><p>可以使用libclang里面提供的方法对源文件进行语法分析，分析它的语法树，遍历语法树上面的每一个节点。可以用于检查拼写错误，或者做字符串加密。</p>
+<h5 id="2-LibTooling"><a href="#2-LibTooling" class="headerlink" title="2. LibTooling"></a>2. LibTooling</h5><p>对语法树有完全的控制权，可以作为一个单独的命令使用，如：clang-format</p>
+<h5 id="3-ClangPlugin"><a href="#3-ClangPlugin" class="headerlink" title="3. ClangPlugin"></a>3. ClangPlugin</h5><p>对语法树有完全的控制权，作为插件注入到编译流程中，可以影响build和决定编译过程。目录:llvm/tools/clang/examples</p>
 <p>这里蓝牙打印的在release模式下无法打印的问题，涉及到编译器编译至可执行文件时，中间所做的优化处理。可以尝试从编译流程入手，进行相应的语法分析，过滤掉非必须但影响蓝牙打印的优化操作。</p>
 <blockquote>
 <p>通过遍历语法树，去修改里面的方法名和返回变量名。</p>
