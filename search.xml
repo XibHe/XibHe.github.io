@@ -113,9 +113,12 @@ Backtrace:
 <p>Low Level Virtual Machine (LLVM) 是一个开源的编译器架构，Clang 是 LLVM 的一个编译器前端，它目前支持 C, C++, Objective-C 以及 Objective-C++ 等编程语言。Clang 对源程序进行词法分析和语义分析，并将分析结果转换为 Abstract Syntax Tree ( 抽象语法树 ) ，最后使用 LLVM 作为后端代码的生成器。</p>
 <p>利用<a href="http://www.alonemonkey.com/2016/12/21/learning-llvm/" target="_blank" rel="external">LLVM</a> 将源码编译为可被不同语言识别的中间表示(IR)。</p>
 <p>####可以用Clang做什么?</p>
-<p>#####1. libclang进行语法分析<br>可以使用libclang里面提供的方法对源文件进行语法分析，分析它的语法树，遍历语法树上面的每一个节点。可以用于检查拼写错误，或者做字符串加密。</p>
-<p>#####2. LibTooling<br>对语法树有完全的控制权，可以作为一个单独的命令使用，如：clang-format</p>
-<p>#####3. ClangPlugin<br>对语法树有完全的控制权，作为插件注入到编译流程中，可以影响build和决定编译过程。目录:llvm/tools/clang/examples</p>
+<p>#####1. libclang进行语法分析</p>
+<p>可以使用libclang里面提供的方法对源文件进行语法分析，分析它的语法树，遍历语法树上面的每一个节点。可以用于检查拼写错误，或者做字符串加密。</p>
+<p>#####2. LibTooling</p>
+<p>对语法树有完全的控制权，可以作为一个单独的命令使用，如：clang-format</p>
+<p>#####3. ClangPlugin</p>
+<p>对语法树有完全的控制权，作为插件注入到编译流程中，可以影响build和决定编译过程。目录:llvm/tools/clang/examples</p>
 <p>这里蓝牙打印的在release模式下无法打印的问题，涉及到编译器编译至可执行文件时，中间所做的优化处理。可以尝试从编译流程入手，进行相应的语法分析，过滤掉非必须但影响蓝牙打印的优化操作。</p>
 <blockquote>
 <p>通过遍历语法树，去修改里面的方法名和返回变量名。</p>
@@ -4697,12 +4700,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -4710,12 +4707,24 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#x70;&#101;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#x70;&#101;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x64;&#x65;&#118;&#101;&#x6c;&#111;&#x70;&#101;&#114;&#x70;&#101;&#x6e;&#103;&#104;&#x65;&#64;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#109;">&#x64;&#x65;&#118;&#101;&#x6c;&#111;&#x70;&#101;&#114;&#x70;&#101;&#x6e;&#103;&#104;&#x65;&#64;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
@@ -4874,12 +4883,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

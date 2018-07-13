@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Mon May 28 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Fri Jul 13 2018 16:08:55 GMT+0800">
+        <meta property="article:modified_time" content="Fri Jul 13 2018 16:49:01 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/05/28/Compiling/index.html",
     "headline": "从一个蓝牙打印说起",
     "datePublished": "Mon May 28 2018 00:00:00 GMT+0800",
-    "dateModified": "Fri Jul 13 2018 16:08:55 GMT+0800",
+    "dateModified": "Fri Jul 13 2018 16:49:01 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -616,9 +616,12 @@ Backtrace:
 <p>Low Level Virtual Machine (LLVM) 是一个开源的编译器架构，Clang 是 LLVM 的一个编译器前端，它目前支持 C, C++, Objective-C 以及 Objective-C++ 等编程语言。Clang 对源程序进行词法分析和语义分析，并将分析结果转换为 Abstract Syntax Tree ( 抽象语法树 ) ，最后使用 LLVM 作为后端代码的生成器。</p>
 <p>利用<a href="http://www.alonemonkey.com/2016/12/21/learning-llvm/" target="_blank" rel="external">LLVM</a> 将源码编译为可被不同语言识别的中间表示(IR)。</p>
 <p>####可以用Clang做什么?</p>
-<p>#####1. libclang进行语法分析<br>可以使用libclang里面提供的方法对源文件进行语法分析，分析它的语法树，遍历语法树上面的每一个节点。可以用于检查拼写错误，或者做字符串加密。</p>
-<p>#####2. LibTooling<br>对语法树有完全的控制权，可以作为一个单独的命令使用，如：clang-format</p>
-<p>#####3. ClangPlugin<br>对语法树有完全的控制权，作为插件注入到编译流程中，可以影响build和决定编译过程。目录:llvm/tools/clang/examples</p>
+<p>#####1. libclang进行语法分析</p>
+<p>可以使用libclang里面提供的方法对源文件进行语法分析，分析它的语法树，遍历语法树上面的每一个节点。可以用于检查拼写错误，或者做字符串加密。</p>
+<p>#####2. LibTooling</p>
+<p>对语法树有完全的控制权，可以作为一个单独的命令使用，如：clang-format</p>
+<p>#####3. ClangPlugin</p>
+<p>对语法树有完全的控制权，作为插件注入到编译流程中，可以影响build和决定编译过程。目录:llvm/tools/clang/examples</p>
 <p>这里蓝牙打印的在release模式下无法打印的问题，涉及到编译器编译至可执行文件时，中间所做的优化处理。可以尝试从编译流程入手，进行相应的语法分析，过滤掉非必须但影响蓝牙打印的优化操作。</p>
 <blockquote>
 <p>通过遍历语法树，去修改里面的方法名和返回变量名。</p>
