@@ -43,7 +43,7 @@
     
     <title>
         
-            标签: Masonry | 
+            Masonry使用备忘 | 
         
         XibHe&#39;s Blog
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="爱苹果,爱生活。">
-    <meta name="keywords" content="null">
+    <meta name="keywords" content="null,Masonry,iOS适配">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -81,6 +81,9 @@
         <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
         
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/tranquil-heart.min.css?ul3p9I9MsbOxK0L+BHzDDg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
             
         
 
@@ -217,7 +220,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="XibHe&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://XibHe.github.io/tags/Masonry/">
+    <meta name="msapplication-starturl" content="http://XibHe.github.io/2016/09/18/Masonry-Memo/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="XibHe&#39;s Blog">
@@ -232,13 +235,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://XibHe.github.io/tags/Masonry/">
+    <meta property="og:url" content="http://XibHe.github.io/2016/09/18/Masonry-Memo/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: Masonry | XibHe&#39;s Blog">
+    <meta property="og:title" content="Masonry使用备忘 | XibHe&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png">
     <meta property="og:description" content="爱苹果,爱生活。">
-    
+    <meta property="og:article:tag" content="Masonry"> <meta property="og:article:tag" content="iOS适配"> 
 
+    
+        <meta property="article:published_time" content="Sun Sep 18 2016 20:35:34 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jul 19 2018 14:47:26 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -246,13 +252,43 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://XibHe.github.io/tags/Masonry/index.html" />
+        <link rel="canonical" href="http://XibHe.github.io/2016/09/18/Masonry-Memo/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://XibHe.github.io/2016/09/18/Masonry-Memo/index.html",
+    "headline": "Masonry使用备忘",
+    "datePublished": "Sun Sep 18 2016 20:35:34 GMT+0800",
+    "dateModified": "Thu Jul 19 2018 14:47:26 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "XibHe",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "尽吾志也而不能至者，可以无悔矣，其孰能讥之乎？"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "XibHe&#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Masonry,iOS适配null",
+    "description": "爱苹果,爱生活。",
+}
+</script>
 
 
     
@@ -296,98 +332,318 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#更新说明"><span class="post-toc-number">1.</span> <span class="post-toc-text">更新说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用Masonry的场景"><span class="post-toc-number"></span> <span class="post-toc-text">使用Masonry的场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用Masonry后获取坐标值为0的问题"><span class="post-toc-number"></span> <span class="post-toc-text">使用Masonry后获取坐标值为0的问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-实际上是由于头部切换视图的的-width-为-0-导致。由于使用-Masonry-设置的头部视图，"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 实际上是由于头部切换视图的的 width 为 0 导致。由于使用 Masonry 设置的头部视图，</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-在-self-tabView-的初始化类中的set方法里，需要再次设置它的位置，"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 在 self.tabView 的初始化类中的set方法里，需要再次设置它的位置，</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考文档"><span class="post-toc-number"></span> <span class="post-toc-text">参考文档</span></a>
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2016/09/18/Masonry-Memo/">Masonry使用备忘</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            记录使用 Masonry 过程中遇到的问题及解决方法，任何看似好用的框架在使用过程中都或多或少的有些瑕疵，解决问题的同时也会引入新...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2016/09/18/Masonry-Memo/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="XibHe's avatar">
-            </div>
-            <div>
-                <strong>XibHe</strong>
-                <span>9月 18, 2016</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-          
-              <!-- Category -->
-              <span class="post_entry-category">
-                  <a class="post_category-link" href="/categories/解惑/">解惑</a>
-              </span>
-            
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 5; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                Masonry使用备忘
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>XibHe</strong>
+        <span>9月 18, 2016</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACXElEQVR42u3aQW7DMAwEwPz/0+0DCju7lK24wehUpLbM0UEiKL5+vnq88PDw8PDw8PDwHsZ7xeNwuj//PfrlfM78rTfz4OHh4W3hvdlqD57Jw01CT96KFhcPDw9vIy//ZPtLi5zFhoeHh/dfeMmWfdUhgYeHh/d9vLZ8kLDx8PDwnsxb3+LbckZS7Nhaa8HDw8OLeetb+X1/b73fw8PDwwt4dUvTAvt8tp+LBh4eHt7dvHwjPg8rebJtMhg2geHh4eFt4bUbdF5UbZF5mXhYjMDDw8O7lNcGlG/lbbm2vSrDw8PD28lLPtMmvuspe/sVPDw8vJ28WUBtSXfWttUuHx4eHt5nee3vs4MkWdb6GTw8PLwP8fJNPClh5IuVR3IYFR4eHt4WXpGwlu0C7RXa+vN4eHh4e3j51dfsMMgLEMm7desAHh4e3s28dfzKnG1JFw8PD28/LxltcpwnyslGnz+Dh4eH9wRe3igwu/qavfsmQcfDw8PbwpuFvn5Z1abpUcEXDw8P72beSkGhbQ4oNvfRhRweHh7eTl6bRl/VTDCbuUip8fDw8G7mFY1NZVj5QrQlCTw8PLzP8mYXYEmRYtZ01R5LeHh4eHt4K20EK80Bebjt8YCHh4d3N2+2KV+VdielkHZZ8fDw8PbwVrb1YRALqXN9MODh4eHdxjtve5qVenNqflC9OVrw8PDwHsxryw0rS/OBgwEPDw/vUl6Sgg+bTWNYXYzAw8PDu4E3awvIQ8lLD7OCBR4eHt5O3gUlgLh40absyVt4eHh4O3nfN/Dw8PDw8PDw8B4wfgFHTAw38XZZYQAAAABJRU5ErkJggg==">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Masonry/">Masonry</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/iOS适配/">iOS适配</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Masonry使用备忘&url=http://XibHe.github.io/2016/09/18/Masonry-Memo/index.html&pic=http://XibHe.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Masonry使用备忘&url=http://XibHe.github.io/2016/09/18/Masonry-Memo/index.html&via=XibHe" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://XibHe.github.io/2016/09/18/Masonry-Memo/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=Masonry使用备忘&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2016/09/18/Masonry-Memo/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
     
 </div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>记录使用 <em>Masonry</em> 过程中遇到的问题及解决方法，任何看似好用的框架在使用过程中都或多或少的有些瑕疵，解决问题的同时也会引入新的问题。</p>
+<h3 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h3><p>更新记录:</p>
+<ul>
+<li>2016 年 09 月，第一版。</li>
+<li>2018 年 07 月，补充关于使用Masonry更新坐标的问题。</li>
+</ul>
+<h2 id="使用Masonry的场景"><a href="#使用Masonry的场景" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h2><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
+<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
+<p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png" alt="代码"></p>
+<p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png" alt="报错"></p>
+<p>刚开始没有意识到改变UIImageView的约束导致的新旧两种约束冲突造成的问题。在一个小时未解决该问题后，放弃了使用Masonry，改为使用代码做布局。今天，再回头看看这个问题，联想到忽略了什么东西，就打开Masonry文档从头开始仔细往下看，结果就看到了这句话，</p>
+<blockquote>
+<p>Sometimes you need modify existing constraints in order to animate or remove/replace constraints. In Masonry there are a few different approaches to updating constraints.</p>
+</blockquote>
+<p>文档上列举了三种修改现有约束的方法，</p>
+<ol>
+<li><p><strong>References</strong><br>你可以引用一个特定约束条件的约束，使表达式的结果分配给一个局部变量或一个类属性。</p>
+</li>
+<li><p><strong>mas_updateConstraints</strong><br>作为一种选择，如果你只是去更新固有的约束值，你可以使用<strong>mas_updateConstraints</strong>这种便利的方法替换<strong>mas_makeConstraints</strong>。</p>
+</li>
+<li><p><strong>mas_remakeConstraints</strong><br><strong>mas_updateConstraints</strong>用于更新一组约束，但要做那些费力的超出超出常量值的约束更新。这时就需要选择<strong>mas_remakeConstraints</strong>。<br><strong>mas_remakeConstraints</strong>类似于<strong>mas_updateConstraints</strong>，但它不是更新常量值，当再次为这些已经存在约束的视图设置约束前，它会移除掉该视图上的所有约束。这就让你可以为视图设置新的约束，而不用考虑移除之前已经存在的其他约束。</p>
+</li>
+</ol>
+<p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
+<h2 id="使用Masonry后获取坐标值为0的问题"><a href="#使用Masonry后获取坐标值为0的问题" class="headerlink" title="使用Masonry后获取坐标值为0的问题"></a>使用Masonry后获取坐标值为0的问题</h2><p>加载页面头部会留白，如图，<br><img src="http://odchyrav4.bkt.clouddn.com/Masonry001.png" alt=""></p>
+<h3 id="1-实际上是由于头部切换视图的的-width-为-0-导致。由于使用-Masonry-设置的头部视图，"><a href="#1-实际上是由于头部切换视图的的-width-为-0-导致。由于使用-Masonry-设置的头部视图，" class="headerlink" title="1. 实际上是由于头部切换视图的的 width 为 0 导致。由于使用 Masonry 设置的头部视图，"></a>1. 实际上是由于头部切换视图的的 <em>width</em> 为 <em>0</em> 导致。由于使用 <em>Masonry</em> 设置的头部视图，</h3><pre><code class="objective-c">[self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.left.top.right.equalTo(self.view);
+    make.height.mas_equalTo(kTitleMenuTotalHeight);
+}];
+</code></pre>
+<h3 id="2-在-self-tabView-的初始化类中的set方法里，需要再次设置它的位置，"><a href="#2-在-self-tabView-的初始化类中的set方法里，需要再次设置它的位置，" class="headerlink" title="2. 在 self.tabView 的初始化类中的set方法里，需要再次设置它的位置，"></a>2. 在 self.tabView 的初始化类中的set方法里，需要再次设置它的位置，</h3><pre><code class="objective-c">CGFloat totalTabW = self.width &gt; self.headerArray.count * kTitleMenuItemWidth ? self.headerArray.count * kTitleMenuItemWidth : self.width;
+[self.tabView mas_remakeConstraints:^(MASConstraintMaker *make){ 
+   make.top.equalTo(self);make.bottom.equalTo(self.dividerLineView. mas_top).offset(-0.5);
+   make.centerX.equalTo(self);
+   make.width.mas_equalTo(totalTabW);
+}];
+</code></pre>
+<p>这里的 <em>self.width</em> 获取为 <em>0</em>，需要在完成 <strong>第1步</strong> 操作后，添加下面这行代码，即可获取到 <em>self.tabView</em> 的坐标值，</p>
+<pre><code class="objective-c">//立即获取到frame
+[self.view layoutIfNeeded];
+</code></pre>
+<blockquote>
+<p>-layoutIfNeeded方法：如果，有需要刷新的标记，立即调用layoutSubviews进行布局（如果没有标记，不会调用layoutSubviews）</p>
+</blockquote>
+<p>layoutIfNeeded方法如其名，UIKit会判断该receiver是否需要layout。根据Apple官方文档，layoutIfNeeded方法应该是这样的，layoutIfNeeded遍历的不是superview链，应该是subviews链。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry使用</a></p>
+<p><a href="https://www.jianshu.com/p/a2acc4c7dc4b" target="_blank" rel="external">iOS - layoutSubviews总结</a></p>
+<p>造成这个问题的主要原因是我没有认真看Masonry的文档，文档上说的已经很清楚了。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 Gitalk -->
+<div id="gitalk-comment">
+    <!-- Gitalk 评论框 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script>
+    var gitalk = new Gitalk({
+            clientID: '664d164a7c2910ff9c32',
+            clientSecret: '312260816c7af1b87c16b13906b55270ba8a1736',
+            repo: 'BlogGitalks',
+            owner: 'xibhe',
+            admin: ['xibhe'],
+            // facebook-like distraction free mode
+            distractionFreeMode: false
+        })
+   gitalk.render('gitalk-container')
+</script>
+
+</div>
+<style>
+    #gitalk-comment {
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2016/12/06/iOS蓝牙开发简介  /" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/09/11/记一个关于线程的错误/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -583,6 +839,14 @@ It will not impact the appearance and can give developers a lot of support :)
                     
 
                     
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
 
                     <!--Footer-->
 <footer class="mdl-mini-footer" id="bottom">
@@ -735,6 +999,10 @@ It will not impact the appearance and can give developers a lot of support :)
 <!-- Import prettify js  -->
 
     
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
 
 
 
@@ -747,6 +1015,11 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
         
     
     
