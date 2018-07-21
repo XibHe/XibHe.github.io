@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-07-13T09:22:54.210Z</updated>
+  <updated>2018-07-21T08:32:02.891Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -16,11 +16,107 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>组件化初探</title>
+    <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
+    <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
+    <published>2018-07-17T16:00:00.000Z</published>
+    <updated>2018-07-21T08:32:02.891Z</updated>
+    
+    <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。</p>
+<h2 id="现在项目中存在的问题"><a href="#现在项目中存在的问题" class="headerlink" title="现在项目中存在的问题"></a>现在项目中存在的问题</h2><p>代码不够整齐，目录结构混乱，分类不够明确，随着一次次的版本迭代，增加了不同的业务线，开发人员变动比较频繁，工程越来越臃肿。莫名其妙的继承关系，Base类，Expand类，Category混乱，三者之间存在重复的功能，这也为后面提到的在组件化过程中遇到一个棘手问题埋下了炸弹。</p>
+<h2 id="期望达到的效果"><a href="#期望达到的效果" class="headerlink" title="期望达到的效果"></a>期望达到的效果</h2><ol>
+<li>解除各个功能模块间的依赖；</li>
+<li>可以单独引入并测试某一个功能组件；</li>
+<li>功能与功能之间不再相互引用重复的未使用到的类；</li>
+<li>将一个单一的工程项目，分解成各个独立的组件，然后按照某种方式，任意组合成一个拥有完整业务逻辑的工程。</li>
+</ol>
+<h2 id="组件划分粒度及其相互间的依赖"><a href="#组件划分粒度及其相互间的依赖" class="headerlink" title="组件划分粒度及其相互间的依赖"></a>组件划分粒度及其相互间的依赖</h2><p>组件化是为了解决项目中遇到的问题，不是为了组件化而组件化。模块的划分，以及模块的扩展性，可以增加新的模块，为将来业务的拓展留有余地。基础模块的划分很重要，其他的模块都是建立在基础模块之上的。</p>
+<blockquote>
+<p>兵马未动，基础组件先行。</p>
+</blockquote>
+<ul>
+<li>基础组件(LZBasisComponents)：基本配置(常量，宏)，分类(各类系统类的拓展)，网络(AFN的封装)，工具类(loading，字符串操作，日期格式处理，文件操作等)</li>
+<li>数据库组件(LZDataBaseComponents)：封装了各个功能模块的数据库增，删，改，查的基本操作，基于 <em>FMDB</em> 封装了基本的 <em>SQLite</em> 数据库操作；</li>
+<li>功能组件(LZFunctionComponents)：主要用来存放一些自定义控件，eg.自定义弹出窗，错误信息提示View，自定义KeyBoardView，一些按钮和label；</li>
+<li>登录组件(LZLoginComponents)：项目中通过登录操作初始化一些基本配置，配置账号体系下用户所能使用的权限。基于登录功能业务上衍生了广告页，热门活动宣传页，某个版本需要强制升级的弹出窗，以及用户协议等功能。</li>
+<li>登录中间件(LZLoginComponents_Category)：主要用来处理登录组件(LZLoginComponents)与主工程之间的数据通讯；</li>
+<li>工具箱组件(LZToolsComponents)：项目中处理不同设备间数据同步的功能，页面展示的权限控制功能。</li>
+</ul>
+<blockquote>
+<p>自顶向下设计，自底向上实现，先测量，后优化。— casatwy</p>
+</blockquote>
+<p>以上所列的 <em>6</em> 个组件可以统称为项目基础组件，自基础向上延伸到其他功能模块，为其他模块提供底层支持，同时，在生成私有库时，其他功能模块也要与之建立起依赖关系。</p>
+<p>这里数据的持久化基于数据库组件，其中公共类的维护 (以数据库组件为例，每个人维护自己模块下的数据库操作类。eg.LZDatabaseHelper+PatientModel 即为，患者组件下对应的所有患者的数据库操作，处理后的数据以 PatientModel 为存储形式。)</p>
+<blockquote>
+<p>找到所有需要的模块， 把模块放在该放的地方。 — casatwy</p>
+</blockquote>
+<p>一个公共模块，如果多个模块都会用到，那么最好是将它抽成一个组件。eg. LZToolsComponents组件中，就存放了一些工具类，这些工具类无法下沉到基础组件中。但其它模块却会用到。</p>
+<blockquote>
+<p>高内聚，低耦合。</p>
+</blockquote>
+<h2 id="MVC-MVVM"><a href="#MVC-MVVM" class="headerlink" title="MVC MVVM"></a>MVC MVVM</h2><p>MVC架构，MVVM架构的，这种层次划分，主要是针对数据流动的方向而言的</p>
+<p>以解决问题为主，而不是生搬硬套架构。</p>
+<h2 id="CoCoaPos"><a href="#CoCoaPos" class="headerlink" title="CoCoaPos"></a>CoCoaPos</h2><p>.spec 框架描述文件</p>
+<p>远程索引库</p>
+<p>本地索引库</p>
+<p>解组件的依赖关系 (各个组件中的 .spec 文件设置了该组件与其他组件的依赖关系，这里各个组件前期可以暂时依赖其他非基础组件，后期当所有功能组件抽出后，需要解除与其他功能组件见的依赖。)</p>
+<p>解耦合</p>
+<h2 id="组件之间及各组件与主工程间通讯-中间件"><a href="#组件之间及各组件与主工程间通讯-中间件" class="headerlink" title="组件之间及各组件与主工程间通讯(中间件)"></a>组件之间及各组件与主工程间通讯(中间件)</h2><p>有两种路由方式：</p>
+<ol>
+<li>利用url-scheme方案</li>
+<li>利用runtime实现的target-action方法</li>
+</ol>
+<p>Router<br>路由 （url的方式）<br>路由  (协议的方式) ，为什么采用协议的方式？这样做的好处是什么？<br>路由设计，这里使用 <em>CTMediator</em><br>通过 <em>CTMediator</em> 进行通讯，几种不同方式的中间件交互：</p>
+<ol>
+<li>空 params</li>
+<li>字典形式的 params</li>
+<li>block 回调形式的 params</li>
+</ol>
+<h2 id="原工程中资源文件的处理"><a href="#原工程中资源文件的处理" class="headerlink" title="原工程中资源文件的处理"></a>原工程中资源文件的处理</h2><p>图片文件的处理以及读取方式</p>
+<h2 id="受工期影响"><a href="#受工期影响" class="headerlink" title="受工期影响"></a>受工期影响</h2><ol>
+<li>抽取组件前未将项目中冗余的类删除，导致这些类最后被抽到组件中；</li>
+<li>在抽取组件时，版本仍在继续迭代，这就造成组件抽取完成后，需要再花时间合并新代码到组件中；</li>
+<li>前期为了快速分离功能组件，往往将与该组件关联的其它功能模块的代码也抽到组件中；</li>
+</ol>
+<p>出现 <em>2</em> 中的情况，就需要记录一下新版本迭代修改了组件中的哪些类，还要记录提测后修改 <em>QA</em> 提出的 bug 时修改了哪些类，最后，再对比 <em>Git</em> 和 <em>svn</em> 的提交日志，查看修改了哪些类。</p>
+<h2 id="抽离各模块功能组件遇到的问题及解决方式"><a href="#抽离各模块功能组件遇到的问题及解决方式" class="headerlink" title="抽离各模块功能组件遇到的问题及解决方式"></a>抽离各模块功能组件遇到的问题及解决方式</h2><ol>
+<li>蓝牙打印的问题</li>
+<li>iOS 9.3.5 系统下，页面布局错乱的问题</li>
+</ol>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><font size="6" color="B22222"> 未完，待续… </font>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html" target="_blank" rel="external">iOS应用架构谈 开篇 - Casa Taloyum</a></p>
+<p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html" target="_blank" rel="external">iOS应用架构谈 view层的组织和调用方案 - Casa Taloyum</a></p>
+<p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html" target="_blank" rel="external">iOS应用架构谈 网络层设计方案 - Casa Taloyum</a></p>
+<p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-ben-di-chi-jiu-hua-fang-an-ji-dong-tai-bu-shu.html" target="_blank" rel="external">iOS应用架构谈 本地持久化方案及动态部署 - Casa Taloyum</a></p>
+<p><a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="external">iOS应用架构谈 组件化方案 - Casa Taloyum</a></p>
+<p><a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a></p>
+<p><a href="http://www.ximublog.cn/modularization/" target="_blank" rel="external">组件化方案调研</a></p>
+<p><a href="https://blog.cnbluebox.com/blog/2015/11/28/module-and-decoupling/" target="_blank" rel="external">模块化与解耦</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。&lt;/p&gt;
+&lt;h2 id=&quot;现在项目中存在的问题&quot;&gt;&lt;a href=&quot;#现在项目中
+    
+    </summary>
+    
+      <category term="架构" scheme="http://XibHe.github.io/categories/%E6%9E%B6%E6%9E%84/"/>
+    
+    
+      <category term="组件化" scheme="http://XibHe.github.io/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>从一个蓝牙打印说起</title>
     <link href="http://XibHe.github.io/2018/05/28/Compiling/"/>
     <id>http://XibHe.github.io/2018/05/28/Compiling/</id>
     <published>2018-05-27T16:00:00.000Z</published>
-    <updated>2018-07-13T09:22:54.210Z</updated>
+    <updated>2018-07-21T07:48:14.246Z</updated>
     
     <content type="html"><![CDATA[<p>遇到在 <strong>Release</strong> 模式下 <strong>80mm蓝牙打印机</strong> 无法打印的问题，最终的解决方式都是围绕 <strong>Debug</strong> 和 <strong>Release</strong> 这两种模式展开的。</p>
 <h3 id="可能打造无法打印的原因"><a href="#可能打造无法打印的原因" class="headerlink" title="可能打造无法打印的原因"></a>可能打造无法打印的原因</h3><h4 id="1-需要打印的处方药品过多，排列太过复杂造成"><a href="#1-需要打印的处方药品过多，排列太过复杂造成" class="headerlink" title="1.需要打印的处方药品过多，排列太过复杂造成"></a>1.需要打印的处方药品过多，排列太过复杂造成</h4><p>于是，构建一个最简单的打印模板，打印一行最简单的日期，将打印功能尽可能的简单化，看是否是由打印功能本身引起的。结果，仍然无法打印。</p>
@@ -152,6 +248,8 @@ Backtrace:
 <p><a href="https://stackoverflow.com/questions/3784583/xcode-debug-vs-release-build-when-debugging" target="_blank" rel="external">XCode debug vs release build when debugging</a></p>
 <p><a href="http://www.alonemonkey.com/2016/12/21/learning-llvm/" target="_blank" rel="external">初识 LLVM</a></p>
 <p><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-clang/" target="_blank" rel="external">结构化编译器前端 Clang 介绍</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
@@ -3097,61 +3195,6 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     
     
       <category term="父亲节" scheme="http://XibHe.github.io/tags/%E7%88%B6%E4%BA%B2%E8%8A%82/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《黑客与画家》小记</title>
-    <link href="http://XibHe.github.io/2017/05/31/hacker-and-artist/"/>
-    <id>http://XibHe.github.io/2017/05/31/hacker-and-artist/</id>
-    <published>2017-05-30T16:00:00.000Z</published>
-    <updated>2017-10-14T02:47:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://imciel.com" target="_blank" rel="external">郭一刀</a>推荐的一本书，一本关于创业经历，软件开发，个人品味的书。也许是书中的章节相互独立，给我的感觉像是集合了众多的tips。而这些闪光点，或是忠告，或是建议，或者结合了很多事实而形成的结论。读后给我一种醍醐灌顶的感觉，Paul结合自己的创业和开发经历，将计算机编程的本质娓娓道来。全书大致分成三个部分:</p>
-<ul>
-<li>解释了什么是黑客，黑客是如何看待这个世界的。</li>
-<li>黑客去的成果，这些成果对世界的影响，如何创造财富？用黑客的方法防止垃圾邮件。</li>
-<li>黑客心目中完美的编程语言是什么样的，为什么黑客如此执着于设计新的编程语言。</li>
-</ul>
-<p>Paul是世界上首个互联网应用程序Viaweb的开发者之一。创建的Viaweb公司后来被雅虎收购，改名为Yahoo!Store。后来Paul成为一名资深的投资人，作为一名成功的创业者同时也是一名熟练使用Lisp语言的专家。他的经历很生动，完美诠释黑客文化的基础和核心。其中是我印象深刻的是一段关于如何促成潜在的买方掏钱收购自己创业公司的论述:</p>
-<blockquote>
-<font size="3" face="黑体"> 大多数时候，促成买方掏钱的最好办法不是让买方看到有获利的可能，二手让他们感到失去机会的恐惧。对于买家来说，最强的收购动机就是看到竞争对手可能收购你。我们发现这会使得CEO们连夜行动。次强的动机则是让他们担心如果现在不买你，你的高速成长将使得未来的收购耗资巨大，甚至你本身可能变成一个他们的竞争对手。 </font>
-
-</blockquote>
-<p>Paul曾经学习过绘画，绘画是一门艺术性很强，同时需要欣赏者有着相应的鉴赏和审美能力的创作方式。Paul总是能将自己的编程和创业经历与之结合起来，切中要害的指出二者之间的联系。</p>
-<p>关于设计者的品味，只要你开始思考这个问题，你就会发现不同的领域对于“美”的理解有着惊人的相似度。优秀设计的原则是许多学科的共同原则，一再反复地出现。</p>
-<blockquote>
-<ul>
-<li>好设计是简单的设计</li>
-<li>好设计是永不过时的设计</li>
-<li>好设计是解决主要问题的设计</li>
-<li>好设计是启发性的设计</li>
-<li>好设计通常是有点趣味性的设计</li>
-<li>好设计是艰苦的设计</li>
-<li>好设计是看似容易的设计</li>
-<li>好设计是对称的设计</li>
-<li>好设计是模仿大自然的设计</li>
-<li>好设计是一种再设计</li>
-<li>好设计是能够复制的设计</li>
-<li>好设计常常是奇特的设计</li>
-<li>好设计是成批出现的</li>
-<li>好设计常常是大胆的设计</li>
-</ul>
-</blockquote>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://imciel.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;郭一刀&lt;/a&gt;推荐的一本书，一本关于创业经历，软件开发，个人品味的书。也许是书中的章节相互独立，给我的感觉像是集合了众多的tips。而这些闪光点，或是忠告
-    
-    </summary>
-    
-      <category term="阅读" scheme="http://XibHe.github.io/categories/%E9%98%85%E8%AF%BB/"/>
-    
-    
-      <category term="《黑客与画家》" scheme="http://XibHe.github.io/tags/%E3%80%8A%E9%BB%91%E5%AE%A2%E4%B8%8E%E7%94%BB%E5%AE%B6%E3%80%8B/"/>
     
   </entry>
   
