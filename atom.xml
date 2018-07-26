@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-07-26T02:11:12.018Z</updated>
+  <updated>2018-07-26T02:20:26.380Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
     <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
     <published>2018-07-17T16:00:00.000Z</published>
-    <updated>2018-07-26T02:11:12.018Z</updated>
+    <updated>2018-07-26T02:20:26.380Z</updated>
     
     <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。</p>
 <h2 id="现在项目中存在的问题"><a href="#现在项目中存在的问题" class="headerlink" title="现在项目中存在的问题"></a>现在项目中存在的问题</h2><p>代码不够整齐，目录结构混乱，分类不够明确，随着一次次的版本迭代，增加了不同的业务线，开发人员变动比较频繁，工程越来越臃肿。莫名其妙的继承关系，Base类，Expand类，Category混乱，三者之间存在重复的功能，这也为后面提到的在组件化过程中遇到一个棘手问题埋下了炸弹。</p>
@@ -117,7 +117,7 @@ s.dependency &quot;ReactiveObjC&quot;
 <li><em>s.resource_bundles</em> 存放资源文件的类型</li>
 <li><em>s.dependency</em> 依赖其他的框架或组件</li>
 </ul>
-<font size="4" color="B22222"> 注意： </font><br>组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过 <em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。<br><br>### 4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中<br><br>主要是通过 <em>git</em> 命令上传，如下<br><br>1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录<br>2. 可以先查看当前工程文件的状态，红色为未提交<br>&gt; git status<br><br>3. 提交到暂缓区<br>&gt; git add .<br><br>4. 将本地库与远程代码仓库进行关联<br>&gt; git remote add origin <a href="http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git" target="_blank" rel="external">http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git</a><br><br>5. 初始化提交<br>&gt; git commit -m “Initial commit”<br><br>6. 将本地分支的更新，推送到远程主机<br>&gt; git push -u origin master<br><br>7. 给远程组件库打 tag<br>&gt; git tag ‘1.2.2.1’<br>&gt;<br>&gt; git push origin ‘1.2.2.1’<br><br>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。<br><br>### 5.主工程中使用 CoCoaPods 导入私有组件库<br><br>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，<br><br><code>js
+<font size="4" color="B22222"> 注意： </font><br>组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过 <em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。<br><br>### 4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中<br><br>主要是通过 <em>git</em> 命令上传，如下<br><br>#### 1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录<br>#### 2. 可以先查看当前工程文件的状态，红色为未提交<br>&gt; git status<br><br>#### 3. 提交到暂缓区<br>&gt; git add .<br><br>#### 4. 将本地库与远程代码仓库进行关联<br>&gt; git remote add origin <a href="http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git" target="_blank" rel="external">http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git</a><br><br>#### 5. 初始化提交<br>&gt; git commit -m “Initial commit”<br><br>#### 6. 将本地分支的更新，推送到远程主机<br>&gt; git push -u origin master<br><br>#### 7. 给远程组件库打 tag<br>&gt; git tag ‘1.2.2.1’<br>&gt;<br>&gt; git push origin ‘1.2.2.1’<br><br>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。<br><br>### 5.主工程中使用 CoCoaPods 导入私有组件库<br><br>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，<br><br><code>js
 platform :ios, &#39;8.4&#39;
 
 source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;
