@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Jul 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Thu Jul 26 2018 19:29:04 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jul 26 2018 20:25:44 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/07/18/ModuleFirstExplore/index.html",
     "headline": "组件化初探",
     "datePublished": "Wed Jul 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Thu Jul 26 2018 19:29:04 GMT+0800",
+    "dateModified": "Thu Jul 26 2018 20:25:44 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -708,6 +708,8 @@ master
 <p>注册 <em>URL</em> 的目的其实是一个服务发现的过程，在iOS领域中，服务发现的方式是不需要通过主动注册的，使用 <em>runtime</em> 就可以了。另外，注册部分的代码的维护是一个相对麻烦的事情，每一次支持新调用时，都要去维护一次注册列表。如果有调用被弃用了，是经常会忘记删项目的。<em>runtime</em> 由于不存在注册过程，那就也不会产生维护的操作，维护成本就降低了。</p>
 <p>由于通过 <em>runtime</em> 做到了服务的自动发现，拓展调用接口的任务就仅在于各自的模块，任何一次新接口添加，新业务添加，都不必去主工程做操作，十分透明。— casatwy</p>
 </blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_target-action.png" alt="target-action"></p>
+<p>如图，<em>target-action</em> 模式，即，目标-行为，行为即要调用的方法，目标即消息的接收对象（Objective-C 语言使用消息机制，类似但不同于方法调用）。整个过程为：用户点击按钮，触发某事件发生，该消息由按钮传到另外的接收对象，接收对象再做相应处理。接收对象可以为任何对象，但通常为控制器（<em>Controller</em>）。</p>
 <p>组件之间的交互，通过 <em>Action</em> 暴露可调用接口，所有组件都通过组件自带的<em>Target-Action</em> 来响应，也就是说，模块与模块之间的接口被固化在了 <em>Target-Action</em> 这一层，避免了实施组件化的改造过程中，对业务层的侵入，同时也提高了组件化接口的可维护性。 </p>
 <p>基于以上原因，这里我推荐 <em>Target-Action</em> 方案。具体操作流程如下，</p>
 <h3 id="新增基于-CTMediator-的组件-LZMediator"><a href="#新增基于-CTMediator-的组件-LZMediator" class="headerlink" title="新增基于 CTMediator 的组件 LZMediator"></a>新增基于 CTMediator 的组件 LZMediator</h3><p>基于 <a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a> 新建用于传递组件讯息的组件 <em>LZMediator</em>，该组件参考 <a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a> 中的 <em>CTMediator</em> 类，做了一些简化处理。具体创建操作参照上文中使用 <em>CoCoaPods</em> 建立私有库，这里就不再赘述了。</p>
