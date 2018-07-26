@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Jul 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Thu Jul 26 2018 12:22:17 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jul 26 2018 12:24:12 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/07/18/ModuleFirstExplore/index.html",
     "headline": "组件化初探",
     "datePublished": "Wed Jul 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Thu Jul 26 2018 12:22:17 GMT+0800",
+    "dateModified": "Thu Jul 26 2018 12:24:12 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#现在项目中存在的问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">现在项目中存在的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#期望达到的效果"><span class="post-toc-number">2.</span> <span class="post-toc-text">期望达到的效果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#组件划分粒度及其相互间的依赖"><span class="post-toc-number">3.</span> <span class="post-toc-text">组件划分粒度及其相互间的依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MVC-MVVM"><span class="post-toc-number">4.</span> <span class="post-toc-text">MVC MVVM</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CoCoaPods-私有库"><span class="post-toc-number">5.</span> <span class="post-toc-text">CoCoaPods 私有库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用模板快速创建测试工程（组件所在的工程）"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1.使用模板快速创建测试工程（组件所在的工程）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置私有库的-podspec-文件"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3.配置私有库的 .podspec 文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-cd-到-模板工程所在的-Example-对应的私有库目录"><span class="post-toc-number">5.4.1.</span> <span class="post-toc-text">1. cd 到 模板工程所在的 Example 对应的私有库目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-可以先查看当前工程文件的状态，红色为未提交"><span class="post-toc-number">5.4.2.</span> <span class="post-toc-text">2. 可以先查看当前工程文件的状态，红色为未提交</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-提交到暂缓区"><span class="post-toc-number">5.4.3.</span> <span class="post-toc-text">3. 提交到暂缓区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-将本地库与远程代码仓库进行关联"><span class="post-toc-number">5.4.4.</span> <span class="post-toc-text">4. 将本地库与远程代码仓库进行关联</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-初始化提交"><span class="post-toc-number">5.4.5.</span> <span class="post-toc-text">5. 初始化提交</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-将本地分支的更新，推送到远程主机"><span class="post-toc-number">5.4.6.</span> <span class="post-toc-text">6. 将本地分支的更新，推送到远程主机</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-给远程组件库打-tag"><span class="post-toc-number">5.4.7.</span> <span class="post-toc-text">7. 给远程组件库打 tag</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-主工程中使用-CoCoaPods-导入私有组件库"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">5.主工程中使用 CoCoaPods 导入私有组件库</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">6.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#现在项目中存在的问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">现在项目中存在的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#期望达到的效果"><span class="post-toc-number">2.</span> <span class="post-toc-text">期望达到的效果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#组件划分粒度及其相互间的依赖"><span class="post-toc-number">3.</span> <span class="post-toc-text">组件划分粒度及其相互间的依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MVC-MVVM"><span class="post-toc-number">4.</span> <span class="post-toc-text">MVC MVVM</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CoCoaPods-私有库"><span class="post-toc-number">5.</span> <span class="post-toc-text">CoCoaPods 私有库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用模板快速创建测试工程（组件所在的工程）"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1.使用模板快速创建测试工程（组件所在的工程）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置私有库的-podspec-文件"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3.配置私有库的 .podspec 文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">6.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -604,30 +604,8 @@ s.dependency &quot;ReactiveObjC&quot;
 <li><em>s.dependency</em> 依赖其他的框架或组件</li>
 </ul>
 <p>这里是组件中用到的主要的配置，还有其它的与私有 <em>pod</em> 相关的配置。</p>
-<p>注意: 组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过<em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。</p>
-<h3 id="4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中"><a href="#4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中" class="headerlink" title="4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中"></a>4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中</h3><p>主要是通过 <em>git</em> 命令上传，如下</p>
-<h4 id="1-cd-到-模板工程所在的-Example-对应的私有库目录"><a href="#1-cd-到-模板工程所在的-Example-对应的私有库目录" class="headerlink" title="1. cd 到 模板工程所在的 Example 对应的私有库目录"></a>1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录</h4><h4 id="2-可以先查看当前工程文件的状态，红色为未提交"><a href="#2-可以先查看当前工程文件的状态，红色为未提交" class="headerlink" title="2. 可以先查看当前工程文件的状态，红色为未提交"></a>2. 可以先查看当前工程文件的状态，红色为未提交</h4><blockquote>
-<p>git status </p>
-</blockquote>
-<h4 id="3-提交到暂缓区"><a href="#3-提交到暂缓区" class="headerlink" title="3. 提交到暂缓区"></a>3. 提交到暂缓区</h4><blockquote>
-<p>git add .</p>
-</blockquote>
-<h4 id="4-将本地库与远程代码仓库进行关联"><a href="#4-将本地库与远程代码仓库进行关联" class="headerlink" title="4. 将本地库与远程代码仓库进行关联"></a>4. 将本地库与远程代码仓库进行关联</h4><blockquote>
-<p>git remote add origin <a href="http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git" target="_blank" rel="external">http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git</a></p>
-</blockquote>
-<h4 id="5-初始化提交"><a href="#5-初始化提交" class="headerlink" title="5. 初始化提交"></a>5. 初始化提交</h4><blockquote>
-<p>git commit -m “Initial commit”</p>
-</blockquote>
-<h4 id="6-将本地分支的更新，推送到远程主机"><a href="#6-将本地分支的更新，推送到远程主机" class="headerlink" title="6. 将本地分支的更新，推送到远程主机"></a>6. 将本地分支的更新，推送到远程主机</h4><blockquote>
-<p>git push -u origin master</p>
-</blockquote>
-<h4 id="7-给远程组件库打-tag"><a href="#7-给远程组件库打-tag" class="headerlink" title="7. 给远程组件库打 tag"></a>7. 给远程组件库打 tag</h4><blockquote>
-<p>git tag ‘1.2.2.1’  </p>
-<p>git push origin ‘1.2.2.1’</p>
-</blockquote>
-<p>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。</p>
-<h3 id="5-主工程中使用-CoCoaPods-导入私有组件库"><a href="#5-主工程中使用-CoCoaPods-导入私有组件库" class="headerlink" title="5.主工程中使用 CoCoaPods 导入私有组件库"></a>5.主工程中使用 CoCoaPods 导入私有组件库</h3><p>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，</p>
-<pre><code class="js">platform :ios, &#39;8.4&#39;
+<font color="ff6d55" size="4">注意</font>: 组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过<em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。<br><br>### 4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中<br><br>主要是通过 <em>git</em> 命令上传，如下<br><br>#### 1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录<br>#### 2. 可以先查看当前工程文件的状态，红色为未提交<br>&gt; git status<br><br>#### 3. 提交到暂缓区<br>&gt; git add .<br><br>#### 4. 将本地库与远程代码仓库进行关联<br>&gt; git remote add origin <a href="http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git" target="_blank" rel="external">http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git</a><br><br>#### 5. 初始化提交<br>&gt; git commit -m “Initial commit”<br><br>#### 6. 将本地分支的更新，推送到远程主机<br>&gt; git push -u origin master<br><br>#### 7. 给远程组件库打 tag<br>&gt; git tag ‘1.2.2.1’<br>&gt;<br>&gt; git push origin ‘1.2.2.1’<br><br>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。<br><br>### 5.主工程中使用 CoCoaPods 导入私有组件库<br><br>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，<br><br><code>js
+platform :ios, &#39;8.4&#39;
 
 source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;
 source &#39;https://github.com/CocoaPods/Specs.git&#39;
@@ -657,10 +635,8 @@ target  ‘CloudOfficeTrial’ do
 
     common_pods
 
-end
-</code></pre>
-<p>通过命令 <strong>pod repo</strong> 查看本地已存在的索引库，</p>
-<pre><code class="js">14-cloudofficemodulization-cloudofficespec
+end</code><br><br>通过命令 <strong>pod repo</strong> 查看本地已存在的索引库，<br><br><code>js
+14-cloudofficemodulization-cloudofficespec
 - Type: git (master)
 - URL:  http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git
 - Path: /Users/huahua/.cocoapods/repos/14-cloudofficemodulization-cloudofficespec
@@ -668,16 +644,9 @@ end
 master
 - Type: git (master)
 - URL:  https://github.com/CocoaPods/Specs.git
-- Path: /Users/huahua/.cocoapods/repos/master
-</code></pre>
-<p><em>GitLab</em> 中远程私有库的地址：</p>
-<pre><code class="js">source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;
-</code></pre>
-<p>公有库的地址：</p>
-<pre><code class="js">source &#39;https://github.com/CocoaPods/Specs.git&#39;
-</code></pre>
-<p>cd 到主工程 <em>Podfile</em> 文件所在目录，执行 <strong>pod instal</strong> 命令，再次打开项目就可以在 <em>Pods</em> 文件夹下的 <em>Development Pods</em> 文件夹中找到 <em>LZBasisComponents</em> 组件。</p>
-<font size="4" color="B22222">注意：</font>pod ‘LZBasisComponents’, :path =&gt;’/Users/huahua/Documents/Module/LZBasisComponents’ 对应的路径可以是存放本地私有库(已update远程私有库)的路径，也可以是 <em>步骤4</em> 中对应的远程私有库，可以通过通过 tag 来导入不同的私有组件库的版本，如下：<br><br><code>js
+- Path: /Users/huahua/.cocoapods/repos/master</code><br><br><em>GitLab</em> 中远程私有库的地址：<br><br><code>js
+source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;</code><br><br>公有库的地址：<br><br><code>js
+source &#39;https://github.com/CocoaPods/Specs.git&#39;</code><br><br>cd 到主工程 <em>Podfile</em> 文件所在目录，执行 <strong>pod instal</strong> 命令，再次打开项目就可以在 <em>Pods</em> 文件夹下的 <em>Development Pods</em> 文件夹中找到 <em>LZBasisComponents</em> 组件。<br><br><font size="4" color="B22222">注意：</font>pod ‘LZBasisComponents’, :path =&gt;’/Users/huahua/Documents/Module/LZBasisComponents’ 对应的路径可以是存放本地私有库(已update远程私有库)的路径，也可以是 <em>步骤4</em> 中对应的远程私有库，可以通过通过 tag 来导入不同的私有组件库的版本，如下：<br><br><code>js
 pod &#39;LZBasisComponents&#39;, &#39;~&gt; 1.2.2.1&#39;</code><br><br>也可以通过 <em>SourceTree</em> 或者 <em>GitHub Desktop</em> 等拥有可视化界面的项目版本控制软件，进行 <em>git</em> 项目私有库的管理。<br><br>## 组件之间及各组件与主工程间通讯(中间件)<br><br>有两种路由方式：<br><br>1. 利用url-scheme方案<br>2. 利用runtime实现的target-action方法<br><br>Router<br>路由 （url的方式）<br>路由  (协议的方式) ，为什么采用协议的方式？这样做的好处是什么？<br>路由设计，这里使用 <em>CTMediator</em><br>通过 <em>CTMediator</em> 进行通讯，几种不同方式的中间件交互：<br><br>1. 空 params<br>2. 字典形式的 params<br>3. block 回调形式的 params<br><br>## 原工程中资源文件的处理<br><br>图片文件的处理以及读取方式<br><br>## 受工期影响<br><br>1. 抽取组件前未将项目中冗余的类删除，导致这些类最后被抽到组件中；<br>2. 在抽取组件时，版本仍在继续迭代，这就造成组件抽取完成后，需要再花时间合并新代码到组件中；<br>3. 前期为了快速分离功能组件，往往将与该组件关联的其它功能模块的代码也抽到组件中；<br><br>出现 <em>2</em> 中的情况，就需要记录一下新版本迭代修改了组件中的哪些类，还要记录提测后修改 <em>QA</em> 提出的 bug 时修改了哪些类，最后，再对比 <em>Git</em> 和 <em>svn</em> 的提交日志，查看修改了哪些类。<br><br><br>## 抽离各模块功能组件遇到的问题及解决方式<br><br>1. 蓝牙打印的问题<br>2. iOS 9.3.5 系统下，页面布局错乱的问题<br><br>## 后记<br><br>壳工程<br><br><font size="6" color="B22222"> 未完，待续… </font>
 
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html" target="_blank" rel="external">iOS应用架构谈 开篇 - Casa Taloyum</a></p>
