@@ -57,7 +57,7 @@
 <h2 id="MVC-MVVM"><a href="#MVC-MVVM" class="headerlink" title="MVC MVVM"></a>MVC MVVM</h2><p>MVC架构，MVVM架构的，这种层次划分，主要是针对数据流动的方向而言的</p>
 <p>以解决问题为主，而不是生搬硬套架构。</p>
 <h2 id="CoCoaPods-私有库"><a href="#CoCoaPods-私有库" class="headerlink" title="CoCoaPods 私有库"></a>CoCoaPods 私有库</h2><p>通过 <em>cocopods</em> 把组件打包成单独的 <em>私有pod</em> 库来进行管理，这样就可以通过 <em>podfile</em> 文件，进行动态的增删和版本管理了。</p>
-<h3 id="1-使用模板快速创建测试工程（组件所在的工程）"><a href="#1-使用模板快速创建测试工程（组件所在的工程）" class="headerlink" title="1. 使用模板快速创建测试工程（组件所在的工程）"></a>1. 使用模板快速创建测试工程（组件所在的工程）</h3><blockquote>
+<h3 id="1-使用模板快速创建测试工程（组件所在的工程）"><a href="#1-使用模板快速创建测试工程（组件所在的工程）" class="headerlink" title="1.使用模板快速创建测试工程（组件所在的工程）"></a>1.使用模板快速创建测试工程（组件所在的工程）</h3><blockquote>
 <p>$ pod lib create LZBasisComponents</p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_cocoaPods01.jpeg" alt="创建模板工程"></p>
@@ -68,8 +68,8 @@
 <p>$ pod install</p>
 </blockquote>
 <p>我们就可以在测试组件的模板工程中修改文件了。</p>
-<h3 id="2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><a href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents" class="headerlink" title="2. 在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents"></a>2. 在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</h3><p>这里使用开源的 <em>GitLab</em> 作为代码托管的 <em>git</em> 服务器，安装完成后可以在上面新建组件。当然也可以付费使用基于 GitHub 托管，免费的有 <em><a href="https://gitee.com" target="_blank" rel="external">码云</a></em> 和 <em><a href="https://coding.net" target="_blank" rel="external">码市</a></em>。</p>
-<h3 id="3-配置私有库的-podspec-文件"><a href="#3-配置私有库的-podspec-文件" class="headerlink" title="3. 配置私有库的 .podspec 文件"></a>3. 配置私有库的 .podspec 文件</h3><p>在上文中生成模板工程的同时，也会生成一个 <em>. podspec</em> 的文件。我们需要单独设置该文件，之所以配置 <em>.podspec</em> 文件，是为了将本地私有库与 <em>GitLab</em> 上远程私有库进行关联，多人开发时通过远程私有组件库进行代码的同步。远程索引库 <em>. podspec</em> 即，组件描述文件，里面描述了组件文件的源码地址，框架简介，私有库作者，版本号，资源文件路径等信息。我们使用 <strong>$ pod search</strong> 检索索引文件，找到 <em>. podspec</em> 中的源码地址，然后将项目down到本地。其主要配置如下，</p>
+<h3 id="2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><a href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents" class="headerlink" title="2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents"></a>2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</h3><p>这里使用开源的 <em>GitLab</em> 作为代码托管的 <em>git</em> 服务器，安装完成后可以在上面新建组件。当然也可以付费使用基于 GitHub 托管，免费的有 <em><a href="https://gitee.com" target="_blank" rel="external">码云</a></em> 和 <em><a href="https://coding.net" target="_blank" rel="external">码市</a></em>。</p>
+<h3 id="3-配置私有库的-podspec-文件"><a href="#3-配置私有库的-podspec-文件" class="headerlink" title="3.配置私有库的 .podspec 文件"></a>3.配置私有库的 .podspec 文件</h3><p>在上文中生成模板工程的同时，也会生成一个 <em>. podspec</em> 的文件。我们需要单独设置该文件，之所以配置 <em>.podspec</em> 文件，是为了将本地私有库与 <em>GitLab</em> 上远程私有库进行关联，多人开发时通过远程私有组件库进行代码的同步。远程索引库 <em>. podspec</em> 即，组件描述文件，里面描述了组件文件的源码地址，框架简介，私有库作者，版本号，资源文件路径等信息。我们使用 <strong>$ pod search</strong> 检索索引文件，找到 <em>. podspec</em> 中的源码地址，然后将项目down到本地。其主要配置如下，</p>
 <pre><code class="js">s.name         = &quot;LZBasisComponents&quot;
 s.version      = &quot;1.2.2.1&quot;
 s.summary      = &quot;LZBasisComponents.&quot;
@@ -92,6 +92,7 @@ s.dependency &quot;Masonry&quot;, &#39;~&gt; 1.1.0&#39;
 s.dependency &quot;YYKit&quot;, &#39;~&gt; 1.0.9&#39;
 s.dependency &quot;ReactiveObjC&quot;
 </code></pre>
+<p>具体的配置如下：</p>
 <ul>
 <li><em>s.homepage</em> 组件在 <em>GitLab</em> 的主页面</li>
 <li><em>s.source</em> 真实组件的地址，在 <em>GitLab</em> 中新建库时会生成该地址</li>
@@ -99,7 +100,7 @@ s.dependency &quot;ReactiveObjC&quot;
 <li><em>s.resource_bundles</em> 存放资源文件的类型</li>
 <li><em>s.dependency</em> 依赖其他的框架或组件</li>
 </ul>
-<font size="4" color="B22222"> 注意： </font><br>组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过 <em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。<br><br>### 4. 将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中<br><br>主要是通过 <em>git</em> 命令上传，如下<br><br>1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录<br>2. 可以先查看当前工程文件的状态，红色为未提交<br><br>   &gt; git status<br><br>3. 提交到暂缓区<br><br>   &gt; git add .<br><br>4. 将本地库与远程代码仓库进行关联<br><br>   &gt; git remote add origin <a href="http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git" target="_blank" rel="external">http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git</a><br><br>5. 初始化提交<br><br>   &gt; git commit -m “Initial commit”<br><br>6. 将本地分支的更新，推送到远程主机<br><br>   &gt; git push -u origin master<br><br>7. 给远程组件库打 tag<br><br>   &gt; git tag ‘1.2.2.1’<br><br>   &gt; git push origin ‘1.2.2.1’<br><br>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。<br><br>### 5. 主工程中使用 CoCoaPods 导入私有组件库<br><br>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，<br><br><code>js
+<font size="4" color="B22222"> 注意： </font><br>组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过 <em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。<br><br>### 4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中<br><br>主要是通过 <em>git</em> 命令上传，如下<br><br>1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录<br>2. 可以先查看当前工程文件的状态，红色为未提交<br>&gt; git status<br><br>3. 提交到暂缓区<br>&gt; git add .<br><br>4. 将本地库与远程代码仓库进行关联<br>&gt; git remote add origin <a href="http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git" target="_blank" rel="external">http://192.168.11.11/CloudOfficeModulization/LZBasisComponents.git</a><br><br>5. 初始化提交<br>&gt; git commit -m “Initial commit”<br><br>6. 将本地分支的更新，推送到远程主机<br>&gt; git push -u origin master<br><br>7. 给远程组件库打 tag<br>&gt; git tag ‘1.2.2.1’<br>&gt;<br>&gt; git push origin ‘1.2.2.1’<br><br>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。<br><br>### 5.主工程中使用 CoCoaPods 导入私有组件库<br><br>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，<br><br><code>js
 platform :ios, &#39;8.4&#39;
 
 source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;
@@ -4895,12 +4896,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-05-24"><a href="#2018-05-24" class="headerlink" title="2018/05/24"></a>2018/05/24</h3><blockquote>
@@ -5059,12 +5054,6 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -5072,12 +5061,24 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#100;&#x65;&#118;&#101;&#108;&#x6f;&#x70;&#101;&#x72;&#x70;&#101;&#110;&#103;&#104;&#101;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;">&#100;&#x65;&#118;&#101;&#108;&#x6f;&#x70;&#101;&#x72;&#x70;&#101;&#110;&#103;&#104;&#101;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x64;&#x65;&#118;&#101;&#x6c;&#x6f;&#112;&#x65;&#x72;&#112;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#109;">&#x64;&#x65;&#118;&#101;&#x6c;&#x6f;&#112;&#x65;&#x72;&#112;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
