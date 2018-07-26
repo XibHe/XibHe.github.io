@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Jul 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Thu Jul 26 2018 19:24:41 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jul 26 2018 19:29:04 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/07/18/ModuleFirstExplore/index.html",
     "headline": "组件化初探",
     "datePublished": "Wed Jul 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Thu Jul 26 2018 19:24:41 GMT+0800",
+    "dateModified": "Thu Jul 26 2018 19:29:04 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -361,7 +361,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#现在项目中存在的问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">现在项目中存在的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#期望达到的效果"><span class="post-toc-number">2.</span> <span class="post-toc-text">期望达到的效果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#组件划分粒度及其相互间的依赖"><span class="post-toc-number">3.</span> <span class="post-toc-text">组件划分粒度及其相互间的依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MVC-MVVM"><span class="post-toc-number">4.</span> <span class="post-toc-text">MVC MVVM</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CoCoaPods-私有库"><span class="post-toc-number">5.</span> <span class="post-toc-text">CoCoaPods 私有库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用模板快速创建测试工程（组件所在的工程）"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1.使用模板快速创建测试工程（组件所在的工程）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置私有库的-podspec-文件"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3.配置私有库的 .podspec 文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-cd-到-模板工程所在的-Example-对应的私有库目录"><span class="post-toc-number">5.4.1.</span> <span class="post-toc-text">1. cd 到 模板工程所在的 Example 对应的私有库目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-可以先查看当前工程文件的状态，红色为未提交"><span class="post-toc-number">5.4.2.</span> <span class="post-toc-text">2. 可以先查看当前工程文件的状态，红色为未提交</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-提交到暂缓区"><span class="post-toc-number">5.4.3.</span> <span class="post-toc-text">3. 提交到暂缓区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-将本地库与远程代码仓库进行关联"><span class="post-toc-number">5.4.4.</span> <span class="post-toc-text">4. 将本地库与远程代码仓库进行关联</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-初始化提交"><span class="post-toc-number">5.4.5.</span> <span class="post-toc-text">5. 初始化提交</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-将本地分支的更新，推送到远程主机"><span class="post-toc-number">5.4.6.</span> <span class="post-toc-text">6. 将本地分支的更新，推送到远程主机</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-给远程组件库打-tag"><span class="post-toc-number">5.4.7.</span> <span class="post-toc-text">7. 给远程组件库打 tag</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-主工程中使用-CoCoaPods-导入私有组件库"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">5.主工程中使用 CoCoaPods 导入私有组件库</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#组件之间及各组件与主工程间通讯-中间件"><span class="post-toc-number">6.</span> <span class="post-toc-text">组件之间及各组件与主工程间通讯(中间件)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新增基于-CTMediator-的组件-LZMediator"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">新增基于 CTMediator 的组件 LZMediator</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建与其它组件通讯的中间件"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">新建与其它组件通讯的中间件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在中间件中新增用于通讯的-LZMediator-类别"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">在中间件中新增用于通讯的 LZMediator 类别</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#现在项目中存在的问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">现在项目中存在的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#期望达到的效果"><span class="post-toc-number">2.</span> <span class="post-toc-text">期望达到的效果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#组件划分粒度及其相互间的依赖"><span class="post-toc-number">3.</span> <span class="post-toc-text">组件划分粒度及其相互间的依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MVC-MVVM"><span class="post-toc-number">4.</span> <span class="post-toc-text">MVC MVVM</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CoCoaPods-私有库"><span class="post-toc-number">5.</span> <span class="post-toc-text">CoCoaPods 私有库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用模板快速创建测试工程（组件所在的工程）"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1.使用模板快速创建测试工程（组件所在的工程）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置私有库的-podspec-文件"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">3.配置私有库的 .podspec 文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-cd-到-模板工程所在的-Example-对应的私有库目录"><span class="post-toc-number">5.4.1.</span> <span class="post-toc-text">1. cd 到 模板工程所在的 Example 对应的私有库目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-可以先查看当前工程文件的状态，红色为未提交"><span class="post-toc-number">5.4.2.</span> <span class="post-toc-text">2. 可以先查看当前工程文件的状态，红色为未提交</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-提交到暂缓区"><span class="post-toc-number">5.4.3.</span> <span class="post-toc-text">3. 提交到暂缓区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-将本地库与远程代码仓库进行关联"><span class="post-toc-number">5.4.4.</span> <span class="post-toc-text">4. 将本地库与远程代码仓库进行关联</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-初始化提交"><span class="post-toc-number">5.4.5.</span> <span class="post-toc-text">5. 初始化提交</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-将本地分支的更新，推送到远程主机"><span class="post-toc-number">5.4.6.</span> <span class="post-toc-text">6. 将本地分支的更新，推送到远程主机</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-给远程组件库打-tag"><span class="post-toc-number">5.4.7.</span> <span class="post-toc-text">7. 给远程组件库打 tag</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-主工程中使用-CoCoaPods-导入私有组件库"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">5.主工程中使用 CoCoaPods 导入私有组件库</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#组件之间及各组件与主工程间通讯-中间件"><span class="post-toc-number">6.</span> <span class="post-toc-text">组件之间及各组件与主工程间通讯(中间件)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新增基于-CTMediator-的组件-LZMediator"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">新增基于 CTMediator 的组件 LZMediator</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建与其它组件通讯的中间件"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">新建与其它组件通讯的中间件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在中间件中新增用于通讯的-LZMediator-类别"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">在中间件中新增用于通讯的 LZMediator 类别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在-target-action-所在的组件中增加提供服务的类"><span class="post-toc-number">6.4.</span> <span class="post-toc-text">在 target-action 所在的组件中增加提供服务的类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在其它组件中调用中间件的方法进行通讯"><span class="post-toc-number">6.5.</span> <span class="post-toc-text">在其它组件中调用中间件的方法进行通讯</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原工程中资源文件的处理"><span class="post-toc-number">7.</span> <span class="post-toc-text">原工程中资源文件的处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#受工期影响"><span class="post-toc-number">8.</span> <span class="post-toc-text">受工期影响</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#抽离各模块功能组件遇到的问题及解决方式"><span class="post-toc-number">9.</span> <span class="post-toc-text">抽离各模块功能组件遇到的问题及解决方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后记"><span class="post-toc-number">10.</span> <span class="post-toc-text">后记</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">11.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
     </ul>
     
 
@@ -741,13 +741,17 @@ NSString *const kLZMediatorAction_newDoctorPrescribingViewController = @&quot;ne
 }
 </code></pre>
 <p>这里需要注意方法中传递的参数 <em>kLZMediatorTarget_LZWorkTableComponents</em> 和 <em>kLZMediatorAction_newDoctorPrescribingViewController</em> 分别对应工作台组件中 <em>target-action</em> 所在的模块 (也就是提供服务的模块，这也是单独的repo，但无需被其他人依赖，其他人通过category调用这里的功能），这两个参数，前者对应的是 <em>target-action</em> 所在组件中的以 <em>Target_</em> 为前缀的类，后者对应该类里的具体的以 <em>Action_</em> 为前缀声明的某个方法。前面所说的利用 <em>runtime</em> 实现的 <em>target-action</em> 方法，指的正是这个地方。</p>
-<font color="D22222" size="4">注意</font>: 这两个参数值，一定要与工作台组件中 <em>Target</em> 目录下的类名相一致!!! 切记！ 切记！ 切记！<br><br>### 在 target-action 所在的组件中增加提供服务的类<br><br>在工作台组件（<em>LZWorkTableComponents</em>）中 <em>Target</em> 目录下新建名称为： <em>Target_LZWorkTableComponents</em> 继承于 <em>NSObject</em> 的类，这个类的命名规则与上面说的 <em>kLZMediatorTarget_LZWorkTableComponents</em> 参数相一致，然后新增方法，方法名以前缀 <em>Action_</em> 开头，同样需要与上面说的<em>kLZMediatorAction_newDoctorPrescribingViewController</em> 参数相一致。如下：<br><br><em>Target_LZWorkTableComponents.h</em> 中声明中间件调用的返回工作台组件中某个控制器的实例方法：<br><br><code>objectivec
-#pragma mark - 患者管理组件调用
+<p>注意: 这两个参数值，一定要与工作台组件中 <em>Target</em> 目录下的类名相一致!!! 切记！ 切记！ 切记！ </p>
+<h3 id="在-target-action-所在的组件中增加提供服务的类"><a href="#在-target-action-所在的组件中增加提供服务的类" class="headerlink" title="在 target-action 所在的组件中增加提供服务的类"></a>在 target-action 所在的组件中增加提供服务的类</h3><p>在工作台组件（<em>LZWorkTableComponents</em>）中 <em>Target</em> 目录下新建名称为： <em>Target_LZWorkTableComponents</em> 继承于 <em>NSObject</em> 的类，这个类的命名规则与上面说的 <em>kLZMediatorTarget_LZWorkTableComponents</em> 参数相一致，然后新增方法，方法名以前缀 <em>Action_</em> 开头，同样需要与上面说的<em>kLZMediatorAction_newDoctorPrescribingViewController</em> 参数相一致。如下：</p>
+<p><em>Target_LZWorkTableComponents.h</em> 中声明中间件调用的返回工作台组件中某个控制器的实例方法：</p>
+<pre><code class="objectivec">#pragma mark - 患者管理组件调用
 /**
  返回LZNewDoctorPrescribingViewController实例
  */
-- (UIViewController *)Action_newDoctorPrescribingViewController:(NSDictionary *)param;</code><br><br><em>Target_LZWorkTableComponents.m</em> 中实现该方法：<br><br><code>objectivec
-#import &lt;LZDataBaseComponents/PationModel.h&gt;
+- (UIViewController *)Action_newDoctorPrescribingViewController:(NSDictionary *)param;
+</code></pre>
+<p><em>Target_LZWorkTableComponents.m</em> 中实现该方法：</p>
+<pre><code class="objectivec">#import &lt;LZDataBaseComponents/PationModel.h&gt;
 #import &quot;LZNewDoctorPrescribingViewController.h&quot;
 
 /**
@@ -765,14 +769,36 @@ NSString *const kLZMediatorAction_newDoctorPrescribingViewController = @&quot;ne
     newDoctorPrescribinVC.model = pationModel;
 
     return newDoctorPrescribinVC;
-}</code><br><br>这里 <em>PationModel</em> 为数据库组件中的类，需要注意一下这里使用尖括号引入的头文件，<em>LZNewDoctorPrescribingViewController</em> 控制器为工作台组件中的类。<br><br>### 在其它组件中调用中间件的方法进行通讯<br><br>这里仍以工作台组件（<em>LZWorkTableComponents</em>）为例，比如，在患者组件中想跳转至工作台组件中的看病开方详情页（<em>LZNewDoctorPrescribingViewController</em>），需要通过上面的工作台中间件（<em>LZWorkTableComponents_Category</em>）进行通讯，而不是直接导入 <em>#import “LZNewDoctorPrescribingViewController.h”</em> 头文件调用。具体事例，如下：<br><br>在患者管理组件中，<br><br><code>objectivec
-#import &lt;LZWorkTableComponents_Category/LZMediator+LZWorkTableComponents.h&gt;
+}
+</code></pre>
+<p>这里 <em>PationModel</em> 为数据库组件中的类，需要注意一下这里使用尖括号引入的头文件，<em>LZNewDoctorPrescribingViewController</em> 控制器为工作台组件中的类。</p>
+<h3 id="在其它组件中调用中间件的方法进行通讯"><a href="#在其它组件中调用中间件的方法进行通讯" class="headerlink" title="在其它组件中调用中间件的方法进行通讯"></a>在其它组件中调用中间件的方法进行通讯</h3><p>这里仍以工作台组件（<em>LZWorkTableComponents</em>）为例，比如，在患者组件中想跳转至工作台组件中的看病开方详情页（<em>LZNewDoctorPrescribingViewController</em>），需要通过上面的工作台中间件（<em>LZWorkTableComponents_Category</em>）进行通讯，而不是直接导入 <em>#import “LZNewDoctorPrescribingViewController.h”</em> 头文件调用。具体事例，如下：</p>
+<p>在患者管理组件中，</p>
+<pre><code class="objectivec">#import &lt;LZWorkTableComponents_Category/LZMediator+LZWorkTableComponents.h&gt;
 
   NSDictionary *pationModelDic = model.mj_keyValues;
   UIViewController *newDoctorVC = [[LZMediator sharedInstance] LZWorkTableComponents_newDoctorPrescribingViewControllerWithDic:pationModelDic];
-  [weakSelf presentViewController: newDoctorVC animated:YES completion:nil];</code><br><br>这里通过一个 <em>LZMediator</em> 的单例来调用工作台中间件（<em>LZWorkTableComponents_Category</em>）中 <em>LZMediator</em> 的类别(<em>LZMediator+LZWorkTableComponents</em>) 中的方法，获得 <em>view controller</em> 之后，在这种场景下，到底 <em>push</em> 还是 <em>present</em> ，其实是要由使用者决定的，<em>mediator</em> 只要给出 <em>view controller</em> 的实例就好了。<br><br>## 原工程中资源文件的处理<br><br>图片文件的处理以及读取方式<br><br>## 受工期影响<br><br>1. 抽取组件前未将项目中冗余的类删除，导致这些类最后被抽到组件中；<br>2. 在抽取组件时，版本仍在继续迭代，这就造成组件抽取完成后，需要再花时间合并新代码到组件中；<br>3. 前期为了快速分离功能组件，往往将与该组件关联的其它功能模块的代码也抽到组件中；<br><br>出现 <em>2</em> 中的情况，就需要记录一下新版本迭代修改了组件中的哪些类，还要记录提测后修改 <em>QA</em> 提出的 bug 时修改了哪些类，最后，再对比 <em>Git</em> 和 <em>svn</em> 的提交日志，查看修改了哪些类。<br><br><br>## 抽离各模块功能组件遇到的问题及解决方式<br><br>1. 蓝牙打印的问题<br>2. iOS 9.3.5 系统下，页面布局错乱的问题<br><br>## 后记<br><br><em> 壳工程
-</em> 去除主工程 <em>Assets.xcassets</em> 目录下的多余资源文件(这些文件已抽到各个业务功能组件中)<br><em> 组件化方案中的去model设计
-</em> 将各个功能模块中涉及到数据库组件，<em>SQLite</em> 的查询语句都移动到数据库组件中<br><br><font size="6" color="B22222"> 未完，待续… </font>
+  [weakSelf presentViewController: newDoctorVC animated:YES completion:nil];
+</code></pre>
+<p>这里通过一个 <em>LZMediator</em> 的单例来调用工作台中间件（<em>LZWorkTableComponents_Category</em>）中 <em>LZMediator</em> 的类别(<em>LZMediator+LZWorkTableComponents</em>) 中的方法，获得 <em>view controller</em> 之后，在这种场景下，到底 <em>push</em> 还是 <em>present</em> ，其实是要由使用者决定的，<em>mediator</em> 只要给出 <em>view controller</em> 的实例就好了。</p>
+<h2 id="原工程中资源文件的处理"><a href="#原工程中资源文件的处理" class="headerlink" title="原工程中资源文件的处理"></a>原工程中资源文件的处理</h2><p>图片文件的处理以及读取方式</p>
+<h2 id="受工期影响"><a href="#受工期影响" class="headerlink" title="受工期影响"></a>受工期影响</h2><ol>
+<li>抽取组件前未将项目中冗余的类删除，导致这些类最后被抽到组件中；</li>
+<li>在抽取组件时，版本仍在继续迭代，这就造成组件抽取完成后，需要再花时间合并新代码到组件中；</li>
+<li>前期为了快速分离功能组件，往往将与该组件关联的其它功能模块的代码也抽到组件中；</li>
+</ol>
+<p>出现 <em>2</em> 中的情况，就需要记录一下新版本迭代修改了组件中的哪些类，还要记录提测后修改 <em>QA</em> 提出的 bug 时修改了哪些类，最后，再对比 <em>Git</em> 和 <em>svn</em> 的提交日志，查看修改了哪些类。</p>
+<h2 id="抽离各模块功能组件遇到的问题及解决方式"><a href="#抽离各模块功能组件遇到的问题及解决方式" class="headerlink" title="抽离各模块功能组件遇到的问题及解决方式"></a>抽离各模块功能组件遇到的问题及解决方式</h2><ol>
+<li>蓝牙打印的问题</li>
+<li>iOS 9.3.5 系统下，页面布局错乱的问题</li>
+</ol>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
+<li>壳工程</li>
+<li>去除主工程 <em>Assets.xcassets</em> 目录下的多余资源文件(这些文件已抽到各个业务功能组件中)</li>
+<li>组件化方案中的去model设计</li>
+<li>将各个功能模块中涉及到数据库组件，<em>SQLite</em> 的查询语句都移动到数据库组件中</li>
+</ul>
+<font size="6" color="B22222"> 未完，待续… </font>
 
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html" target="_blank" rel="external">iOS应用架构谈 开篇 - Casa Taloyum</a></p>
 <p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html" target="_blank" rel="external">iOS应用架构谈 view层的组织和调用方案 - Casa Taloyum</a></p>
