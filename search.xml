@@ -119,8 +119,8 @@ s.dependency &quot;ReactiveObjC&quot;
 <p>git push -u origin master</p>
 </blockquote>
 <h4 id="7-给远程组件库打-tag"><a href="#7-给远程组件库打-tag" class="headerlink" title="7. 给远程组件库打 tag"></a>7. 给远程组件库打 tag</h4><blockquote>
-<p>git tag ‘1.2.2.1’  </p>
-<p>git push origin ‘1.2.2.1’</p>
+<p>git tag -a 1.2.2.1 -m ‘v1.2.2.1’</p>
+<p>git push origin master</p>
 </blockquote>
 <p>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。</p>
 <h3 id="5-主工程中使用-CoCoaPods-导入私有组件库"><a href="#5-主工程中使用-CoCoaPods-导入私有组件库" class="headerlink" title="5.主工程中使用 CoCoaPods 导入私有组件库"></a>5.主工程中使用 CoCoaPods 导入私有组件库</h3><p>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，</p>
@@ -5004,9 +5004,9 @@ pod setup
         
         <tags>
             
-            <tag> iOS </tag>
-            
             <tag> JavaScriptCore </tag>
+            
+            <tag> iOS </tag>
             
             <tag> iOS与JS交互 </tag>
             
@@ -5063,7 +5063,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#100;&#101;&#x76;&#x65;&#x6c;&#111;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#111;&#109;">&#100;&#101;&#x76;&#x65;&#x6c;&#111;&#112;&#101;&#x72;&#x70;&#x65;&#x6e;&#x67;&#104;&#x65;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#112;&#101;&#x72;&#x70;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;">&#x64;&#101;&#x76;&#x65;&#x6c;&#x6f;&#112;&#101;&#x72;&#x70;&#101;&#110;&#x67;&#104;&#x65;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
