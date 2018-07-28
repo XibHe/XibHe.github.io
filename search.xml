@@ -370,7 +370,7 @@ LZHttpClient.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
  s.dependency &quot;LZMineComponents&quot;
 </code></pre>
 <p>此时需要注意：这种依赖关系是单向的。即，工作台组件依赖于其它功能组件，而其他功能组件不能依赖于工作台组件。这样也是为了避免组件间形成相互依赖的循环，为后面解除组件间依赖提供便利。</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
+<h3 id="10-如何将两个组件之间通过代理交互替换为通过中间件交互"><a href="#10-如何将两个组件之间通过代理交互替换为通过中间件交互" class="headerlink" title="10. 如何将两个组件之间通过代理交互替换为通过中间件交互"></a>10. 如何将两个组件之间通过代理交互替换为通过中间件交互</h3><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
 <li>壳工程</li>
 <li>去除主工程 <em>Assets.xcassets</em> 目录下的多余资源文件(这些文件已抽到各个业务功能组件中)</li>
 <li>组件化方案中的去model设计</li>
@@ -3920,9 +3920,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -4011,9 +4011,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -5138,7 +5138,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#100;&#101;&#118;&#x65;&#108;&#111;&#x70;&#101;&#x72;&#112;&#x65;&#x6e;&#103;&#x68;&#101;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#109;">&#100;&#101;&#118;&#x65;&#108;&#111;&#x70;&#101;&#x72;&#112;&#x65;&#x6e;&#103;&#x68;&#101;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#100;&#101;&#118;&#x65;&#108;&#111;&#x70;&#101;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#64;&#49;&#54;&#51;&#46;&#x63;&#x6f;&#109;">&#100;&#101;&#118;&#x65;&#108;&#111;&#x70;&#101;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#64;&#49;&#54;&#51;&#46;&#x63;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
