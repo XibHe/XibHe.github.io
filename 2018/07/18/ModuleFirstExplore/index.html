@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Jul 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Jul 28 2018 18:21:00 GMT+0800">
+        <meta property="article:modified_time" content="Sat Jul 28 2018 18:28:42 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/07/18/ModuleFirstExplore/index.html",
     "headline": "组件化初探",
     "datePublished": "Wed Jul 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Sat Jul 28 2018 18:21:00 GMT+0800",
+    "dateModified": "Sat Jul 28 2018 18:28:42 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -860,12 +860,11 @@ ld: symbol(s) not found for architecture arm64
 <h3 id="8-Include-of-non-modular-header-inside-framework-module-‘LZBasisComponents-LZHttpClient’-‘-Users-zyjk-imac-penghe-Library-Developer-Xcode-DerivedData-CloudOffice-ffqipmpyrmrjqmevvpibbskoycre-Build-Products-Debug-iphoneos-AFNetworking-AFNetworking-framework-Headers-AFURLRequestSerialization-h’"><a href="#8-Include-of-non-modular-header-inside-framework-module-‘LZBasisComponents-LZHttpClient’-‘-Users-zyjk-imac-penghe-Library-Developer-Xcode-DerivedData-CloudOffice-ffqipmpyrmrjqmevvpibbskoycre-Build-Products-Debug-iphoneos-AFNetworking-AFNetworking-framework-Headers-AFURLRequestSerialization-h’" class="headerlink" title="8. Include of non-modular header inside framework module ‘LZBasisComponents.LZHttpClient’: ‘/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFURLRequestSerialization.h’"></a>8. Include of non-modular header inside framework module ‘LZBasisComponents.LZHttpClient’: ‘/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFURLRequestSerialization.h’</h3><pre><code class="objectivec">Include of non-modular header inside framework module &#39;LZBasisComponents.AFHTTPRequestOperationManager_Synchronous&#39;: &#39;/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFHTTPRequestOperationManager.h&#39;
 </code></pre>
 <p>AFN中头文件引用的包含了同一个头文件，删除报错类 <strong>.h</strong> 中一些重复的引用，改为 <strong>&lt; &gt;</strong> 引入。</p>
-<ul>
-<li><strong>AFHTTPRequestOperationManager+Synchronous.h</strong> 中引入             <strong>#import <afnetworking afhttprequestoperationmanager.h=""></afnetworking></strong></li>
-<li><strong>AFHTTPRequestOperationManager+Synchronous.m</strong> 中引入 <strong>#import <afnetworking afnetworking.h=""></afnetworking></strong></li>
-<li><strong>LZHttpClient.h</strong> 中引入 <strong>#import <afnetworking afurlrequestserialization.h=""></afnetworking></strong></li>
-<li><strong>LZHttpClient.m</strong> 中引入 <strong>#import <afnetworking afnetworking.h=""></afnetworking></strong>         </li>
-</ul>
+<pre><code class="objectivec">AFHTTPRequestOperationManager+Synchronous.h 中引 #import &lt;AFNetworking/AFHTTPRequestOperationManager.h&gt;
+AFHTTPRequestOperationManager+Synchronous.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
+LZHttpClient.h 中引入 #import &lt;AFNetworking/AFURLRequestSerialization.h&gt;
+LZHttpClient.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
+</code></pre>
 <h3 id="9-组件间的依赖关系"><a href="#9-组件间的依赖关系" class="headerlink" title="9. 组件间的依赖关系"></a>9. 组件间的依赖关系</h3><p>组件间的依赖关系，若两个组件间存在依赖，则依赖于某个组件的另一个组件可以直接引用所依赖组件的头文件，而不需要加 <strong>&lt; &gt;</strong> 导入。<br>同理，若两个组件间不存在依赖关系，即使，使用了 <strong>&lt; &gt;</strong> 引用也无法引入该组件的任何文件。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
 <li>壳工程</li>

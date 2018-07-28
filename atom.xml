@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-07-28T10:21:00.063Z</updated>
+  <updated>2018-07-28T10:28:42.503Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
     <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
     <published>2018-07-17T16:00:00.000Z</published>
-    <updated>2018-07-28T10:21:00.063Z</updated>
+    <updated>2018-07-28T10:28:42.503Z</updated>
     
     <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。关于应用架构以及组件化的方案 <a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="external">casatwy</a> 已经说得很透彻了，在这里我就没有必要再班门弄斧了。这篇文章主要是记录自己项目组件化时如何拆分各个功能模块？抽离组件遇到了哪些问题？阶段性测试时遇到了哪些棘手的问题？因此，这篇文章的实践性较强，希望可以解决各位在组件化过程中遇到大部分问题。</p>
 <h2 id="现在项目中存在的问题"><a href="#现在项目中存在的问题" class="headerlink" title="现在项目中存在的问题"></a>现在项目中存在的问题</h2><p>代码不够整齐，目录结构混乱，分类不够明确，随着一次次的版本迭代，增加了不同的业务线，开发人员变动比较频繁，工程越来越臃肿。莫名其妙的继承关系，Base类，Expand类，Category混乱，三者之间存在重复的功能，这也为后面提到的在组件化过程中遇到一个棘手问题埋下了炸弹。</p>
@@ -374,12 +374,11 @@ ld: symbol(s) not found for architecture arm64
 <h3 id="8-Include-of-non-modular-header-inside-framework-module-‘LZBasisComponents-LZHttpClient’-‘-Users-zyjk-imac-penghe-Library-Developer-Xcode-DerivedData-CloudOffice-ffqipmpyrmrjqmevvpibbskoycre-Build-Products-Debug-iphoneos-AFNetworking-AFNetworking-framework-Headers-AFURLRequestSerialization-h’"><a href="#8-Include-of-non-modular-header-inside-framework-module-‘LZBasisComponents-LZHttpClient’-‘-Users-zyjk-imac-penghe-Library-Developer-Xcode-DerivedData-CloudOffice-ffqipmpyrmrjqmevvpibbskoycre-Build-Products-Debug-iphoneos-AFNetworking-AFNetworking-framework-Headers-AFURLRequestSerialization-h’" class="headerlink" title="8. Include of non-modular header inside framework module ‘LZBasisComponents.LZHttpClient’: ‘/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFURLRequestSerialization.h’"></a>8. Include of non-modular header inside framework module ‘LZBasisComponents.LZHttpClient’: ‘/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFURLRequestSerialization.h’</h3><pre><code class="objectivec">Include of non-modular header inside framework module &#39;LZBasisComponents.AFHTTPRequestOperationManager_Synchronous&#39;: &#39;/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFHTTPRequestOperationManager.h&#39;
 </code></pre>
 <p>AFN中头文件引用的包含了同一个头文件，删除报错类 <strong>.h</strong> 中一些重复的引用，改为 <strong>&lt; &gt;</strong> 引入。</p>
-<ul>
-<li><strong>AFHTTPRequestOperationManager+Synchronous.h</strong> 中引入             <strong>#import <afnetworking afhttprequestoperationmanager.h=""></afnetworking></strong></li>
-<li><strong>AFHTTPRequestOperationManager+Synchronous.m</strong> 中引入 <strong>#import <afnetworking afnetworking.h=""></afnetworking></strong></li>
-<li><strong>LZHttpClient.h</strong> 中引入 <strong>#import <afnetworking afurlrequestserialization.h=""></afnetworking></strong></li>
-<li><strong>LZHttpClient.m</strong> 中引入 <strong>#import <afnetworking afnetworking.h=""></afnetworking></strong>         </li>
-</ul>
+<pre><code class="objectivec">AFHTTPRequestOperationManager+Synchronous.h 中引 #import &lt;AFNetworking/AFHTTPRequestOperationManager.h&gt;
+AFHTTPRequestOperationManager+Synchronous.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
+LZHttpClient.h 中引入 #import &lt;AFNetworking/AFURLRequestSerialization.h&gt;
+LZHttpClient.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
+</code></pre>
 <h3 id="9-组件间的依赖关系"><a href="#9-组件间的依赖关系" class="headerlink" title="9. 组件间的依赖关系"></a>9. 组件间的依赖关系</h3><p>组件间的依赖关系，若两个组件间存在依赖，则依赖于某个组件的另一个组件可以直接引用所依赖组件的头文件，而不需要加 <strong>&lt; &gt;</strong> 导入。<br>同理，若两个组件间不存在依赖关系，即使，使用了 <strong>&lt; &gt;</strong> 引用也无法引入该组件的任何文件。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
 <li>壳工程</li>

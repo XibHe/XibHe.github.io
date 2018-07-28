@@ -357,12 +357,11 @@ ld: symbol(s) not found for architecture arm64
 <h3 id="8-Include-of-non-modular-header-inside-framework-module-‘LZBasisComponents-LZHttpClient’-‘-Users-zyjk-imac-penghe-Library-Developer-Xcode-DerivedData-CloudOffice-ffqipmpyrmrjqmevvpibbskoycre-Build-Products-Debug-iphoneos-AFNetworking-AFNetworking-framework-Headers-AFURLRequestSerialization-h’"><a href="#8-Include-of-non-modular-header-inside-framework-module-‘LZBasisComponents-LZHttpClient’-‘-Users-zyjk-imac-penghe-Library-Developer-Xcode-DerivedData-CloudOffice-ffqipmpyrmrjqmevvpibbskoycre-Build-Products-Debug-iphoneos-AFNetworking-AFNetworking-framework-Headers-AFURLRequestSerialization-h’" class="headerlink" title="8. Include of non-modular header inside framework module ‘LZBasisComponents.LZHttpClient’: ‘/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFURLRequestSerialization.h’"></a>8. Include of non-modular header inside framework module ‘LZBasisComponents.LZHttpClient’: ‘/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFURLRequestSerialization.h’</h3><pre><code class="objectivec">Include of non-modular header inside framework module &#39;LZBasisComponents.AFHTTPRequestOperationManager_Synchronous&#39;: &#39;/Users/zyjk_imac-penghe/Library/Developer/Xcode/DerivedData/CloudOffice-ffqipmpyrmrjqmevvpibbskoycre/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/AFHTTPRequestOperationManager.h&#39;
 </code></pre>
 <p>AFN中头文件引用的包含了同一个头文件，删除报错类 <strong>.h</strong> 中一些重复的引用，改为 <strong>&lt; &gt;</strong> 引入。</p>
-<ul>
-<li><strong>AFHTTPRequestOperationManager+Synchronous.h</strong> 中引入             <strong>#import <afnetworking afhttprequestoperationmanager.h=""></afnetworking></strong></li>
-<li><strong>AFHTTPRequestOperationManager+Synchronous.m</strong> 中引入 <strong>#import <afnetworking afnetworking.h=""></afnetworking></strong></li>
-<li><strong>LZHttpClient.h</strong> 中引入 <strong>#import <afnetworking afurlrequestserialization.h=""></afnetworking></strong></li>
-<li><strong>LZHttpClient.m</strong> 中引入 <strong>#import <afnetworking afnetworking.h=""></afnetworking></strong>         </li>
-</ul>
+<pre><code class="objectivec">AFHTTPRequestOperationManager+Synchronous.h 中引 #import &lt;AFNetworking/AFHTTPRequestOperationManager.h&gt;
+AFHTTPRequestOperationManager+Synchronous.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
+LZHttpClient.h 中引入 #import &lt;AFNetworking/AFURLRequestSerialization.h&gt;
+LZHttpClient.m 中引入 #import &lt;AFNetworking/AFNetworking.h&gt;
+</code></pre>
 <h3 id="9-组件间的依赖关系"><a href="#9-组件间的依赖关系" class="headerlink" title="9. 组件间的依赖关系"></a>9. 组件间的依赖关系</h3><p>组件间的依赖关系，若两个组件间存在依赖，则依赖于某个组件的另一个组件可以直接引用所依赖组件的头文件，而不需要加 <strong>&lt; &gt;</strong> 导入。<br>同理，若两个组件间不存在依赖关系，即使，使用了 <strong>&lt; &gt;</strong> 引用也无法引入该组件的任何文件。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
 <li>壳工程</li>
@@ -3914,9 +3913,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4005,9 +4004,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -5125,6 +5124,22 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x64;&#x65;&#x76;&#x65;&#108;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#64;&#x31;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#x65;&#x76;&#x65;&#108;&#x6f;&#112;&#x65;&#114;&#112;&#x65;&#x6e;&#103;&#x68;&#x65;&#64;&#x31;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
@@ -5285,22 +5300,6 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#100;&#101;&#118;&#x65;&#108;&#x6f;&#112;&#x65;&#x72;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#109;">&#100;&#101;&#118;&#x65;&#108;&#x6f;&#112;&#x65;&#x72;&#x70;&#x65;&#110;&#103;&#x68;&#101;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#109;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
     </entry>
     
