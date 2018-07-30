@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-07-28T10:49:43.891Z</updated>
+  <updated>2018-07-30T03:24:03.212Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
     <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
     <published>2018-07-17T16:00:00.000Z</published>
-    <updated>2018-07-28T10:49:43.891Z</updated>
+    <updated>2018-07-30T03:24:03.212Z</updated>
     
     <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。关于应用架构以及组件化的方案 <a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="external">casatwy</a> 已经说得很透彻了，在这里我就没有必要再班门弄斧了。这篇文章主要是记录自己项目组件化时如何拆分各个功能模块？抽离组件遇到了哪些问题？阶段性测试时遇到了哪些棘手的问题？因此，这篇文章的实践性较强，希望可以解决各位在组件化过程中遇到大部分问题。</p>
 <h2 id="现在项目中存在的问题"><a href="#现在项目中存在的问题" class="headerlink" title="现在项目中存在的问题"></a>现在项目中存在的问题</h2><p>代码不够整齐，目录结构混乱，分类不够明确，随着一次次的版本迭代，增加了不同的业务线，开发人员变动比较频繁，工程越来越臃肿。莫名其妙的继承关系，Base类，Expand类，Category混乱，三者之间存在重复的功能，这也为后面提到的在组件化过程中遇到一个棘手问题埋下了炸弹。</p>
@@ -297,7 +297,28 @@ UIViewController *newDoctorVC = [[LZMediator sharedInstance]  LZWorkTableCompone
 [weakSelf presentViewController: newDoctorVC animated:YES completion:nil];
 </code></pre>
 <p>这里通过一个 <em>LZMediator</em> 的单例来调用工作台中间件（<em>LZWorkTableComponents_Category</em>）中 <em>LZMediator</em> 的类别(<em>LZMediator+LZWorkTableComponents</em>) 中的方法，获得 <em>view controller</em> 之后，在这种场景下，到底 <em>push</em> 还是 <em>present</em> ，其实是要由使用者决定的，<em>mediator</em> 只要给出 <em>view controller</em> 的实例就好了。</p>
-<h2 id="原工程中资源文件的处理"><a href="#原工程中资源文件的处理" class="headerlink" title="原工程中资源文件的处理"></a>原工程中资源文件的处理</h2><p>图片文件的处理以及读取方式</p>
+<h2 id="原工程中资源文件的处理"><a href="#原工程中资源文件的处理" class="headerlink" title="原工程中资源文件的处理"></a>原工程中资源文件的处理</h2><p>这里所说的资源文件指的是项目中的图片，现在主工程中的 <strong>Assets</strong> 存放全部的资源文件，需要将其移动到各个组件中去。在上文新建模板工程时，对应文件夹下也会生成一个 <strong>Assets</strong> 文件夹，这个文件夹就是用来存放组件中使用到的图片文件的。 针对这个文件夹中图片资源的存放和使用，有两种方式：</p>
+<ol>
+<li>直接将图片 <strong>copy</strong> 到模板工程中 <strong>Assets</strong> 文件夹下，包括 <strong>@2x</strong>, <strong>@3x</strong> 图片；</li>
+<li>在工程中组件下 <strong>Resources</strong> 目录下，新建 <strong>Assets.xcassets</strong> 文件，直接将图片拖放到 <strong>Assets</strong> 文件中，与主工程中 <strong>Assets</strong> 文件的用法一致。</li>
+</ol>
+<p>针对以上两种存放图片的方式，在文件中读取图片的方式也完全不同。方式一：</p>
+<pre><code class="js">s.resource_bundles = {
+&#39;LZBasisComponents&#39; =&gt; [&#39;LZBasisComponents/LZBasisComponents/Assets/*.{png,plist}&#39;]
+}
+</code></pre>
+<p>需要在对应组件的 <strong>.podspec</strong> 文件中设置访问图片资源的路径及资源文件类型，然后在项目中导入所要访问的图片，最后访问图片，如下：</p>
+<pre><code class="objectivec">[UIImage imageWithName:@&quot;xtsz_N&quot; bundleName:@&quot;LZBasisComponents&quot;];
+</code></pre>
+<p>访问图片时需要在方法 <strong>bundleName:</strong> 后面加上图片所在的组件名称。可以写一个 <strong>UIImage</strong> 的类别统一加载组件图片资源，</p>
+<pre><code class="objectivec">@interface UIImage (Image)
+
+//组件之间加载图片资源
++ (UIImage *)imageWithName:(NSString *)imageName forClass:(Class)sourceClass;
++ (UIImage *)imageWithName:(NSString *)imageName bundleName:(NSString *)bundleName;
++ (UIImage *)imageWithName:(NSString *)imageName bundleName:(NSString *)bundleName forClass:(Class)sourceClass;
+</code></pre>
+<p>方式二：相比方式一，更加简单，管理图片也更加直观。可以直接使用原来的方法<strong>imageWithName</strong> 来加载图片。但这里需要注意这个存放资源图片文件在组件中对应的路径并不在模板工程 <strong>Assets</strong> 路径下。</p>
 <h2 id="受工期影响"><a href="#受工期影响" class="headerlink" title="受工期影响"></a>受工期影响</h2><ol>
 <li>抽取组件前未将项目中冗余的类删除，导致这些类最后被抽到组件中；</li>
 <li>在抽取组件时，版本仍在继续迭代，这就造成组件抽取完成后，需要再花时间合并新代码到组件中；</li>
