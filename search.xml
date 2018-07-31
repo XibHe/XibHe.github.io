@@ -18,12 +18,12 @@
 <p>兵马未动，基础组件先行。</p>
 </blockquote>
 <ul>
-<li>基础组件(LZBasisComponents)：基本配置(常量，宏)，分类(各类系统类的拓展)，网络(AFN的封装)，工具类(loading，字符串操作，日期格式处理，文件操作等)</li>
-<li>数据库组件(LZDataBaseComponents)：封装了各个功能模块的数据库增，删，改，查的基本操作，基于 <em>FMDB</em> 封装了基本的 <em>SQLite</em> 数据库操作；</li>
-<li>功能组件(LZFunctionComponents)：主要用来存放一些自定义控件，eg.自定义弹出窗，错误信息提示View，自定义KeyBoardView，一些按钮和label；</li>
-<li>登录组件(LZLoginComponents)：项目中通过登录操作初始化一些基本配置，配置账号体系下用户所能使用的权限。基于登录功能业务上衍生了广告页，热门活动宣传页，某个版本需要强制升级的弹出窗，以及用户协议等功能。</li>
-<li>登录中间件(LZLoginComponents_Category)：主要用来处理登录组件(LZLoginComponents)与主工程之间的数据通讯；</li>
-<li>工具箱组件(LZToolsComponents)：项目中处理不同设备间数据同步的功能，页面展示的权限控制功能。</li>
+<li>基础组件(<strong>LZBasisComponents</strong>)：基本配置(常量，宏)，分类(各类系统类的拓展)，网络(AFN的封装)，工具类(loading，字符串操作，日期格式处理，文件操作等)</li>
+<li>数据库组件(<strong>LZDataBaseComponents</strong>)：封装了各个功能模块的数据库增，删，改，查的基本操作，基于 <strong>FMDB</strong> 封装了基本的 <strong>SQLite</strong> 数据库操作；</li>
+<li>功能组件(<strong>LZFunctionComponents</strong>)：主要用来存放一些自定义控件，eg.自定义弹出窗，错误信息提示View，自定义<strong>KeyBoardView</strong>，一些按钮和label；</li>
+<li>登录组件(<strong>LZLoginComponents</strong>)：项目中通过登录操作初始化一些基本配置，配置账号体系下用户所能使用的权限。基于登录功能业务上衍生了广告页，热门活动宣传页，某个版本需要强制升级的弹出窗，以及用户协议等功能。</li>
+<li>登录中间件(<strong>LZLoginComponents_Category</strong>)：主要用来处理登录组件(<strong>LZLoginComponents</strong>)与主工程之间的数据通讯；</li>
+<li>工具箱组件(<strong>LZToolsComponents</strong>)：项目中处理不同设备间数据同步的功能，页面展示的权限控制功能。</li>
 </ul>
 <blockquote>
 <p>自顶向下设计，自底向上实现，先测量，后优化。— casatwy</p>
@@ -33,43 +33,43 @@
 <blockquote>
 <p>找到所有需要的模块， 把模块放在该放的地方。 — casatwy</p>
 </blockquote>
-<p>一个公共模块，如果多个模块都会用到，那么最好是将它抽成一个组件。eg. LZToolsComponents组件中，就存放了一些工具类，这些工具类无法下沉到基础组件中。但其它模块却会用到。</p>
+<p>一个公共模块，如果多个模块都会用到，那么最好是将它抽成一个组件。eg. <strong>LZToolsComponents</strong> 组件中，就存放了一些工具类，这些工具类无法下沉到基础组件中。但其它模块却会用到。</p>
 <blockquote>
 <p>高内聚，低耦合。</p>
 </blockquote>
-<p>接下来按功能模块划分组件就比较直观了，比较典型的就是根据 <em>TableBar</em> 来划分，这里适用于大部分 App 的功能模块。以下这些功能组件的划分才是组件化划分的核心所在，也只有将功能组件独立出来，才能达到高内聚，低耦合的目的。</p>
+<p>接下来按功能模块划分组件就比较直观了，比较典型的就是根据 <strong>TableBar</strong> 来划分，这里适用于大部分 App 的功能模块。以下这些功能组件的划分才是组件化划分的核心所在，也只有将功能组件独立出来，才能达到高内聚，低耦合的目的。</p>
 <ul>
-<li>工作台组件(LZWorkTableComponents)：主要处理项目中核心功能 — 开方，该模块下由三个小模块组成；</li>
-<li>药房管理组件(LZPharmacyComponents)：涉及到药品库存管理的模块；</li>
-<li>患者管理组件(LZPatientManageComponent)：管理患者个人就诊信息；</li>
-<li>我的模块(LZMineComponents)：配置用户的个人信息，设置处方模板，管理诊所子账号，增值服务，账号设置，配置外接硬件(蓝牙打印机，激光打印机，扫码枪)等</li>
-<li>所有H5功能组件(LZWebViewComponents)：该组件统一管理统计报表，专家咨询，知识课堂，活动商城等功能模块的 <em>web</em> 页面。</li>
+<li>工作台组件(<strong>LZWorkTableComponents</strong>)：主要处理项目中核心功能 — 开方，该模块下由三个小模块组成；</li>
+<li>药房管理组件(<strong>LZPharmacyComponents</strong>)：涉及到药品库存管理的模块；</li>
+<li>患者管理组件(<strong>LZPatientManageComponent</strong>)：管理患者个人就诊信息；</li>
+<li>我的模块(<strong>LZMineComponents</strong>)：配置用户的个人信息，设置处方模板，管理诊所子账号，增值服务，账号设置，配置外接硬件(蓝牙打印机，激光打印机，扫码枪)等</li>
+<li>所有H5功能组件(<strong>LZWebViewComponents</strong>)：该组件统一管理统计报表，专家咨询，知识课堂，活动商城等功能模块的 <strong>web</strong> 页面。</li>
 </ul>
 <p>以上各功能组件都分别对应各自的中间件，用来同其他功能组件进行通讯。如下，</p>
 <ul>
-<li>工作台中间件(LZWebViewComponents_category)</li>
-<li>药房管理中间件(LZPharmacyComponents_Category)</li>
-<li>患者管理组件(LZPatientManageComponent_Category)</li>
-<li>我的中间件(LZMineComponents_Category)</li>
-<li>H5交互中间件(LZWebViewComponents_category)</li>
+<li>工作台中间件(<strong>LZWebViewComponents_category</strong>)</li>
+<li>药房管理中间件(<strong>LZPharmacyComponents_Category</strong>)</li>
+<li>患者管理组件(<strong>LZPatientManageComponent_Category</strong>)</li>
+<li>我的中间件(<strong>LZMineComponents_Category</strong>)</li>
+<li>H5交互中间件(<strong>LZWebViewComponents_category</strong>)</li>
 </ul>
 <p>以上是基础组件和功能组件的划分，正是有了这些泾渭分明的区分，才能为组件化之间解耦提供基础的支持。</p>
-<h2 id="MVC-MVVM"><a href="#MVC-MVVM" class="headerlink" title="MVC MVVM"></a>MVC MVVM</h2><p>MVC架构，MVVM架构的，这种层次划分，主要是针对数据流动的方向而言的</p>
+<h2 id="MVC-MVVM"><a href="#MVC-MVVM" class="headerlink" title="MVC MVVM"></a>MVC MVVM</h2><p><strong>MVC</strong> 架构，<strong>MVVM</strong>架构，这种层次划分，主要是针对数据流动的方向而言.</p>
 <p>以解决问题为主，而不是生搬硬套架构。</p>
-<h2 id="CoCoaPods-私有库"><a href="#CoCoaPods-私有库" class="headerlink" title="CoCoaPods 私有库"></a>CoCoaPods 私有库</h2><p>通过 <em>cocopods</em> 把组件打包成单独的 <em>私有pod</em> 库来进行管理，这样就可以通过 <em>podfile</em> 文件，进行动态的增删和版本管理了。</p>
+<h2 id="CoCoaPods-私有库"><a href="#CoCoaPods-私有库" class="headerlink" title="CoCoaPods 私有库"></a>CoCoaPods 私有库</h2><p>通过 <strong>cocopods</strong> 把组件打包成单独的 <strong>私有pod</strong> 库来进行管理，这样就可以通过 <strong>podfile</strong> 文件，进行动态的增删和版本管理了。</p>
 <h3 id="1-使用模板快速创建测试工程（组件所在的工程）"><a href="#1-使用模板快速创建测试工程（组件所在的工程）" class="headerlink" title="1.使用模板快速创建测试工程（组件所在的工程）"></a>1.使用模板快速创建测试工程（组件所在的工程）</h3><blockquote>
 <p>$ pod lib create LZBasisComponents</p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_cocoaPods01.jpeg" alt="创建模板工程"></p>
 <p>按照提示，填写完以上信息后， Xcode 会自动打开创建的测试工程，在测试工程的文件夹下，可以看到的路径如下，</p>
 <p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_cocoaPods02.png" alt="模板工程文件路径"></p>
-<p>其中，将抽离出的基础组件<em>LZBasisComponents</em>托至 <em>Classes</em> 文件夹下，此时，<em>cd</em> 到模板工程 <em>Example</em> 所在目录，执行</p>
+<p>其中，将抽离出的基础组件 <strong>LZBasisComponents</strong> 托至 <strong>Classes</strong> 文件夹下，此时，<strong>cd</strong> 到模板工程 <strong>Example</strong> 所在目录，执行</p>
 <blockquote>
 <p>$ pod install</p>
 </blockquote>
 <p>我们就可以在测试组件的模板工程中修改文件了。</p>
-<h3 id="2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><a href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents" class="headerlink" title="2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents"></a>2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</h3><p>这里使用开源的 <em>GitLab</em> 作为代码托管的 <em>git</em> 服务器，安装完成后可以在上面新建组件。当然也可以付费使用基于 GitHub 托管，免费的有 <em><a href="https://gitee.com" target="_blank" rel="external">码云</a></em> 和 <em><a href="https://coding.net" target="_blank" rel="external">码市</a></em>。</p>
-<h3 id="3-配置私有库的-podspec-文件"><a href="#3-配置私有库的-podspec-文件" class="headerlink" title="3.配置私有库的 .podspec 文件"></a>3.配置私有库的 .podspec 文件</h3><p>在上文中生成模板工程的同时，也会生成一个 <em>. podspec</em> 的文件。我们需要单独设置该文件，之所以配置 <em>.podspec</em> 文件，是为了将本地私有库与 <em>GitLab</em> 上远程私有库进行关联，多人开发时通过远程私有组件库进行代码的同步。远程索引库 <em>. podspec</em> 即，组件描述文件，里面描述了组件文件的源码地址，框架简介，私有库作者，版本号，资源文件路径等信息。我们使用 <strong>$ pod search</strong> 检索索引文件，找到 <em>. podspec</em> 中的源码地址，然后将项目down到本地。其主要配置如下，</p>
+<h3 id="2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents"><a href="#2-在-GitLab-上创建一个用来存放基础组件的仓库LZBasisComponents" class="headerlink" title="2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents"></a>2.在 GitLab 上创建一个用来存放基础组件的仓库LZBasisComponents</h3><p>这里使用开源的 <strong>GitLab</strong> 作为代码托管的 <strong>git</strong> 服务器，安装完成后可以在上面新建组件。当然也可以付费使用基于 <strong>GitHub</strong> 托管，免费的有 <em><a href="https://gitee.com" target="_blank" rel="external">码云</a></em> 和 <em><a href="https://coding.net" target="_blank" rel="external">码市</a></em>。</p>
+<h3 id="3-配置私有库的-podspec-文件"><a href="#3-配置私有库的-podspec-文件" class="headerlink" title="3.配置私有库的 .podspec 文件"></a>3.配置私有库的 .podspec 文件</h3><p>在上文中生成模板工程的同时，也会生成一个 <strong>. podspec</strong> 的文件。我们需要单独设置该文件，之所以配置 <strong>.podspec</strong> 文件，是为了将本地私有库与 <strong>GitLab</strong> 上远程私有库进行关联，多人开发时通过远程私有组件库进行代码的同步。远程索引库 <strong>. podspec</strong> 即，组件描述文件，里面描述了组件文件的源码地址，框架简介，私有库作者，版本号，资源文件路径等信息。我们使用 <strong>$ pod search</strong> 检索索引文件，找到 <strong>. podspec</strong> 中的源码地址，然后将项目down到本地。其主要配置如下，</p>
 <pre><code class="js">s.name         = &quot;LZBasisComponents&quot;
 s.version      = &quot;1.2.2.1&quot;
 s.summary      = &quot;LZBasisComponents.&quot;
@@ -94,16 +94,16 @@ s.dependency &quot;ReactiveObjC&quot;
 </code></pre>
 <p>具体的配置如下：</p>
 <ul>
-<li><em>s.homepage</em> 组件在 <em>GitLab</em> 的主页面</li>
-<li><em>s.source</em> 真实组件的地址，在 <em>GitLab</em> 中新建库时会生成该地址</li>
-<li><em>s.source_files</em> 组件中对应目录下的文件夹</li>
-<li><em>s.resource_bundles</em> 存放资源文件的类型</li>
-<li><em>s.dependency</em> 依赖其他的框架或组件</li>
+<li><strong>s.homepage</strong> 组件在 <strong>GitLab</strong> 的主页面</li>
+<li><strong>s.source</strong> 真实组件的地址，在 <strong>GitLab</strong> 中新建库时会生成该地址</li>
+<li><strong>s.source_files</strong> 组件中对应目录下的文件夹</li>
+<li><strong>s.resource_bundles</strong> 存放资源文件的类型</li>
+<li><strong>s.dependency</strong> 依赖其他的框架或组件</li>
 </ul>
-<p>这里是组件中用到的主要的配置，还有其它的与私有 <em>pod</em> 相关的配置。</p>
-<p>注意: 组件的依赖关系，各个组件中的 <em>.podspec</em> 文件中通过 <em>s.dependency</em> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <em>s.dependency</em> 下的依赖注释掉。</p>
-<h3 id="4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中"><a href="#4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中" class="headerlink" title="4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中"></a>4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中</h3><p>主要是通过 <em>git</em> 命令上传，如下</p>
-<h4 id="1-cd-到-模板工程所在的-Example-对应的私有库目录"><a href="#1-cd-到-模板工程所在的-Example-对应的私有库目录" class="headerlink" title="1. cd 到 模板工程所在的 Example 对应的私有库目录"></a>1. cd 到 模板工程所在的 <em>Example</em> 对应的私有库目录</h4><h4 id="2-可以先查看当前工程文件的状态，红色为未提交"><a href="#2-可以先查看当前工程文件的状态，红色为未提交" class="headerlink" title="2. 可以先查看当前工程文件的状态，红色为未提交"></a>2. 可以先查看当前工程文件的状态，红色为未提交</h4><blockquote>
+<p>这里是组件中用到的主要的配置，还有其它的与私有 <strong>pod</strong> 相关的配置。</p>
+<p>注意: 组件的依赖关系，各个组件中的 <strong>.podspec</strong> 文件中通过 <strong>s.dependency</strong> 设置了该组件与其他三方框架或者其他业务组件的依赖关系，这里各个组件前期可以暂时依赖其他业务组件，但后期当所有组件抽出后，需要解除与其他业务组件的依赖关系。即，将 <strong>s.dependency</strong> 下的依赖注释掉。</p>
+<h3 id="4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中"><a href="#4-将上面创建的模板工程，提交到-GitLab-上创建的远程代码仓库中" class="headerlink" title="4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中"></a>4.将上面创建的模板工程，提交到 GitLab 上创建的远程代码仓库中</h3><p>主要是通过 <strong>git</strong> 命令上传，如下</p>
+<h4 id="1-cd-到-模板工程所在的-Example-对应的私有库目录"><a href="#1-cd-到-模板工程所在的-Example-对应的私有库目录" class="headerlink" title="1. cd 到 模板工程所在的 Example 对应的私有库目录"></a>1. cd 到 模板工程所在的 <strong>Example</strong> 对应的私有库目录</h4><h4 id="2-可以先查看当前工程文件的状态，红色为未提交"><a href="#2-可以先查看当前工程文件的状态，红色为未提交" class="headerlink" title="2. 可以先查看当前工程文件的状态，红色为未提交"></a>2. 可以先查看当前工程文件的状态，红色为未提交</h4><blockquote>
 <p>git status </p>
 </blockquote>
 <h4 id="3-提交到暂缓区"><a href="#3-提交到暂缓区" class="headerlink" title="3. 提交到暂缓区"></a>3. 提交到暂缓区</h4><blockquote>
@@ -122,8 +122,8 @@ s.dependency &quot;ReactiveObjC&quot;
 <p>git tag -a 1.2.2.1 -m ‘v1.2.2.1’</p>
 <p>git push origin master</p>
 </blockquote>
-<p>保持 <em>s.version</em> = “1.2.2.1” 的版本与远程私有库的 <em>tag</em> 一致。</p>
-<h3 id="5-主工程中使用-CoCoaPods-导入私有组件库"><a href="#5-主工程中使用-CoCoaPods-导入私有组件库" class="headerlink" title="5.主工程中使用 CoCoaPods 导入私有组件库"></a>5.主工程中使用 CoCoaPods 导入私有组件库</h3><p>打开并编辑主工程中的 <em>Podfile</em> 文件，如下，</p>
+<p>保持 <strong>s.version</strong> = “1.2.2.1” 的版本与远程私有库的 <strong>tag</strong> 一致。</p>
+<h3 id="5-主工程中使用-CoCoaPods-导入私有组件库"><a href="#5-主工程中使用-CoCoaPods-导入私有组件库" class="headerlink" title="5.主工程中使用 CoCoaPods 导入私有组件库"></a>5.主工程中使用 CoCoaPods 导入私有组件库</h3><p>打开并编辑主工程中的 <strong>Podfile</strong> 文件，如下，</p>
 <pre><code class="js">platform :ios, &#39;8.4&#39;
 
 source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;
@@ -167,21 +167,21 @@ master
 - URL:  https://github.com/CocoaPods/Specs.git
 - Path: /Users/huahua/.cocoapods/repos/master
 </code></pre>
-<p><em>GitLab</em> 中远程私有库的地址：</p>
+<p><strong>GitLab</strong> 中远程私有库的地址：</p>
 <pre><code class="js">source &#39;http://192.168.11.11/CloudOfficeModulization/CloudOfficeSpec.git&#39;
 </code></pre>
 <p>公有库的地址：</p>
 <pre><code class="js">source &#39;https://github.com/CocoaPods/Specs.git&#39;
 </code></pre>
-<p>cd 到主工程 <em>Podfile</em> 文件所在目录，执行 <strong>pod instal</strong> 命令，再次打开项目就可以在 <em>Pods</em> 文件夹下的 <em>Development Pods</em> 文件夹中找到 <em>LZBasisComponents</em> 组件。</p>
-<p>注意：pod ‘LZBasisComponents’, :path =&gt;’/Users/huahua/Documents/Module/LZBasisComponents’ 对应的路径可以是存放本地私有库(已update远程私有库)的路径，也可以是 <em>步骤4</em> 中对应的远程私有库，可以通过通过 tag 来导入不同的私有组件库的版本，如下：</p>
+<p>cd 到主工程 <strong>Podfile</strong> 文件所在目录，执行 <strong>pod instal</strong> 命令，再次打开项目就可以在 <strong>Pods</strong> 文件夹下的 <strong>Development Pods</strong> 文件夹中找到 <strong>LZBasisComponents</strong> 组件。</p>
+<p>注意：pod ‘LZBasisComponents’, :path =&gt;’/Users/huahua/Documents/Module/LZBasisComponents’ 对应的路径可以是存放本地私有库(已update远程私有库)的路径，也可以是 <strong>步骤4</strong> 中对应的远程私有库，可以通过通过 tag 来导入不同的私有组件库的版本，如下：</p>
 <pre><code class="js">pod &#39;LZBasisComponents&#39;, &#39;~&gt; 1.2.2.1&#39;
 </code></pre>
-<p>也可以通过 <em>SourceTree</em> 或者 <em>GitHub Desktop</em> 等拥有可视化界面的项目版本控制软件，进行 <em>git</em> 项目私有库的管理。</p>
+<p>也可以通过 <strong>SourceTree</strong> 或者 <strong>GitHub Desktop</strong> 等拥有可视化界面的项目版本控制软件，进行 <strong>git</strong> 项目私有库的管理。</p>
 <h2 id="组件之间及各组件与主工程间通讯-中间件"><a href="#组件之间及各组件与主工程间通讯-中间件" class="headerlink" title="组件之间及各组件与主工程间通讯(中间件)"></a>组件之间及各组件与主工程间通讯(中间件)</h2><p>目前市面上有两种组件间的通讯方式：</p>
 <ol>
-<li>利用 <em>url-scheme</em> 方案</li>
-<li>利用 <em>runtime</em> 实现的 <em>target-action</em> 方法</li>
+<li>利用 <strong>url-scheme</strong> 方案</li>
+<li>利用 <strong>runtime</strong> 实现的 <strong>target-action</strong> 方法</li>
 </ol>
 <p>两种方式都对应一些开源库，如下</p>
 <p><strong>URL-Scheme库：</strong></p>
@@ -195,27 +195,27 @@ master
 <ol>
 <li><a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a></li>
 </ol>
-<p>采用 <em>url-scheme</em> 方案，要本地调用和远程调用之间如何相互调用？提供给 <em>url</em> 什么样的参数？如何处理非常规对象与本地组件间的调度？</p>
+<p>采用 <strong>url-scheme</strong> 方案，要本地调用和远程调用之间如何相互调用？提供给 <strong>url</strong> 什么样的参数？如何处理非常规对象与本地组件间的调度？</p>
 <blockquote>
 <p>在iOS领域里，一定是组件化的中间件为openUrl提供服务，而不是openUrl方式为组件化提供服务。 — casatwy</p>
 <p>URL注册对于实施组件化方案是完全不必要的，且通过URL注册的方式形成的组件化方案，拓展性和可维护性都会被打折。 — casatwy</p>
 </blockquote>
-<p>采用 <em>runtime</em> 实现的 <em>target-action</em> 方法</p>
+<p>采用 <strong>runtime</strong> 实现的 <strong>target-action</strong> 方法</p>
 <blockquote>
-<p>注册 <em>URL</em> 的目的其实是一个服务发现的过程，在iOS领域中，服务发现的方式是不需要通过主动注册的，使用 <em>runtime</em> 就可以了。另外，注册部分的代码的维护是一个相对麻烦的事情，每一次支持新调用时，都要去维护一次注册列表。如果有调用被弃用了，是经常会忘记删项目的。<em>runtime</em> 由于不存在注册过程，那就也不会产生维护的操作，维护成本就降低了。</p>
-<p>由于通过 <em>runtime</em> 做到了服务的自动发现，拓展调用接口的任务就仅在于各自的模块，任何一次新接口添加，新业务添加，都不必去主工程做操作，十分透明。— casatwy</p>
+<p>注册 <strong>URL</strong> 的目的其实是一个服务发现的过程，在iOS领域中，服务发现的方式是不需要通过主动注册的，使用 <strong>runtime</strong> 就可以了。另外，注册部分的代码的维护是一个相对麻烦的事情，每一次支持新调用时，都要去维护一次注册列表。如果有调用被弃用了，是经常会忘记删项目的。<strong>runtime</strong> 由于不存在注册过程，那就也不会产生维护的操作，维护成本就降低了。</p>
+<p>由于通过 <strong>runtime</strong> 做到了服务的自动发现，拓展调用接口的任务就仅在于各自的模块，任何一次新接口添加，新业务添加，都不必去主工程做操作，十分透明。— casatwy</p>
 </blockquote>
 <p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_target-action.png" alt="target-action"></p>
-<p>如图，<em>target-action</em> 模式，即，目标-行为，行为即要调用的方法，目标即消息的接收对象（Objective-C 语言使用消息机制，类似但不同于方法调用）。整个过程为：用户点击按钮，触发某事件发生，该消息由按钮传到另外的接收对象，接收对象再做相应处理。接收对象可以为任何对象，但通常为控制器（<em>Controller</em>）。</p>
-<p>组件之间的交互，通过 <em>Action</em> 暴露可调用接口，所有组件都通过组件自带的<em>Target-Action</em> 来响应，也就是说，模块与模块之间的接口被固化在了 <em>Target-Action</em> 这一层，避免了实施组件化的改造过程中，对业务层的侵入，同时也提高了组件化接口的可维护性。 </p>
-<p>基于以上原因，这里我推荐 <em>Target-Action</em> 方案。具体操作流程如下，</p>
-<h3 id="新增基于-CTMediator-的组件-LZMediator"><a href="#新增基于-CTMediator-的组件-LZMediator" class="headerlink" title="新增基于 CTMediator 的组件 LZMediator"></a>新增基于 CTMediator 的组件 LZMediator</h3><p>基于 <a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a> 新建用于传递组件讯息的组件 <em>LZMediator</em>，该组件参考 <a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a> 中的 <em>CTMediator</em> 类，做了一些简化处理。具体创建操作参照上文中使用 <em>CoCoaPods</em> 建立私有库，这里就不再赘述了。</p>
-<h3 id="新建与其它组件通讯的中间件"><a href="#新建与其它组件通讯的中间件" class="headerlink" title="新建与其它组件通讯的中间件"></a>新建与其它组件通讯的中间件</h3><p>这里的所说的中间件也是以 <em>pod</em> 私有库的形式存在于项目中，其仍是代表不同功能模块的组件。以工作台组件（<em>LZWorkTableComponents</em>）为例，其它组件若想调用工作台组件中的某个控制器时，不能直接调用，而是需要通过工作台中间件（<em>LZWorkTableComponents_Category</em>）暴露的接口调用。同上文中使用<em>CoCoaPods</em> 建立私有库一样，先生成模板工程，然后上传到 <em>GitLab</em> 远程代码厂库中。唯一需要注意的是：需要在工作台中间件的 <em>.podspec</em> 文件中，增加对<em>LZMediator</em> 组件的依赖，如下：</p>
+<p>如图，<strong>target-action</strong> 模式，即，目标-行为，行为即要调用的方法，目标即消息的接收对象（Objective-C 语言使用消息机制，类似但不同于方法调用）。整个过程为：用户点击按钮，触发某事件发生，该消息由按钮传到另外的接收对象，接收对象再做相应处理。接收对象可以为任何对象，但通常为控制器（<strong>Controller</strong>）。</p>
+<p>组件之间的交互，通过 <strong>Action</strong> 暴露可调用接口，所有组件都通过组件自带的<strong>Target-Action</strong> 来响应，也就是说，模块与模块之间的接口被固化在了 <strong>Target-Action</strong> 这一层，避免了实施组件化的改造过程中，对业务层的侵入，同时也提高了组件化接口的可维护性。 </p>
+<p>基于以上原因，这里我推荐 <strong>Target-Action</strong> 方案。具体操作流程如下，</p>
+<h3 id="新增基于-CTMediator-的组件-LZMediator"><a href="#新增基于-CTMediator-的组件-LZMediator" class="headerlink" title="新增基于 CTMediator 的组件 LZMediator"></a>新增基于 CTMediator 的组件 LZMediator</h3><p>基于 <a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a> 新建用于传递组件讯息的组件 <strong>LZMediator</strong>，该组件参考 <a href="https://github.com/casatwy/CTMediator" target="_blank" rel="external">CTMediator</a> 中的 <strong>CTMediator</strong> 类，做了一些简化处理。具体创建操作参照上文中使用 <strong>CoCoaPods</strong> 建立私有库，这里就不再赘述了。</p>
+<h3 id="新建与其它组件通讯的中间件"><a href="#新建与其它组件通讯的中间件" class="headerlink" title="新建与其它组件通讯的中间件"></a>新建与其它组件通讯的中间件</h3><p>这里的所说的中间件也是以 <strong>pod</strong> 私有库的形式存在于项目中，其仍是代表不同功能模块的组件。以工作台组件（<strong>LZWorkTableComponents</strong>）为例，其它组件若想调用工作台组件中的某个控制器时，不能直接调用，而是需要通过工作台中间件（<strong>LZWorkTableComponents_Category</strong>）暴露的接口调用。同上文中使用<strong>CoCoaPods</strong> 建立私有库一样，先生成模板工程，然后上传到 <strong>GitLab</strong> 远程代码厂库中。唯一需要注意的是：需要在工作台中间件的 <strong>.podspec</strong> 文件中，增加对 <strong>LZMediator</strong> 组件的依赖，如下：</p>
 <pre><code class="js">s.dependency &quot;LZMediator&quot;
 </code></pre>
-<p>通过这种依赖关系，将 <em>LZMediator</em> 引入到工程中。</p>
-<h3 id="在中间件中新增用于通讯的-LZMediator-类别"><a href="#在中间件中新增用于通讯的-LZMediator-类别" class="headerlink" title="在中间件中新增用于通讯的 LZMediator 类别"></a>在中间件中新增用于通讯的 LZMediator 类别</h3><p>在上面新建的工作台中间件（<em>LZWorkTableComponents_Category</em>）中新建基于 <em>LZMediator</em> 的类别，注意统一类别的名称，以工作台中间件为例，最终生成的类名为：<em>LZMediator+LZWorkTableComponents.h</em> 和 <em>LZMediator+LZWorkTableComponents.m</em> 接下来就是按照基于 <em>Mediator</em> 的一套逻辑，通过实现 <em>target-action</em> 的方法来进行不同组件间的通讯。例如，某个组件需要调用工作台组件中的某个控制器时，</p>
-<p><em>LZMediator+LZWorkTableComponents.h</em> 中声明中间件调用的返回工作台组件中某个控制器的实例方法：</p>
+<p>通过这种依赖关系，将 <strong>LZMediator</strong> 引入到工程中。</p>
+<h3 id="在中间件中新增用于通讯的-LZMediator-类别"><a href="#在中间件中新增用于通讯的-LZMediator-类别" class="headerlink" title="在中间件中新增用于通讯的 LZMediator 类别"></a>在中间件中新增用于通讯的 LZMediator 类别</h3><p>在上面新建的工作台中间件（<strong>LZWorkTableComponents_Category</strong>）中新建基于 <strong>LZMediator</strong> 的类别，注意统一类别的名称，以工作台中间件为例，最终生成的类名为：<strong>LZMediator+LZWorkTableComponents.h</strong> 和 <strong>LZMediator+LZWorkTableComponents.m</strong> 接下来就是按照基于 <strong>Mediator</strong> 的一套逻辑，通过实现 <strong>target-action</strong> 的方法来进行不同组件间的通讯。例如，某个组件需要调用工作台组件中的某个控制器时，</p>
+<p><strong>LZMediator+LZWorkTableComponents.h</strong> 中声明中间件调用的返回工作台组件中某个控制器的实例方法：</p>
 <pre><code class="objectivec">#pragma mark - 患者管理组件调用
 /**
  看病开方详情页面
@@ -223,7 +223,7 @@ master
  */
 - (UIViewController *)LZWorkTableComponents_newDoctorPrescribingViewControllerWithDic:(NSDictionary *)params;
 </code></pre>
-<p><em>LZMediator+LZWorkTableComponents.m</em> 中实现该方法：</p>
+<p><strong>LZMediator+LZWorkTableComponents.m</strong> 中实现该方法：</p>
 <pre><code class="objectivec">#pragma mark - 统一前缀
 NSString *const kLZMediatorTarget_LZWorkTableComponents = @&quot;LZWorkTableComponents&quot;;
 
@@ -239,17 +239,17 @@ NSString *const kLZMediatorAction_newDoctorPrescribingViewController = @&quot;ne
     return [UIViewController new];
 }
 </code></pre>
-<p>这里需要注意方法中传递的参数 <em>kLZMediatorTarget_LZWorkTableComponents</em> 和 <em>kLZMediatorAction_newDoctorPrescribingViewController</em> 分别对应工作台组件中 <em>target-action</em> 所在的模块 (也就是提供服务的模块，这也是单独的repo，但无需被其他人依赖，其他人通过category调用这里的功能），这两个参数，前者对应的是 <em>target-action</em> 所在组件中的以 <em>Target_</em> 为前缀的类，后者对应该类里的具体的以 <em>Action_</em> 为前缀声明的某个方法。前面所说的利用 <em>runtime</em> 实现的 <em>target-action</em> 方法，指的正是这个地方。</p>
-<p>注意: 这两个参数值，一定要与工作台组件中 <em>Target</em> 目录下的类名相一致!!! 切记！ 切记！ 切记！ </p>
-<h3 id="在-target-action-所在的组件中增加提供服务的类"><a href="#在-target-action-所在的组件中增加提供服务的类" class="headerlink" title="在 target-action 所在的组件中增加提供服务的类"></a>在 target-action 所在的组件中增加提供服务的类</h3><p>在工作台组件（<em>LZWorkTableComponents</em>）中 <em>Target</em> 目录下新建名称为： <em>Target_LZWorkTableComponents</em> 继承于 <em>NSObject</em> 的类，这个类的命名规则与上面说的 <em>kLZMediatorTarget_LZWorkTableComponents</em> 参数相一致，然后新增方法，方法名以前缀 <em>Action_</em> 开头，同样需要与上面说的<em>kLZMediatorAction_newDoctorPrescribingViewController</em> 参数相一致。如下：</p>
-<p><em>Target_LZWorkTableComponents.h</em> 中声明中间件调用的返回工作台组件中某个控制器的实例方法：</p>
+<p>这里需要注意方法中传递的参数 <strong>kLZMediatorTarget_LZWorkTableComponents</strong> 和 <strong>kLZMediatorAction_newDoctorPrescribingViewController</strong> 分别对应工作台组件中 <strong>target-action</strong> 所在的模块 (也就是提供服务的模块，这也是单独的repo，但无需被其他人依赖，其他人通过category调用这里的功能），这两个参数，前者对应的是 <strong>target-action</strong> 所在组件中的以 <strong>Target_</strong> 为前缀的类，后者对应该类里的具体的以 <strong>Action_</strong> 为前缀声明的某个方法。前面所说的利用 <strong>runtime</strong> 实现的 <strong>target-action</strong> 方法，指的正是这个地方。</p>
+<p>注意: 这两个参数值，一定要与工作台组件中 <strong>Target</strong> 目录下的类名相一致!!! 切记！ 切记！ 切记！ </p>
+<h3 id="在-target-action-所在的组件中增加提供服务的类"><a href="#在-target-action-所在的组件中增加提供服务的类" class="headerlink" title="在 target-action 所在的组件中增加提供服务的类"></a>在 target-action 所在的组件中增加提供服务的类</h3><p>在工作台组件（<strong>LZWorkTableComponents</strong>）中 <strong>Target</strong> 目录下新建名称为： <strong>Target_LZWorkTableComponents</strong> 继承于 <strong>NSObject</strong> 的类，这个类的命名规则与上面说的 <strong>kLZMediatorTarget_LZWorkTableComponents</strong> 参数相一致，然后新增方法，方法名以前缀 <strong>Action_</strong> 开头，同样需要与上面说的<strong>kLZMediatorAction_newDoctorPrescribingViewController</strong> 参数相一致。如下：</p>
+<p><strong>Target_LZWorkTableComponents.h</strong> 中声明中间件调用的返回工作台组件中某个控制器的实例方法：</p>
 <pre><code class="objectivec">#pragma mark - 患者管理组件调用
 /**
  返回LZNewDoctorPrescribingViewController实例
  */
 - (UIViewController *)Action_newDoctorPrescribingViewController:(NSDictionary *)param;
 </code></pre>
-<p><em>Target_LZWorkTableComponents.m</em> 中实现该方法：</p>
+<p><strong>Target_LZWorkTableComponents.m</strong> 中实现该方法：</p>
 <pre><code class="objectivec">#import &lt;LZDataBaseComponents/PationModel.h&gt;
 #import &quot;LZNewDoctorPrescribingViewController.h&quot;
 
@@ -270,8 +270,8 @@ NSString *const kLZMediatorAction_newDoctorPrescribingViewController = @&quot;ne
     return newDoctorPrescribinVC;
 }
 </code></pre>
-<p>这里 <em>PationModel</em> 为数据库组件中的类，需要注意一下这里使用尖括号引入的头文件，<em>LZNewDoctorPrescribingViewController</em> 控制器为工作台组件中的类。</p>
-<h3 id="在其它组件中调用中间件的方法进行通讯"><a href="#在其它组件中调用中间件的方法进行通讯" class="headerlink" title="在其它组件中调用中间件的方法进行通讯"></a>在其它组件中调用中间件的方法进行通讯</h3><p>这里仍以工作台组件（<em>LZWorkTableComponents</em>）为例，比如，在患者组件中想跳转至工作台组件中的看病开方详情页（<em>LZNewDoctorPrescribingViewController</em>），需要通过上面的工作台中间件（<em>LZWorkTableComponents_Category</em>）进行通讯，而不是直接导入 <em>#import “LZNewDoctorPrescribingViewController.h”</em> 头文件调用。具体事例，如下：</p>
+<p>这里 <strong>PationModel</strong> 为数据库组件中的类，需要注意一下这里使用尖括号引入的头文件，<strong>LZNewDoctorPrescribingViewController</strong> 控制器为工作台组件中的类。</p>
+<h3 id="在其它组件中调用中间件的方法进行通讯"><a href="#在其它组件中调用中间件的方法进行通讯" class="headerlink" title="在其它组件中调用中间件的方法进行通讯"></a>在其它组件中调用中间件的方法进行通讯</h3><p>这里仍以工作台组件（<strong>LZWorkTableComponents</strong>）为例，比如，在患者组件中想跳转至工作台组件中的看病开方详情页（<strong>LZNewDoctorPrescribingViewController</strong>），需要通过上面的工作台中间件（<strong>LZWorkTableComponents_Category</strong>）进行通讯，而不是直接导入 <strong>#import “LZNewDoctorPrescribingViewController.h”</strong> 头文件调用。具体事例，如下：</p>
 <p>在患者管理组件中，</p>
 <pre><code class="objectivec">#import &lt;LZWorkTableComponents_Category/LZMediator+LZWorkTableComponents.h&gt;
 
@@ -279,7 +279,7 @@ NSDictionary *pationModelDic = model.mj_keyValues;
 UIViewController *newDoctorVC = [[LZMediator sharedInstance]  LZWorkTableComponents_newDoctorPrescribingViewControllerWithDic :pationModelDic];
 [weakSelf presentViewController: newDoctorVC animated:YES completion:nil];
 </code></pre>
-<p>这里通过一个 <em>LZMediator</em> 的单例来调用工作台中间件（<em>LZWorkTableComponents_Category</em>）中 <em>LZMediator</em> 的类别(<em>LZMediator+LZWorkTableComponents</em>) 中的方法，获得 <em>view controller</em> 之后，在这种场景下，到底 <em>push</em> 还是 <em>present</em> ，其实是要由使用者决定的，<em>mediator</em> 只要给出 <em>view controller</em> 的实例就好了。</p>
+<p>这里通过一个 <strong>LZMediator</strong> 的单例来调用工作台中间件（<strong>LZWorkTableComponents_Category</strong>）中 <strong>LZMediator</strong> 的类别(<strong>LZMediator+LZWorkTableComponents</strong>) 中的方法，获得 <strong>view controller</strong> 之后，在这种场景下，到底 <strong>push</strong> 还是 <strong>present</strong> ，其实是要由使用者决定的，<strong>mediator</strong> 只要给出 <strong>view controller</strong> 的实例就好了。</p>
 <h2 id="原工程中资源文件的处理"><a href="#原工程中资源文件的处理" class="headerlink" title="原工程中资源文件的处理"></a>原工程中资源文件的处理</h2><p>这里所说的资源文件指的是项目中的图片，现在主工程中的 <strong>Assets</strong> 存放全部的资源文件，需要将其移动到各个组件中去。在上文新建模板工程时，对应文件夹下也会生成一个 <strong>Assets</strong> 文件夹，这个文件夹就是用来存放组件中使用到的图片文件的。 针对这个文件夹中图片资源的存放和使用，有两种方式：</p>
 <ol>
 <li>直接将图片 <strong>copy</strong> 到模板工程中 <strong>Assets</strong> 文件夹下，包括 <strong>@2x</strong>, <strong>@3x</strong> 图片；</li>
@@ -307,15 +307,15 @@ UIViewController *newDoctorVC = [[LZMediator sharedInstance]  LZWorkTableCompone
 <li>在抽取组件时，版本仍在继续迭代，这就造成组件抽取完成后，需要再花时间合并新代码到组件中；</li>
 <li>前期为了快速分离功能组件，往往将与该组件关联的其它功能模块的代码也抽到组件中；</li>
 </ol>
-<p>出现 <em>2</em> 中的情况，就需要记录一下新版本迭代修改了组件中的哪些类，还要记录提测后修改 <em>QA</em> 提出的 bug 时修改了哪些类，最后，再对比 <em>Git</em> 和 <em>svn</em> 的提交日志，查看修改了哪些类。</p>
+<p>出现 <strong>2</strong> 中的情况，就需要记录一下新版本迭代修改了组件中的哪些类，还要记录提测后修改 <strong>QA</strong> 提出的 bug 时修改了哪些类，最后，再对比 <strong>Git</strong> 和 <strong>svn</strong> 的提交日志，查看修改了哪些类。</p>
 <h2 id="组件化过程中遇到的问题及解决方式"><a href="#组件化过程中遇到的问题及解决方式" class="headerlink" title="组件化过程中遇到的问题及解决方式"></a>组件化过程中遇到的问题及解决方式</h2><p>抽离业务组件，一般分为四步，这里以抽离患者管理组件为例：</p>
 <ol>
-<li>将患者管理模块所有代码 <em>copy</em> 到新建的患者管理模板工程中（注意要将复制的代码放到 <em>ReplaceMe.m</em> 所在目录下）；</li>
+<li>将患者管理模块所有代码 <strong>copy</strong> 到新建的患者管理模板工程中（注意要将复制的代码放到 <strong>ReplaceMe.m</strong> 所在目录下）；</li>
 <li>梳理患者管理中与主工程有交互的功能类，明确使用了哪些三方库和自定义控件，剔除未使用到的类，整理工程目录结构（这一步主要是整理现有的代码逻辑，结构，去除冗余的类）；</li>
-<li>将模板工程中患者管理代码中涉及数据库操作，公用模块，全局自定义控件等其它组件的功能抽出来。那些暂时无法划分到其它组件中的类，暂时 <em>copy</em> 一份放到 <em>Redundancy</em> 文件夹下。患者管理组件只能导入其它组件并引用后，才能使用。不能再以直接引入主工程的头文件的方式调用类了（这一步主要是从组件角度斩断组件与主工程单方面的关联）；</li>
-<li>将患者管理模块所在的模板工程上传至 <em>GitLab</em>，然后在已集成了基础组件的壳工程中引入该组件并调试。</li>
+<li>将模板工程中患者管理代码中涉及数据库操作，公用模块，全局自定义控件等其它组件的功能抽出来。那些暂时无法划分到其它组件中的类，暂时 <strong>copy</strong> 一份放到 <strong>Redundancy</strong> 文件夹下。患者管理组件只能导入其它组件并引用后，才能使用。不能再以直接引入主工程的头文件的方式调用类了（这一步主要是从组件角度斩断组件与主工程单方面的关联）；</li>
+<li>将患者管理模块所在的模板工程上传至 <strong>GitLab</strong>，然后在已集成了基础组件的壳工程中引入该组件并调试。</li>
 </ol>
-<p>第 <em>4</em> 步建立在壳工程之上，这里所谓的壳工程是指集成了主工程 <em>AppDelegate</em>中初始化功能和基础组件，可以进行登录操作，同步用户的数据。有了数据就可以进行页面展示，就能进一步测试组件功能是否完整。</p>
+<p>第 <strong>4</strong> 步建立在壳工程之上，这里所谓的壳工程是指集成了主工程 <strong>AppDelegate</strong> 中初始化功能和基础组件，可以进行登录操作，同步用户的数据。有了数据就可以进行页面展示，就能进一步测试组件功能是否完整。</p>
 <h3 id="1-duplicate-symbols-for-architecture-arm64"><a href="#1-duplicate-symbols-for-architecture-arm64" class="headerlink" title="1. duplicate symbols for architecture arm64"></a>1. duplicate symbols for architecture arm64</h3><pre><code class="objectivec">duplicate symbol_LZKanBingHomeViewController._closeImageV in:
     /Users/huahua/Library/Developer/Xcode/DerivedData/CloudOffice-enrpnhjeeqovpuffsdjmigxqovpi/Build/Intermediates.noindex/CloudOffice.build/Debug-iphoneos/CloudOfficeTest.build/Objects-normal/arm64/LZKanBingHomeViewController.o
     /Users/huahua/Library/Developer/Xcode/DerivedData/CloudOffice-enrpnhjeeqovpuffsdjmigxqovpi/Build/Products/Debug-iphoneos/LZWorkTableComponents/libLZWorkTableComponents.a(LZKanBingHomeViewController.o)
@@ -4066,9 +4066,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4157,9 +4157,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -5277,24 +5277,8 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#100;&#101;&#118;&#101;&#x6c;&#111;&#112;&#101;&#x72;&#x70;&#101;&#x6e;&#x67;&#x68;&#101;&#64;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;">&#100;&#101;&#118;&#101;&#x6c;&#111;&#112;&#101;&#x72;&#x70;&#101;&#x6e;&#x67;&#x68;&#101;&#64;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -5457,9 +5441,25 @@ pod setup
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
       <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x64;&#x65;&#118;&#x65;&#x6c;&#111;&#112;&#101;&#x72;&#112;&#101;&#x6e;&#x67;&#104;&#101;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;">&#x64;&#x65;&#118;&#x65;&#x6c;&#111;&#112;&#101;&#x72;&#112;&#101;&#x6e;&#x67;&#104;&#101;&#x40;&#49;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
+]]></content>
     </entry>
     
   
