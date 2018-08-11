@@ -70,7 +70,7 @@
     <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
     <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
     <published>2018-07-17T16:00:00.000Z</published>
-    <updated>2018-07-31T12:25:33.644Z</updated>
+    <updated>2018-08-11T11:38:25.497Z</updated>
     
     <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。关于应用架构以及组件化的方案 <a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="external">casatwy</a> 已经说得很透彻了，在这里我就没有必要再班门弄斧了。这篇文章主要是记录自己项目组件化时如何拆分各个功能模块？抽离组件遇到了哪些问题？阶段性测试时遇到了哪些棘手的问题？因此，这篇文章的实践性较强，希望可以解决各位在组件化过程中遇到大部分问题。</p>
 <h2 id="现在项目中存在的问题"><a href="#现在项目中存在的问题" class="headerlink" title="现在项目中存在的问题"></a>现在项目中存在的问题</h2><p>代码不够整齐，目录结构混乱，分类不够明确，随着一次次的版本迭代，增加了不同的业务线，开发人员变动比较频繁，工程越来越臃肿。莫名其妙的继承关系，Base类，Expand类，Category混乱，三者之间存在重复的功能，这也为后面提到的在组件化过程中遇到一个棘手问题埋下了炸弹。</p>
@@ -583,12 +583,19 @@ NSString * const LZPatientManageComponent_HealthRecordsViewBlock = @&quot;Health
 <p>谁污染谁治理，谁调用谁新增。</p>
 </blockquote>
 <p>即，哪个组件需要进行与其它组件通讯，则由有这个需要的组件的发起者，去他需要调用的组件的中间件中新增用于通讯的方法。</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
-<li>壳工程</li>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>涉及到项目组件化还有一些收尾工作：</p>
+<ul>
+<li>创建壳工程，配置App运行的基本环境</li>
 <li>去除主工程 <strong>Assets.xcassets</strong> 目录下的多余资源文件(这些文件已抽到各个业务功能组件中)</li>
-<li>组件化方案中的去 <strong>model</strong> 设计</li>
+<li>组件化方案中的去 <strong>model</strong> 的设计</li>
 <li>将各个功能模块中涉及到数据库组件，<strong>SQLite</strong> 的查询语句都移动到数据库组件中</li>
 </ul>
+<p>5月初开始对项目进行重构，原以为只要项目完成组件化，重构工作就顺理成章的结束了。但现在看来组件化不是重构的结束，仅仅是一个开始。在我看来以私有 <strong>pod</strong> 为形式的组件化，只是一种强制解除各个功能模块之间耦合度的方式。它将一个复杂的项目按功能拆分成不同 <strong>pod</strong> 库，不同组件之前想要通讯，只能通过中间件。因此，我认为组件化的本质是对代码结构的整理，它无形中制定了一套编码规范，迫使开发者在编写代码时不能随心所欲的按照自己的喜好堆放代码。</p>
+<p>如果你一开始都注意代码规范，同时又时时留意该如果降低工程中功能间的耦合度。那么，完全没有必要进行组件化。</p>
+<blockquote>
+<p>组件化只是术，而非道。</p>
+</blockquote>
+<p>组件化只是项目重构的第一步，项目重构之路道阻且长，但行则必至。这里为了在后续的重构工作中提醒自己，同时，打个疫苗（希望这次打的是真疫苗）预防一下后续重构中可能会遇到的问题。翻译了一篇文章 — <a href="https://xibhe.com/2018/08/10/RebuildFlagsSignaling/" target="_blank" rel="external">重写代码会失败的几个征兆</a> 对比文章中的5个方面，结合正在开发的项目，希望有所帮助。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html" target="_blank" rel="external">iOS应用架构谈 开篇 - Casa Taloyum</a></p>
 <p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html" target="_blank" rel="external">iOS应用架构谈 view层的组织和调用方案 - Casa Taloyum</a></p>
 <p><a href="https://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html" target="_blank" rel="external">iOS应用架构谈 网络层设计方案 - Casa Taloyum</a></p>
