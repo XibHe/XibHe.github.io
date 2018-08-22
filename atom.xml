@@ -70,7 +70,7 @@
     <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
     <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
     <published>2018-07-17T16:00:00.000Z</published>
-    <updated>2018-08-11T11:38:25.497Z</updated>
+    <updated>2018-08-22T02:28:06.007Z</updated>
     
     <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。关于应用架构以及组件化的方案 <a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="external">casatwy</a> 已经说得很透彻了，在这里我就没有必要再班门弄斧了。这篇文章主要是记录自己项目组件化时如何拆分各个功能模块？抽离组件遇到了哪些问题？阶段性测试时遇到了哪些棘手的问题？因此，这篇文章的实践性较强，希望可以解决各位在组件化过程中遇到大部分问题。</p>
 <h2 id="现在项目中存在的问题"><a href="#现在项目中存在的问题" class="headerlink" title="现在项目中存在的问题"></a>现在项目中存在的问题</h2><p>代码不够整齐，目录结构混乱，分类不够明确，随着一次次的版本迭代，增加了不同的业务线，开发人员变动比较频繁，工程越来越臃肿。莫名其妙的继承关系，Base类，Expand类，Category混乱，三者之间存在重复的功能，这也为后面提到的在组件化过程中遇到一个棘手问题埋下了炸弹。</p>
@@ -240,7 +240,7 @@ master
 <p>公有库的地址：</p>
 <pre><code class="js">source &#39;https://github.com/CocoaPods/Specs.git&#39;
 </code></pre>
-<p>cd 到主工程 <strong>Podfile</strong> 文件所在目录，执行 <strong>pod instal</strong> 命令，再次打开项目就可以在 <strong>Pods</strong> 文件夹下的 <strong>Development Pods</strong> 文件夹中找到 <strong>LZBasisComponents</strong> 组件。</p>
+<p>cd 到主工程 <strong>Podfile</strong> 文件所在目录，执行 <strong>pod install</strong> 命令，再次打开项目就可以在 <strong>Pods</strong> 文件夹下的 <strong>Development Pods</strong> 文件夹中找到 <strong>LZBasisComponents</strong> 组件。</p>
 <p>注意：pod ‘LZBasisComponents’, :path =&gt;’/Users/huahua/Documents/Module/LZBasisComponents’ 对应的路径可以是存放本地私有库(已update远程私有库)的路径，也可以是 <strong>步骤4</strong> 中对应的远程私有库，可以通过通过 tag 来导入不同的私有组件库的版本，如下：</p>
 <pre><code class="js">pod &#39;LZBasisComponents&#39;, &#39;~&gt; 1.2.2.1&#39;
 </code></pre>
