@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-10-25T03:23:03.725Z</updated>
+  <updated>2018-10-25T03:29:47.510Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -16,27 +16,31 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://XibHe.github.io/2018/10/19/OffLineWithSync/"/>
-    <id>http://XibHe.github.io/2018/10/19/OffLineWithSync/</id>
-    <published>2018-10-19T11:43:09.515Z</published>
-    <updated>2018-10-25T03:23:03.725Z</updated>
+    <title>离线与同步</title>
+    <link href="http://XibHe.github.io/2018/09/30/OffLineWithSync/"/>
+    <id>http://XibHe.github.io/2018/09/30/OffLineWithSync/</id>
+    <published>2018-09-29T16:00:00.000Z</published>
+    <updated>2018-10-25T03:29:47.510Z</updated>
     
-    <content type="html"><![CDATA[<p>title: 离线与同步<br>date: 2018-09-30<br>thumbnail: <a href="http://xibhe.oss-cn-beijing.aliyuncs.com/OffLineWithSync_thumbnail.jpg?Expires=1540441351&amp;OSSAccessKeyId=TMP.AQGnuOk8T7fuZIR6ayOBDec4J3i-7lgdqASUTcxfomcbtnmlt_X41qQ7-CFsADAtAhQCsCVizx5nJZTZlKC5wbqWnsx9CgIVANbjEhemTKK_FLY9agskNWSG77R6&amp;Signature=Yd74%2FuGpJexOgqiHp%2FYaH0ZNvFA%3D" target="_blank" rel="external">http://xibhe.oss-cn-beijing.aliyuncs.com/OffLineWithSync_thumbnail.jpg?Expires=1540441351&amp;OSSAccessKeyId=TMP.AQGnuOk8T7fuZIR6ayOBDec4J3i-7lgdqASUTcxfomcbtnmlt_X41qQ7-CFsADAtAhQCsCVizx5nJZTZlKC5wbqWnsx9CgIVANbjEhemTKK_FLY9agskNWSG77R6&amp;Signature=Yd74%2FuGpJexOgqiHp%2FYaH0ZNvFA%3D</a><br>categories: 功能<br>tags:</p>
-<ul>
-<li>数据同步<h2 id="toc-true"><a href="#toc-true" class="headerlink" title="toc: true"></a>toc: true</h2></li>
-</ul>
-<p>在弱网环境下，将要面对一些问题：频繁请求网络造成请求超时；完全没有网络导致请求失败。那么，针对这种特殊而又普遍的现象，需要做一些额外的功能去弥补弱网环境<br>下的操作体验。于是，针对某些重要功能的离线模式就诞生了！</p>
-<h3 id="离线模式所要解决的问题"><a href="#离线模式所要解决的问题" class="headerlink" title="离线模式所要解决的问题"></a>离线模式所要解决的问题</h3><h3 id="离线业务的具体步骤"><a href="#离线业务的具体步骤" class="headerlink" title="离线业务的具体步骤"></a>离线业务的具体步骤</h3><h3 id="离线数据在有网环境下的同步"><a href="#离线数据在有网环境下的同步" class="headerlink" title="离线数据在有网环境下的同步"></a>离线数据在有网环境下的同步</h3><h3 id="数据同步遇到的一些问题"><a href="#数据同步遇到的一些问题" class="headerlink" title="数据同步遇到的一些问题"></a>数据同步遇到的一些问题</h3><h3 id="后续的优化"><a href="#后续的优化" class="headerlink" title="后续的优化"></a>后续的优化</h3><h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>–EOF–</p>
+    <content type="html"><![CDATA[<p>在弱网环境下，将要面对一些问题：频繁请求网络造成请求超时；完全没有网络导致请求失败。那么，针对这种特殊而又普遍的现象，需要做一些额外的功能去弥补弱网环境<br>下的操作体验。于是，针对某些重要功能的离线模式就诞生了！</p>
+<h3 id="离线模式所要解决的问题"><a href="#离线模式所要解决的问题" class="headerlink" title="离线模式所要解决的问题"></a>离线模式所要解决的问题</h3><h3 id="离线业务的具体步骤"><a href="#离线业务的具体步骤" class="headerlink" title="离线业务的具体步骤"></a>离线业务的具体步骤</h3><h3 id="离线数据在有网环境下的同步"><a href="#离线数据在有网环境下的同步" class="headerlink" title="离线数据在有网环境下的同步"></a>离线数据在有网环境下的同步</h3><h3 id="数据同步遇到的一些问题"><a href="#数据同步遇到的一些问题" class="headerlink" title="数据同步遇到的一些问题"></a>数据同步遇到的一些问题</h3><h3 id="后续的优化"><a href="#后续的优化" class="headerlink" title="后续的优化"></a>后续的优化</h3><h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><font color="55ff">未完，待续……</font>
+
+
+<p>–EOF–</p>
 <p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;title: 离线与同步&lt;br&gt;date: 2018-09-30&lt;br&gt;thumbnail: &lt;a href=&quot;http://xibhe.oss-cn-beijing.aliyuncs.com/OffLineWithSync_thumbnail.jpg?Expires=15
+      &lt;p&gt;在弱网环境下，将要面对一些问题：频繁请求网络造成请求超时；完全没有网络导致请求失败。那么，针对这种特殊而又普遍的现象，需要做一些额外的功能去弥补弱网环境&lt;br&gt;下的操作体验。于是，针对某些重要功能的离线模式就诞生了！&lt;/p&gt;
+&lt;h3 id=&quot;离线模式所要解决的问题&quot;&gt;&lt;a 
     
     </summary>
     
+      <category term="功能" scheme="http://XibHe.github.io/categories/%E5%8A%9F%E8%83%BD/"/>
+    
+    
+      <category term="数据同步" scheme="http://XibHe.github.io/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/"/>
     
   </entry>
   
