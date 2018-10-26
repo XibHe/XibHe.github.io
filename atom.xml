@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-10-26T06:59:13.972Z</updated>
+  <updated>2018-10-26T07:42:08.096Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2018/10/25/OffLineWithSync/"/>
     <id>http://XibHe.github.io/2018/10/25/OffLineWithSync/</id>
     <published>2018-10-24T16:00:00.000Z</published>
-    <updated>2018-10-26T06:59:13.972Z</updated>
+    <updated>2018-10-26T07:42:08.096Z</updated>
     
     <content type="html"><![CDATA[<p>在弱网环境下，将要面对一些问题：频繁请求网络造成请求超时；完全没有网络导致请求失败。那么，针对这种特殊而又普遍的现象，需要做一些额外的功能去弥补弱网环境<br>下的操作体验。于是，针对某些重要功能的离线模式就诞生了！</p>
 <p>离线功能是为了满足用户在较短时间断网<font color="55ff">（离线时间最长支持15天）</font>或无法访问服务器的情况下，可以正常的进行部分业务开展；从而保证对核心业务不会造成较大影响。</p>
