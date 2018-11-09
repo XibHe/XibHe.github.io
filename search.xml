@@ -414,7 +414,7 @@ static Singleton *share = nil;
 <li>H5交互中间件(<strong>LZWebViewComponents_category</strong>)</li>
 </ul>
 <p>项目最终的架构图如下，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/Module%20Architecture.png" alt=""></p>
+<p><img src="http://phur65l7c.bkt.clouddn.com/ModuleArchitecture.png" alt=""></p>
 <p>其中，webView组件处理了三个H5功能模块的页面展示及数据交互，这里把它归为业务组件的范畴。</p>
 <p>以上是基础组件和功能组件的划分，正是有了这些泾渭分明的区分，才能为组件化之间解耦提供基础的支持。</p>
 <h2 id="MVC-VS-MVVM"><a href="#MVC-VS-MVVM" class="headerlink" title="MVC VS MVVM"></a>MVC VS MVVM</h2><p>对于组件化后继续使用 <strong>MVC</strong> 架构还是替换为 <strong>MVVM</strong>架构。这二者只是代码层次划分，主要是针对数据流动的方向而言。这里以解决问题为主，而不是生搬硬套架构。本片文章主要用来介绍组件化的实现流程，这里就不对架构做详细叙述了。但随着组件化的深入，这二者间终会有一个抉择，后续计划单独整理出二者之间关系的文章。</p>
@@ -5656,6 +5656,34 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#100;&#101;&#x76;&#101;&#108;&#111;&#x70;&#x65;&#x72;&#112;&#x65;&#110;&#103;&#x68;&#x65;&#64;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#100;&#101;&#x76;&#101;&#108;&#111;&#x70;&#x65;&#x72;&#112;&#x65;&#110;&#103;&#x68;&#x65;&#64;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-05-24"><a href="#2018-05-24" class="headerlink" title="2018/05/24"></a>2018/05/24</h3><blockquote>
@@ -5810,34 +5838,6 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x64;&#x65;&#x76;&#x65;&#x6c;&#111;&#112;&#x65;&#114;&#x70;&#101;&#110;&#x67;&#x68;&#101;&#64;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;">&#x64;&#x65;&#x76;&#x65;&#x6c;&#111;&#112;&#x65;&#114;&#x70;&#101;&#110;&#x67;&#x68;&#101;&#64;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
 ]]></content>
     </entry>
     
