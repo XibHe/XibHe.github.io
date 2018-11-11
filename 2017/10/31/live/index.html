@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Tue Oct 31 2017 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Mon Nov 13 2017 16:45:27 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 16:23:49 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2017/10/31/live/index.html",
     "headline": "直播那些事",
     "datePublished": "Tue Oct 31 2017 00:00:00 GMT+0800",
-    "dateModified": "Mon Nov 13 2017 16:45:27 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 16:23:49 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -381,7 +381,7 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/live1_%20thumbnail.jpg)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/live1_thumbnail.jpg)">
     
             <p class="article-headline-p">
                 直播那些事
@@ -516,9 +516,9 @@
 <li>2017 年 11 月 13 日，增加直播原理。</li>
 </ul>
 <h2 id="直播原理"><a href="#直播原理" class="headerlink" title="直播原理"></a>直播原理</h2><h3 id="1-一个完整直播app实现流程"><a href="#1-一个完整直播app实现流程" class="headerlink" title="1. 一个完整直播app实现流程"></a>1. 一个完整直播app实现流程</h3><p>1.采集、2.滤镜处理、3.编码、4.推流、5.CDN分发、6.拉流、7.解码、8.播放、9.聊天互动</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/304825-5481594e6e2a9d56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-54974199408c0cc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-9b64e9596f3ccdce.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live6.png" alt="6"></p>
+<h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live7.png" alt="7"></p>
+<h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live8.jpeg" alt="8"></p>
 <h3 id="4-流媒体相关参数"><a href="#4-流媒体相关参数" class="headerlink" title="4. 流媒体相关参数"></a>4. 流媒体相关参数</h3><p><strong>帧:</strong> 每帧代表一副静止的图像。</p>
 <p><strong>帧率:</strong> 每秒显示的图片数。影响画面流畅度，与画面流畅度成正比:帧率越大，画面越流畅；帧率越小，画面越有跳动感。</p>
 <p>由于人类眼睛的特殊生理结构，如果所看画面之帧率高于16的时候，就会认为是连贯的，此现象称之为视觉暂留。并且当帧速达到一定数值后，再增长的话，人眼也不容易察觉到有明显的流畅度提升了。</p>
@@ -529,17 +529,17 @@
 <p><strong>视频封装格式和视频压缩编码标准：</strong>就好像项目工程和编程语言，封装格式就是一个项目的工程，视频编码方式就是编程语言，一个项目工程可以用不同语言开发。</p>
 <h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
 <h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
 <p>在阿里云提交工单后，得到了最终的反馈，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live2.png" alt="2"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live2.png" alt="2"></p>
 <p>最后，联系了技术支持，连麦上限最终为4人。</p>
 <h3 id="zego直播"><a href="#zego直播" class="headerlink" title="zego直播"></a><a href="https://www.zego.im" target="_blank" rel="external">zego直播</a></h3><p>zego直播中提供实时视频通话、连麦互动直播和即时通讯功能，实时视频场景的典型使用案例是同一房间内的成员（如微信群视屏），进行实时视频对话同一房间中的用户均可发起视频通话。连麦功能支持20个连麦观众。</p>
-<p>提供了实时视频通话的解决方案，如图<br><img src="http://odchyrav4.bkt.clouddn.com/live3.png" alt="3"></p>
+<p>提供了实时视频通话的解决方案，如图<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live3.png" alt="3"></p>
 <h3 id="七牛云直播"><a href="#七牛云直播" class="headerlink" title="七牛云直播"></a><a href="https://www.qiniu.com/?hmsr=biaoti&amp;hmpl=pinzhuan&amp;hmcu=biaoti&amp;hmkw=&amp;hmci=" target="_blank" rel="external">七牛云直播</a></h3><p>七牛云提供强大的直播以及连麦服务，有提供强大的连麦功能，且无上限，受限于客户端的总体带宽，建议8路以下。</p>
 <h3 id="腾讯云直播"><a href="#腾讯云直播" class="headerlink" title="腾讯云直播"></a><a href="https://cloud.tencent.com/product/LVB" target="_blank" rel="external">腾讯云直播</a></h3><p>腾讯云分为直播、互动直播、移动直播多种视频服务，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live4.png" alt="4"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live4.png" alt="4"></p>
 <p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live5.png" alt="5"></p>
 <p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
 <h2 id="关于demo"><a href="#关于demo" class="headerlink" title="关于demo"></a>关于demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tag为<strong>V0.1</strong>的版本集成最基本的直播推拉流功能，Tag为<strong>V0.2</strong>的版本集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
 <p><font color="ff6d55">注意:</font>阿里云的连麦demo中并未集成聊天室功能，在引入的SDK中，有一个名为<strong>AlivcLiveChatRoom.framework</strong>。该SDK暴露的AlivcLiveClient.h文件中，注明了聊天室相关的API，但创建聊天室和发送聊天消息的方法都加了__deprecated_msg的注释：</p>

@@ -1294,7 +1294,7 @@ NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShort
 NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(upper(userShortName),1,1) GLOB &#39;[^A-Z]&#39; &quot;,clinkId];
 </code></pre>
 <p>之前没有在 <strong>SQLite</strong> 中使用过 <strong>regex</strong> 还以为不支持呢，最后几经波折，在官网上找到了对应的文档！</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
 <h2 id="ONE-PIECE"><a href="#ONE-PIECE" class="headerlink" title="ONE PIECE"></a>ONE PIECE</h2><h3 id="一个关于-CoreData-的问题"><a href="#一个关于-CoreData-的问题" class="headerlink" title="一个关于 CoreData 的问题"></a>一个关于 CoreData 的问题</h3><p><strong>Core Data</strong> 是 <strong>iOS5</strong> 之后才出现的一个框架，本质上是对 <strong>SQLite</strong> 的一个封装，它允许按照实体-属性-值模型组织数据，并以 <strong>XML</strong>，二进制文件或<strong>SQLite</strong> 数据文件的格式将其序列化。<strong>Core Data</strong> 允许用户使用代表实体和实体间关系的高层对象来操作数据。它也可以管理序列化的数据，提供对象生存期管理与 <strong>object graph</strong> 管理，包括存储。<strong>Core Data</strong> 直接与 <strong>SQLite</strong> 交互，避免开发者使用原本的 <strong>SQL</strong> 语句。</p>
 <p>这里在尝试使用 <strong>Core Data</strong> 时遇到一个问题，在获取模型路径，创建模型对象时，一直报错：</p>
 <pre><code class="objectivec">    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@&quot;testModel&quot; withExtension:@&quot;momd&quot;];
@@ -1489,7 +1489,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <font color="#DC143C" size="3">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 对外接口</em> 中的叙述。</font>
 
 <p>其中 <em>CFRunLoopModeRef</em> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
 <li><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</li>
 <li><strong>CFRunLoopSourceRef</strong> 是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。<ol>
@@ -1534,7 +1534,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
 </code></pre>
 <p>再滑动 <em>UITextView</em> 控件，控制台会继续输出。结合上面的所说的一个 <em>RunLoop</em> 包含若干个 <em>Mode</em>，每个 <em>Mode</em> 又包含若干个 <em>Source/Timer/Observer</em>，例子中的关系可以这样表示，如图所示，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_02.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/RunLoopAnalysis_02.png" alt=""></p>
 <p>这里在 <em>UITrackingRunLoopMode</em>（UI模式）下的优先级最高，当通过触摸事件唤醒该模式时，当前 <em>RunLoop</em> 会忽落掉其它模式，优先处理UI模式下的事件。 同样在UI模式下，没有触摸手机屏幕时，即使有 <em>timer</em> 回调也不会继续处理，因此，当不再滑动控件时，控制台就不会再有任何输出了。如果想要兼顾默认模式和UI模式，可以这样做：</p>
 <pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
@@ -2084,7 +2084,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
       <url>/2017/12/30/2017deadline/</url>
       <content type="html"><![CDATA[<p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
 <h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>对我这个年龄来说，结婚的很少，更别提孩子了。但我已经为人夫，为人父了！似乎用两三年的时间走完了别人十几年的路。太过年轻的我，总会时不时忘记自己身为父亲的责任，我媳妇(花花)总会不厌其烦的唤起我作为父亲该承担的责任。家里的大事小情，在花花的安排下井井有条。孩子的奶粉，尿不湿也不用我来操心，为了分担我的压力，花花早早给儿子断了母乳，离家挣钱。对花花我即心疼又愧疚，我不能一直用年轻作为借口，逃避身为男人的责任。<strong>家庭永远是第一位</strong>！</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/2017deadline_%201.jpg" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2017deadline_1.jpg" alt=""></p>
 <blockquote>
 <p>每个人都有属于自己的人生遥控器，它无时无刻不掌握在你自己的手中，你可以随时按快进键让时间从你的手中逃走，你也可以按回退键，想想自己曾经的错过与失误，你也可以按跳过键，它的另外一个名字叫做逃避…… 从前有个精灵一直在寻找彩虹那端的金罐，但最后，他发现那只是一罐麦片。</p>
 </blockquote>
@@ -2094,7 +2094,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 <p>自从给自己定下了一周至少写一篇博客的目标后，每到周末就特纠结，搜肠刮肚的想着如何结合实际开发构思出一篇好博文。有时实在没有好的点子，就翻译<strong>Medium</strong>和<strong>湾区日报</strong>上推荐的英文文章，或者写一些个人心得体会。</p>
 <p>今年写的一些技术性文章也有不尽如人意的地方，有些文章，写的很粗浅，没有刨根问底追溯到本质上。有些文章是迫于一周要写一篇博文而拼凑成的，今年不会如此只求量而不求质了。但以文字的形式记录分享开发心得的习惯，一旦养成，就不会轻易舍弃，这算是2017年一个明显的收获吧！</p>
 <h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、<font size="4" face="黑体">《黑客与画家》</font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/hacker-artist.jpg" alt="黑客与画家"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/hacker-artist.jpg" alt="黑客与画家"></p>
 <p>在这些书中，<font size="4" face="黑体">《黑客与画家》</font>这本书书对我启发最大，里面很多论述让我有种醍醐灌顶的感觉。现在回想起来，书中很多内容已经忘得差不多了，唯一记得的是：编程和绘画一样，是需要走心的，需要绞尽脑汁去构思的。</p>
 <p>偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
 <blockquote>
@@ -2113,13 +2113,13 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 <p>请勿陷入对技术的狂热之中</p>
 </blockquote>
 <p>若是早已习惯了这种堆代码、堆逻辑的开发流程，渐渐麻木，在技术上不再积极进取，不再学习新技术。这种开发者被称为“码农”，“搬砖工”。很不幸，我自己就是这样的“码农”。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/introspect2.jpg" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/introspect2.jpg" alt=""></p>
 <p>2018年，新的一年，要在原有技术的基础之上找到突破口，将自己以前囫囵吞枣的知识点再好好品味一番。同时，也不能仅仅局限于iOS一方面的技术。</p>
 <p>今年最直观的感觉是自己对于新技术的渴望，缺少那种如饥食渴的痴迷感。苹果开发者大会上的ARKit，CoreML，SiriKit这些新技术，对于我这个iOS开发者竟然毫无吸引力可言。这是我身上存在的一个大的缺陷，也是程序员堕落，不思进取的开始。<strong>对于程序员来说，最大的悲哀并不是35岁后被华为辞退，也不是42岁后跳楼。</strong> 而是：</p>
 <blockquote>
 <p>不再向往新技术。</p>
 </blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/2017deadline_3.jpg" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2017deadline_3.jpg" alt=""></p>
 <blockquote>
 <p>stay hungry，stay foolish.</p>
 </blockquote>
@@ -2152,13 +2152,13 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 <p>”这是胡说，“我们的首席技术官回复。“MailChimp的产品并不比其他产品好，这只是另一个发送消息的通讯工具而已。当它竞争对手提供同样的功能只需要花费几块钱时，为什么每月要额外花费200美元呢？“</p>
 <p>我想说服他，MailChimp确保我们的电子邮件广告系列投递到顾客的收件箱，而不是他们的垃圾邮件文件夹。</p>
 <p>但是他一直用我没有完全明白的技术解释来反驳我。</p>
-<p><img src="http://growthsupply.com/wp-content/uploads/2017/10/mailchimp-hp-1.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/mailchimp-hp-1.png" alt=""></p>
 <p>“看，我们甚至可以建立我们自己的电子邮件机器人，做同样的事情，”他补充说。“你只是因为他们的品牌知名才使用它。”</p>
 <p>是的，在一定程度上他说的很对。</p>
 <p>在过去的几年中，MailChimp已经建立了一个标志性的品牌以其设计为中心的方法和非传统的营销活动。</p>
 <p>猴子吉祥物<a href="https://blog.mailchimp.com/the-story-behind-the-mailchimp-billboards/" target="_blank" rel="external">广告牌</a>没有提到他们的名字…“MailKimp”和参与其他趣味取名活动达到了<a href="https://twitter.com/benchestnut/status/871678778782756864" target="_blank" rel="external">3.34亿人</a>…以设计为中心的<a href="https://mailchimp.com/2016/" target="_blank" rel="external">年度报告</a>与风格…</p>
 <p>MailChimp的赠品也是非常规的。为猫咪准备的免费<a href="https://blog.drift.com/how-mailchimp-grew/" target="_blank" rel="external">猴子帽子</a>打动了像我一样准备付更多钱的超级粉丝。</p>
-<p><img src="http://growthsupply.com/wp-content/uploads/2017/10/banner-compressor-1.jpg" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/banner-compressor-1.jpg" alt=""></p>
 <p>在一个任何人都可以一夜之间复制你的产品的世界里，MailChimp选择为猫咪编织猴子帽子，而不是进行军备竞赛建立更多的功能。</p>
 <p>毕竟，公司甚至还接到一些大客户的<a href="https://medium.com/swlh/an-open-letter-to-mailchimp-8497318fc860" target="_blank" rel="external">公开信</a>和<a href="https://tinyletter.com/ben/letters/whale-hunting-or-scale-hunting" target="_blank" rel="external">警告</a>，如果没有更高级的功能，就有可能转向竞争对手。</p>
 <p>MailChimp的回答？</p>
@@ -2190,7 +2190,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 <p>不要销售产品，销售一种全新的思维方式。</p>
 </blockquote>
 <p>拿<a href="https://www.drift.com/" target="_blank" rel="external">Drift</a>来说，今天科技界的新星之一。</p>
-<p><img src="http://growthsupply.com/wp-content/uploads/2017/10/drift-homepage-1.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/drift-homepage-1.png" alt=""></p>
 <p>并不是强迫人们理解他们的产品，像Drift这样的“推动者”<strong>推销思想的根本转变，即，引起他们创新的原始洞察力。</strong></p>
 <p>对Drift而言，最初的洞察力导致了营销和销售方式的破旧，仍然依赖网站形式和烦人的销售后续行动。</p>
 <p>这就是为什么，他们没有硬去销售或用产品信息淹没<a href="https://blog.drift.com/" target="_blank" rel="external">他们的博客</a>，而是谈论<a href="https://blog.drift.com/introducing-ilya-mirman/" target="_blank" rel="external">今天的营销和销售技巧</a>是怎样的，或者为什么<a href="https://blog.drift.com/why-g-joined-drift/" target="_blank" rel="external">营销自动化</a>和<a href="https://blog.drift.com/why-email-is-broken/" target="_blank" rel="external">电子邮件营销</a>被打破。</p>
@@ -2211,7 +2211,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 </ul>
 <p><strong>建立一个改变人们思维的引擎</strong></p>
 <p>改变人们目前的思维模式不是一朝一夕就能实现的。</p>
-<p><img src="http://growthsupply.com/wp-content/uploads/2017/10/dhh.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/dhh.png" alt=""></p>
 <p>相反，你将需要一个可持续的引擎，一次又一次地<strong>在不同的环境和情况下向人们展示新的心智模式。</strong></p>
 <p>例如，尽管Drift的博客每月已经超过了10万人，他们打开新的渠道，达到他们无法达到的观众，否则他们不会通过：</p>
 <ul>
@@ -2376,7 +2376,7 @@ if (data){
 manager.requestSerializer = [AFJSONRequestSerializer serializer];
 manager.responseSerializer = [AFJSONResponseSerializer serializer];
 </code></pre><p>即可实现返回数据的自动解析。</p>
-<h2 id="AFNetworking到底做了什么？"><a href="#AFNetworking到底做了什么？" class="headerlink" title="AFNetworking到底做了什么？"></a>AFNetworking到底做了什么？</h2><h3 id="AFNetworking概述"><a href="#AFNetworking概述" class="headerlink" title="AFNetworking概述"></a>AFNetworking概述</h3><p><img src="http://7xrlu3.com1.z0.glb.clouddn.com/2016-03-21-afnetworking-arch.png" alt=""><br><a href="https://draveness.me/afnetworking1" target="_blank" rel="external">图片所在原文链接</a></p>
+<h2 id="AFNetworking到底做了什么？"><a href="#AFNetworking到底做了什么？" class="headerlink" title="AFNetworking到底做了什么？"></a>AFNetworking到底做了什么？</h2><h3 id="AFNetworking概述"><a href="#AFNetworking概述" class="headerlink" title="AFNetworking概述"></a>AFNetworking概述</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/AFN_articlex.png" alt=""><br><a href="https://draveness.me/afnetworking1" target="_blank" rel="external">图片所在原文链接</a></p>
 <p>AF分为如下5个功能模块：</p>
 <ul>
 <li>网络通信模块(AFURLSessionManager、AFHTTPSessionManger)</li>
@@ -2862,9 +2862,9 @@ didCompleteWithError:(NSError *)error
 <p>自从今年以来，发现了自己的技术短板。因为崇拜某项特定的技术，只是因为自己熟悉这种技术。我很自然的会相信自己选择的是最好的，然后这会让我经常忽略一些与之相悖的意见。由于不了解其他技术，就倾向于选择自己最熟悉的技术并先入为主的认为它是最好的。因此陷入了对自己熟悉技术的狂热之中而无法自拔。这样只会使我们变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
 <p>最近两年以来，互联网的发展不再像早期那样粗放了，对各种技术人员的需求趋于稳定。<strong>“一招鲜，吃遍天”</strong>的时代终会落幕，全栈会成为一种趋势。不只贫穷会限制我们的想象力，作为一名开发者，我们因对某项技术的狂热崇拜也会限制我们在业务需求上的想象力。应戒之，慎之。</p>
 <p>但无论如何增加知识广度的同时，先扪心自问自己所擅长技术是否全面掌握了。拿我自己来说，也有四年多 iOS 开发经验了，但做的项目都是很普通的那种。这里并不是说普通项目不能提高开发水平，相对于那些业务逻辑复杂的项目，其复杂的关联业务、交互设计会早早的暴露出性能方面的问题，因此，开发者不得不从各方面考虑，最终深入研究这些技术点，并形成最终的优化方案。而普通应用很少遇到性能上的瓶颈，开发者也早已习惯了这种堆代码、堆逻辑的开发流程，渐渐麻木，在技术上不在积极进取。我管这种开发者叫“码农”，“搬砖工”。很不幸，我自己就是这样的“码农”。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/introspect1.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/introspect1.png" alt=""></p>
 <p>这也是很多初级中级 iOS 开发者的共性，没有深入某一具体的方向解决对应的问题，没有自己的技术深度。当我们被全栈开发这种趋势追赶着拼命向前奔命，花费时间、精力学习那些新技术时，需要反思自己有没有达到所擅长领域的技术深度，对掌握的知识，是肤浅还是真正的精通。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/introspect2.jpg" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/introspect2.jpg" alt=""></p>
 <p>互联网发展非常快，每天每个月都有很多的新技术面世。在我们朝着全栈一路狂奔时，需要思考为什么要用这个技术？它能解决什么问题？有什么弊端吗？为了技术而技术，考虑问题的全面性就会差很多。裹足不前不行，盲目追新亦是不行，这里很考验我们对新技术的判断，最终这些技术都要对应业务场景，或许多经历几次因业务需求变化而导致的通宵加班，彻夜上线才会让开发者有所反思，经历几次痛苦的重构才会刻骨铭心吧！</p>
 <p>但无论如何，凌冬将至，大家过冬的粮食都储备充足了吗？</p>
 <p>–EOF–</p>
@@ -2915,11 +2915,11 @@ didCompleteWithError:(NSError *)error
 <ul>
 <li>标准安装，如下图</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration11.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration11.png" alt=""></p>
 <ul>
 <li>自定义安装，此时应该取消<strong>Start at boot as “jenkins”</strong>勾选，如下图</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration12.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration12.png" alt=""></p>
 <p>安装完成后在Terminal中输入,</p>
 <blockquote>
 <p>open /Applications/Jenkins/jenkins.war</p>
@@ -2963,23 +2963,23 @@ didCompleteWithError:(NSError *)error
 <li>FTP publisher plugin</li>
 </ul>
 <p>我们需要依次选择 <strong>系统管理-&gt;管理插件</strong>，在<strong>“可选插件”</strong>中选中<strong>“Keychains and Provisioning Profiles Management”</strong>和<strong>“FTP publisher plugin”</strong>这两项，然后安装。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration13.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration13.png" alt=""></p>
 <h2 id="配置构建环境"><a href="#配置构建环境" class="headerlink" title="配置构建环境"></a>配置构建环境</h2><p>在配置构建环境前，我们先来导入一下打包证书，点击系统管理，找到刚才添加的插件<font color="ff6d55">Keychains and Provisioning Profiles Management</font>，点击选取文件，导入名为<font color="ff6d55">login.keychain</font>的钥匙串文件。</p>
 <blockquote>
 <p>这个Keychain其实在<strong>/Users/管理员用户名/Library/keychains/login.keychain</strong>,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到<strong>/Users/管理员用户名/.jenkins/workspace/项目目录名称</strong>，(.jenkins是隐藏文件)。</p>
 </blockquote>
 <p>如图所示，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration1.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration1.png" alt=""></p>
 <p>其中，Keychains中的Identities输入项，对应的是刚才点击<font color="ff6d55">Upload</font>后钥匙串中的测试证书名称，发布证书名称(需要输入证书名称)。</p>
 <p>Provisioning Profiles中对应的是刚才上传的证书配置文件。这些配置文件的存放路径为:<font color="ff6d55">/Users/管理员用户名/Library/MobileDevice/Provisioning Profiles</font></p>
 <p>这样Adhoc证书和签名文件就在Jenkins中配置好了，接下来我们只需要在项目的构建配置中指定相关文件即可。</p>
 <p><font color="ff6d55" size="4">注意</font>: 有些升级了最新的Mac OS系统后，<font color="ff6d55">/Users/管理员用户名/Library/keychains</font>目录下没有<strong>login.keychain</strong>文件，有的是一个名为<strong>login.keychain-db</strong>的文件，这是需要将login.keychain-db文件copy到桌面，修改成文件名为<strong>login.keychain</strong>。点击”<strong>选取文件</strong>“，选取并上传这个修改名称后的<strong>login.keychain</strong>文件。</p>
 <p>导入证书后需要在”<strong>系统管理</strong>“–&gt;”<strong>系统设置</strong>“里再设置”<strong>Xcode Builder</strong>“时，访问证书的全局路径。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration6.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration6.png" alt=""></p>
 <p>“<strong>Keychain path</strong>“为钥匙串的本地路径，”<strong>Keychain password</strong>“为访问钥匙串的密码。设置完成后不要忘记点击”<strong>保存</strong>“。</p>
 <h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>新建 -&gt; 输入项目名称 -&gt; 选择“<strong>构建一个自由风格的软件项目</strong>” -&gt; 点击ok就行了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1194012-b52d3d102c21f004.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration2.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/1194012-b52d3d102c21f004.png" alt=""></p>
+<h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration2.png" alt=""></p>
 <p>其中，Repository URL对应的是svn的路径，Credentials为登录svn时的用户账号密码，点击”Add”按钮添加即可。Check-out Strategy最好选择每次update最新代码前都revert下，而不是“Use ‘svn update’ as much as possible” ，因为我使用的是CocoaPods管理的第三方，每次打包运行pod install会修改了工程配置文件，如果下次自动打包前不先revert再update的话会出现冲突。</p>
 <h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里是设置自动化测试的地方。涉及的内容很多，暂不做深入研究，这里先不设置，有自动化测试需求的可以好好研究这里的设置。</p>
 <ul>
@@ -2988,13 +2988,13 @@ didCompleteWithError:(NSError *)error
 <li><p>Build periodically (定时build)<br>一般设置为类似： 00 20 <em> </em> * 每天 20点执行定时build 。当然两者的设置都是一样可以通用的。</p>
 </li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration14.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration14.png" alt=""></p>
 <h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“<strong>Keychains andProvisioning Profiles Management</strong>”和“<strong>Mobile Provisioning Profiles</strong>”。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2367707-b8668d49ff828810.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2367707-e86675d8dc8c675e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2367707-b8668d49ff828810.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2367707-e86675d8dc8c675e.png" alt=""></p>
 <p>这里的<strong>Code Signing Identity</strong>和<strong>Provisioning Profile</strong>选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
 <h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br><strong>pod install –verbose –no-repo-update</strong>安装下第三方库。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration3.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration3.png" alt=""></p>
 <p><font color="ff6d55" size="5">注意:</font>执行pod install命令时，需要cd到pod文件所在的目录，<font color="ff6d55">${WORKSPACE}</font>是项目在JenKins中的工作目录，而我的项目由于多套了一层目录BusinessMall，因此需要加上这层目录<font color="ff6d55">${WORKSPACE}/BusinessMall</font>，否则，在构建时就会报:</p>
 <blockquote>
 <p>[!] No `Podfile’ found in the project directory.</p>
@@ -3008,7 +3008,7 @@ didCompleteWithError:(NSError *)error
 <p>Clean before build设置为YES</p>
 </blockquote>
 <p>勾选”<strong>Pack application，build and sign .ipa？</strong>“的复选框，会弹出设置生成ipa包的几个参数项。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration7.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration7.png" alt=""></p>
 <blockquote>
 <p>Export method，ipa的类型(‘development’, ‘ad-hoc’, ‘enterprise’ or ‘app-store’) </p>
 <p>.ipa filename pattern，ipa的名称。</p>
@@ -3016,7 +3016,7 @@ didCompleteWithError:(NSError *)error
 </blockquote>
 <p><font color="ff6d55">注意:</font>这里如果<strong>Xcode的版本低于9.0</strong>，就可以正常输出ipa包。如果<strong>Xcode版本不低于9.0</strong>，就会由于<font color="ff6d55">Xcode 9.0不在允许你访问钥匙串里的内容</font>，而输出ipa失败。具体的解决方法请参照后面”<strong>构建项目时遇到的几个问题</strong>“中具体的解决方法。</p>
 <p>继续设置”<strong>Code signing &amp; OS X keychain options</strong>“证书信息，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
 <p>如果项目使用了<strong>cocoaPods</strong>,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
 <ol>
@@ -3024,7 +3024,7 @@ didCompleteWithError:(NSError *)error
 <li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
 <li>Build output directory，设为<strong>${WORKSPACE}/build/</strong></li>
 </ol>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration5.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration5.png" alt=""></p>
 <p><font color="ff6d55">注意:</font>Xcode Workspace File为绝对路径，也就是Jenkins用于构建项目的workspace目录中，.xcworkspace文件所在目录的路径。</p>
 <p>如果路径不正确，则在构建项目时，会报:</p>
 <blockquote>
@@ -3036,18 +3036,18 @@ didCompleteWithError:(NSError *)error
 <h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><ul>
 <li>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration10.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration10.png" alt=""></p>
 <p>参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
 <ul>
 <li>将ipa包上传到FTP服务器</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration15.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration15.png" alt=""></p>
 <p>如图，选择<strong>“Publish artiffacts to FTP”</strong>，其中，<strong>FTP site</strong>就是在<strong>系统管理-&gt;系统设置</strong>中，增加的一项名为<strong>“FTP repository hosts”</strong>的配置里已经设置好的host和端口。<strong>Source</strong>为构建生成的ipa包的存放路径。</p>
 <h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h3 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h3><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>解决方法: 在系统管理–&gt;系统设置，增加”全局属性”，勾选Environment variables，增加键值对列表。如图，</p>
-<p><img src="http://img.blog.csdn.net/20160816160405862?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/20170904164437686.png" alt=""></p>
 <p>其中，PATH是固定的，值是在终端输入:</p>
 <blockquote>
 <p>$echo $PATH</p>
@@ -3111,12 +3111,12 @@ didCompleteWithError:(NSError *)error
 </blockquote>
 <p>最后错误提示，<strong>EXPORT FAILED</strong>，可知是导出ipa包时出的错。根据提示”<strong>provisioningProfiles” dictionary in your Export Options property list.</strong>在网上搜了一下这个plist文件的用处，发现原来新版的<strong>Xcode 9</strong>将不会允许你访问钥匙串里的内容，除非设置<strong>allowProvisioningUpdates</strong>。</p>
 <p>具体的<a href="http://www.jianshu.com/p/b3f883b51be3" target="_blank" rel="external">解决方式</a>是: 自己动手写脚本替代插件（插件本质是帮助我们生成打包脚本代码）。于是，在JenKins里，点击项目的”<strong>配置</strong>“选项，在”<strong>构建</strong>“中，添加xcodebuild -archivePath，<br>xcodebuild -exportArchive -archivePath的脚本命令，输出ipa包。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration8.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration8.png" alt=""></p>
 <p>具体的脚本命令如下:</p>
 <pre><code>xcodebuild -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/output/debug/BusinessMall.xcarchive&quot; -workspace BusinessMall.xcworkspace -sdk iphoneos -scheme &quot;BusinessMall&quot; -configuration &quot;Release&quot; archive
 xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/output/debug/BusinessMall.xcarchive&quot; -exportPath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/ipa/debug/&quot; -exportOptionsPlist &#39;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/ipa/debug/ExportOptions.plist&#39; -allowProvisioningUpdates
 </code></pre><p>脚本中的构建路径为JenKins下对应的archivePath，ipa包的输出路径。其中，需要特别注意的是<font color="ff6d55">ExportOptions.plist</font>的存放路径。手写ExportOptions.plist文件过于麻烦，不如让XCode帮我们生成。使用XCode 9打包并导出后的文件夹里就有这样一份文件可以直接拿过来用。修改后的plist文件，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration9.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration9.png" alt=""></p>
 <p>之后就在项目所在的目录下，新建一个名为ipa/debug/的目录，将修改后的<strong>ExportOptions.plist</strong>文件放在这个目录下。在Jenkins中使用SVN管理源码，因此，我需要将这个新增的文件上传SVN，这样在我每次构建项目，输出ipa时就能直接从SVN上拉取这个plist文件，通过设置<strong>ExportOptions.plist’ -allowProvisioningUpdates</strong>就能访问钥匙串中的打包证书，输出ipa包了。</p>
 <p><font color="ff6d55">注意:</font>设置了<strong>allowProvisioningUpdates</strong>字段后，在打包过程中会弹出是否允许访问钥匙串内容的弹窗，这时需要多次点击“<strong>始终允许</strong>”按钮。</p>
 <h3 id="7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format"><a href="#7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format" class="headerlink" title="7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format."></a>7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format.</h3><blockquote>
@@ -3182,9 +3182,9 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <li>2017 年 11 月 13 日，增加直播原理。</li>
 </ul>
 <h2 id="直播原理"><a href="#直播原理" class="headerlink" title="直播原理"></a>直播原理</h2><h3 id="1-一个完整直播app实现流程"><a href="#1-一个完整直播app实现流程" class="headerlink" title="1. 一个完整直播app实现流程"></a>1. 一个完整直播app实现流程</h3><p>1.采集、2.滤镜处理、3.编码、4.推流、5.CDN分发、6.拉流、7.解码、8.播放、9.聊天互动</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/304825-5481594e6e2a9d56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-54974199408c0cc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="http://upload-images.jianshu.io/upload_images/304825-9b64e9596f3ccdce.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live6.png" alt="6"></p>
+<h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live7.png" alt="7"></p>
+<h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live8.jpeg" alt="8"></p>
 <h3 id="4-流媒体相关参数"><a href="#4-流媒体相关参数" class="headerlink" title="4. 流媒体相关参数"></a>4. 流媒体相关参数</h3><p><strong>帧:</strong> 每帧代表一副静止的图像。</p>
 <p><strong>帧率:</strong> 每秒显示的图片数。影响画面流畅度，与画面流畅度成正比:帧率越大，画面越流畅；帧率越小，画面越有跳动感。</p>
 <p>由于人类眼睛的特殊生理结构，如果所看画面之帧率高于16的时候，就会认为是连贯的，此现象称之为视觉暂留。并且当帧速达到一定数值后，再增长的话，人眼也不容易察觉到有明显的流畅度提升了。</p>
@@ -3195,17 +3195,17 @@ xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/wo
 <p><strong>视频封装格式和视频压缩编码标准：</strong>就好像项目工程和编程语言，封装格式就是一个项目的工程，视频编码方式就是编程语言，一个项目工程可以用不同语言开发。</p>
 <h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
 <h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
 <p>在阿里云提交工单后，得到了最终的反馈，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live2.png" alt="2"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live2.png" alt="2"></p>
 <p>最后，联系了技术支持，连麦上限最终为4人。</p>
 <h3 id="zego直播"><a href="#zego直播" class="headerlink" title="zego直播"></a><a href="https://www.zego.im" target="_blank" rel="external">zego直播</a></h3><p>zego直播中提供实时视频通话、连麦互动直播和即时通讯功能，实时视频场景的典型使用案例是同一房间内的成员（如微信群视屏），进行实时视频对话同一房间中的用户均可发起视频通话。连麦功能支持20个连麦观众。</p>
-<p>提供了实时视频通话的解决方案，如图<br><img src="http://odchyrav4.bkt.clouddn.com/live3.png" alt="3"></p>
+<p>提供了实时视频通话的解决方案，如图<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live3.png" alt="3"></p>
 <h3 id="七牛云直播"><a href="#七牛云直播" class="headerlink" title="七牛云直播"></a><a href="https://www.qiniu.com/?hmsr=biaoti&amp;hmpl=pinzhuan&amp;hmcu=biaoti&amp;hmkw=&amp;hmci=" target="_blank" rel="external">七牛云直播</a></h3><p>七牛云提供强大的直播以及连麦服务，有提供强大的连麦功能，且无上限，受限于客户端的总体带宽，建议8路以下。</p>
 <h3 id="腾讯云直播"><a href="#腾讯云直播" class="headerlink" title="腾讯云直播"></a><a href="https://cloud.tencent.com/product/LVB" target="_blank" rel="external">腾讯云直播</a></h3><p>腾讯云分为直播、互动直播、移动直播多种视频服务，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live4.png" alt="4"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live4.png" alt="4"></p>
 <p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/live5.png" alt="5"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live5.png" alt="5"></p>
 <p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
 <h2 id="关于demo"><a href="#关于demo" class="headerlink" title="关于demo"></a>关于demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tag为<strong>V0.1</strong>的版本集成最基本的直播推拉流功能，Tag为<strong>V0.2</strong>的版本集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
 <p><font color="ff6d55">注意:</font>阿里云的连麦demo中并未集成聊天室功能，在引入的SDK中，有一个名为<strong>AlivcLiveChatRoom.framework</strong>。该SDK暴露的AlivcLiveClient.h文件中，注明了聊天室相关的API，但创建聊天室和发送聊天消息的方法都加了__deprecated_msg的注释：</p>
@@ -5656,28 +5656,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#100;&#x65;&#118;&#x65;&#108;&#111;&#x70;&#101;&#114;&#x70;&#x65;&#110;&#103;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#x2e;&#99;&#x6f;&#x6d;">&#100;&#x65;&#118;&#x65;&#108;&#111;&#x70;&#101;&#114;&#x70;&#x65;&#110;&#103;&#x68;&#x65;&#x40;&#49;&#x36;&#51;&#x2e;&#99;&#x6f;&#x6d;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-05-24"><a href="#2018-05-24" class="headerlink" title="2018/05/24"></a>2018/05/24</h3><blockquote>
@@ -5833,6 +5811,28 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS攻城狮一枚，现居北京。<br> <br>就职于一家从事移动医疗的互联网公司。<br> <br>正在修行，希望每天都能进步。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x64;&#x65;&#118;&#101;&#108;&#x6f;&#112;&#101;&#114;&#112;&#x65;&#x6e;&#x67;&#104;&#101;&#x40;&#x31;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;">&#x64;&#x65;&#118;&#101;&#108;&#x6f;&#112;&#101;&#114;&#112;&#x65;&#x6e;&#x67;&#104;&#101;&#x40;&#x31;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="http://odchyrav4.bkt.clouddn.com/WeChatContact.JPG?imageView/4/w/200" alt=""></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>

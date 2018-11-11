@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sun Mar 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Mon May 14 2018 23:06:57 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 15:25:47 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/03/18/RunLoopAnalysis/index.html",
     "headline": "深入理解RunLoop",
     "datePublished": "Sun Mar 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Mon May 14 2018 23:06:57 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 15:25:47 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -381,7 +381,7 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_thumbnail.jpg)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/RunLoopAnalysis_thumbnail.jpg)">
     
             <p class="article-headline-p">
                 深入理解RunLoop
@@ -618,7 +618,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <font color="#DC143C" size="3">下面这段内容摘抄自 <a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a> 中 <em>RunLoop 对外接口</em> 中的叙述。</font>
 
 <p>其中 <em>CFRunLoopModeRef</em> 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/RunLoopAnalysis_01.png?imageView/4/w/300" alt="CFRunLoopModeRef的关系"></p>
 <ol>
 <li><strong>CFRunLoopModeRef</strong>，一个 <strong>RunLoop</strong> 包含若干个 <strong>Mode</strong><br>，每个 <strong>Mode</strong> 又包含若干个 <strong>Source/Timer/Observer</strong>。每次调用 RunLoop的主函数时，只能指定其中一个 <strong>Mode</strong>，这个 <strong>Mode</strong> 被称为 <strong>CurrentMode</strong>。如果需要切换 <strong>Mode</strong>，只能退出 <strong>RunLoop</strong>，再重新指定一个 <strong>Mode</strong> 进入。这样做主要是为了分隔开不同组的 <strong>Source/Timer/Observer</strong>，让其互不影响。</li>
 <li><strong>CFRunLoopSourceRef</strong> 是事件产生的地方。<strong>source</strong> 有两个版本：<strong>source0</strong> 和 <strong>source1</strong>。<ol>
@@ -663,7 +663,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
 </code></pre>
 <p>再滑动 <em>UITextView</em> 控件，控制台会继续输出。结合上面的所说的一个 <em>RunLoop</em> 包含若干个 <em>Mode</em>，每个 <em>Mode</em> 又包含若干个 <em>Source/Timer/Observer</em>，例子中的关系可以这样表示，如图所示，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/RunLoopAnalysis_02.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/RunLoopAnalysis_02.png" alt=""></p>
 <p>这里在 <em>UITrackingRunLoopMode</em>（UI模式）下的优先级最高，当通过触摸事件唤醒该模式时，当前 <em>RunLoop</em> 会忽落掉其它模式，优先处理UI模式下的事件。 同样在UI模式下，没有触摸手机屏幕时，即使有 <em>timer</em> 回调也不会继续处理，因此，当不再滑动控件时，控制台就不会再有任何输出了。如果想要兼顾默认模式和UI模式，可以这样做：</p>
 <pre><code class="objectivec">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];

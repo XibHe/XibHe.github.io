@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Mon Nov 06 2017 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Thu Jul 26 2018 12:40:47 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 16:15:59 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/index.html",
     "headline": "利用JenKins持续集成iOS项目时遇到的问题",
     "datePublished": "Mon Nov 06 2017 00:00:00 GMT+0800",
-    "dateModified": "Thu Jul 26 2018 12:40:47 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 16:15:59 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -381,7 +381,7 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://upload-images.jianshu.io/upload_images/1194012-9c822836315163c4.png?imageMogr2/auto-orient/strip%7CimageView2/2)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins_thum.png)">
     
             <p class="article-headline-p">
                 利用JenKins持续集成iOS项目时遇到的问题
@@ -534,11 +534,11 @@
 <ul>
 <li>标准安装，如下图</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration11.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration11.png" alt=""></p>
 <ul>
 <li>自定义安装，此时应该取消<strong>Start at boot as “jenkins”</strong>勾选，如下图</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration12.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration12.png" alt=""></p>
 <p>安装完成后在Terminal中输入,</p>
 <blockquote>
 <p>open /Applications/Jenkins/jenkins.war</p>
@@ -582,23 +582,23 @@
 <li>FTP publisher plugin</li>
 </ul>
 <p>我们需要依次选择 <strong>系统管理-&gt;管理插件</strong>，在<strong>“可选插件”</strong>中选中<strong>“Keychains and Provisioning Profiles Management”</strong>和<strong>“FTP publisher plugin”</strong>这两项，然后安装。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration13.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration13.png" alt=""></p>
 <h2 id="配置构建环境"><a href="#配置构建环境" class="headerlink" title="配置构建环境"></a>配置构建环境</h2><p>在配置构建环境前，我们先来导入一下打包证书，点击系统管理，找到刚才添加的插件<font color="ff6d55">Keychains and Provisioning Profiles Management</font>，点击选取文件，导入名为<font color="ff6d55">login.keychain</font>的钥匙串文件。</p>
 <blockquote>
 <p>这个Keychain其实在<strong>/Users/管理员用户名/Library/keychains/login.keychain</strong>,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到<strong>/Users/管理员用户名/.jenkins/workspace/项目目录名称</strong>，(.jenkins是隐藏文件)。</p>
 </blockquote>
 <p>如图所示，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration1.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration1.png" alt=""></p>
 <p>其中，Keychains中的Identities输入项，对应的是刚才点击<font color="ff6d55">Upload</font>后钥匙串中的测试证书名称，发布证书名称(需要输入证书名称)。</p>
 <p>Provisioning Profiles中对应的是刚才上传的证书配置文件。这些配置文件的存放路径为:<font color="ff6d55">/Users/管理员用户名/Library/MobileDevice/Provisioning Profiles</font></p>
 <p>这样Adhoc证书和签名文件就在Jenkins中配置好了，接下来我们只需要在项目的构建配置中指定相关文件即可。</p>
 <p><font color="ff6d55" size="4">注意</font>: 有些升级了最新的Mac OS系统后，<font color="ff6d55">/Users/管理员用户名/Library/keychains</font>目录下没有<strong>login.keychain</strong>文件，有的是一个名为<strong>login.keychain-db</strong>的文件，这是需要将login.keychain-db文件copy到桌面，修改成文件名为<strong>login.keychain</strong>。点击”<strong>选取文件</strong>“，选取并上传这个修改名称后的<strong>login.keychain</strong>文件。</p>
 <p>导入证书后需要在”<strong>系统管理</strong>“–&gt;”<strong>系统设置</strong>“里再设置”<strong>Xcode Builder</strong>“时，访问证书的全局路径。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration6.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration6.png" alt=""></p>
 <p>“<strong>Keychain path</strong>“为钥匙串的本地路径，”<strong>Keychain password</strong>“为访问钥匙串的密码。设置完成后不要忘记点击”<strong>保存</strong>“。</p>
 <h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>新建 -&gt; 输入项目名称 -&gt; 选择“<strong>构建一个自由风格的软件项目</strong>” -&gt; 点击ok就行了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1194012-b52d3d102c21f004.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration2.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/1194012-b52d3d102c21f004.png" alt=""></p>
+<h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration2.png" alt=""></p>
 <p>其中，Repository URL对应的是svn的路径，Credentials为登录svn时的用户账号密码，点击”Add”按钮添加即可。Check-out Strategy最好选择每次update最新代码前都revert下，而不是“Use ‘svn update’ as much as possible” ，因为我使用的是CocoaPods管理的第三方，每次打包运行pod install会修改了工程配置文件，如果下次自动打包前不先revert再update的话会出现冲突。</p>
 <h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里是设置自动化测试的地方。涉及的内容很多，暂不做深入研究，这里先不设置，有自动化测试需求的可以好好研究这里的设置。</p>
 <ul>
@@ -607,13 +607,13 @@
 <li><p>Build periodically (定时build)<br>一般设置为类似： 00 20 <em> </em> * 每天 20点执行定时build 。当然两者的设置都是一样可以通用的。</p>
 </li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration14.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration14.png" alt=""></p>
 <h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“<strong>Keychains andProvisioning Profiles Management</strong>”和“<strong>Mobile Provisioning Profiles</strong>”。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2367707-b8668d49ff828810.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2367707-e86675d8dc8c675e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2367707-b8668d49ff828810.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2367707-e86675d8dc8c675e.png" alt=""></p>
 <p>这里的<strong>Code Signing Identity</strong>和<strong>Provisioning Profile</strong>选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
 <h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br><strong>pod install –verbose –no-repo-update</strong>安装下第三方库。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration3.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration3.png" alt=""></p>
 <p><font color="ff6d55" size="5">注意:</font>执行pod install命令时，需要cd到pod文件所在的目录，<font color="ff6d55">${WORKSPACE}</font>是项目在JenKins中的工作目录，而我的项目由于多套了一层目录BusinessMall，因此需要加上这层目录<font color="ff6d55">${WORKSPACE}/BusinessMall</font>，否则，在构建时就会报:</p>
 <blockquote>
 <p>[!] No `Podfile’ found in the project directory.</p>
@@ -627,7 +627,7 @@
 <p>Clean before build设置为YES</p>
 </blockquote>
 <p>勾选”<strong>Pack application，build and sign .ipa？</strong>“的复选框，会弹出设置生成ipa包的几个参数项。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration7.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration7.png" alt=""></p>
 <blockquote>
 <p>Export method，ipa的类型(‘development’, ‘ad-hoc’, ‘enterprise’ or ‘app-store’) </p>
 <p>.ipa filename pattern，ipa的名称。</p>
@@ -635,7 +635,7 @@
 </blockquote>
 <p><font color="ff6d55">注意:</font>这里如果<strong>Xcode的版本低于9.0</strong>，就可以正常输出ipa包。如果<strong>Xcode版本不低于9.0</strong>，就会由于<font color="ff6d55">Xcode 9.0不在允许你访问钥匙串里的内容</font>，而输出ipa失败。具体的解决方法请参照后面”<strong>构建项目时遇到的几个问题</strong>“中具体的解决方法。</p>
 <p>继续设置”<strong>Code signing &amp; OS X keychain options</strong>“证书信息，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration4.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration4.png" alt=""></p>
 <p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
 <p>如果项目使用了<strong>cocoaPods</strong>,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
 <ol>
@@ -643,7 +643,7 @@
 <li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
 <li>Build output directory，设为<strong>${WORKSPACE}/build/</strong></li>
 </ol>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration5.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration5.png" alt=""></p>
 <p><font color="ff6d55">注意:</font>Xcode Workspace File为绝对路径，也就是Jenkins用于构建项目的workspace目录中，.xcworkspace文件所在目录的路径。</p>
 <p>如果路径不正确，则在构建项目时，会报:</p>
 <blockquote>
@@ -655,18 +655,18 @@
 <h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><ul>
 <li>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration10.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration10.png" alt=""></p>
 <p>参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
 <ul>
 <li>将ipa包上传到FTP服务器</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration15.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration15.png" alt=""></p>
 <p>如图，选择<strong>“Publish artiffacts to FTP”</strong>，其中，<strong>FTP site</strong>就是在<strong>系统管理-&gt;系统设置</strong>中，增加的一项名为<strong>“FTP repository hosts”</strong>的配置里已经设置好的host和端口。<strong>Source</strong>为构建生成的ipa包的存放路径。</p>
 <h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h3 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h3><blockquote>
 <p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
 </blockquote>
 <p>解决方法: 在系统管理–&gt;系统设置，增加”全局属性”，勾选Environment variables，增加键值对列表。如图，</p>
-<p><img src="http://img.blog.csdn.net/20160816160405862?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/20170904164437686.png" alt=""></p>
 <p>其中，PATH是固定的，值是在终端输入:</p>
 <blockquote>
 <p>$echo $PATH</p>
@@ -730,12 +730,12 @@
 </blockquote>
 <p>最后错误提示，<strong>EXPORT FAILED</strong>，可知是导出ipa包时出的错。根据提示”<strong>provisioningProfiles” dictionary in your Export Options property list.</strong>在网上搜了一下这个plist文件的用处，发现原来新版的<strong>Xcode 9</strong>将不会允许你访问钥匙串里的内容，除非设置<strong>allowProvisioningUpdates</strong>。</p>
 <p>具体的<a href="http://www.jianshu.com/p/b3f883b51be3" target="_blank" rel="external">解决方式</a>是: 自己动手写脚本替代插件（插件本质是帮助我们生成打包脚本代码）。于是，在JenKins里，点击项目的”<strong>配置</strong>“选项，在”<strong>构建</strong>“中，添加xcodebuild -archivePath，<br>xcodebuild -exportArchive -archivePath的脚本命令，输出ipa包。如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration8.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration8.png" alt=""></p>
 <p>具体的脚本命令如下:</p>
 <pre><code>xcodebuild -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/output/debug/BusinessMall.xcarchive&quot; -workspace BusinessMall.xcworkspace -sdk iphoneos -scheme &quot;BusinessMall&quot; -configuration &quot;Release&quot; archive
 xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/output/debug/BusinessMall.xcarchive&quot; -exportPath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/ipa/debug/&quot; -exportOptionsPlist &#39;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/ipa/debug/ExportOptions.plist&#39; -allowProvisioningUpdates
 </code></pre><p>脚本中的构建路径为JenKins下对应的archivePath，ipa包的输出路径。其中，需要特别注意的是<font color="ff6d55">ExportOptions.plist</font>的存放路径。手写ExportOptions.plist文件过于麻烦，不如让XCode帮我们生成。使用XCode 9打包并导出后的文件夹里就有这样一份文件可以直接拿过来用。修改后的plist文件，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/JenKins-Continuous-Integration9.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration9.png" alt=""></p>
 <p>之后就在项目所在的目录下，新建一个名为ipa/debug/的目录，将修改后的<strong>ExportOptions.plist</strong>文件放在这个目录下。在Jenkins中使用SVN管理源码，因此，我需要将这个新增的文件上传SVN，这样在我每次构建项目，输出ipa时就能直接从SVN上拉取这个plist文件，通过设置<strong>ExportOptions.plist’ -allowProvisioningUpdates</strong>就能访问钥匙串中的打包证书，输出ipa包了。</p>
 <p><font color="ff6d55">注意:</font>设置了<strong>allowProvisioningUpdates</strong>字段后，在打包过程中会弹出是否允许访问钥匙串内容的弹窗，这时需要多次点击“<strong>始终允许</strong>”按钮。</p>
 <h3 id="7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format"><a href="#7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format" class="headerlink" title="7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format."></a>7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format.</h3><blockquote>

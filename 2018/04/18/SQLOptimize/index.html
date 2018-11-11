@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Apr 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Thu Jun 28 2018 23:37:39 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 15:21:57 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/04/18/SQLOptimize/index.html",
     "headline": "从一个数据量过多的优化说起",
     "datePublished": "Wed Apr 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Thu Jun 28 2018 23:37:39 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 15:21:57 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -381,7 +381,7 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_headerThumbnail.jpg)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/SQLDataOptimize_headerThumbnail.jpg)">
     
             <p class="article-headline-p">
                 从一个数据量过多的优化说起
@@ -712,7 +712,7 @@ NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShort
 NSString *sql = [NSString stringWithFormat:@&quot;SELECT id, userName, userShortName, birthday, sex, phone, address FROM table_sickPerson WHERE clinicId = &#39;%@&#39; AND status like &#39;0&#39; AND isDelete like &#39;0&#39; AND SUBSTR(upper(userShortName),1,1) GLOB &#39;[^A-Z]&#39; &quot;,clinkId];
 </code></pre>
 <p>之前没有在 <strong>SQLite</strong> 中使用过 <strong>regex</strong> 还以为不支持呢，最后几经波折，在官网上找到了对应的文档！</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/SQLDataOptimize_thumbnail01.png" alt="SQLite官网"></p>
 <h2 id="ONE-PIECE"><a href="#ONE-PIECE" class="headerlink" title="ONE PIECE"></a>ONE PIECE</h2><h3 id="一个关于-CoreData-的问题"><a href="#一个关于-CoreData-的问题" class="headerlink" title="一个关于 CoreData 的问题"></a>一个关于 CoreData 的问题</h3><p><strong>Core Data</strong> 是 <strong>iOS5</strong> 之后才出现的一个框架，本质上是对 <strong>SQLite</strong> 的一个封装，它允许按照实体-属性-值模型组织数据，并以 <strong>XML</strong>，二进制文件或<strong>SQLite</strong> 数据文件的格式将其序列化。<strong>Core Data</strong> 允许用户使用代表实体和实体间关系的高层对象来操作数据。它也可以管理序列化的数据，提供对象生存期管理与 <strong>object graph</strong> 管理，包括存储。<strong>Core Data</strong> 直接与 <strong>SQLite</strong> 交互，避免开发者使用原本的 <strong>SQL</strong> 语句。</p>
 <p>这里在尝试使用 <strong>Core Data</strong> 时遇到一个问题，在获取模型路径，创建模型对象时，一直报错：</p>
 <pre><code class="objectivec">    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@&quot;testModel&quot; withExtension:@&quot;momd&quot;];
