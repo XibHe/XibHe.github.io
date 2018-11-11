@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sun Jul 23 2017 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Oct 14 2017 10:46:25 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 16:56:24 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2017/07/23/One Weird Trick to Lose Size/index.html",
     "headline": "(译)一个给iOS App瘦身的奇怪窍门",
     "datePublished": "Sun Jul 23 2017 00:00:00 GMT+0800",
-    "dateModified": "Sat Oct 14 2017 10:46:25 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 16:56:24 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -381,7 +381,7 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/LoseSize.png)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/LoseSize.png)">
     
             <p class="article-headline-p">
                 (译)一个给iOS App瘦身的奇怪窍门
@@ -510,7 +510,7 @@
     
         <p>流行的社交网络应用程序超过400M。每周更新一次，每年你下载的应用总量接近20G。</p>
 <p>自从我们推出了<a href="https://halide.cam" target="_blank" rel="external">Halide</a>，我们听到的最令人意想不到的赞美就是它的大小。 在11M，我们将在一年内推出较少数据的更新，而不是社交网络应用进行频繁更新。</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/LoseSizeMajor.png" alt=""><br>一个朋友问道：“所以你没有使用Swift。” 毕竟，Swift将其标准库捆绑到你的应用程序中，使应用大小增大。 Halide几乎完全是使用Swift编写的。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LoseSizeMajor.png" alt=""><br>一个朋友问道：“所以你没有使用Swift。” 毕竟，Swift将其标准库捆绑到你的应用程序中，使应用大小增大。 Halide几乎完全是使用Swift编写的。</p>
 <p>我们是怎么做的？ 我们从技术位开始吧。 <a href="https://developer.apple.com/library/content/qa/qa1795/_index.html" target="_blank" rel="external">这里</a>有很多关于如何减少App大小的重要评论。</p>
 <h2 id="测量，不要猜"><a href="#测量，不要猜" class="headerlink" title="测量，不要猜"></a>测量，不要猜</h2><p>从Xcode导出版本构建。 选择“Save for Ad Hoc deployment.”。假设你的应用程序支持<a href="https://developer.apple.com/videos/play/wwdc2015/404/" target="_blank" rel="external">app thinning</a>（此时真的应该这样做），请选择“Export for Specific Devices.”。确保选中“<font size="4" face="黑体"> Rebuild from bitcode </font>”。</p>
 <p>你不仅可以获得最终包的大小，还可以获得App Thinning报告。检查你的应用程序包，找到最大存储空间的占用者。</p>

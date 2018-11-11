@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Sat Sep 16 2017 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Oct 14 2017 10:44:54 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 16:45:46 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2017/09/16/wx.navigateTo/index.html",
     "headline": "小程序页面跳转",
     "datePublished": "Sat Sep 16 2017 00:00:00 GMT+0800",
-    "dateModified": "Sat Oct 14 2017 10:44:54 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 16:45:46 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -381,7 +381,7 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://odchyrav4.bkt.clouddn.com/wxnavigateTo_%20thumbnail.jpg)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/wxnavigateTo_thumbnail.jpg)">
     
             <p class="article-headline-p">
                 小程序页面跳转
@@ -543,7 +543,7 @@
 <li>navigateBack 则是将页面栈最后一个元素出栈，因此倒数第二个元素会成为最后一个元素，即变成「当前页面」。</li>
 </ul>
 <p>结合下面这个例子，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/wxnavigateTo_flow.png" alt="跳转流程"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wxnavigateTo_flow.png" alt="跳转流程"></p>
 <p>小程序包含 A、B、C、D 四个页面，A 页面为首页。小程序启动后，在 A 页面中，我们通过 navigateTo 跳转到 B 页面，然后在 B 页面中再通过 navigateTo 跳转到 C 页面。</p>
 <p>如果通过navigateTo跳转到 D 页面，则在D页面调用navigateBack会返回到C页面；<br>如果通过redirectTo跳转到 D 页面，则在D页面调用navigateBack会发现不是返回C 页面，而是返回到了 B 页面。</p>
 <p>因为调用redirectTo 跳转到 D 页面，redirectTo 会将当前页面出栈，即将 C 页面出栈，再将 D 页面入栈，这时候，页面栈中的元素则会变为 A、B、D。</p>

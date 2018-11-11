@@ -3401,7 +3401,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     <link href="http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/"/>
     <id>http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/</id>
     <published>2017-09-24T16:00:00.000Z</published>
-    <updated>2017-10-14T02:45:16.000Z</updated>
+    <updated>2018-11-11T08:43:23.414Z</updated>
     
     <content type="html"><![CDATA[<p>小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？</p>
 <p>之前一直从事iOS开发，对web前端没有过多了解。单凭一腔热血去开发小程序，初识比较迷茫，纠结于html和css的样式，js的数据交互等基础知识。但项目周期短，任务重，需要与pc，平板进行数据同步。就没有太多时间去理会前端基础知识，都是现学现用。</p>
@@ -3418,10 +3418,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
 <li>小程序变量不支持下划线命名，若使用下划线命名会造成变量无法赋值。</li>
 <li>避免快速点击，多次触发bindtap事件，造成打开多个相同页面。</li>
 </ul>
-<p>小程序写着还是很纠结的，这是内心的真实想法:</p>
-<blockquote>
-<p>一定是上辈子缺德事干多了，这辈子才会被安排写小程序！</p>
-</blockquote>
+<p>小程序写着还是很纠结的，这是内心的真实想法。</p>
 <p>通过这次开发小程序的机会，发现了自己的知识短板，正是这些短板让自己裹足不前。以下是短板高发区:</p>
 <ul>
 <li>在哪些工作上花费时间最多?</li>
@@ -3460,7 +3457,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
     <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
     <published>2017-09-15T16:00:00.000Z</published>
-    <updated>2017-10-14T02:44:54.000Z</updated>
+    <updated>2018-11-11T08:45:46.594Z</updated>
     
     <content type="html"><![CDATA[<p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
 <h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
@@ -3497,7 +3494,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
 <li>navigateBack 则是将页面栈最后一个元素出栈，因此倒数第二个元素会成为最后一个元素，即变成「当前页面」。</li>
 </ul>
 <p>结合下面这个例子，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/wxnavigateTo_flow.png" alt="跳转流程"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wxnavigateTo_flow.png" alt="跳转流程"></p>
 <p>小程序包含 A、B、C、D 四个页面，A 页面为首页。小程序启动后，在 A 页面中，我们通过 navigateTo 跳转到 B 页面，然后在 B 页面中再通过 navigateTo 跳转到 C 页面。</p>
 <p>如果通过navigateTo跳转到 D 页面，则在D页面调用navigateBack会返回到C页面；<br>如果通过redirectTo跳转到 D 页面，则在D页面调用navigateBack会发现不是返回C 页面，而是返回到了 B 页面。</p>
 <p>因为调用redirectTo 跳转到 D 页面，redirectTo 会将当前页面出栈，即将 C 页面出栈，再将 D 页面入栈，这时候，页面栈中的元素则会变为 A、B、D。</p>
@@ -3592,7 +3589,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     <link href="http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/"/>
     <id>http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/</id>
     <published>2017-08-31T16:00:00.000Z</published>
-    <updated>2017-10-14T02:45:30.000Z</updated>
+    <updated>2018-11-11T08:47:56.262Z</updated>
     
     <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
 <h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
@@ -3611,7 +3608,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
 <li>如未特殊约定，其他 API 接口都接受一个OBJECT作为参数。</li>
 <li>OBJECT中可以指定success, fail, complete来接收接口调用结果。<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1></li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
 <p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
 <p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
 <h1 id="开发中填的坑"><a href="#开发中填的坑" class="headerlink" title="开发中填的坑"></a>开发中填的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
@@ -3658,7 +3655,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     <link href="http://XibHe.github.io/2017/08/23/FilterError/"/>
     <id>http://XibHe.github.io/2017/08/23/FilterError/</id>
     <published>2017-08-22T16:00:00.000Z</published>
-    <updated>2017-10-14T02:45:39.000Z</updated>
+    <updated>2018-11-11T08:51:51.600Z</updated>
     
     <content type="html"><![CDATA[<p>一个类似于京东搜索结果页的筛选功能，侧边栏条件筛选器，根据不同的数据类型进行条件筛选及筛选条件的排列展示。</p>
 <h1 id="构建原理及使用到的技术点"><a href="#构建原理及使用到的技术点" class="headerlink" title="构建原理及使用到的技术点"></a>构建原理及使用到的技术点</h1><blockquote>
@@ -3672,7 +3669,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
 <p>选中的选项需要在二次筛选条件选择页中显示，选中的选项为默认展开的选项时，无需变更选项的位置，若选中的不是默认展开的选项，需要将选中的选项放到二次筛选条件选择页中，并代替筛选条件选择页中没被选择的默认展开的选项的位置，按照选中的时间顺序正序占据页面中的默认展开的选项的位置（举例说明：筛选条件选择页中的默认展开的选项是1、2、3、4、5，默认展开的选项选中的是2和4,然后用户点击查看更多的选项，先选了11然后又选了9的选项,根据逻辑，筛选条件选择页中显示的选项依次显示的是：11、2、9、4、5），若选中的选项被取消选择，选项的位置按照选中时的位置显示，不更改选项的位置。</p>
 </blockquote>
 <p>如图，二次筛选结果页和生产厂家搜索列表页</p>
-<center><br>    <img src="http://odchyrav4.bkt.clouddn.com/filterError_1.PNG?imageView/4/w/300"><br>    <img src="http://odchyrav4.bkt.clouddn.com/filterError_2.PNG?imageView/4/w/300"><br></center>
+<center><br>    <img src="https://xibhe.oss-cn-beijing.aliyuncs.com/filterError_1.PNG?imageView/4/w/300"><br>    <img src="https://xibhe.oss-cn-beijing.aliyuncs.com/filterError_2.PNG?imageView/4/w/300"><br></center>
 
 <p>当生产厂家筛选数据源大于6项时，只展示5个生产厂家，并显示“更多生产厂家 &gt;”的跳转提示。点击跳转至生产厂家搜索列表页面，在搜索页面会根据搜索关键字展示所有的生产厂家列表信息。该列表会展示上个页面勾选的生产厂家，并将其置于列表最前面。现在需要做的是: <font color="#DC143C">当勾选列表页中一个或多个生产厂家，该生产厂家是二次筛选结果页(上一个页面)中，默认展示5个生产厂家中从未出现的一个，是一个新的生产厂家。则需要替换掉二次筛选结果页，生产厂家一栏中未被勾选的一个或多个生产厂家，直到全部替换完成。</font></p>
 <blockquote>
@@ -3723,7 +3720,7 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     <link href="http://XibHe.github.io/2017/08/07/reconsiderUrlPush/"/>
     <id>http://XibHe.github.io/2017/08/07/reconsiderUrlPush/</id>
     <published>2017-08-06T16:00:00.000Z</published>
-    <updated>2017-10-14T02:45:09.000Z</updated>
+    <updated>2018-11-11T08:53:14.232Z</updated>
     
     <content type="html"><![CDATA[<p>在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webView页面。</p>
 <h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>点击商品进入到“商品详情”页(GoodInforH5WebViewController)，点击店铺进入“店铺详情”页(ShopInfoH5WebViewController)，其中(“商品详情”页和”店铺详情”页均为webView)。其中，店铺详情页和商品详情页可以相互跳转。</p>

@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Tue Dec 06 2016 18:31:54 GMT+0800">
-        <meta property="article:modified_time" content="Sat Oct 14 2017 10:48:12 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 17:05:51 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2016/12/06/iOS蓝牙开发简介  /index.html",
     "headline": "调试蓝牙扫码枪遇到的问题",
     "datePublished": "Tue Dec 06 2016 18:31:54 GMT+0800",
-    "dateModified": "Sat Oct 14 2017 10:48:12 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 17:05:51 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -532,17 +532,17 @@
 <li>CBCentralManager：中心设备（用来连接到外部设备的管家）</li>
 <li>CBPeripheralManager：外部设备（第三方的蓝牙4.0设备）</li>
 </ul>
-<p><img src="http://odchyrav4.bkt.clouddn.com/BLE.jpeg" alt="BLE"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/BLE.jpeg" alt="BLE"></p>
 <ul>
 <li>这两组api分别对应不同的业务场景，左侧叫做中心模式，就是以你的app作为中心，连接其他的外设的场景，而右侧称为外设模式，使用手机作为外设别其他中心设备操作的场景。</li>
 <li>服务和特征，特征的属性(service and characteristic):<br>每个设备都会有一些服务，每个服务里面都会有一些特征，特征就是具体键值对，提供数据的地方。每个特征属性分为这么几种：读，写，通知这么几种方式。</li>
 </ul>
 <p>外设、服务、特征间的关系</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/1442301743869760.png" alt="关系图"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/1442301743869760.png" alt="关系图"></p>
 <h1 id="连接测试"><a href="#连接测试" class="headerlink" title="连接测试"></a>连接测试</h1><p>检测蓝牙设备的连接强度，查询一定范围内的蓝牙设备列表。可以通过一款名为LightBlue的手机端软件来确定。在开启蓝牙的状态下，打开LightBlue搜索到当前范围内的设备列表，可以点击查看当前设备的UUID以及特征和服务的UUID，如图，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0254.PNG?imageView/4/w/300" alt="系统蓝牙"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0252.PNG?imageView/4/w/300" alt="设备列表"></p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/IMG_0253.PNG?imageView/4/w/300" alt="特征和服务的UUID"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/IMG_0254.png?imageView/4/w/300" alt="系统蓝牙"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/IMG_0252.png?imageView/4/w/300" alt="设备列表"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/IMG_0253.png?imageView/4/w/300" alt="特征和服务的UUID"></p>
 <h1 id="连接蓝牙扫码枪"><a href="#连接蓝牙扫码枪" class="headerlink" title="连接蓝牙扫码枪"></a>连接蓝牙扫码枪</h1><p>项目中需要连接蓝牙扫码枪，通过扫码枪扫描商品的条码，将得到的条码值传给终端设备。终端设备根据该条码值搜索该商品的全部信息。iPad开启蓝牙，通过设置蓝牙扫描枪，连接上iPad，但发现在调试状态下，并没有调用CBCentralManager的代理方法。使用LightBlue搜索当前范围内的蓝牙设备，无法找到当前连接到iPad上的蓝牙扫描枪。蓝牙扫描枪使用的是富立叶（cilico）ci6800这款。最后，看了产品说明，发现它的蓝牙模块是蓝牙2.0 + EDR。而不是最新的蓝牙4.0。在未做任何处理的情况下，iPad端任然可以所接收到扫码枪扫描条码后的到的码值。原来是扫码枪默认开启了HID模式，在该模式下iPad默认当前通过蓝牙连接的扫码枪为一个外接键盘，因此扫描后得到码值相当于通过敲击键盘输入。</p>
 <p>这样也造成了一个问题，iPad上所有带有输入功能的操作，都无法通过点击输入框弹出软键盘。因为系统会将扫码枪当做键盘，所有软键盘的弹出或者隐藏都是通过扫码枪做操作。但事实上扫码枪并不能控制键盘的弹出。通过google找到了一种据说是可以解决该问题的方法<a href="http://stackoverflow.com/questions/3326189/show-iphone-soft-keyboard-even-though-a-hardware-keyboard-is-connected/3837131#3837131" target="_blank" rel="external">点击查看</a>。但该方法极不稳定，当扫码枪的连接状态在休眠/唤醒两种状态下来回切换时就会失效。偶尔会成功弹出键盘。</p>
 <p>最后，在联系厂家需求帮助无果的情况下，不得不停止了该款扫码枪的适配。</p>
