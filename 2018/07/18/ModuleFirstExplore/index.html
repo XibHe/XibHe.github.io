@@ -244,7 +244,7 @@
 
     
         <meta property="article:published_time" content="Wed Jul 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Fri Nov 09 2018 10:25:35 GMT+0800">
+        <meta property="article:modified_time" content="Sun Nov 11 2018 15:11:11 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +267,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/07/18/ModuleFirstExplore/index.html",
     "headline": "组件化初探",
     "datePublished": "Wed Jul 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Fri Nov 09 2018 10:25:35 GMT+0800",
+    "dateModified": "Sun Nov 11 2018 15:11:11 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -562,7 +562,7 @@
 <li>H5交互中间件(<strong>LZWebViewComponents_category</strong>)</li>
 </ul>
 <p>项目最终的架构图如下，</p>
-<p><img src="http://phur65l7c.bkt.clouddn.com/ModuleArchitecture.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/ModuleArchitecture.png" alt=""></p>
 <p>其中，webView组件处理了三个H5功能模块的页面展示及数据交互，这里把它归为业务组件的范畴。</p>
 <p>以上是基础组件和功能组件的划分，正是有了这些泾渭分明的区分，才能为组件化之间解耦提供基础的支持。</p>
 <h2 id="MVC-VS-MVVM"><a href="#MVC-VS-MVVM" class="headerlink" title="MVC VS MVVM"></a>MVC VS MVVM</h2><p>对于组件化后继续使用 <strong>MVC</strong> 架构还是替换为 <strong>MVVM</strong>架构。这二者只是代码层次划分，主要是针对数据流动的方向而言。这里以解决问题为主，而不是生搬硬套架构。本片文章主要用来介绍组件化的实现流程，这里就不对架构做详细叙述了。但随着组件化的深入，这二者间终会有一个抉择，后续计划单独整理出二者之间关系的文章。</p>
@@ -570,9 +570,9 @@
 <h3 id="1-使用模板快速创建测试工程（组件所在的工程）"><a href="#1-使用模板快速创建测试工程（组件所在的工程）" class="headerlink" title="1.使用模板快速创建测试工程（组件所在的工程）"></a>1.使用模板快速创建测试工程（组件所在的工程）</h3><blockquote>
 <p>$ pod lib create LZBasisComponents</p>
 </blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_cocoaPods01.jpeg" alt="创建模板工程"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/ModuleFirstExplore_cocoaPods01.jpeg" alt="创建模板工程"></p>
 <p>按照提示，填写完以上信息后， Xcode 会自动打开创建的测试工程，在测试工程的文件夹下，可以看到的路径如下，</p>
-<p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_cocoaPods02.png" alt="模板工程文件路径"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/ModuleFirstExplore_cocoaPods02.png.jpeg" alt="模板工程文件路径"></p>
 <p>其中，将抽离出的基础组件 <strong>LZBasisComponents</strong> 托至 <strong>Classes</strong> 文件夹下，此时，<strong>cd</strong> 到模板工程 <strong>Example</strong> 所在目录，执行</p>
 <blockquote>
 <p>$ pod install</p>
@@ -715,7 +715,7 @@ master
 <p>注册 <strong>URL</strong> 的目的其实是一个服务发现的过程，在iOS领域中，服务发现的方式是不需要通过主动注册的，使用 <strong>runtime</strong> 就可以了。另外，注册部分的代码的维护是一个相对麻烦的事情，每一次支持新调用时，都要去维护一次注册列表。如果有调用被弃用了，是经常会忘记删项目的。<strong>runtime</strong> 由于不存在注册过程，那就也不会产生维护的操作，维护成本就降低了。</p>
 <p>由于通过 <strong>runtime</strong> 做到了服务的自动发现，拓展调用接口的任务就仅在于各自的模块，任何一次新接口添加，新业务添加，都不必去主工程做操作，十分透明。— casatwy</p>
 </blockquote>
-<p><img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_target-action.png" alt="target-action"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/ModuleFirstExplore_target-action.png" alt="target-action"></p>
 <p>如图，<strong>target-action</strong> 模式，即，目标-行为，行为即要调用的方法，目标即消息的接收对象（Objective-C 语言使用消息机制，类似但不同于方法调用）。整个过程为：用户点击按钮，触发某事件发生，该消息由按钮传到另外的接收对象，接收对象再做相应处理。接收对象可以为任何对象，但通常为控制器（<strong>Controller</strong>）。</p>
 <p><strong>target-action</strong> 的代码实现逻辑：</p>
 <blockquote>
@@ -848,7 +848,7 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ld: symbol(s) not found for architecture arm64
 </code></pre>
 <p>这个错误是由于向工程中某个组件下导入类时，未将导入类与与组件进行关联导致。根据错误提示 <strong>OBJC_CLASS_LZKanBingHomeViewController, referenced from: objc-class-ref in libLZWorkTableComponents.a</strong> 可以知道是工作台组件（<strong>LZWorkTableComponents</strong>）中的类（<strong>LZKanBingHomeViewController</strong>）未与组件建立关联。解决方式：在工程组件中选中 <strong>LZKanBingHomeViewController.m</strong> 切换到该类的 <strong>“Show the File inspector”</strong> 设置项中，检查文件的设置项。如图，</p>
-<p> <img src="http://odchyrav4.bkt.clouddn.com/ModuleFirstExplore_inspector.png" alt="inspector"></p>
+<p> <img src="https://xibhe.oss-cn-beijing.aliyuncs.com/ModuleFirstExplore_inspector.png" alt="inspector"></p>
 <p>设置 <strong>“Target Membership”</strong> 下 <strong>“LZWorkTableComponents”</strong> 为选中状态，重新编译，即可。 </p>
 <h3 id="3-Property-‘text’-cannot-be-found-in-forward-class-object-‘PlaceholderTextView’Property-‘text’-cannot-be-found-in-forward-class-object-‘PlaceholderTextView’"><a href="#3-Property-‘text’-cannot-be-found-in-forward-class-object-‘PlaceholderTextView’Property-‘text’-cannot-be-found-in-forward-class-object-‘PlaceholderTextView’" class="headerlink" title="3. Property ‘text’ cannot be found in forward class object ‘PlaceholderTextView’Property ‘text’ cannot be found in forward class object ‘PlaceholderTextView’"></a>3. Property ‘text’ cannot be found in forward class object ‘PlaceholderTextView’Property ‘text’ cannot be found in forward class object ‘PlaceholderTextView’</h3><p>头文件重复引用的问题，可以在各个基础组件中新建 <strong>.h</strong> 头文件，用于存放其他类会用到类的头文件，使用时直接导入。例如：</p>
 <pre><code class="objectivec">#import &lt;LZBasisComponents/LZBasisComponents.h&gt;
