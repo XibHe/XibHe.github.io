@@ -380,7 +380,7 @@ static Singleton *share = nil;
     <link href="http://XibHe.github.io/2018/07/18/ModuleFirstExplore/"/>
     <id>http://XibHe.github.io/2018/07/18/ModuleFirstExplore/</id>
     <published>2018-07-17T16:00:00.000Z</published>
-    <updated>2018-11-11T07:11:11.035Z</updated>
+    <updated>2018-11-11T07:15:37.462Z</updated>
     
     <content type="html"><![CDATA[<p>项目经过三年多的迭代，总共有三拨人接手，代码整体风格各异，迭代后的旧代码与新代码揉在一起，难解难分。各功能模块间相互依赖，头文件多次重复引用，编译一次大概花费5分钟。不得不进行代码组件化后重构。关于应用架构以及组件化的方案 <a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="external">casatwy</a> 已经说得很透彻了，在这里我就没有必要再班门弄斧了。这篇文章主要是记录自己项目组件化时如何拆分各个功能模块？抽离组件遇到了哪些问题？阶段性测试时遇到了哪些棘手的问题？因此，这篇文章的实践性较强，希望可以解决各位在组件化过程中遇到大部分问题。</p>
 <h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
