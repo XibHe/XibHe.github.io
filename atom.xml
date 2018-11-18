@@ -1672,7 +1672,7 @@ void callback(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *i
     <link href="http://XibHe.github.io/2018/02/03/WKWebView-disabuse/"/>
     <id>http://XibHe.github.io/2018/02/03/WKWebView-disabuse/</id>
     <published>2018-02-02T16:00:00.000Z</published>
-    <updated>2018-11-11T07:29:11.643Z</updated>
+    <updated>2018-11-18T14:01:49.939Z</updated>
     
     <content type="html"><![CDATA[<p>最近一周，用户频繁反应一个问题：切换到某个功能页面后，加载H5页面相应时间过长，当H5页面未展示出来时，此时，再切换到其他页面，App会卡死。我们试着在公司的网络环境下复现这个问题，但并未复现。</p>
 <h2 id="错误的尝试"><a href="#错误的尝试" class="headerlink" title="错误的尝试"></a>错误的尝试</h2><p>最开始时并没有意识到是webView的原因，反而因为前几天刚解决了一个UI线程的bug，将这个卡顿问题主观上当做线程问题去解决。基于此做了以下操作：</p>
@@ -2082,12 +2082,25 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 <p>上面是美团点评技术团队关于<a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能优化</a>的总结。</p>
 <p>对比我们项目中有哪些页面用到了 <strong>UIWebView</strong>，哪些用到了 <strong>WKWebView</strong>，发现当前程序中一共有8个主要模块，其中，一共有4个主要模块是通过加载H5页面展示的，还有一个模块中部分嵌套了H5页面。这些页面中，有三个页面使用 <strong>WkWebView</strong> 加载，剩下的使用的是 <strong>UIWebView</strong> 加载页面，发生卡顿的页面多是频繁初始化 <strong>UIWebView</strong> 加载H5时发生的。</p>
 <p>这里我们的项目中使用<strong>UIWebView</strong> 和 <strong>WKWebView</strong> 的地方有很多，没有一个管理类去居中调控的话，后期维护起来会很耗时，而且很容易出现bug。下一步的优化就是要构建这样一种集构建，配置，分发，操控为一身的通用类。</p>
+<h2 id="Apple-Staff-的建议"><a href="#Apple-Staff-的建议" class="headerlink" title="Apple Staff 的建议"></a>Apple Staff 的建议</h2><p>关于在 <strong>WKwebView</strong> 中如何获取 <strong>Cookies</strong>，苹果的工程师也给出了建议<br>（<strong>May 11, 2017 1:40 AM</strong>）</p>
+<blockquote>
+<p>There isn’t a solution that works in all cases, alas.  All the approaches I know of have issues:</p>
+<ul>
+<li>NSHTTPCookieStorage isn’t reliable because WKWebView does all of its networking in a separate process, so you can’t get at the NSHTTPCookieStorage object being used by the web view.</li>
+<li>JavaScript (like the WKUserScript example you referenced) doesn’t see any cookies tagged with HttpOnly.</li>
+<li>WKWebsiteDataStore lets you know of the existence of the cookie but doesn’t let you get the contents.</li>
+<li>The delegate approach you showed (which I’d not seen before, so brav{o,a} for your creativity!) won’t see all the cookies because not all responses are navigation responses.</li>
+</ul>
+<p>Under normal circumstances I’d recommend that you file an <a href="https://developer.apple.com/bug-reporting/" target="_blank" rel="external">enhancement request</a> requesting a better approach for this, but in this case I happen to know that WebKit Engineering is well aware of this issue (r. 31024691).<br>Right now the only approach that works in all cases is to use UIWebView, which is obviously less than ideal.</p>
+</blockquote>
+<p>但最后也提到了：目前，在所有情况下唯一有效的方法是使用 <strong>UIWebView</strong>，但这显然是不太理想的方案，和使用 <strong>WKWebView</strong> 的初衷相违背。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能、体验分析与优化</a></p>
 <p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">webView:decidePolicyForNavigationAction:decisionHandler:</a></p>
 <p><a href="https://mp.weixin.qq.com/s/rhYKLIbXOsUJC_n6dt9UfA" target="_blank" rel="external">WKWebView 那些坑</a></p>
 <p><a href="https://helpcdn.aliyun.com/knowledge_detail/60199.html" target="_blank" rel="external">iOS WebView 中的 Cookie 处理业务场景“IP直连”方案说明</a></p>
 <p><a href="https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455641-webview?language=objc" target="_blank" rel="external">Developer wknavigationdelegate documentation</a></p>
 <p><a href="https://forums.developer.apple.com/thread/50057" target="_blank" rel="external">WKWebView and UIWebView Cookie</a></p>
+<p><a href="https://forums.developer.apple.com/thread/77279" target="_blank" rel="external">How to get all cookies from WKWebView</a></p>
 <p>–EOF–</p>
 <p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
 ]]></content>
