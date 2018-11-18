@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://XibHe.github.io/2018/08/10/RebuildFlagsSignaling/</loc>
+    
+    <lastmod>2018-11-18T14:16:30.277Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://XibHe.github.io/2018/02/03/WKWebView-disabuse/</loc>
     
     <lastmod>2018-11-18T14:01:49.939Z</lastmod>
@@ -173,13 +180,6 @@
     <loc>http://XibHe.github.io/2018/10/25/OffLineWithSync/</loc>
     
     <lastmod>2018-11-05T06:13:35.697Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://XibHe.github.io/2018/08/10/RebuildFlagsSignaling/</loc>
-    
-    <lastmod>2018-08-11T09:15:41.453Z</lastmod>
     
   </url>
   

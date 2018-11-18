@@ -330,7 +330,7 @@ static Singleton *share = nil;
     <link href="http://XibHe.github.io/2018/08/10/RebuildFlagsSignaling/"/>
     <id>http://XibHe.github.io/2018/08/10/RebuildFlagsSignaling/</id>
     <published>2018-08-09T16:00:00.000Z</published>
-    <updated>2018-08-11T09:15:41.453Z</updated>
+    <updated>2018-11-18T14:16:30.277Z</updated>
     
     <content type="html"><![CDATA[<p>总有一个理由去重构项目。也许你是一个的取得了一些成功，而你的工程师们吵着平台需要改进，要从头开始进行项目重构的CEO。也许你是主管或IT领导，在反复权衡重写老旧项目需要付出多大的成本。也许你是一个已经开始重写老项目的主程(我是疯了吗?)。无论如何，你可能已经知道重构老项目，像关于税收改革或无政府状态的讨论一样，只是稍微有点危险，你永远不知道自己在重构时实际遇到的难题和之前想象中会遇到的根本不是那么回事。</p>
 <p>但是，尽管一些德高望重的人（当然，其实只是 <a href="https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/" target="_blank" rel="external">Joel Spolsky</a> ），对项目进行重构，即使在某些时候，这是正确的选择。但重建仍是一场危险的旅程，你的重构工作很可能由于一些无法预知的难题而失败。</p>
