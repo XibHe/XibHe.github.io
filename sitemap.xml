@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://XibHe.github.io/quotes/index.html</loc>
+    
+    <lastmod>2018-11-23T01:49:24.618Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://XibHe.github.io/2018/08/10/RebuildFlagsSignaling/</loc>
     
     <lastmod>2018-11-18T14:16:30.277Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://XibHe.github.io/about/index.html</loc>
     
     <lastmod>2018-11-11T09:35:01.579Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://XibHe.github.io/quotes/index.html</loc>
-    
-    <lastmod>2018-11-11T09:16:32.495Z</lastmod>
     
   </url>
   
