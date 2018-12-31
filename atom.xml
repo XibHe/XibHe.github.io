@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2018-11-05T06:13:35.697Z</updated>
+  <updated>2018-12-31T15:32:19.822Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,46 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>回望2018</title>
+    <link href="http://XibHe.github.io/2018/12/31/2018year-endsummary/"/>
+    <id>http://XibHe.github.io/2018/12/31/2018year-endsummary/</id>
+    <published>2018-12-30T16:00:00.000Z</published>
+    <updated>2018-12-31T15:32:19.822Z</updated>
+    
+    <content type="html"><![CDATA[<p>2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。</p>
+<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多公司离职，月底入职了现在的公司。回想这两年的职业生涯，心中百感交集。有自己独挡一面的喜悦，也有迟迟无法突破技术瓶颈的苦闷，但这一切都会随着时间的推移而过去。</p>
+<blockquote>
+<p>除了这一生，我们又没有别的时间。</p>
+</blockquote>
+<p>入职了新公司，终于有机会学习自己一直想学的 React Native 跨平台开发技术。</p>
+<h2 id="总结收获"><a href="#总结收获" class="headerlink" title="总结收获"></a>总结收获</h2><blockquote>
+<p>总结，是事后对某一阶段的工作或某项工作的完成情况，包括取得的成绩、存在的问题及得到的经验和教训加以回顾和分析，为今后的工作提供帮助和借鉴的一种书面材料。</p>
+</blockquote>
+<h2 id="改进方案及目的"><a href="#改进方案及目的" class="headerlink" title="改进方案及目的"></a>改进方案及目的</h2><h2 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h2><p>技能</p>
+<p>心态</p>
+<p>工具</p>
+<h2 id="共勉"><a href="#共勉" class="headerlink" title="共勉"></a>共勉</h2><p>不怕路长，就怕心老！</p>
+<p>保持好奇，继续热爱！</p>
+<p>自己重新定位，选择真正适合自己的方向，重新出发，发现更好的自己。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。&lt;/p&gt;
+&lt;h2 id=&quot;新工作&quot;&gt;&lt;a href=&quot;#新工作&quot; class=&quot;headerlink&quot; title=&quot;新工作&quot;&gt;&lt;/a&gt;新工作&lt;/h2
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://XibHe.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="年终总结" scheme="http://XibHe.github.io/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>离线与同步</title>
@@ -2126,7 +2166,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
     <link href="http://XibHe.github.io/2017/12/30/2017deadline/"/>
     <id>http://XibHe.github.io/2017/12/30/2017deadline/</id>
     <published>2017-12-29T16:00:00.000Z</published>
-    <updated>2018-11-11T07:35:43.281Z</updated>
+    <updated>2018-12-31T14:08:55.938Z</updated>
     
     <content type="html"><![CDATA[<p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
 <h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>对我这个年龄来说，结婚的很少，更别提孩子了。但我已经为人夫，为人父了！似乎用两三年的时间走完了别人十几年的路。太过年轻的我，总会时不时忘记自己身为父亲的责任，我媳妇(花花)总会不厌其烦的唤起我作为父亲该承担的责任。家里的大事小情，在花花的安排下井井有条。孩子的奶粉，尿不湿也不用我来操心，为了分担我的压力，花花早早给儿子断了母乳，离家挣钱。对花花我即心疼又愧疚，我不能一直用年轻作为借口，逃避身为男人的责任。<strong>家庭永远是第一位</strong>！</p>
@@ -2171,7 +2211,7 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
 </blockquote>
 <h2 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h2><p>家人朋友身体健康，自己技术日臻成熟。</p>
 <p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
 ]]></content>
     
     <summary type="html">
@@ -3725,229 +3765,6 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
       <category term="二次筛选" scheme="http://XibHe.github.io/tags/%E4%BA%8C%E6%AC%A1%E7%AD%9B%E9%80%89/"/>
     
       <category term="NSArray enumerate" scheme="http://XibHe.github.io/tags/NSArray-enumerate/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>重构webView页面间跳转逻辑</title>
-    <link href="http://XibHe.github.io/2017/08/07/reconsiderUrlPush/"/>
-    <id>http://XibHe.github.io/2017/08/07/reconsiderUrlPush/</id>
-    <published>2017-08-06T16:00:00.000Z</published>
-    <updated>2018-11-11T08:53:14.232Z</updated>
-    
-    <content type="html"><![CDATA[<p>在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webView页面。</p>
-<h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>点击商品进入到“商品详情”页(GoodInforH5WebViewController)，点击店铺进入“店铺详情”页(ShopInfoH5WebViewController)，其中(“商品详情”页和”店铺详情”页均为webView)。其中，店铺详情页和商品详情页可以相互跳转。</p>
-<h1 id="当前逻辑"><a href="#当前逻辑" class="headerlink" title="当前逻辑"></a>当前逻辑</h1><p>在继承于UINavigationController的自定义导航控制器MyNavigationController里做判断，重写方法:</p>
-<pre><code class="objectivec">- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if (self.viewControllers.count &gt; 0)
-    {
-        if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)])
-        {
-            self.interactivePopGestureRecognizer.delegate = nil;
-        }
-        viewController.hidesBottomBarWhenPushed = YES;
-        if ([viewController isKindOfClass:[GoodInforH5WebViewController class]] || [viewController isKindOfClass:[ShopInfoH5WebViewController class]]) {
-            viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(backRootViewController) image:@&quot;navigation_back&quot; highlightImage:@&quot;navigation_back&quot;];
-        }
-    }     
-   [super pushViewController:viewController animated:YES];
-}
-</code></pre>
-<p>重写GoodInforH5WebViewController和ShopInfoH5WebViewController的返回事件。即，backRootViewController。在backRootViewController方法里做相应页面的跳转操作。</p>
-<p>在GoodInforH5WebViewController页面的viewWillAppear方法里进行页面跳转逻辑的判断。如下:</p>
-<font color="#DC143C"> 前方高能预警!!! </font>
-
-<pre><code class="objectivec">- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
-
-    //[_webView reload];
-    CLog(@&quot;self.navigationController.viewControllers count = %ld&quot;,[self.navigationController.viewControllers count]);
-    CLog(@&quot;self.navigationController.viewControllers = %@&quot;,self.navigationController.viewControllers);
-    // 若是经首页;分类列表页面;订单中心;商业店铺列表页;我的收藏,且viewControllers&lt;5,则设置pop回上一页的标识;商家促销,且viewControllers&lt;5,则设置pop回上一页的标识
-    if ([_fromWebUrl isEqualToString:@&quot;home_bussinessUrl&quot;] || ([_fromWebUrl isEqualToString:@&quot;assortment_searchByCate&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5) ||
-        [_fromWebUrl isEqualToString:@&quot;sellOrderCenter_buyOrders&quot;] || 
-        ([_fromWebUrl isEqualToString:@&quot;My_collectionListUrl&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5) ||
-         [_fromWebUrl isEqualToString:@&quot;businessShopSearchList_goodInfo&quot;] ||  
-         ([_fromWebUrl isEqualToString:@&quot;ActivityViewController&quot;] &amp;&amp; 
-         [self.navigationController.viewControllers count] &lt; 5)  || ([_fromWebUrl isEqualToString:@&quot;BusinessPromoteViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5)) {
-        [[NSUserDefaults standardUserDefaults] setObject:@&quot;1&quot; forKey:KPopHomeIndentify];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else if (([_fromWebUrl isEqualToString:@&quot;GoodsListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5) || [_fromWebUrl isEqualToString:@&quot;search_searchByKey&quot;] || [_fromWebUrl isEqualToString:@&quot;business_shopSearch&quot;] || ([_fromWebUrl isEqualToString:@&quot;home_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 6) || [_fromWebUrl isEqualToString:@&quot;businessShopSearchList_shopInfo&quot;] || ([_fromWebUrl isEqualToString:@&quot;home_productDetailUrl&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 4) || ([_fromWebUrl isEqualToString:@&quot;ShopCarListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 4)){
-        // 从GoodsListViewController跳转至原生商品详情页面;从顶部搜索等页面跳转至原生商品详情页面; 从商业店铺搜索结果列表页跳转,点击返回至self.viewControllers[2]的页面;若是从搜索首页，分类的搜索结果页跳转而来,返回搜索商品列表页;若是从商业店铺列表页跳转而来，则返回到店铺详情的H5页面;从首页商品--&gt;商品详情--&gt;店铺详情--&gt;商品详情，并且viewControllers&gt;=4，则返回店铺详情页;从原生购物车跳转而来,且viewControllers&gt;=4，则返回店铺详情页;
-        [[NSUserDefaults standardUserDefaults] setObject:@&quot;2&quot; forKey:KPopHomeIndentify];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else if (([_fromWebUrl isEqualToString:@&quot;shopInfor_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 7) || ([_fromWebUrl isEqualToString:@&quot;assortment_searchByCate&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 5) || ([_fromWebUrl isEqualToString:@&quot;My_collectionListUrl&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 5) || ([_fromWebUrl isEqualToString:@&quot;ActivityViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 5) || ([_fromWebUrl isEqualToString:@&quot;GoodsListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] == 5)) {
-        // 若是从商业店铺详情搜索跳转而来;若是从分类列表页跳转而来;若是从我的收藏跳转而来，且viewControllers&gt;=5，则返回店铺详情页面。
-        [[NSUserDefaults standardUserDefaults] setObject:@&quot;3&quot; forKey:KPopHomeIndentify];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else if (([_fromWebUrl isEqualToString:@&quot;home_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 6) || ([_fromWebUrl isEqualToString:@&quot;GoodsListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 6)) {
-        // 从搜索商品列表--&gt;商品详情--&gt;店铺详情--&gt;商品详情,且viewControllers&gt;=6，则返回店铺详情页；从订单详情页--&gt;商品详情--&gt;店铺详情--&gt;商品详情,且viewControllers&gt;=6，则返回店铺详情页；
-        [[NSUserDefaults standardUserDefaults] setObject:@&quot;4&quot; forKey:KPopHomeIndentify];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else if ([_fromWebUrl isEqualToString:@&quot;shopInfor_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 7) {
-        // 从搜索商品列表--&gt;商品详情--&gt;店铺详情--&gt;商品详情,且viewControllers&gt;=7，则返回店铺详情页。
-        [[NSUserDefaults standardUserDefaults] setObject:@&quot;5&quot; forKey:KPopHomeIndentify];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else {
-        [[NSUserDefaults standardUserDefaults] setObject:@&quot;0&quot; forKey:KPopHomeIndentify];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-</code></pre>
-<p>这里是通过设置一个名为KPopHomeIndentify的NSUserDefaults对象用于存储navigationController中，当前页面的层级。通过设置一个名为_fromWebUrl的字符串，用于判断是哪个页面跳转而来的。二者结合起来，设置经过GoodInforH5WebViewController页面的返回逻辑。</p>
-<p>当触发商品详情页的跳转链接时，需要在webView的shouldStartLoadWithRequest代理方法里做判断，当request的绝对地址中包含店铺详情的路径时，则push到店铺详情页。如下:</p>
-<pre><code class="objectivec">#pragma mark - UIWebViewDelegate
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    _absoluteUrl = [request.URL absoluteString];
-
-    // push到店铺详情页面
-    if ([_absoluteUrl rangeOfString:@&quot;appLink/showBusyInfo?&quot;].location != NSNotFound) {
-
-        ShopInfoH5WebViewController *shopInforH5WebVC = [[ShopInfoH5WebViewController alloc] init];
-        shopInforH5WebVC.webUrl = _absoluteUrl;
-        shopInforH5WebVC.fromWebUrl = _fromWebUrl;
-        [self.navigationController pushViewController:shopInforH5WebVC animated:YES];
-
-        return NO;
-    } else {
-        return YES;
-    }
-}
-</code></pre>
-<p>再回到自定义导航控制器MyNavigationController重写的返回事件中:</p>
-<pre><code class="objectivec">- (void)backRootViewController
-{
-    CLog(@&quot;self.viewControllers = %@&quot;,self.viewControllers);
-    NSString *popIndentify = [[NSUserDefaults standardUserDefaults] objectForKey:KPopHomeIndentify];
-    UIViewController *viewCtl;
-    if ([popIndentify isEqualToString:@&quot;0&quot;]) {
-        viewCtl = self.viewControllers[0];
-    } else if ([popIndentify isEqualToString:@&quot;1&quot;]) {
-        viewCtl = self.viewControllers[1];
-    } else if ([popIndentify isEqualToString:@&quot;2&quot;]) {
-        viewCtl = self.viewControllers[2];
-    } else if ([popIndentify isEqualToString:@&quot;3&quot;]) {
-        viewCtl = self.viewControllers[3];
-    } else if ([popIndentify isEqualToString:@&quot;4&quot;]) {
-        viewCtl = self.viewControllers[4];
-    } else if ([popIndentify isEqualToString:@&quot;5&quot;]) {
-        viewCtl = self.viewControllers[5];
-    }
-    [self popToViewController:viewCtl animated:YES];
-}
-</code></pre>
-<p>同样是结合GoodInforH5WebViewController中设置好的KPopHomeIndentify进行判断。根据KPopHomeIndentify存储的导航控制器中的页面层级，在导航控制器中通过这些层级获取到对应的页面viewController，最后popToViewController到这些页面中。</p>
-<h1 id="重构原因"><a href="#重构原因" class="headerlink" title="重构原因"></a>重构原因</h1><p>看了上面那一片高能预警的代码逻辑，重构原因就不言而喻了。</p>
-<blockquote>
-<p>*逻辑判断复杂，每次新增与商品详情，店铺详情相关页面时，都需要新增一系列对应页面层级的判断逻辑；</p>
-<p>*给调试造成困难，与商品详情，店铺详情关联的页面很多，需要进行多场景的关联测试；</p>
-<p>*最重要的一点:每次从商品详情页跳转到店铺详情都需要重新重新alloc一个新的ShopInfoH5WebViewController对象，耗费了很多资源。</p>
-</blockquote>
-<h1 id="重构逻辑"><a href="#重构逻辑" class="headerlink" title="重构逻辑"></a>重构逻辑</h1><p>通过设置NSUserDefaults存储页面层级方式进行页面跳转的逻辑，不易操纵，并且非常的不合理，也降低了代码的可读性。设想一下，这里之所以明确不同跳转页面在navigationController中的层级关系，是为了返回操作能回退到指定页面。而导致该冗余代码的罪魁祸首是:每次触发商品详情页或店铺详情页的跳转链接时，都会重新alloc一个新的对象。在进行多次跳转操作后，navigationController中控制的层级就会一直增加，若想在pop操作时跳转到指定页面，就必须明确所要跳转页面在导航控制器中的层级。</p>
-<p>那接下来的操作就很明确了，首先移除GoodInforH5WebViewController中viewWillAppear里的一堆判断代码；然后，在webView的代理方法shouldStartLoadWithRequest中增加跳转判断，如下:</p>
-<pre><code class="objectivec">#pragma mark - UIWebViewDelegate
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    _absoluteUrl = [request.URL absoluteString];
-    CLog(@&quot;_absoluteUrl = %@&quot;,_absoluteUrl);
-        // push到商业店铺详情页面
-    if ([_absoluteUrl rangeOfString:@&quot;appLink/showBusyInfo?&quot;].location != NSNotFound) {
-        UIViewController *shopInfoH5WebViewController;
-        for (shopInfoH5WebViewController in self.navigationController.viewControllers) {
-            if ([shopInfoH5WebViewController isKindOfClass:[ShopInfoH5WebViewController class]]) {
-                //                addExtractBankCardVCIndex = [self.navigationController.viewControllers indexOfObject:addExtractBankCardVC];
-                [self.navigationController popToViewController:shopInfoH5WebViewController animated:YES];
-                break;
-            } else if ([shopInfoH5WebViewController isKindOfClass:[GoodInforH5WebViewController class]]) {
-                ShopInfoH5WebViewController *shopInforH5WebVC = [[ShopInfoH5WebViewController alloc] init];
-                shopInforH5WebVC.webUrl = _absoluteUrl;
-                shopInforH5WebVC.fromWebUrl = _fromWebUrl;
-                [self.navigationController pushViewController: shopInforH5WebVC animated:YES];
-                break;
-            }
-       }       
-       return NO;  
-   } else {
-       return YES;
-   }    
-}
-</code></pre>
-<p>这里遍历navigationController.viewControllers中所有视图控制器。如果存在店铺详情(ShopInfoH5WebViewController)对象类，则直接popToViewController到该控制器中；如果不存在，则alloc一个新的店铺详情(ShopInfoH5WebViewController)，并pushViewController到该页面。</p>
-<p>最后仍然需要在自定义导航控制器MyNavigationController重写的返回事件（backRootViewController）中做跳转的逻辑判断。如下:</p>
-<pre><code class="objectivec">- (void)backRootViewController
-{
-    CLog(@&quot;self.viewControllers = %@&quot;,self.viewControllers);
-    // 当前视图控制器
-    UIViewController *currentVC = [self.viewControllers lastObject];
-    // 视图控制器的层级
-    NSInteger currentVCIndex = [self.viewControllers indexOfObject:currentVC];
-    // 上一个页面的视图控制器
-    UIViewController *previousVC = self.viewControllers[currentVCIndex - 1];
-    if ([currentVC isKindOfClass:[GoodInforH5WebViewController class]]) {
-        if ([previousVC isKindOfClass:[ShopInfoH5WebViewController class]]) {
-            [self popToViewController:previousVC animated:YES];
-        } else {
-            [self popViewControllerAnimated:YES];
-        }
-    } else if ([currentVC isKindOfClass:[ShopInfoH5WebViewController class]]) {
-    // 其他会跳转到店铺页面视图的跳转逻辑
-        UIViewController *previoussLastVC;
-        if ((currentVCIndex - 2) &gt;= 0) {
-           previoussLastVC = self.viewControllers[currentVCIndex - 2];
-        } else {
-            previoussLastVC = [self.viewControllers firstObject];
-        }
-        if ([previousVC isKindOfClass:[GoodInforH5WebViewController class]] ) {
-            // 我的积分跳转
-            if ([previoussLastVC isKindOfClass:[OrderDetailsViewController class]]) {
-                [self popToViewController:previoussLastVC animated:YES];
-            }
-            // 我的收藏
-            else if ([previoussLastVC isKindOfClass:[MyCollectionViewController class]]) {
-                [self popToViewController:previoussLastVC animated:YES];
-            }
-            // 分类
-            else if ([previoussLastVC isKindOfClass:[LonchH5WebController class]] &amp;&amp; [self.viewControllers[0] isKindOfClass:[AssortmentViewController class]]) {
-                [self popToViewController:previoussLastVC animated:YES];
-            }
-            // 首页，分类搜索结果页
-            else if ([previoussLastVC isKindOfClass:[SearchResultViewController class]]) {
-                [self popToViewController:previoussLastVC animated:YES];
-            }
-            else {
-                [self popToRootViewControllerAnimated:YES];
-            }
-        } else {
-            [self popViewControllerAnimated:YES];
-        }
-     }      
-}
-</code></pre>
-<p>这里通过获取当前页面层级，以及当前页面上一个页面的层级，通过这些层级做相应的跳转操作:</p>
-<blockquote>
-<p>如果当前页面是商品详情页(GoodInforH5WebViewController)，再进一步判断它的上个页面是否为店铺详情页(ShopInfoH5WebViewController)，若是则popToViewController到上个页面，否则直接popViewControllerAnimated；</p>
-<p>如果当前页面是店铺详情页(ShopInfoH5WebViewController)，则需要判断当前视图层级是否越界(当前页面层级currentVCIndex不会超过3级，可能会遇到导航控制器中只有1个视图控制器的情况)，这里与商品详情页不同的是:增加了其它会跳转到店铺页面视图的跳转逻辑。需要对这些页面（积分、我的收藏、分类、搜索结果页）的跳转进行判断。</p>
-</blockquote>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>事不过三，过则重构!</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webVi
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
-    
-    
-      <category term="重构" scheme="http://XibHe.github.io/tags/%E9%87%8D%E6%9E%84/"/>
     
   </entry>
   
