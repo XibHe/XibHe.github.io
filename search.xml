@@ -6,8 +6,9 @@
       <title><![CDATA[回望2018]]></title>
       <url>/2018/12/31/2018year-endsummary/</url>
       <content type="html"><![CDATA[<p>2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。曾经，好好安放；未来，一步步来! </p>
-<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多的公司离职，月底入职新公司。从提出离职到入职新公司中间不超过一周，也就是休息了一个周末后就到新公司上班了。这是我职业生涯中第一次以这样一种方式转变。想来没有什么比<a href="https://zh.wikipedia.org/wiki/熱插拔" target="_blank" rel="external">热插拔</a>这个计算机用于来形容更合适的词了。</p>
-<p>入职新公司，终于有机会接触自己一直想深入理解的 <strong>React Native</strong> 跨平台开发技术。原生客户端开发的关注点应该放在移动设备 <strong>Web</strong> 应用程序上（例如使用 PWA）和 <strong>React Native</strong>，<strong>Flutter</strong> 等引领的混合开发领域。</p>
+<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多的公司离职，月底入职新公司。从提出离职到入职新公司中间不超过一周，也就是休息了一个周末后就到新公司上班了。这是我代码生涯中第一次以这样一种方式转变。想来没有什么比<a href="https://zh.wikipedia.org/wiki/熱插拔" target="_blank" rel="external">热插拔</a>这个计算机用语更合适的词来形容了。</p>
+<p>入职新公司，终于有机会学习自己一直想深入理解的 <strong>React Native</strong> 跨平台开发技术。可以学习团队最近几年在混合开发领域不断积累的技术沉淀，不用再自己摸石头过河，是一件多么幸运的事情啊！顺便推广一波我们团队在掘金的技术博客—<a href="https://juejin.im/user/5b3f46c2e51d451925626977" target="_blank" rel="external">WirelessSprucetec</a> </p>
+<p>原生客户端开发的关注点应该放在移动设备 <strong>Web</strong> 应用程序上（例如使用 PWA）和 <strong>React Native</strong>，<strong>Flutter</strong> 等引领的混合开发领域。</p>
 <blockquote>
 <p>种一棵树最好的时间是十年前。其次是现在。</p>
 </blockquote>
@@ -5721,7 +5722,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#104;&#x75;&#x61;&#104;&#x75;&#x61;&#97;&#x69;&#104;&#x65;&#104;&#101;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#x6d;">&#104;&#x75;&#x61;&#104;&#x75;&#x61;&#97;&#x69;&#104;&#x65;&#104;&#101;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#104;&#117;&#x61;&#x68;&#117;&#97;&#x61;&#105;&#x68;&#x65;&#104;&#101;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#109;">&#104;&#117;&#x61;&#x68;&#117;&#97;&#x61;&#105;&#x68;&#x65;&#104;&#101;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -5732,6 +5733,12 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -5895,12 +5902,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
