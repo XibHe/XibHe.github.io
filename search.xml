@@ -7,7 +7,7 @@
       <url>/2018/12/31/2018year-endsummary/</url>
       <content type="html"><![CDATA[<p>2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。曾经，好好安放；未来，一步步来! </p>
 <h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多的公司离职，月底入职新公司。从提出离职到入职新公司中间不超过一周，也就是休息了一个周末后就到新公司上班了。这是我代码生涯中第一次以这样一种方式转变。想来没有什么比<a href="https://zh.wikipedia.org/wiki/熱插拔" target="_blank" rel="external">热插拔</a>这个计算机用语更合适的词来形容了。</p>
-<p>入职新公司，终于有机会学习自己一直想深入理解的 <code class="highlighter-rouge">React Native</code> 跨平台开发技术。可以学习团队最近几年在混合开发领域不断积累的技术沉淀，不用再自己摸石头过河，是一件多么幸运的事情啊！顺便推广一波我们团队在掘金的技术博客—<a href="https://juejin.im/user/5b3f46c2e51d451925626977" target="_blank" rel="external">WirelessSprucetec</a> </p>
+<p>入职新公司，终于有机会学习自己一直想深入理解的 <code class="highlighter-rouge">React Native</code> 跨平台开发技术。可以学习团队最近几年在混合开发领域不断积累的技术沉淀，不用再自己摸石头过河，是一件多么幸运的事情啊！顺便推广一波我们团队在掘金的技术博客 —  <a href="https://juejin.im/user/5b3f46c2e51d451925626977" target="_blank" rel="external">WirelessSprucetec</a> </p>
 <p>原生客户端开发的关注点应该放在移动设备 <code class="highlighter-rouge">Web</code> 应用程序上（例如使用 <code class="highlighter-rouge">PWA</code>）和 <code class="highlighter-rouge">React Native</code>，<code class="highlighter-rouge">Flutter</code> 等引领的混合开发领域。</p>
 <blockquote>
 <p>种一棵树最好的时间是十年前。其次是现在。</p>
@@ -19,15 +19,15 @@
 <li><a href="https://xibhe.com/2018/04/18/SQLOptimize/" target="_blank" rel="external">从一个数据量过多的优化说起</a></li>
 <li><a href="https://xibhe.com/2018/05/28/Compiling/" target="_blank" rel="external">https://xibhe.com/2018/05/28/Compiling/</a></li>
 </ul>
-<p>技术上的提升也是建立在解决某些疑难问题上的，有时觉得这些需要花费很多时间才能解决的问题，甚至根本不算是问题。因为产生这些疑难 bug 的根本原因是：自己没有将知识点掌握通透。</p>
+<p>技术上的提升也是建立在解决某些疑难问题上的，有时觉得这些需要花费很多时间才能解决的问题，甚至根本不算是问题。因为产生这些疑难 <code class="highlighter-rouge">bug</code> 的根本原因是：自己没有将知识点掌握通透。</p>
 <blockquote>
 <p>学习的第一步是知道自己学习的这个知识问题是什么，答案是什么，然后找到这些问题和答案之间的关系，这个关系是我们需要学习的东西，最后能把这个关系通过通俗易懂的语言输出出来，那么这个知识你就学会了。</p>
 </blockquote>
 <p>2019年将继续总结自己在开发中遇到的问题，将心得体会写成博客分享出来。同时，也发现以往博客的一些问题，要么是在某一方面将操作步骤写的特别细致，但又没有触及到问题的本质；要么在某一点上一笔带过，没有罗列出具体流程。同时，研究的技术点比较分散，没有形成一个前后呼应的体系。今年，一定要尝试将不同的技术点分析清楚，形成一个完整的技术体系。</p>
-<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>认识到目前的不足之处：<strong>HTML</strong>、<strong>CSS</strong> 和 <strong>JavaScript</strong> 是必须掌握的，需要补足前端基础的短板。既然选择了前端开发相关的技术栈就需要制定一个学习周期和学习计划。</p>
-<h2 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h2><p>技能 — 深入学习前端 <strong>HTML</strong>、<strong>CSS</strong> 和 <strong>JavaScript</strong> 等前端基础技术。</p>
+<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>认识到目前的不足之处：<code class="highlighter-rouge"> HTML </code>、<code class="highlighter-rouge">CSS</code> 和 <code class="highlighter-rouge">JavaScript</code> 是必须掌握的，需要补足前端基础的短板。既然选择了前端开发相关的技术栈就需要制定一个学习周期和学习计划。</p>
+<h2 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h2><p>技能 — 深入学习前端 <code class="highlighter-rouge"> HTML </code>、<code class="highlighter-rouge">CSS</code> 和 <code class="highlighter-rouge">JavaScript</code> 等前端基础技术。</p>
 <p>心态 — 放松 + 自我激励。</p>
-<p>工具 — 前端开发工具（IDE）的熟练使用。</p>
+<p>工具 — 前端开发工具（<code class="highlighter-rouge">IDE</code>）的熟练使用。</p>
 <h2 id="共勉"><a href="#共勉" class="headerlink" title="共勉"></a>共勉</h2><p>不怕路长，就怕心老！</p>
 <p>保持好奇，继续热爱！</p>
 <p>自己重新定位，选择真正适合自己的方向，重新出发，发现更好的自己。</p>
@@ -4503,9 +4503,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4594,9 +4594,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -5722,7 +5722,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#104;&#x75;&#x61;&#104;&#117;&#97;&#97;&#105;&#x68;&#x65;&#x68;&#101;&#64;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#104;&#x75;&#x61;&#104;&#117;&#97;&#97;&#105;&#x68;&#x65;&#x68;&#101;&#64;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#104;&#x75;&#97;&#104;&#x75;&#x61;&#97;&#105;&#x68;&#x65;&#x68;&#x65;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;">&#104;&#x75;&#97;&#104;&#x75;&#x61;&#97;&#105;&#x68;&#x65;&#x68;&#x65;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -5733,6 +5733,12 @@ pod setup
     <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -5896,12 +5902,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
