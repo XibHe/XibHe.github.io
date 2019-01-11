@@ -6,7 +6,7 @@
       <title><![CDATA[回望2018]]></title>
       <url>/2018/12/31/2018year-endsummary/</url>
       <content type="html"><![CDATA[<p>2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。曾经，好好安放；未来，一步步来! </p>
-<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多的公司离职，月底入职新公司。从提出离职到入职新公司中间不超过一周，也就是休息了一个周末后就到新公司上班了。这是我代码生涯中第一次以这样一种方式转变。想来没有什么比<a href="https://zh.wikipedia.org/wiki/熱插拔" target="_blank" rel="external">热插拔</a>这个计算机用语更合适的词来形容了。</p>
+<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多的公司离职，月底入职新公司。从提出离职到入职新公司中间不超过一周，也就是休息了一个周末后就到新公司上班了。这是我代码生涯中第一次以这样一种方式转变。想来没有什么比 <a href="https://zh.wikipedia.org/wiki/熱插拔" target="_blank" rel="external">热插拔</a> 这个计算机用语更合适的词来形容了。</p>
 <p>入职新公司，终于有机会学习自己一直想深入理解的 <code class="highlighter-rouge">React Native</code> 跨平台开发技术。可以学习团队最近几年在混合开发领域不断积累的技术沉淀，不用再自己摸石头过河，是一件多么幸运的事情啊！顺便推广一波我们团队在掘金的技术博客 —  <a href="https://juejin.im/user/5b3f46c2e51d451925626977" target="_blank" rel="external">WirelessSprucetec</a> </p>
 <p>原生客户端开发的关注点应该放在移动设备 <code class="highlighter-rouge">Web</code> 应用程序上（例如使用 <code class="highlighter-rouge">PWA</code>）和 <code class="highlighter-rouge">React Native</code>，<code class="highlighter-rouge">Flutter</code> 等引领的混合开发领域。</p>
 <blockquote>
@@ -4503,9 +4503,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -4594,9 +4594,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -5298,11 +5298,12 @@ static NSMutableDictionary * mediaHandleActs = nil;
 <ul>
 <li>2016 年 09 月，第一版。</li>
 <li>2018 年 07 月，补充关于使用Masonry更新坐标的问题。</li>
+<li>2019 年 01 月，替换图片访问路径。</li>
 </ul>
-<h2 id="使用Masonry的场景"><a href="#使用Masonry的场景" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h2><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine1.PNG?imageView/4/w/200/q/45" alt="IMG_3210"></p>
-<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="http://odchyrav4.bkt.clouddn.com/mine2.PNG?imageView/4/w/200/q/45" alt="已登录"></p>
-<p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-0@2x.png" alt="代码"></p>
-<p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="http://odchyrav4.bkt.clouddn.com/2016-09-18-QQ20160918-1@2x.png" alt="报错"></p>
+<h2 id="使用Masonry的场景"><a href="#使用Masonry的场景" class="headerlink" title="使用Masonry的场景"></a>使用Masonry的场景</h2><p>在“我的”界面顶部区域用来展示用户的登录信息，顶部有两种样式的变换，即，由未登录—-&gt;已登录。<br>如图所示，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/mine1.png?imageView/4/w/200/q/45" alt="IMG_3210"></p>
+<p>其中头像区域是UIImageView，”登录/注册”是UILabel。登录成功后，头像区域会显示由服务器返回的头像地址生成的图片，并且其位置发生变化，不在居中显示，显示”登录/注册”的UILabel变为显示用户昵称，并且坐标位置发生改变。<br>如图所示，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/mine2.png?imageView/4/w/200/q/45" alt="已登录"></p>
+<p>我的问题来了，在设置头像和标题位置时使用<strong>mas_remakeConstraints</strong>设置二者的约束，<br>代码如图，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Masonry002.png" alt="代码"></p>
+<p>当从未登录切换到已登录时，已登录的头像位置会发生改变，变得特别大，不受约束控制。<br>控制台会报如下错误，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Masonry003.png" alt="报错"></p>
 <p>刚开始没有意识到改变UIImageView的约束导致的新旧两种约束冲突造成的问题。在一个小时未解决该问题后，放弃了使用Masonry，改为使用代码做布局。今天，再回头看看这个问题，联想到忽略了什么东西，就打开Masonry文档从头开始仔细往下看，结果就看到了这句话，</p>
 <blockquote>
 <p>Sometimes you need modify existing constraints in order to animate or remove/replace constraints. In Masonry there are a few different approaches to updating constraints.</p>
@@ -5317,7 +5318,7 @@ static NSMutableDictionary * mediaHandleActs = nil;
 </li>
 </ol>
 <p>于是，我使用文档中提到的第三种方法，将所有的<strong>mas_makeConstraints</strong>换成了<strong>mas_remakeConstraints</strong>，就解决了约束错乱的问题。</p>
-<h2 id="使用Masonry后获取坐标值为0的问题"><a href="#使用Masonry后获取坐标值为0的问题" class="headerlink" title="使用Masonry后获取坐标值为0的问题"></a>使用Masonry后获取坐标值为0的问题</h2><p>加载页面头部会留白，如图，<br><img src="http://odchyrav4.bkt.clouddn.com/Masonry001.png" alt=""></p>
+<h2 id="使用Masonry后获取坐标值为0的问题"><a href="#使用Masonry后获取坐标值为0的问题" class="headerlink" title="使用Masonry后获取坐标值为0的问题"></a>使用Masonry后获取坐标值为0的问题</h2><p>加载页面头部会留白，如图，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Masonry001.png" alt=""></p>
 <h3 id="1-实际上是由于头部切换视图的的-width-为-0-导致。由于使用-Masonry-设置的头部视图，"><a href="#1-实际上是由于头部切换视图的的-width-为-0-导致。由于使用-Masonry-设置的头部视图，" class="headerlink" title="1. 实际上是由于头部切换视图的的 width 为 0 导致。由于使用 Masonry 设置的头部视图，"></a>1. 实际上是由于头部切换视图的的 <em>width</em> 为 <em>0</em> 导致。由于使用 <em>Masonry</em> 设置的头部视图，</h3><pre><code class="objective-c">[self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
     make.left.top.right.equalTo(self.view);
     make.height.mas_equalTo(kTitleMenuTotalHeight);
@@ -5715,22 +5716,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS 开发攻城狮一枚，<br> <br>现就职于一家移动电商公司。<br> <br>正在使用 React Native 进行移动端开发工作，<br> <br>希望每天都能进步，早日成为一名合格的前端工程师。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#104;&#x75;&#97;&#104;&#x75;&#x61;&#97;&#105;&#x68;&#x65;&#x68;&#x65;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;">&#104;&#x75;&#97;&#104;&#x75;&#x61;&#97;&#105;&#x68;&#x65;&#x68;&#x65;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
       <content type="html"></content>
@@ -5740,6 +5725,22 @@ pod setup
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS 开发攻城狮一枚，<br> <br>现就职于一家移动电商公司。<br> <br>正在使用 React Native 进行移动端开发工作，<br> <br>希望每天都能进步，早日成为一名合格的前端工程师。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#104;&#117;&#97;&#104;&#117;&#97;&#x61;&#x69;&#x68;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#104;&#117;&#97;&#104;&#117;&#97;&#x61;&#x69;&#x68;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
+]]></content>
     </entry>
     
     <entry>
