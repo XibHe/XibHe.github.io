@@ -3,6 +3,118 @@
   
     
     <entry>
+      <title><![CDATA[TextInput 二三事]]></title>
+      <url>/2019/01/04/RN_TextInput/</url>
+      <content type="html"><![CDATA[<p>记录下这两天使用 <strong>TextInput</strong> 时遇到的问题及一些注意事项。</p>
+<h3 id="TextInput-键盘遮挡视图"><a href="#TextInput-键盘遮挡视图" class="headerlink" title="TextInput 键盘遮挡视图"></a>TextInput 键盘遮挡视图</h3><ol>
+<li>KeyboardAvoidingView</li>
+</ol>
+<pre><code class="js">import { KeyboardAvoidingView, ScrollView } from &#39;react-native&#39;;
+
+&lt;View style={[styles.container]}&gt;
+  &lt;KeyboardAvoidingView behavior=&quot;padding&quot; style={{ flex: 1 }}&gt;
+    &lt;ScrollView
+        style={[styles.scrollViewStyle]}
+        keyboardShouldPersistTaps=&quot;handled&quot;
+    &gt;
+    // 视图布局
+   &lt;/ScrollView&gt;
+  &lt;/KeyboardAvoidingView&gt;
+&lt;/View&gt;
+</code></pre>
+<p>这里单纯的添加 <strong>KeyboardAvoidingView</strong> 只会移动 <strong>TextInput</strong> 的坐标，但输入框下面还有其他视图，为了不遮挡其他视图，在将整个布局放到<br><strong>ScrollView</strong> 中。</p>
+<ol>
+<li><a href="https://github.com/APSL/react-native-keyboard-aware-scroll-view" target="_blank" rel="external">react-native-keyboard-aware-scroll-view</a></li>
+</ol>
+<h3 id="TextInput-中一些需要注意的属性"><a href="#TextInput-中一些需要注意的属性" class="headerlink" title="TextInput 中一些需要注意的属性"></a>TextInput 中一些需要注意的属性</h3><ol>
+<li><p>某些属性 iOS 与 Android 的取值或展示样式的差异</p>
+<p><strong>TextInput</strong> 在安卓上默认有一个底边框，同时会有一些 padding。如果要想使其看起来和iOS上尽量一致，则需要设置padding: 0，同时设置</p>
+<pre><code class="js">underlineColorAndroid=&quot;transparent&quot;
+</code></pre>
+<p>来去掉底边框。</p>
+</li>
+<li><p>keyboardShouldPersistTaps 操作键盘</p>
+<p>如果当前界面有软键盘，那么点击 <strong>scrollview</strong> 后是否收起键盘，取决于本属性的设置。（<font color="#DC143C">注意：</font>很多人反应 <strong>TextInput</strong> 无法自动失去焦点/需要点击多次切换到其他组件等等问题，其关键都是需要将 <strong>TextInput</strong> 放到<strong>ScrollView</strong>中再设置本属性）</p>
+</li>
+<li><p>keyboardType 的不同取值，iOS 和 Android 不同之处    </p>
+</li>
+</ol>
+<h3 id="无法通过在-TextInput-标签中定义-ref-调用-clear"><a href="#无法通过在-TextInput-标签中定义-ref-调用-clear" class="headerlink" title="无法通过在 TextInput 标签中定义 ref 调用 clear( )"></a>无法通过在 TextInput 标签中定义 ref 调用 clear( )</h3><p>通过 <strong>ref</strong> 在 <strong>TextInput</strong> 标签中定义不同的引用类型，然后发现无法根据 定义的 <strong>ref</strong> 调用 <strong>TextInput</strong> 的 <strong>clear( )</strong> 方法。</p>
+<p>react-native info 为：</p>
+<pre><code class="js">Environment:
+  OS: macOS High Sierra 10.13.6
+  Node: 8.6.0
+  Yarn: 1.12.3
+  npm: 5.3.0
+  Watchman: 4.9.0
+  Xcode: Xcode 10.1 Build version 10B61
+  Android Studio: 3.2 AI-181.5540.7.32.5014246
+
+Packages: (wanted =&gt; installed)
+  react: 16.3.1
+  react-native: 0.55.3
+</code></pre>
+<p>代码如下：</p>
+<pre><code class="js"> export class LoginSceneComponent extends Component {
+  constructor(props) {
+      super(props)
+      this.codeTextInputRef = React.createRef()
+  }
+
+  changeLoginType = () =&gt; {
+   this.codeTextInputRef.current.clear()
+  }
+
+  render () {
+    return (
+       &lt;ScrollView
+        style={[styles.scrollViewStyle]}
+        keyboardShouldPersistTaps=&quot;handled&quot;
+       &gt;
+          &lt;TextInput
+            ref={this.codeTextInputRef}
+            style={[styles.inputStyle]}
+            secureTextEntry={this.state.loginTypeFlag}
+            value={this.state.passWord}
+            onChangeText={text =&gt; this.setState({ passWord: text })}
+           /&gt;
+       &lt;/ScrollView&gt;
+    )  
+  }
+ }
+</code></pre>
+<p>最终通过在 </p>
+<pre><code class="js">onChangeText={txt =&gt; this.setState({ passWord: txt })}
+</code></pre>
+<p>方法中重新 setState 参数清除了输入框中内容。</p>
+<p><font color="#DC143C">注意：</font> React 16.3 更新了 创建 <strong>Ref</strong> 的方法。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://reactnative.cn/docs/textinput/" target="_blank" rel="external">textinput</a></p>
+<p><a href="https://reactnative.cn/docs/keyboardavoidingview/" target="_blank" rel="external">keyboardavoidingview</a></p>
+<p><a href="https://github.com/facebook/react-native/issues/18843" target="_blank" rel="external">facebook/react-native/issues/18843</a></p>
+<p><a href="https://github.com/facebook/react-native/issues/18272" target="_blank" rel="external">facebook/react-native/issues/18272</a></p>
+<p><a href="https://reactjs.org/docs/refs-and-the-dom.html" target="_blank" rel="external">refs-and-the-dom</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 解惑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> ReactNative </tag>
+            
+            <tag> TextInput </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[回望2018]]></title>
       <url>/2018/12/31/2018year-endsummary/</url>
       <content type="html"><![CDATA[<p>2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。曾经，好好安放；未来，一步步来! </p>
@@ -4503,9 +4615,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项提醒 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -4594,9 +4706,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项 </tag>
             
         </tags>
         
@@ -5723,7 +5835,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#104;&#117;&#97;&#104;&#117;&#x61;&#x61;&#105;&#104;&#101;&#x68;&#x65;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#104;&#117;&#97;&#104;&#117;&#x61;&#x61;&#105;&#104;&#101;&#x68;&#x65;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#104;&#117;&#97;&#x68;&#x75;&#97;&#x61;&#x69;&#x68;&#101;&#104;&#x65;&#64;&#103;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;">&#104;&#117;&#97;&#x68;&#x75;&#97;&#x61;&#x69;&#x68;&#101;&#104;&#x65;&#64;&#103;&#109;&#x61;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
