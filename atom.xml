@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2019-03-01T14:21:07.644Z</updated>
+  <updated>2019-03-01T14:36:07.348Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2019/01/04/RN_TextInput/"/>
     <id>http://XibHe.github.io/2019/01/04/RN_TextInput/</id>
     <published>2019-01-03T16:00:00.000Z</published>
-    <updated>2019-03-01T14:21:07.644Z</updated>
+    <updated>2019-03-01T14:36:07.348Z</updated>
     
     <content type="html"><![CDATA[<p>记录下这两天使用 <strong>TextInput</strong> 时遇到的问题及一些注意事项。</p>
 <h3 id="TextInput-键盘遮挡视图"><a href="#TextInput-键盘遮挡视图" class="headerlink" title="TextInput 键盘遮挡视图"></a>TextInput 键盘遮挡视图</h3><ol>
