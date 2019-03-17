@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2019-03-03T12:24:46.431Z</updated>
+  <updated>2019-03-17T13:52:26.078Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,165 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>React Native 原生模块与 JS 模块交互</title>
+    <link href="http://XibHe.github.io/2019/03/17/RN_Module/"/>
+    <id>http://XibHe.github.io/2019/03/17/RN_Module/</id>
+    <published>2019-03-16T16:00:00.000Z</published>
+    <updated>2019-03-17T13:52:26.078Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近使用 RN 时，需要在 RN 端实现调用系统相册上传选中照片的功能。需要原生模块与 RN 模块进行交互，主要步骤：</p>
+<ol>
+<li>调用原生系统相；</li>
+<li>将选取的照片存到本地沙盒；</li>
+<li>再将沙盒路径传给 RN。</li>
+</ol>
+<p><font color="#DC143C">注意：</font> 这里之所以需要将获取的照片存到沙盒下，再将沙盒路径传递给 RN 是因为 RN 端不支持 iOS 中 NSData 二进制流的数据传输格式。而是通过 multipart/form-data 这种表单方式上传文件。</p>
+<blockquote>
+<p>FormData 对象用以将数据编译成键值对，以便用XMLHttpRequest来发送数据。其主要用于发送表单数据，但亦可用于发送带键数据(keyed data)，而独立于表单使用。</p>
+</blockquote>
+<p>在原生与 RN 交互的过程中尝试了几种传递数据的不同方式，这里记录一下，其本质上都是通过实现 RCTBridgeModule 的协议来进行数据交互的。</p>
+<p>为了实现 RCTBridgeModule 协议，你的类需要包含 RCT_EXPORT_MODULE() 宏。这个宏也可以添加一个参数用来指定在 Javascript 中访问这个模块的名字。你必须明确的声明要给 Javascript 导出的方法，否则 RN 不会导出任何方法。</p>
+<p>按传递数据的不同方式，分为以下三种：</p>
+<ol>
+<li>Callbacks 回调函数；</li>
+<li>原生模块使用 promise 简化代码；</li>
+<li>RCTEventEmitter — 向 JS 模块发送事件。</li>
+</ol>
+<h3 id="Callbacks"><a href="#Callbacks" class="headerlink" title="Callbacks"></a>Callbacks</h3><p>提供一个函数把返回值传回给 JavaScript</p>
+<p>在原生模块中，</p>
+<pre><code class="objectivec">RCT_EXPORT_METHOD(testCallback:(RCTResponseSenderBlock)callback)
+{
+    NSArray *items = @[@&quot;callback &quot;, @&quot;test &quot;, @&quot;array&quot;];
+    callback(@events);
+}
+</code></pre>
+<p>RCTResponseSenderBlock 只接受一个参数 — 传递给 JavaScript 回调函数的参数数组。</p>
+<p>在 RN 中调用，</p>
+<pre><code class="js">testBack.testCallback((items) =&gt; {
+   this.setState({items: items});
+})
+</code></pre>
+<p>原生模块通常只应调用回调函数一次。但是，它可以保存 callback 并在将来调用。如果你想传递一个 Error 类型的对象给 Javascript，可以用 RCTUtils.h提供的 RCTMakeError 函数。</p>
+<h3 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h3><p>promise 涉及 ES6 的语法，搭配 ES2016(ES7) 标准的async/await语法则效果更佳。具体使用，桥接原生方法的最后两个参数是 RCTPromiseResolveBlock 和RCTPromiseRejectBlock，则对应的 JS 方法就会返回一个 Promise 对象。</p>
+<pre><code class="objectivec">RCT_EXPORT_METHOD(getState:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject){
+    SEPrinterManager *manager = [SEPrinterManager sharedInstance];
+    CBCentralManager *central = [manager valueForKey:@&quot;centralManager&quot;];
+    resolve([self successMessage:@{ @&quot;state&quot;: @(central.state == CBCentralManagerStatePoweredOn)}]);
+}
+
+- (NSDictionary *)successMessage:(id)data{
+    NSMutableDictionary *response = [NSMutableDictionary dictionary];
+    response[@&quot;code&quot;] = @(kBluetoohSuccessCode);
+    response[@&quot;data&quot;] = data;
+    return response;
+}
+</code></pre>
+<p>现在 JavaScript 端的方法会返回一个 Promise。</p>
+<pre><code class="js">import { NativeModules } from &#39;react-native&#39;;
+
+class ConnectBLEPrinter extends Component {
+
+ NativeModules.MCRNBlueTooth.getState.then(res =&gt; {
+     console.log(&#39;BLE state:&#39; + res. state);
+ }).catch((error) =&gt; {
+
+ });
+}
+</code></pre>
+<p>通过 Callbacks 和通过 Promises 的方式，都可以向 JS 模块传递数据，但都是只能传递一次。如果需要多次向 JS 模块传递数据，可以尝试 RCTEventEmitter 的方式。</p>
+<h3 id="RCTEventEmitter"><a href="#RCTEventEmitter" class="headerlink" title="RCTEventEmitter"></a>RCTEventEmitter</h3><p>发送事件的方法 sendEvent 定义在 原生 module 类中，在需要发送事件的地方调用 sendEvent 方法就可以将事件通知发给 RN 端。类似于 iOS 中的通知方法的是实现。 iOS 端与 Android 不同，不使用 DeviceEventEmitter 做监听，而是用 NativeEventEmitter。具体实现方案如下：</p>
+<p>自定义的模块类头文件要继承自 RCTEventEmitter，</p>
+<pre><code class="objectivec">#import &lt;React/RCTEventEmitter.h&gt;
+#import &lt;React/RCTBridgeModule.h&gt;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MJTBlueToothManager : RCTEventEmitter &lt;RCTBridgeModule&gt;
+
+@end
+
+NS_ASSUME_NONNULL_END
+</code></pre>
+<p>声明事件，</p>
+<pre><code class="objectivec">RCT_EXPORT_METHOD(scanBLEList){
+
+    SEPrinterManager *manager = [SEPrinterManager sharedInstance];
+    [manager startScanPerpheralTimeout:10 Success:^(NSArray&lt;CBPeripheral *&gt; *perpherals,BOOL isTimeout) {
+        NSLog(@&quot;Test-----------&quot;);
+        self.deviceArray = perpherals;
+    } failure:^(SEScanError error) {
+        NSLog(@&quot;请检查蓝牙状态&quot;, nil);
+    }];
+
+    // 触发事件（不断将扫描到的外设列表传递给 RN 页面）
+    [self sendEventWithName:@&quot;scanBLEList&quot; body:self.deviceArray];
+}
+</code></pre>
+<p>RN 端监听事件，</p>
+<pre><code class="js">import { NativeModules, NativeEventEmitter } from &#39;react-native&#39;;
+const NativeModule = new NativeEventEmitter(NativeModules.MCRNBlueTooth);
+
+class ConnectBLEPrinter extends Component {
+
+componentDidMount () {
+        // 获取当前设备列表
+        MCRNBlueTooth.scanBLEList();
+
+       this.listener = NativeModule.addListener(&#39;scanBLEList&#39;,(data) =&gt; {
+            console.log(&#39;输出 test&#39; + data.list);
+            this.setState({ perpheralList: data.list });
+        });
+
+       // 检测蓝牙是否开启
+       NativeModules.MCRNBlueTooth.getState.then(res =&gt; {
+        console.log(&#39;BLE state:&#39; + res. state);
+       }).catch((error) =&gt; {
+
+       });
+    }
+}
+
+// 移除监听
+componentWillUnmount() {
+    NativeEventEmitter.removeListener(&#39;scanBLEList&#39;,this.listener);
+}
+</code></pre>
+<p>为避免原生模块发出事件后，RN 中多次收到该事件。需要在 RN 页面声明周期结束后移除对事件的监听。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>最开始与原生交互使用的是 promise 的方式，但在扫描蓝牙外设的场景下通过 promise 不断将扫描（设置 10 秒的扫描超时时间）出的设备列表传递给 RN 时，RN 页面报错：</p>
+<pre><code class="js">Illegal callback invocation from native module. This callback type only permits a single invocation from native code.
+</code></pre>
+<p>正如上文所说，Callbacks 和 Promises 只能传递一次数据。调用一次后就会被立即释放掉。使用 RCTEventEmitter 固然可以实现扫描外设，多次调用方法回传数据。但为了统一项目中数据的调用方式为 Promises，需要修改 Promises 调用方法中的逻辑。 可以在扫描完成后，先停止扫描，再将当前扫描结果返回给 RN 。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://reactnative.cn/docs/native-modules-ios/" target="_blank" rel="external">docs/native-modules-ios</a></p>
+<p><a href="https://github.com/crazycodeboy/RNStudyNotes/blob/master/React%20Native%E5%8E%9F%E7%94%9F%E6%A8%A1%E5%9D%97%E5%90%91JS%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/React%20Native%E5%8E%9F%E7%94%9F%E6%A8%A1%E5%9D%97%E5%90%91JS%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F.md" target="_blank" rel="external">React Native原生模块向JS传递数据的几种方式</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/Using_FormData_Objects" target="_blank" rel="external">FormData 对象的使用
+</a></p>
+<p><a href="https://www.jianshu.com/p/4245b4844a49" target="_blank" rel="external">在React Native Module数据多次回调</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近使用 RN 时，需要在 RN 端实现调用系统相册上传选中照片的功能。需要原生模块与 RN 模块进行交互，主要步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;调用原生系统相；&lt;/li&gt;
+&lt;li&gt;将选取的照片存到本地沙盒；&lt;/li&gt;
+&lt;li&gt;再将沙盒路径传给 RN。&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
+    
+      <category term="Module" scheme="http://XibHe.github.io/tags/Module/"/>
+    
+  </entry>
   
   <entry>
     <title>TextInput 二三事</title>
@@ -3760,72 +3919,6 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
       <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
       <category term="wx.navigateTo" scheme="http://XibHe.github.io/tags/wx-navigateTo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>爱之初体验 - 小程序</title>
-    <link href="http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/"/>
-    <id>http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/</id>
-    <published>2017-08-31T16:00:00.000Z</published>
-    <updated>2018-11-11T08:47:56.262Z</updated>
-    
-    <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
-<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
-<p>框架的核心是一个响应的数据绑定系统。整个系统分为两块: 视图层(View) 和逻辑层(App Service)。框架可以让数据与视图非常简单地保持同步。当做数据修改的时候，只需要在逻辑层修改数据，视图层就会发生相应的更新。</p>
-<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><p>框架为开发者提供了一系列基础组件，开发者可以通过组合这些基础组件进行快速开发。什么是组件: </p>
-<ul>
-<li>组件是视图层的基本组成单元。</li>
-<li>组件自带一些功能与微信风格的样式。</li>
-<li>一个组件通常包括开始标签和结束标签，属性用来修饰这个组件，内容在两个标签之内。</li>
-</ul>
-<p>但使用起来还是有些不足，很多组件的风格与微信风格类似，不想使用这种风格的组件就需要自定义组件，而自定义需要花费一些额外的时间，就算自定义成功了，仍需要经过仔细的测试，确保该自定义组件在交互上不会与基础组件产生偏差。</p>
-<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p>框架提供了丰富的微信原生API，可以方便的调起微信提供的能力，如获取用户信息，本地存储，支付功能等。</p>
-<p>说明：</p>
-<ul>
-<li>wx.on 开头的 API 是监听某个事件发生的API接口，接受一个 CALLBACK 函数作 为参数。当该事件触发时，会调用 CALLBACK 函数。</li>
-<li>如未特殊约定，其他 API 接口都接受一个OBJECT作为参数。</li>
-<li>OBJECT中可以指定success, fail, complete来接收接口调用结果。<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1></li>
-</ul>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
-<p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
-<p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
-<h1 id="开发中填的坑"><a href="#开发中填的坑" class="headerlink" title="开发中填的坑"></a>开发中填的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
-<h1 id="学习心得"><a href="#学习心得" class="headerlink" title="学习心得"></a>学习心得</h1><blockquote>
-<p>多看官方文档，多看几遍，遇到问题时再看，没有问题时继续看；</p>
-<p>关注<a href="http://www.wxapp-union.com" target="_blank" rel="external">论坛</a>最新动态； </p>
-<p>基础知识一定要过关（小程序的框架，组成部分，运行机制，自身限制）；</p>
-<p>不要眼高手低，人家的demo下载下来跑起来，看懂之后一定要自己尝试写一遍；</p>
-<p>找一个自己熟悉的逻辑，开始模仿（结合实际的项目需求，一步一步解决遇到的问题）。</p>
-</blockquote>
-<h1 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h1><p>模态窗体上的textarea多行输入框，当滑动整个页面时，会将textarea里输入的内容一起滑动至输入框外部，随着滑动的方向一起滑动。官方文档中备注了关于textarea的一个tip:</p>
-<blockquote>
-<p>textarea组件是由客户端创建的原生组件，它的层级是最高的。</p>
-</blockquote>
-<p>或许正是由于textarea是最高层级导致的滑动问题。</p>
-<h1 id="demo下载"><a href="#demo下载" class="headerlink" title="demo下载"></a>demo下载</h1><p><a href="https://github.com/XibHe/wxModeList" target="_blank" rel="external">wxModeList</a></p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/" target="_blank" rel="external">微信公众平台 | 小程序</a></p>
-<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1509" target="_blank" rel="external">小程序中的循环列表，在点击时改变当前项的背景颜色</a></p>
-<p><a href="http://www.mntuku.cn/index.php/article/show/id-7141" target="_blank" rel="external">小程序操作按钮悬浮固定在底部</a></p>
-<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1261" target="_blank" rel="external">动态的显示或隐藏控件</a></p>
-<p><a href="http://www.jianshu.com/p/aa8254b23847" target="_blank" rel="external">微信小程序从子页面退回父页面时的数据传递</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。&lt;/p&gt;
-&lt;h1 id=&quot;框架&quot;&gt;&lt;a hre
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
-    
-    
-      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
-    
-      <category term="初体验" scheme="http://XibHe.github.io/tags/%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
     
   </entry>
   
