@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2019-06-02T09:36:06.713Z</updated>
+  <updated>2019-06-02T09:52:59.845Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>iOS 内存泄漏检测</title>
-    <link href="http://XibHe.github.io/2019/05/27/iOS%20%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%B5%8B/"/>
-    <id>http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/</id>
+    <title>iOS内存泄漏检测</title>
+    <link href="http://XibHe.github.io/2019/05/27/iOS%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%B5%8B/"/>
+    <id>http://XibHe.github.io/2019/05/27/iOS内存泄漏检测/</id>
     <published>2019-05-26T16:00:00.000Z</published>
-    <updated>2019-06-02T09:36:06.713Z</updated>
+    <updated>2019-06-02T09:52:59.845Z</updated>
     
     <content type="html"><![CDATA[<p>最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。</p>
 <p>内存泄漏排查，三步走：</p>
