@@ -67,33 +67,28 @@ View-ViewController stack: (
 </code></pre>
 <p>展示视图自上而下的调用层级，这里需要注意一些三方 <em>SDK</em> 控件导致的疑似泄漏，可能会因其内部的 <em>cache</em> 机制或者释放不及时而被误判为内存泄漏。</p>
 <h3 id="Instruments-Leaks"><a href="#Instruments-Leaks" class="headerlink" title="Instruments Leaks"></a>Instruments Leaks</h3><p>这里使用最新版 Xcode 10.3 进行 leaks 检测。</p>
-<ol>
-<li><em>Xcode</em> 中 按住 <em>command + I</em> 或者菜单栏 <em>Product – Profile</em></li>
-</ol>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_01.jpg" alt=""></p>
-<ol>
-<li>双击 <em>Leaks</em> 或者按 <em>choose</em>，打开 <em>Leaks</em> 面板</li>
-</ol>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_02.jpg" alt=""></p>
-<ol>
-<li><p>在显示的 <em>Leaks</em> 面板中，点击左上角红色点，即可运行内存检测</p>
+<h4 id="1-Xcode-中-按住-command-I-或者菜单栏-Product-–-Profile"><a href="#1-Xcode-中-按住-command-I-或者菜单栏-Product-–-Profile" class="headerlink" title="1. Xcode 中 按住 command + I 或者菜单栏 Product – Profile"></a>1. <em>Xcode</em> 中 按住 <em>command + I</em> 或者菜单栏 <em>Product – Profile</em></h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_01.jpg" alt=""></p>
+<h4 id="2-双击-Leaks-或者按-choose，打开-Leaks-面板"><a href="#2-双击-Leaks-或者按-choose，打开-Leaks-面板" class="headerlink" title="2. 双击 Leaks 或者按 choose，打开 Leaks 面板"></a>2. 双击 <em>Leaks</em> 或者按 <em>choose</em>，打开 <em>Leaks</em> 面板</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_02.jpg" alt=""></p>
+<h4 id="3-在显示的-Leaks-面板中，点击左上角红色点，即可运行内存检测"><a href="#3-在显示的-Leaks-面板中，点击左上角红色点，即可运行内存检测" class="headerlink" title="3. 在显示的 Leaks 面板中，点击左上角红色点，即可运行内存检测"></a>3. 在显示的 <em>Leaks</em> 面板中，点击左上角红色点，即可运行内存检测</h4><h4 id="4-在运行过程中如果发现Leak-Checks（如图）出现红色X说明检测到内存泄露-将鼠标点击Leak-Checks，在下方即可看到内存泄漏的相关信息"><a href="#4-在运行过程中如果发现Leak-Checks（如图）出现红色X说明检测到内存泄露-将鼠标点击Leak-Checks，在下方即可看到内存泄漏的相关信息" class="headerlink" title="4. 在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息"></a>4. 在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_03.jpg" alt=""></p>
+<h4 id="5-定位内存泄漏代码位置"><a href="#5-定位内存泄漏代码位置" class="headerlink" title="5. 定位内存泄漏代码位置"></a>5. 定位内存泄漏代码位置</h4><ol>
+<li><p>选择 <em>Leaks</em> 有时候默认是 <em>Run lssues</em>，这时需要将其切换为 <em>Leaks</em> </p>
 </li>
-<li><p>在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息</p>
+<li><p>选择 <em>call Three</em><br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_04.jpg" alt=""></p>
+</li>
+<li><p>此时，仍然看不到具体的代码位置，需要选择底部的 <em>Call Tree</em>，在弹窗中选择 <em>Invert Call Tree</em> 和 <em>Hide System Libraries</em>，即可显示出具体内存泄漏的代码<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_05.jpg" alt=""></p>
 </li>
 </ol>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_03.jpg" alt=""></p>
-<ol>
-<li>定位内存泄漏代码位置</li>
-</ol>
-<h4 id="1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks"><a href="#1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks" class="headerlink" title="1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks"></a>1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks</h4><h4 id="2-选择-call-Three"><a href="#2-选择-call-Three" class="headerlink" title="2. 选择 call Three"></a>2. 选择 call Three</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_04.jpg" alt=""></p>
-<h4 id="3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码"><a href="#3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码" class="headerlink" title="3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码"></a>3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_05.jpg" alt=""></p>
-<p>Call Tree 四种选项具体含义：</p>
+<p><em>Call Tree</em> 四种选项具体含义：</p>
 <p><font color="#DC143C">Separate by Thread：</font>按线程分开做分析，这样更容易揪出那些吃资源的问题线程。特别是对于主线程，它要处理和渲染所有的接口数据，一旦受到阻塞，程序必然卡顿或停止响应。</p>
 <p><font color="#DC143C">Invert Call Tree：</font>反向输出调用树。把调用层级最深的方法显示在最上面，更容易找到最耗时的操作。</p>
 <p><font color="#DC143C">Hide System Libraries：</font>隐藏系统库文件。过滤掉各种系统调用，只显示自己的代码调用。</p>
 <p><font color="#DC143C">Flattern Recursion：</font>拼合递归。将同一递归函数产生的多条堆栈（因为递归函数会调用自己）合并为一条。</p>
-<h4 id="4-双击选中行，即可跳转-Instrument-中具体的代码"><a href="#4-双击选中行，即可跳转-Instrument-中具体的代码" class="headerlink" title="4. 双击选中行，即可跳转 Instrument 中具体的代码"></a>4. 双击选中行，即可跳转 Instrument 中具体的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_06.jpg" alt=""></p>
-<h4 id="5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码"><a href="#5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码" class="headerlink" title="5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码"></a>5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_07.jpg" alt=""></p>
+<ol>
+<li><p>双击选中行，即可跳转 <em>Instrument</em> 中具体的代码<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_06.jpg" alt=""></p>
+</li>
+<li><p>点击右侧 <em>Xcode</em> 图标跳转至 <em>Xcode</em> 中定位的内存未回收的代码<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_07.jpg" alt=""></p>
+</li>
+</ol>
 <h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
 <li>注意 <em>Core Foundation</em> 等底层操作它们不支持 <em>ARC</em>，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法：</li>
 </ol>
@@ -6111,28 +6106,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS 开发攻城狮一枚，<br> <br>现就职于一家移动电商公司。<br> <br>正在使用 React Native 进行移动端开发工作，<br> <br>希望每天都能进步，早日成为一名合格的前端工程师。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#104;&#117;&#97;&#x68;&#117;&#97;&#x61;&#x69;&#104;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#104;&#117;&#97;&#x68;&#117;&#97;&#x61;&#x69;&#104;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#99;&#x6f;&#109;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-05-24"><a href="#2018-05-24" class="headerlink" title="2018/05/24"></a>2018/05/24</h3><blockquote>
@@ -6295,8 +6268,30 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS 开发攻城狮一枚，<br> <br>现就职于一家移动电商公司。<br> <br>正在使用 React Native 进行移动端开发工作，<br> <br>希望每天都能进步，早日成为一名合格的前端工程师。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#104;&#117;&#x61;&#104;&#117;&#x61;&#97;&#x69;&#104;&#101;&#x68;&#x65;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#x63;&#111;&#x6d;">&#104;&#117;&#x61;&#104;&#117;&#x61;&#97;&#x69;&#104;&#101;&#x68;&#x65;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#x63;&#111;&#x6d;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[links]]></title>
       <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
