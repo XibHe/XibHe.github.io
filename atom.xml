@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2019-03-17T13:52:26.078Z</updated>
+  <updated>2019-06-02T09:22:54.818Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,143 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS 内存泄漏检测</title>
+    <link href="http://XibHe.github.io/2019/05/27/iOS%20%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%B5%8B/"/>
+    <id>http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/</id>
+    <published>2019-05-26T16:00:00.000Z</published>
+    <updated>2019-06-02T09:22:54.818Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。</p>
+<p>内存泄漏排查，三步走：</p>
+<ol>
+<li><em>Analyzer</em>（静态分析） </li>
+<li><em>MLeaksFinder</em> (第三方工具) </li>
+<li><em>Instruments Leaks</em> (动态检测)</li>
+</ol>
+<h3 id="Analyaer"><a href="#Analyaer" class="headerlink" title="Analyaer"></a>Analyaer</h3><p>不需要运行程序，通过 <em>Product-&gt;Analyze</em> 或快捷键 <em>command+shift+B</em> 进行代码分析。</p>
+<p>分析代码上下文的语法结构和内存情况，找出代码中潜在错误 <em>Analyzer</em>主要分析四种问题：</p>
+<ol>
+<li>逻辑错误：访问空指针或未初始化的变量等；</li>
+<li>内存管理错误：如内存泄漏等；</li>
+<li>声明错误：从未使用过的变量；</li>
+<li><em>API</em> 调用错误：未包含使用的库和框架。</li>
+</ol>
+<p>后面提到的 <em>CoreLocation</em> 框架的需要手动释放问题，就是通过 <em>Analyzer</em> 检测出来的。</p>
+<p>说明： Analyzer由于是编译器根据代码进行的判断, 做出的判断不一定会准确, 因此如果遇到提示, 应该去结合代码上文检查一下；还有某些造成内存泄漏的循环引用通过Analyzer分析不出来。</p>
+<h3 id="MLeaksFinder"><a href="#MLeaksFinder" class="headerlink" title="MLeaksFinder"></a>MLeaksFinder</h3><p>通过 </p>
+<p><code>pod &#39;MLeaksFinder&#39;</code></p>
+<p>或将下载的 <em>MLeaksFinder</em>  文件导入工程中，</p>
+<p>在 <em>MLeaksFinder.h</em> 中 设置是否开启内存泄漏检测，以及是在模拟器中开始还是在真机中开启。</p>
+<pre><code class="objectivec">//***内存泄漏控制开关，注释该行代码打开内存泄漏工具，打开该行代码关闭内存泄漏****
+//#define MEMORY_LEAKS_FINDER_ENABLED 0
+
+#ifdef MEMORY_LEAKS_FINDER_ENABLED
+
+#define _INTERNAL_MLF_ENABLED MEMORY_LEAKS_FINDER_ENABLED
+
+#else
+
+//仅在模拟器打开内存泄漏检测
+#if TARGET_IPHONE_SIMULATOR  //模拟器
+    #define _INTERNAL_MLF_ENABLED DEBUG
+#elif TARGET_OS_IPHONE      //真机
+
+#endif//TARGET_IPHONE_SIMULATOR
+
+#endif//_INTERNAL_MLF_ENABLED MEMORY_LEAKS_FINDER_ENABLED
+</code></pre>
+<p>具体操作步骤：<br>不断重复 <em>push</em> 和 <em>pop</em> 同一个 <em>UIViewController</em>，一旦有疑似内存泄漏的地方，就会弹出提示框，控制台也会输出调用栈的层级信息：</p>
+<pre><code class="objectivec">[文件:MLeaksMessenger.m   行数:36] Memory Leak: (
+    MCLocateAddressViewController,
+    UIView,
+    BMKMapView,
+    BMKInternalMapView,
+    BMKTapDetectingView,
+    BMKAnnotationContainer
+)
+
+[文件:NSObject+MemoryLeak.m   行数:54] Possibly Memory Leak.
+In case that BMKAnnotationContainer should not be dealloced, override -willDealloc in BMKAnnotationContainer by returning NO.
+View-ViewController stack: (
+    MCLocateAddressViewController,
+    UIView,
+    BMKMapView,
+    BMKInternalMapView,
+    BMKTapDetectingView,
+    BMKAnnotationContainer
+)
+</code></pre>
+<p>展示视图自上而下的调用层级，这里需要注意一些三方 <em>SDK</em> 控件导致的疑似泄漏，可能会因其内部的 <em>cache</em> 机制或者释放不及时而被误判为内存泄漏。</p>
+<h3 id="Instruments-Leaks"><a href="#Instruments-Leaks" class="headerlink" title="Instruments Leaks"></a>Instruments Leaks</h3><p>这里使用最新版 Xcode 10.3 进行 leaks 检测。</p>
+<ol>
+<li><em>Xcode</em> 中 按住 <em>command + I</em> 或者菜单栏 <em>Product – Profile</em></li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_01.jpg" alt=""></p>
+<ol>
+<li>双击 <em>Leaks</em> 或者按 <em>choose</em>，打开 <em>Leaks</em> 面板</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_02.jpg" alt=""></p>
+<ol>
+<li><p>在显示的 <em>Leaks</em> 面板中，点击左上角红色点，即可运行内存检测</p>
+</li>
+<li><p>在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息</p>
+</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_03.jpg" alt=""></p>
+<ol>
+<li>定位内存泄漏代码位置</li>
+</ol>
+<h4 id="1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks"><a href="#1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks" class="headerlink" title="1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks"></a>1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks</h4><h4 id="2-选择-call-Three"><a href="#2-选择-call-Three" class="headerlink" title="2. 选择 call Three"></a>2. 选择 call Three</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_04.jpg" alt=""></p>
+<h4 id="3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码"><a href="#3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码" class="headerlink" title="3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码"></a>3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_05.jpg" alt=""></p>
+<p>Call Tree 四种选项具体含义：</p>
+<p><font color="#DC143C">Separate by Thread：</font>按线程分开做分析，这样更容易揪出那些吃资源的问题线程。特别是对于主线程，它要处理和渲染所有的接口数据，一旦受到阻塞，程序必然卡顿或停止响应。</p>
+<p><font color="#DC143C">Invert Call Tree：</font>反向输出调用树。把调用层级最深的方法显示在最上面，更容易找到最耗时的操作。</p>
+<p><font color="#DC143C">Hide System Libraries：</font>隐藏系统库文件。过滤掉各种系统调用，只显示自己的代码调用。</p>
+<p><font color="#DC143C">Flattern Recursion：</font>拼合递归。将同一递归函数产生的多条堆栈（因为递归函数会调用自己）合并为一条。</p>
+<h4 id="4-双击选中行，即可跳转-Instrument-中具体的代码"><a href="#4-双击选中行，即可跳转-Instrument-中具体的代码" class="headerlink" title="4. 双击选中行，即可跳转 Instrument 中具体的代码"></a>4. 双击选中行，即可跳转 Instrument 中具体的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_06.jpg" alt=""></p>
+<h4 id="5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码"><a href="#5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码" class="headerlink" title="5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码"></a>5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_07.jpg" alt=""></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>注意 <em>Core Foundation</em> 等底层操作它们不支持 <em>ARC</em>，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法：</li>
+</ol>
+<pre><code class="objectivec">// 根据范围数组 border 的个数初始化定位坐标
+CLLocationCoordinate2D *coords = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * borderCount);
+BMKPolygon  *polygon = [BMKPolygon polygonWithCoordinates:coords count:borderCount];
+free(coords);
+</code></pre>
+<p><em>CLLocationCoordinate2D</em> 是 系统框架 <em>CoreLocation</em> 中 一个 <em>C</em> 的 结构体，包含经度和纬度两个值 (<em>CLLocation</em> 是一个 objc 的 对象)，需要通过 <em>free</em> 手动释放。这里需要注意以 <em>Core</em> 开头的系统框架的内存管理。</p>
+<ol>
+<li>如果第五步不出现定位箭头，无法定位到具体代码，则<br>点击项目工程文件-Buidl Setting-All-搜索Debug Information Format-Debug里选择DWARF with dSYM File（如图）</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_08.jpg" alt=""></p>
+<p>默认情况下，只有 <em>release</em> 环境下为 <em>DWARF with dSYM File</em>，其他环境均为 <em>DWARF</em>。当 <em>Debug Information Format</em> 为 <em>DWARF with dSYM File</em> 的时候，构建过程中多了一步 <em>Generate dSYM File</em>，最终产出的文件也多了一个 <em>dSYM</em> 文件。然后，重新编译启动 <em>Instruments Leaks</em>，重复以上步骤即可定位到具体代码。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://wereadteam.github.io/2016/02/22/MLeaksFinder/" target="_blank" rel="external">MLeaksFinder：精准 iOS 内存泄露检测工具</a></p>
+<p><a href="http://wereadteam.github.io/2016/07/20/MLeaksFinder2/" target="_blank" rel="external">MLeaksFinder 新特性</a></p>
+<p><a href="https://github.com/Tencent/MLeaksFinder" target="_blank" rel="external">Tencent/MLeaksFinder</a></p>
+<p><a href="https://juejin.im/entry/5965f8856fb9a06bad654502" target="_blank" rel="external">浅谈 iOS Crash</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。&lt;/p&gt;
+&lt;p&gt;内存泄漏排查，三步走：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;Analyzer&lt;/em&gt;（静态分析） &lt;/li&gt;
+&lt;li&gt;&lt;em&gt;MLeaksFinder&lt;/em&gt; (
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="Instruments" scheme="http://XibHe.github.io/tags/Instruments/"/>
+    
+      <category term="内存泄露" scheme="http://XibHe.github.io/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/"/>
+    
+  </entry>
   
   <entry>
     <title>React Native 原生模块与 JS 模块交互</title>
@@ -3787,138 +3924,6 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
       <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
       <category term="总结" scheme="http://XibHe.github.io/tags/%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>小程序页面跳转</title>
-    <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
-    <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
-    <published>2017-09-15T16:00:00.000Z</published>
-    <updated>2018-11-11T08:45:46.594Z</updated>
-    
-    <content type="html"><![CDATA[<p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
-<h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
-<ul>
-<li>2017 年 9 月，第一版。</li>
-<li>2017 年 10 月，增加页面跳转流程图及跳转说明。</li>
-</ul>
-<h2 id="小程序中页面导航的API"><a href="#小程序中页面导航的API" class="headerlink" title="小程序中页面导航的API"></a>小程序中页面导航的API</h2><p>为了避免发生超过五级页面而无法跳转的悲剧，首先要了解清楚小程序中页面导航的API。小程序中页面导航API有五个，两个跳转新页面的API分别为wx.navigateTo和wx.redirectTo，一个用来做重置操作的API为wx.reLaunch，一个用于跳转到tabBar的API为wx.switchTab，还有一个API名为wx.navigateBack，用于返回页面。</p>
-<p><strong>wx.navigateBack 在小程序的初始版本中只能回到上一个页面，在最新版本的更新中给 navigateBack 添加了一个参数 delta，用于决定需要返回几层页面，返回的页面数，如果delta大于现有页面数，则返回首页。</strong></p>
-<h2 id="几种跳转方式的不同之处"><a href="#几种跳转方式的不同之处" class="headerlink" title="几种跳转方式的不同之处"></a>几种跳转方式的不同之处</h2><p>navigator 组件的默认跳转方式与 wx.navigateTo 相同，而如果添加 redirect 属性，则与 wx.redirectTo 的跳转方式相同。</p>
-<p>navigateTo 在官方文档中描述如下：</p>
-<blockquote>
-<p>保留当前页面，跳转到应用内的某个页面，使用 wx.navigateBack 可以返回到原页面。</p>
-</blockquote>
-<p>通过 navigateTo 跳转后，可点击左上角的按钮返回上一个页面。而如果多次调用 navigateTo 之后，就需要返回多次才能回到初始页面。因此，官方在此处有一个限制。</p>
-<blockquote>
-<p>注意：为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。</p>
-</blockquote>
-<p>不过上述五层的限制只是针对 navigateTo，redirectTo 则无此限制。因为 redirectTo 的行为是：</p>
-<blockquote>
-<p>关闭当前页面，跳转到应用内的某个页面。</p>
-</blockquote>
-<p><font color="#FA8072">注意:</font> 使用redirectTo跳转到一个之前加载过的页面，不会再次调用该页面的onLoad方法。</p>
-<p>通过 redirectTo 跳转后，则无法返回跳转前的页面。但并不是无法调用 navigateBack，而是调用之后，会回到使用 redirectTo 跳转前的上一个页面。</p>
-<p>页面栈可以通过 getCurrentPages 方法获取：</p>
-<blockquote>
-<p>getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。</p>
-</blockquote>
-<p>上述的「页面路径」可以对应为页面栈中的元素，页面栈中的最后一个元素就是当前显示的页面，页面跳转就是新页面入栈的过程。</p>
-<p>上述三种页面 API 的区别在于：</p>
-<ul>
-<li>navigateTo 不会将旧页面出栈；</li>
-<li>redirectTo 会将旧页面出栈，再将需要跳转到的页面入栈；</li>
-<li>navigateBack 则是将页面栈最后一个元素出栈，因此倒数第二个元素会成为最后一个元素，即变成「当前页面」。</li>
-</ul>
-<p>结合下面这个例子，如图，</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wxnavigateTo_flow.png" alt="跳转流程"></p>
-<p>小程序包含 A、B、C、D 四个页面，A 页面为首页。小程序启动后，在 A 页面中，我们通过 navigateTo 跳转到 B 页面，然后在 B 页面中再通过 navigateTo 跳转到 C 页面。</p>
-<p>如果通过navigateTo跳转到 D 页面，则在D页面调用navigateBack会返回到C页面；<br>如果通过redirectTo跳转到 D 页面，则在D页面调用navigateBack会发现不是返回C 页面，而是返回到了 B 页面。</p>
-<p>因为调用redirectTo 跳转到 D 页面，redirectTo 会将当前页面出栈，即将 C 页面出栈，再将 D 页面入栈，这时候，页面栈中的元素则会变为 A、B、D。</p>
-<ul>
-<li>navigateTo 不会将旧页面出栈，因此通过 navigateTo 跳转后，页面栈中元素个数会加一，因此在页面栈中元素个数达到 5 之后再调用 navigateTo 会失败，出现无法跳转的错误。</li>
-<li>redirectTo 会在将旧页面出栈后，再将新页面入栈，因此通过 redirectTo 跳转，页面栈中元素个数会保持不变，所以即使在页面栈中元素达到 5 个之后再调用 redirectTo 也能成功跳转。</li>
-</ul>
-<h2 id="实际业务流程"><a href="#实际业务流程" class="headerlink" title="实际业务流程"></a>实际业务流程</h2><p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
-<p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
-<blockquote>
-<ol>
-<li>直接返回主界面，点击“扫码录入”按钮，跳转至微信扫一扫页面；</li>
-<li>点击底部“保存”按钮后，立即调用wx.scanCode打开扫一扫页面；</li>
-</ol>
-</blockquote>
-<p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
-<p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
-<p>那么，能否在微信扫一扫页面做相应处理呢？比如，点击扫一扫左上角的返回按钮时，直接返回到首页。由于扫一扫页面是直接调用wx.scanCode而来的，其并不是以压栈的方式出现在页面控制的层级中。因此，无法通过getCurrentPages()函数获取对应的层级关系。</p>
-<p>另外一种方式，针对方案2的问题，需要在点击“商品信息”页的“保存”按钮后做出特别处理，于是在点击保存绑定的事件中设置:</p>
-<pre><code class="js">saveTap: function (res) {
-   wx.request({
-      url: requestUrl.LookForGoodsUrl
-      data: {
-        &quot;userId&quot;: userId,
-        &quot;goodsId&quot;: numResult,
-        &quot;name&quot;: name,
-        &quot;factory&quot;: factory,
-      },
-      header: {
-        &#39;content-type&#39;: &#39;application/json&#39;
-      },
-      success: function (res) {
-        if (res.data.code == &#39;0000&#39;) {
-            // 保存成功
-           wx.redirectTo({
-              url: &#39;../homePage/homePage&#39;
-           })
-        }  
-      }
-   })
-}
-</code></pre>
-<p>将最新商品信息上传至服务器，关闭当前页面，跳转到应用内的某个页面。再调用:</p>
-<pre><code class="js">wx.scanCode({
-  var numResult = res.result;
-  if (numResult.substring(0, 2) == &#39;69&#39;) {
-     wx.request({
-        url: requestUrl.LookForGoodsUrl
-        data: {
-           &quot;userId&quot;: userId,
-           &quot;goodsId&quot;: numResult,
-         },
-        header: {
-           &#39;content-type&#39;: &#39;application/json&#39;
-        },
-        success: function (res) {
-            if (res.data.state == &#39;1&#39;) {
-               // 存在该商品
-               wx.redirectTo({
-                   url: &#39;../goodsInfo/goodsInfo?goodsChart=&#39; + goodsChart + &#39;&amp;goodsId=&#39; + goodsId,
-               })
-            }
-        }
-     })
-  }
-})
-</code></pre>
-<p>调用扫一扫，获取商品条码，将获取的条码作为参数上传服务器得到服务器返回的商品信息。再将这些信息传递并跳转至“商品信息”页，展示这些信息。再次扫描商品条码时，重复以上操作。</p>
-<p>但是为了在商品信息页面点击“保存”按钮时关闭当前页面，使用了wx.redirectTo，会先返回到首页（homePage），然后再调出扫一扫页面。这期间会出现短暂（大概2~3秒钟）的停顿，停顿期间页面(homePage)仍然可以操作，会误触页面上的其他点击事件。最后，即使在该页面(homePage)加上loading，以防止误触。仍然无法回避短暂停顿后再跳转扫一扫页面的问题。</p>
-<p>最后的解决方案是: 点击商品信息页的“保存”按钮后，将该按钮隐藏。这样当从扫一扫页面返回商品信息页时就不会出现重复保存数据的问题了。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
-    
-    
-      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
-    
-      <category term="wx.navigateTo" scheme="http://XibHe.github.io/tags/wx-navigateTo/"/>
     
   </entry>
   

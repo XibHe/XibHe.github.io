@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.2 -->
+    <script>
+        window.materialVersion = "1.5.2"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            iOS 内存泄漏检测 | 
+        
+        XibHe&#39;s Blog
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" href="/img/favicon.png">
+
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" itemprop="description" content="爱苹果,爱生活。">
+    <meta name="keywords" content="null,Instruments,内存泄露">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/tranquil-heart.min.css?ul3p9I9MsbOxK0L+BHzDDg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="XibHe&#39;s Blog">
+    <meta name="msapplication-starturl" content="http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="XibHe&#39;s Blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS 内存泄漏检测 | XibHe&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content="爱苹果,爱生活。">
+    <meta property="og:article:tag" content="Instruments"> <meta property="og:article:tag" content="内存泄露"> 
+
+    
+        <meta property="article:published_time" content="Mon May 27 2019 00:00:00 GMT+0800">
+        <meta property="article:modified_time" content="Sun Jun 02 2019 17:22:54 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/index.html",
+    "headline": "iOS 内存泄漏检测",
+    "datePublished": "Mon May 27 2019 00:00:00 GMT+0800",
+    "dateModified": "Sun Jun 02 2019 17:22:54 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "XibHe",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "It is never too late，Just do it better."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "XibHe&#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Instruments,内存泄露null",
+    "description": "爱苹果,爱生活。",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+        <script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?919ef00558a82bb0e224f917f84d3124';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Analyaer"><span class="post-toc-number">1.</span> <span class="post-toc-text">Analyaer</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MLeaksFinder"><span class="post-toc-number">2.</span> <span class="post-toc-text">MLeaksFinder</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Instruments-Leaks"><span class="post-toc-number">3.</span> <span class="post-toc-text">Instruments Leaks</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-选择-call-Three"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. 选择 call Three</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-双击选中行，即可跳转-Instrument-中具体的代码"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">4. 双击选中行，即可跳转 Instrument 中具体的代码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注意"><span class="post-toc-number">4.</span> <span class="post-toc-text">注意</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/leaks_thumbnail.jpg)">
+    
+            <p class="article-headline-p">
+                iOS 内存泄漏检测
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>XibHe</strong>
+        <span>5月 27, 2019</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC50lEQVR42u3aS5ICIRAFQO9/aecAM47vARrdkKwMo0WShWV9Hs8j1wMbGxsbGxsbGxv7kuxHvP7Y6MUzyT6vdv7/u2bOjI2Njb03+81P/4vD5bDf7/+/c75DcWZsbGzsA9j5QZPA04a99tLbq8HGxsbGzq8gSSTyZCM/AzY2NjZ2G8DyklMS/N6UhLCxsbGxFxWVxkpC+T55ueqrtTRsbGzsy7Pzpul1Xn+1v42NjY19YXa78iQkaRLn7z+nFzY2Nvau7DYNaBuxYwWsdugzOic2Njb2Aeyx95Ojt6Fu7CrfPImNjY29Kbtt0K5F5oX++WCGjY2NvTd7vjzUBsIZfDIMhI2NjY2db5dcUJtC5C2EvCCFjY2NvSv7EwM6q9KYsTJT0R7AxsbG3oId/fTHf/3zQZw2UcmvoGgPYGNjY2/Bnm/0JunEzIBOcq1RqoONjY29KTsp9IwNaLaDm/Ojn8XwJTY2NvZG7PZvff583ojN271tKQobGxv7HHY7ENMGv7Gif5vALGj0YmNjY9+QnTcJxhq37Q4zzYN6+BIbGxt7C3aebKxKLdpLGWv9TmVg2NjY2Ldi5wX3x9BqW8jJp8YuHRsbG/scdltsKkJI+dk8jC0IYNjY2Ni3ZSch6hmvqLgTj1G2obQIYNjY2NjbsWdGbWZav/XR44ZBMbKDjY2NvRE7AbfFozwE5qEuvwhsbGzsc9hjSUIbeJJAOBO6FmRg2NjY2DdnjxX0Vw1Q5mGsvXRsbGzs09j516wq9+SYtiyFjY2NfQK7XWPF/Zw0FiCja8XGxsbelN0GhuSzSeiaaR60wRUbGxv7BPbYV7YHakNXG8CWtQewsbGxb8seSwxyat6gnSkqYWNjY2Pn4zVtM6ANb2ON4borgo2NjX0wOw8zYwM6bcnpSwEMGxsb+8LsJGGIQkWZTrRDPx+ZVMLGxsa+ObvdLm8D5yM4dZEobjlgY2Nj780+Z2FjY2NjY2NjY2NfZv0AqmILbaKmaLsAAAAASUVORK5CYII=">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Instruments/">Instruments</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/内存泄露/">内存泄露</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=iOS 内存泄漏检测&url=http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/index.html&pic=http://XibHe.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=iOS 内存泄漏检测&url=http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/index.html&via=XibHe" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=iOS 内存泄漏检测&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2019/05/27/iOS 内存泄漏检测/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。</p>
+<p>内存泄漏排查，三步走：</p>
+<ol>
+<li><em>Analyzer</em>（静态分析） </li>
+<li><em>MLeaksFinder</em> (第三方工具) </li>
+<li><em>Instruments Leaks</em> (动态检测)</li>
+</ol>
+<h3 id="Analyaer"><a href="#Analyaer" class="headerlink" title="Analyaer"></a>Analyaer</h3><p>不需要运行程序，通过 <em>Product-&gt;Analyze</em> 或快捷键 <em>command+shift+B</em> 进行代码分析。</p>
+<p>分析代码上下文的语法结构和内存情况，找出代码中潜在错误 <em>Analyzer</em>主要分析四种问题：</p>
+<ol>
+<li>逻辑错误：访问空指针或未初始化的变量等；</li>
+<li>内存管理错误：如内存泄漏等；</li>
+<li>声明错误：从未使用过的变量；</li>
+<li><em>API</em> 调用错误：未包含使用的库和框架。</li>
+</ol>
+<p>后面提到的 <em>CoreLocation</em> 框架的需要手动释放问题，就是通过 <em>Analyzer</em> 检测出来的。</p>
+<p>说明： Analyzer由于是编译器根据代码进行的判断, 做出的判断不一定会准确, 因此如果遇到提示, 应该去结合代码上文检查一下；还有某些造成内存泄漏的循环引用通过Analyzer分析不出来。</p>
+<h3 id="MLeaksFinder"><a href="#MLeaksFinder" class="headerlink" title="MLeaksFinder"></a>MLeaksFinder</h3><p>通过 </p>
+<p><code>pod &#39;MLeaksFinder&#39;</code></p>
+<p>或将下载的 <em>MLeaksFinder</em>  文件导入工程中，</p>
+<p>在 <em>MLeaksFinder.h</em> 中 设置是否开启内存泄漏检测，以及是在模拟器中开始还是在真机中开启。</p>
+<pre><code class="objectivec">//***内存泄漏控制开关，注释该行代码打开内存泄漏工具，打开该行代码关闭内存泄漏****
+//#define MEMORY_LEAKS_FINDER_ENABLED 0
+
+#ifdef MEMORY_LEAKS_FINDER_ENABLED
+
+#define _INTERNAL_MLF_ENABLED MEMORY_LEAKS_FINDER_ENABLED
+
+#else
+
+//仅在模拟器打开内存泄漏检测
+#if TARGET_IPHONE_SIMULATOR  //模拟器
+    #define _INTERNAL_MLF_ENABLED DEBUG
+#elif TARGET_OS_IPHONE      //真机
+
+#endif//TARGET_IPHONE_SIMULATOR
+
+#endif//_INTERNAL_MLF_ENABLED MEMORY_LEAKS_FINDER_ENABLED
+</code></pre>
+<p>具体操作步骤：<br>不断重复 <em>push</em> 和 <em>pop</em> 同一个 <em>UIViewController</em>，一旦有疑似内存泄漏的地方，就会弹出提示框，控制台也会输出调用栈的层级信息：</p>
+<pre><code class="objectivec">[文件:MLeaksMessenger.m   行数:36] Memory Leak: (
+    MCLocateAddressViewController,
+    UIView,
+    BMKMapView,
+    BMKInternalMapView,
+    BMKTapDetectingView,
+    BMKAnnotationContainer
+)
+
+[文件:NSObject+MemoryLeak.m   行数:54] Possibly Memory Leak.
+In case that BMKAnnotationContainer should not be dealloced, override -willDealloc in BMKAnnotationContainer by returning NO.
+View-ViewController stack: (
+    MCLocateAddressViewController,
+    UIView,
+    BMKMapView,
+    BMKInternalMapView,
+    BMKTapDetectingView,
+    BMKAnnotationContainer
+)
+</code></pre>
+<p>展示视图自上而下的调用层级，这里需要注意一些三方 <em>SDK</em> 控件导致的疑似泄漏，可能会因其内部的 <em>cache</em> 机制或者释放不及时而被误判为内存泄漏。</p>
+<h3 id="Instruments-Leaks"><a href="#Instruments-Leaks" class="headerlink" title="Instruments Leaks"></a>Instruments Leaks</h3><p>这里使用最新版 Xcode 10.3 进行 leaks 检测。</p>
+<ol>
+<li><em>Xcode</em> 中 按住 <em>command + I</em> 或者菜单栏 <em>Product – Profile</em></li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_01.jpg" alt=""></p>
+<ol>
+<li>双击 <em>Leaks</em> 或者按 <em>choose</em>，打开 <em>Leaks</em> 面板</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_02.jpg" alt=""></p>
+<ol>
+<li><p>在显示的 <em>Leaks</em> 面板中，点击左上角红色点，即可运行内存检测</p>
+</li>
+<li><p>在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息</p>
+</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_03.jpg" alt=""></p>
+<ol>
+<li>定位内存泄漏代码位置</li>
+</ol>
+<h4 id="1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks"><a href="#1-选择Leaks有时候默认是-Run-lssues，这时需要将其切换为-Leaks" class="headerlink" title="1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks"></a>1. 选择Leaks有时候默认是 Run lssues，这时需要将其切换为 Leaks</h4><h4 id="2-选择-call-Three"><a href="#2-选择-call-Three" class="headerlink" title="2. 选择 call Three"></a>2. 选择 call Three</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_04.jpg" alt=""></p>
+<h4 id="3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码"><a href="#3-此时，仍然看不到具体的代码位置，需要选择底部的Call-Tree，在弹窗中选择Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码" class="headerlink" title="3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码"></a>3. 此时，仍然看不到具体的代码位置，需要选择底部的Call Tree，在弹窗中选择Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_05.jpg" alt=""></p>
+<p>Call Tree 四种选项具体含义：</p>
+<p><font color="#DC143C">Separate by Thread：</font>按线程分开做分析，这样更容易揪出那些吃资源的问题线程。特别是对于主线程，它要处理和渲染所有的接口数据，一旦受到阻塞，程序必然卡顿或停止响应。</p>
+<p><font color="#DC143C">Invert Call Tree：</font>反向输出调用树。把调用层级最深的方法显示在最上面，更容易找到最耗时的操作。</p>
+<p><font color="#DC143C">Hide System Libraries：</font>隐藏系统库文件。过滤掉各种系统调用，只显示自己的代码调用。</p>
+<p><font color="#DC143C">Flattern Recursion：</font>拼合递归。将同一递归函数产生的多条堆栈（因为递归函数会调用自己）合并为一条。</p>
+<h4 id="4-双击选中行，即可跳转-Instrument-中具体的代码"><a href="#4-双击选中行，即可跳转-Instrument-中具体的代码" class="headerlink" title="4. 双击选中行，即可跳转 Instrument 中具体的代码"></a>4. 双击选中行，即可跳转 Instrument 中具体的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_06.jpg" alt=""></p>
+<h4 id="5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码"><a href="#5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码" class="headerlink" title="5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码"></a>5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_07.jpg" alt=""></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>注意 <em>Core Foundation</em> 等底层操作它们不支持 <em>ARC</em>，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法：</li>
+</ol>
+<pre><code class="objectivec">// 根据范围数组 border 的个数初始化定位坐标
+CLLocationCoordinate2D *coords = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * borderCount);
+BMKPolygon  *polygon = [BMKPolygon polygonWithCoordinates:coords count:borderCount];
+free(coords);
+</code></pre>
+<p><em>CLLocationCoordinate2D</em> 是 系统框架 <em>CoreLocation</em> 中 一个 <em>C</em> 的 结构体，包含经度和纬度两个值 (<em>CLLocation</em> 是一个 objc 的 对象)，需要通过 <em>free</em> 手动释放。这里需要注意以 <em>Core</em> 开头的系统框架的内存管理。</p>
+<ol>
+<li>如果第五步不出现定位箭头，无法定位到具体代码，则<br>点击项目工程文件-Buidl Setting-All-搜索Debug Information Format-Debug里选择DWARF with dSYM File（如图）</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_08.jpg" alt=""></p>
+<p>默认情况下，只有 <em>release</em> 环境下为 <em>DWARF with dSYM File</em>，其他环境均为 <em>DWARF</em>。当 <em>Debug Information Format</em> 为 <em>DWARF with dSYM File</em> 的时候，构建过程中多了一步 <em>Generate dSYM File</em>，最终产出的文件也多了一个 <em>dSYM</em> 文件。然后，重新编译启动 <em>Instruments Leaks</em>，重复以上步骤即可定位到具体代码。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://wereadteam.github.io/2016/02/22/MLeaksFinder/" target="_blank" rel="external">MLeaksFinder：精准 iOS 内存泄露检测工具</a></p>
+<p><a href="http://wereadteam.github.io/2016/07/20/MLeaksFinder2/" target="_blank" rel="external">MLeaksFinder 新特性</a></p>
+<p><a href="https://github.com/Tencent/MLeaksFinder" target="_blank" rel="external">Tencent/MLeaksFinder</a></p>
+<p><a href="https://juejin.im/entry/5965f8856fb9a06bad654502" target="_blank" rel="external">浅谈 iOS Crash</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 Gitalk -->
+<div id="gitalk-comment">
+    <!-- Gitalk 评论框 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script>
+    var gitalk = new Gitalk({
+            clientID: '664d164a7c2910ff9c32',
+            clientSecret: '312260816c7af1b87c16b13906b55270ba8a1736',
+            repo: 'BlogGitalks',
+            owner: 'xibhe',
+            admin: ['xibhe'],
+            // facebook-like distraction free mode
+            distractionFreeMode: false,
+            id: 'Mon May 27 2019 00:00:00 GMT+0800'
+        })
+   gitalk.render('gitalk-container')
+</script>
+
+</div>
+<style>
+    #gitalk-comment {
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2019/03/17/RN_Module/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="XibHe's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        huahuaaihehe@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2019/05/">五月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/01/">一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/12/">十二月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/10/">十月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/08/">八月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/10/">十月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">十二月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/09/">九月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">八月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">七月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">一月 2016<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/JavaScript/">JavaScript<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/Objective-C/">Objective-C<span class="sidebar_archives-count">9</span></a></li><li><a class="sidebar_archives-link" href="/categories/功能/">功能<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/解惑/">解惑<span class="sidebar_archives-count">13</span></a></li><li><a class="sidebar_archives-link" href="/categories/设计模式/">设计模式<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/译文/">译文<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/categories/阅读/">阅读<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/随笔/">随笔<span class="sidebar_archives-count">8</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/quotes" title="引述">
+                
+                    <i class="material-icons sidebar-material-icons">star rate</i>
+                
+                引述
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签云">
+                
+                    <i class="material-icons sidebar-material-icons">search</i>
+                
+                标签云
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="关于我">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                关于我
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="友情链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友情链接
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/heheaihuahua" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/profile.php?id=100010683492211" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-facebook">
+                <span class="visuallyhidden">Facebook</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/xibhe" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+    
+    <!-- V2EX -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;2016&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>XibHe's Blog
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?V/53wGualMuiPM3xoetD5Q==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+   <!-- GitTalk -->
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+    
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.2 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
