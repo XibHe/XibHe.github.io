@@ -23,6 +23,8 @@
 
 
 
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
 
 
 
@@ -244,7 +246,7 @@
 
     
         <meta property="article:published_time" content="Wed Jul 18 2018 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sun Nov 11 2018 15:15:37 GMT+0800">
+        <meta property="article:modified_time" content="Sat Nov 23 2019 23:42:20 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -267,7 +269,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2018/07/18/ModuleFirstExplore/index.html",
     "headline": "组件化初探",
     "datePublished": "Wed Jul 18 2018 00:00:00 GMT+0800",
-    "dateModified": "Sun Nov 11 2018 15:15:37 GMT+0800",
+    "dateModified": "Sat Nov 23 2019 23:42:20 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -453,6 +455,8 @@
     
 
     
+        
+    
 
     <!-- Share Weibo -->
     
@@ -562,7 +566,7 @@
 <li>H5交互中间件(<strong>LZWebViewComponents_category</strong>)</li>
 </ul>
 <p>项目最终的架构图如下，</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/ModuleArchitecture.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/moduleArchitecture.png" alt=""></p>
 <p>其中，webView组件处理了三个H5功能模块的页面展示及数据交互，这里把它归为业务组件的范畴。</p>
 <p>以上是基础组件和功能组件的划分，正是有了这些泾渭分明的区分，才能为组件化之间解耦提供基础的支持。</p>
 <h2 id="MVC-VS-MVVM"><a href="#MVC-VS-MVVM" class="headerlink" title="MVC VS MVVM"></a>MVC VS MVVM</h2><p>对于组件化后继续使用 <strong>MVC</strong> 架构还是替换为 <strong>MVVM</strong>架构。这二者只是代码层次划分，主要是针对数据流动的方向而言。这里以解决问题为主，而不是生搬硬套架构。本片文章主要用来介绍组件化的实现流程，这里就不对架构做详细叙述了。但随着组件化的深入，这二者间终会有一个抉择，后续计划单独整理出二者之间关系的文章。</p>
@@ -1472,6 +1476,9 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
