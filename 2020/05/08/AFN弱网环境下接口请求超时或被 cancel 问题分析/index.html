@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.2 -->
+    <script>
+        window.materialVersion = "1.5.2"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            AFN弱网环境下接口请求超时或被 cancel 问题分析 | 
+        
+        XibHe&#39;s Blog
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" href="/img/favicon.png">
+
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" itemprop="description" content="爱苹果,爱生活。">
+    <meta name="keywords" content="null,AFNetworking,弱网">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/tranquil-heart.min.css?ul3p9I9MsbOxK0L+BHzDDg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="XibHe&#39;s Blog">
+    <meta name="msapplication-starturl" content="http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="XibHe&#39;s Blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="AFN弱网环境下接口请求超时或被 cancel 问题分析 | XibHe&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content="爱苹果,爱生活。">
+    <meta property="og:article:tag" content="AFNetworking"> <meta property="og:article:tag" content="弱网"> 
+
+    
+        <meta property="article:published_time" content="Fri May 08 2020 00:00:00 GMT+0800">
+        <meta property="article:modified_time" content="Sat May 09 2020 00:04:59 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/index.html",
+    "headline": "AFN弱网环境下接口请求超时或被 cancel 问题分析",
+    "datePublished": "Fri May 08 2020 00:00:00 GMT+0800",
+    "dateModified": "Sat May 09 2020 00:04:59 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "XibHe",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "It is never too late，Just do it better."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "XibHe&#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",AFNetworking,弱网null",
+    "description": "爱苹果,爱生活。",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+        <script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?919ef00558a82bb0e224f917f84d3124';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#测试流程"><span class="post-toc-number">1.</span> <span class="post-toc-text">测试流程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#模拟弱网环境测试"><span class="post-toc-number">2.</span> <span class="post-toc-text">模拟弱网环境测试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题定位"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对比重连机制序列化改变时间"><span class="post-toc-number">4.</span> <span class="post-toc-text">对比重连机制序列化改变时间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">5.</span> <span class="post-toc-text">解决方案</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#遗留问题"><span class="post-toc-number">6.</span> <span class="post-toc-text">遗留问题</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/leaks_thumbnail)">
+    
+            <p class="article-headline-p">
+                AFN弱网环境下接口请求超时或被 cancel 问题分析
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>XibHe</strong>
+        <span>5月 08, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASYAAAEmCAAAAADqr2IGAAAEFElEQVR42u3aSXLbQBAEQP7/0/YDHKCquiEHOUicFKQ4S+Iw08vrjyd4XggwYcKECRMmDyZMmDB9PNMrfv79Vf735VIuZmk/vxp5tUdMmDBhwnQQU7KZzeaT7bVMyWpne8SECRMmTKcyvV9cMvH7LW3GWW14tkdMmDBhwvR4puQ/23B0c6VIXg8mTJgwYcKUT5MHvfvwOHlV7foxYcKECdPTmPJgMjmA99DtYT9bPyZMmDBhegLT5nD9lr//a38TJkyYMGH6GKbNk1wCkoJlmwieJX/r3WHChAkTpiOY2sM1Qbn3YN4HzHlbDyZMmDBhOo9pdlTPrgjD5QbNPW3qOSqXYsKECROmI5iSifNDfXY5yIums5eXFGIxYcKECdPZTJtj+z1u/u0mDM4vK/lvMWHChAnTGUzJxL+XYM1fSZ50bkPoouqLCRMmTJi+kGnTcNOGnXv6Nixvk7+YMGHChOkJTLOLQnJgvw9681cy+209AiZMmDBhOoIpT+YmKdr86G0D5lkiePOqMGHChAnTSUz5QtsCYc49K3bOxo8KrpgwYcKE6QimWeJ13zqTz95SzgqZmDBhwoTpOUz5xvKQsl1inurd7OWHl4oJEyZMmI5gKkLBRRCbXw6SxprX4rkhyYsJEyZMmL6KqQ10k23sR87Tx3lzT3tZwYQJEyZMpzJtGmI2n+TobUA++xwTJkyYMJ3B1CZMZyHlZvz2deaNRD+MjwkTJkyYjmCaHZz5pWFW2pwlamcXGkyYMGHC9ASmWfNNcuTn385SvXlpth0NEyZMmDCdwZRM1jb6tBtrCWZp4gQREyZMmDCdytQe9i1HfiGYbXs2CyZMmDBhwrQvQ+ZH/l1BdX5lGTbuYMKECROmr2LaFBfzIHkTAOess3Eu14MJEyZMmA5ien8kJ1POfpuPk/zqrr1gwoQJE6ZTmdpU6exakOPOXslt5VJMmDBhwnQE02ygfZPoPpmbv7bkW0yYMGHCdCpTHlLOWk7bYLUNfTetsTckeTFhwoQJ0xFMswJkXpLcb+8VP8V1ARMmTJgwHcHUpl+TRp8WtF1PG/q2n2DChAkTpvOYcojkSM7Lk23Dzex15mE2JkyYMGE6j6lt98y32m4gR8mvJpt5MWHChAnTGUx1kW+UkM2P+dkBPwvCf7i4YMKECROmI5g2hcAZXNuIM0sH78fHhAkTJkwnMc1Kie1xPrsQtOF0eyG43DUmTJgwYTqOKZky+f9kobPSY5J63oyPCRMmTJgw5Utsw9E26M3naveLCRMmTJiezNQuKx9hn8zdrAcTJkyYMD2B6d4mmE1Rs13JptHn8nNMmDBhwnQQU5sSzY/qfSNOG1q3pdNfaVHFhAkTJkwfw+S5fDEIMGHChAkTJg8mTJgwfeLzFwqJK4r+eYkOAAAAAElFTkSuQmCC">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/AFNetworking/">AFNetworking</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/弱网/">弱网</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=AFN弱网环境下接口请求超时或被 cancel 问题分析&url=http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/index.html&pic=http://XibHe.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=AFN弱网环境下接口请求超时或被 cancel 问题分析&url=http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/index.html&via=XibHe" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=XibHe&#39;s Blog&title=AFN弱网环境下接口请求超时或被 cancel 问题分析&summary=爱苹果,爱生活。&pics=http://XibHe.github.io/img/favicon.png&url=http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>在弱网络环境下启动 App 进入首页，网络请求超时或者被 cancel 后，不会走网络请求失败的 failure 回调，导致该回调中隐藏假首页 (模态首页) 的代码不会执行，最终无法进入真正首页的问题。</p>
+<h3 id="测试流程"><a href="#测试流程" class="headerlink" title="测试流程"></a>测试流程</h3><ol>
+<li>弱网环境 （可以使用 iPhone 的开发者模式或者通过 Charles 模拟弱网环境）</li>
+<li>建议使用真机测试</li>
+<li>建议使用生产环境数据进行测试</li>
+</ol>
+<h3 id="模拟弱网环境测试"><a href="#模拟弱网环境测试" class="headerlink" title="模拟弱网环境测试"></a>模拟弱网环境测试</h3><p>项目中网络请求框架对超时时间和重连次数的设置：<br>当前 AFNetworking 的超时时间 MCNetworkRequestTimeoutInterval = 20.f，<br>重连次数 MCNetworkRetryTimes = 3</p>
+<ol>
+<li>开发者 —&gt; Network Link Conditioner —&gt; Very Bad Network<br>失败接口，error.code == -999，Error Domain=NSURLErrorDomain Code=-999 “已取消”。对应接口以下 6 个接口：</li>
+</ol>
+<ul>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/ad/get}" target="_blank" rel="external">https://test.com/api/ad/get}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com.com/mall_trade/api/cart/list}" target="_blank" rel="external">https://test.com.com/mall_trade/api/cart/list}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/account/salesinfo}" target="_blank" rel="external">https://test.com/api/account/salesinfo}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/cms/getmodulesbyroute}" target="_blank" rel="external">https://test.com/api/cms/getmodulesbyroute}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/cms/gettabbar}" target="_blank" rel="external">https://test.com/api/cms/gettabbar}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/im/getgroupinfo}" target="_blank" rel="external">https://test.com/api/im/getgroupinfo}</a></li>
+</ul>
+<p>需要注意的是：在该 Very Bad Network 环境下，所有进入失败的接口请求都为 -999，即，已被取消的接口请求。具体代码如下：</p>
+<pre><code class="objectivec"> } failure:^(NSError *error) {        
+        if (error.code == -999) {
+            //request cancel. nothing todo
+        } else {
+            //网络不通
+            if (failure) {
+                failure(error);
+            }
+        }
+    } repeatCancel:repeatCancel];
+</code></pre>
+<p>此网络状态下，超时重连后会正常回调 failure 的的方法。</p>
+<ol>
+<li>开发者 —&gt; Network Link Conditioner —&gt;90% Loss (自定义 In Packet Loss 90，Out Packet Loss 0)<br>触发网络框架的重连机制，通过网络框架中的扩展方法 AFHTTPSessionManager+MCRetryPolicy.h 进行重连，</li>
+</ol>
+<pre><code class="objectivec">// #import &quot;AFHTTPSessionManager+MCRetryPolicy.h&quot;
+- (NSURLSessionDataTask *)requestUrlWithRetryRemaining:(NSInteger)retryRemaining maxRetry:(NSInteger)maxRetry retryInterval:(NSTimeInterval)retryInterval progressive:(bool)progressive fatalStatusCodes:(NSArray&lt;NSNumber *&gt; *)fatalStatusCodes originalRequestCreator:(NSURLSessionDataTask *(^)(void (^)(NSURLSessionDataTask *, NSError *)))taskCreator originalFailure:(void(^)(NSURLSessionDataTask *task, NSError *))failure {
+   if (retryRemaining &gt; 0) {
+            void (^addRetryOperation)(void) = ^{
+                [self requestUrlWithRetryRemaining:retryRemaining - 1 maxRetry:maxRetry retryInterval:retryInterval progressive:progressive fatalStatusCodes:fatalStatusCodes originalRequestCreator:taskCreator originalFailure:failure];
+            };
+            if (retryInterval &gt; 0.0) {
+                dispatch_time_t delay;
+                if (progressive) {
+                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
+                    [self logMessage:@&quot;Delaying the next attempt by %.0f seconds …&quot;, retryInterval * pow(2, maxRetry - retryRemaining)];
+                } else {
+                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * NSEC_PER_SEC));
+                    [self logMessage:@&quot;Delaying the next attempt by %.0f seconds …&quot;, retryInterval];
+                }
+
+                // Not accurate because of &quot;Timer Coalescing and App Nap&quot; - which helps to reduce power consumption.
+                dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+                    addRetryOperation();
+                });
+
+            } else {
+                addRetryOperation();
+            }
+
+        } else {
+            [self logMessage:@&quot;No more attempts left! Will execute the failure block.&quot;];
+            failure(task, error);
+        }
+}
+</code></pre>
+<h3 id="问题定位"><a href="#问题定位" class="headerlink" title="问题定位"></a>问题定位</h3><p>埋点库 MCStatisticsManager 由于传递 protobuf 格式的数据，在上报埋点请求时其序列化的类型被设置为：MCRequestSerializerTypeProtobuf，响应序列化 serializer = [AFProtobufResponseSerializer serializer]; 而正常的非上报埋点请求的序列化为 MCRequestSerializerTypeJSON。所以当遇到弱网和非弱网访问时，会造成两种截然不同的处理结果：</p>
+<ul>
+<li>弱网情况下：</li>
+</ul>
+<p>因网络原因导致请求超时，会触发重连机制，在重新连接网络时，会 resume 重启之前被 suspend 暂停的网络请求 task，再次调用单例 MCNetworkManager 序列化方法，此时，由于是异步执行网络请求，在此之前，埋点上报 MCStatisticsManager已经将网络请求序列方式修改为MCRequestSerializerTypeProtobuf。  在调用非上报埋点的网络接口时，因其请求需要被序列化为 MCRequestSerializerTypeJSON，序列化类型与现有MCNetworkManager序列化类型不匹配，导致报错：</p>
+<pre><code>序列化失败 = Error Domain=com.alamofire.error.serialization.request Code=-1016 &quot;The `parameters` argument is not valid Protobuf.&quot; UserInfo={NSLocalizedFailureReason=The `parameters` argument is not valid Protobuf.}
+url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
+时间 = 2020-05-08 09:27:22 +0000
+</code></pre><p>此时，序列化错误 serializationError 会造成 task 请求返回 nil 的 NSURLSessionDataTask，</p>
+<pre><code class="objective-c">// #import &quot;AFHTTPSessionManager.h&quot;
+- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method
+                                       URLString:(NSString *)URLString
+                                      parameters:(id)parameters
+                                  uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgress
+                                downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgress
+                                         success:(void (^)(NSURLSessionDataTask *, id))success
+                                         failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
+{
+    NSError *serializationError = nil;
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&amp;serializationError];
+
+    NSLog(@&quot;\n序列化失败 = %@\nurl = %@\n时间 = %@\n&quot;, serializationError, URLString, [NSDate date]);
+    if (serializationError) {
+        if (failure) {
+            dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+                failure(nil, serializationError);
+            });
+        }
+
+        return nil;
+    }
+
+    __block NSURLSessionDataTask *dataTask = nil;
+    dataTask = [self dataTaskWithRequest:request
+                          uploadProgress:uploadProgress
+                        downloadProgress:downloadProgress
+                       completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+        NSLog(@&quot;\n网络回来了 = %@\n失败是什么 = %@\ndataTask = %@&quot;, URLString, error, dataTask);
+        if (error) {
+            if (failure) {
+                failure(dataTask, error);
+            }
+        } else {
+            if (success) {
+                success(dataTask, responseObject);
+            }
+        }
+    }];
+
+    return dataTask;
+}
+</code></pre>
+<p>当因序列化失败触发 failure 的 block 回调返回空的 NSURLSessionDataTask，</p>
+<pre><code class="objective-c">dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+      failure(nil, serializationError);
+});
+</code></pre>
+<p>该失败回调会触发最后一步 MCNetworkManager 中对应 post 请求的 failure 中的回调方法，</p>
+<pre><code class="objective-c">// #import &quot;MCNetworkManager.h&quot;
+- (void)executeDataTaskWithURL:(NSString *)url
+                    parameters:(id)parameters
+               timeoutInterval:(NSTimeInterval)timeoutInterval
+                   requestType:(MCRequestType)requestType
+         requestSerializerType:(MCRequestSerializerType)requestSerializerType
+                 requestHeader:(NSDictionary *)requestHeader
+        responseSerializerType:(MCResponseSerializerType)responseSerializerType
+                      progress:(NetworkProgressBlock)progress
+                       success:(NetworkSuccessBlock)success
+                       failure:(NetworkErrorBlock)failure
+                  repeatCancel:(BOOL)repeatCancel {
+
+
+case MCRequestTypePost: {
+            if (requestHeader.allKeys.count &gt; 0) {
+                for (NSString *key in requestHeader.allKeys) {
+                    id value = [requestHeader objectForKey:key];
+                    [self.manager.requestSerializer setValue:value forHTTPHeaderField:key];
+                }
+            }
+            task = [self.manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+
+            } success:^(NSURLSessionDataTask *task, id responseObject) {
+                [weakSelf removeExecutingTaskWithKey:url];
+                if (success) {
+                    success(responseObject);
+                }
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+
+//  NSLog(@&quot;task是 = %@ 错误原因 = %@ url是 = %@&quot;, task, error, url);
+                if (task.state == NSURLSessionTaskStateCompleted) {
+                    [weakSelf removeExecutingTaskWithKey:url];
+                    if (failure) {
+                        failure(error);
+                    }
+                }
+            } retryCount:MCNetworkRetryTimes retryInterval:0 progressive:false fatalStatusCodes:nil];
+        }
+            break;
+}
+</code></pre>
+<p>需要注意⚠️的是：该方法判断了传递过来的 task 的 state 是否为 NSURLSessionTaskStateCompleted才会返回最终的网络请求失败的 failure 回调，但是此时传递过来的 task 因为序列化失败而为 nil，这样就不会触发 failure 回调。因此，在弱网情况下，因接口请求超时，导致接口请求失败的 failure 回调方法中对失败处理的代码就不会执行了。造成弱网络启动时，因超时接口请求失败，模态首页无法在失败回调中移除。</p>
+<p>通过输出重连时，请求序列化不同类型的时间，对比同一接口在重连前后序列化成功或者失败的情况。</p>
+<pre><code class="objective-c">// #import &quot;MCNetworkManager.h&quot;
+- (AFHTTPRequestSerializer *)requestSerializerWithType:(MCRequestSerializerType)type timeoutInterval:(NSTimeInterval)timeoutInterval {
+    NSLog(@&quot;request 序列化 = %@, 类型为 = %@&quot;, [NSDate date], @(type));
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    if (type == MCRequestSerializerTypeJSON) {
+        serializer = [AFJSONRequestSerializer serializer];
+    }
+    else if (type == MCRequestSerializerTypePropertyList) {
+        serializer = [AFPropertyListRequestSerializer serializer];
+    } else if (type == MCRequestSerializerTypeProtobuf) {
+        serializer = [AFProtobufRequestSerializer serializer];
+    }
+    serializer.timeoutInterval = timeoutInterval;
+    return serializer;
+}
+</code></pre>
+<h3 id="对比重连机制序列化改变时间"><a href="#对比重连机制序列化改变时间" class="headerlink" title="对比重连机制序列化改变时间"></a>对比重连机制序列化改变时间</h3><p>输出 log 日志如下：</p>
+<pre><code>2020-05-08 17:25:35.770423+0800 MeicaiStore[69492:1057810] request 序列化 = 2020-05-08 09:25:35 +0000, 类型为 = 1
+</code></pre><pre><code>request 序列化 = 2020-05-08 09:25:35 +0000, 类型为 = 3
+request 序列化 = 2020-05-08 09:25:41 +0000, 类型为 = 3
+request 序列化 = 2020-05-08 09:25:49 +0000, 类型为 = 3
+</code></pre><pre><code>序列化失败 = (null)
+url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
+时间 = 2020-05-08 09:25:35 +0000
+</code></pre><pre><code>序列化失败 = Error Domain=com.alamofire.error.serialization.request Code=-1016 &quot;The `parameters` argument is not valid Protobuf.&quot; UserInfo={NSLocalizedFailureReason=The `parameters` argument is not valid Protobuf.}
+url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
+时间 = 2020-05-08 09:27:22 +0000
+</code></pre><ul>
+<li>在 09:25:35 时接口 auth/loginbytickets 的序列化类型为 1 即，MCRequestSerializerTypeJSON，此时，序列化成功未报错。</li>
+<li>在 09:25 时，序列化类型已经变为3，即，MCRequestSerializerTypeProtobuf</li>
+<li><p>在网络重连后的 09:27:22 时，序列化失败，此时  MCNetworkManager 序列化类型已经被改变，报parameters` argument is not valid Protobuf 序列化不匹配的错误。最终导致接口请求的 failure 回调不被执行。</p>
+</li>
+<li><p>非弱网情况下：<br>非弱网情况下，不会触发网络连接超时的重连机制。每个网络请求都对应当前设置的序列化类型</p>
+</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>在埋点库 — MCStatisticsManager 中重新初始化一个新的用于网络上报埋点的 MCNetworkManager，而不是之前的单例 [MCNetworkManager sharedInstance]，去执行上报埋点数据的网络请求。</p>
+<h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>超时时间设置为 20 秒，重连次数为 3 次。导致在弱网情况下，网络请求failure 回调处理等待时间过长的问题。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 Gitalk -->
+<div id="gitalk-comment">
+    <!-- Gitalk 评论框 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script>
+    var gitalk = new Gitalk({
+            clientID: '664d164a7c2910ff9c32',
+            clientSecret: '312260816c7af1b87c16b13906b55270ba8a1736',
+            repo: 'BlogGitalks',
+            owner: 'xibhe',
+            admin: ['xibhe'],
+            // facebook-like distraction free mode
+            distractionFreeMode: false,
+            id: 'Fri May 08 2020 00:00:00 GMT+0800'
+        })
+   gitalk.render('gitalk-container')
+</script>
+
+</div>
+<style>
+    #gitalk-comment {
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2019/05/27/iOS内存泄漏检测/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="XibHe's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        huahuaaihehe@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/05/">五月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/01/">一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/12/">十二月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/10/">十月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/08/">八月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/10/">十月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">十二月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/09/">九月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">八月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">七月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">一月 2016<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/JavaScript/">JavaScript<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/Objective-C/">Objective-C<span class="sidebar_archives-count">9</span></a></li><li><a class="sidebar_archives-link" href="/categories/功能/">功能<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/解惑/">解惑<span class="sidebar_archives-count">14</span></a></li><li><a class="sidebar_archives-link" href="/categories/设计模式/">设计模式<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/译文/">译文<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/categories/阅读/">阅读<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/随笔/">随笔<span class="sidebar_archives-count">8</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/quotes" title="引述">
+                
+                    <i class="material-icons sidebar-material-icons">star rate</i>
+                
+                引述
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签云">
+                
+                    <i class="material-icons sidebar-material-icons">search</i>
+                
+                标签云
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="关于我">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                关于我
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="友情链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友情链接
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/heheaihuahua" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/profile.php?id=100010683492211" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-facebook">
+                <span class="visuallyhidden">Facebook</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/xibhe" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+    
+    <!-- V2EX -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;2016&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>XibHe's Blog
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?V/53wGualMuiPM3xoetD5Q==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+   <!-- GitTalk -->
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+    
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.2 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

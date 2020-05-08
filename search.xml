@@ -3,6 +3,234 @@
   
     
     <entry>
+      <title><![CDATA[AFN弱网环境下接口请求超时或被 cancel 问题分析]]></title>
+      <url>/2020/05/08/AFN%E5%BC%B1%E7%BD%91%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%8E%A5%E5%8F%A3%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6%E6%88%96%E8%A2%AB%20cancel%20%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/</url>
+      <content type="html"><![CDATA[<p>在弱网络环境下启动 App 进入首页，网络请求超时或者被 cancel 后，不会走网络请求失败的 failure 回调，导致该回调中隐藏假首页 (模态首页) 的代码不会执行，最终无法进入真正首页的问题。</p>
+<h3 id="测试流程"><a href="#测试流程" class="headerlink" title="测试流程"></a>测试流程</h3><ol>
+<li>弱网环境 （可以使用 iPhone 的开发者模式或者通过 Charles 模拟弱网环境）</li>
+<li>建议使用真机测试</li>
+<li>建议使用生产环境数据进行测试</li>
+</ol>
+<h3 id="模拟弱网环境测试"><a href="#模拟弱网环境测试" class="headerlink" title="模拟弱网环境测试"></a>模拟弱网环境测试</h3><p>项目中网络请求框架对超时时间和重连次数的设置：<br>当前 AFNetworking 的超时时间 MCNetworkRequestTimeoutInterval = 20.f，<br>重连次数 MCNetworkRetryTimes = 3</p>
+<ol>
+<li>开发者 —&gt; Network Link Conditioner —&gt; Very Bad Network<br>失败接口，error.code == -999，Error Domain=NSURLErrorDomain Code=-999 “已取消”。对应接口以下 6 个接口：</li>
+</ol>
+<ul>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/ad/get}" target="_blank" rel="external">https://test.com/api/ad/get}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com.com/mall_trade/api/cart/list}" target="_blank" rel="external">https://test.com.com/mall_trade/api/cart/list}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/account/salesinfo}" target="_blank" rel="external">https://test.com/api/account/salesinfo}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/cms/getmodulesbyroute}" target="_blank" rel="external">https://test.com/api/cms/getmodulesbyroute}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/cms/gettabbar}" target="_blank" rel="external">https://test.com/api/cms/gettabbar}</a></li>
+<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/im/getgroupinfo}" target="_blank" rel="external">https://test.com/api/im/getgroupinfo}</a></li>
+</ul>
+<p>需要注意的是：在该 Very Bad Network 环境下，所有进入失败的接口请求都为 -999，即，已被取消的接口请求。具体代码如下：</p>
+<pre><code class="objectivec"> } failure:^(NSError *error) {        
+        if (error.code == -999) {
+            //request cancel. nothing todo
+        } else {
+            //网络不通
+            if (failure) {
+                failure(error);
+            }
+        }
+    } repeatCancel:repeatCancel];
+</code></pre>
+<p>此网络状态下，超时重连后会正常回调 failure 的的方法。</p>
+<ol>
+<li>开发者 —&gt; Network Link Conditioner —&gt;90% Loss (自定义 In Packet Loss 90，Out Packet Loss 0)<br>触发网络框架的重连机制，通过网络框架中的扩展方法 AFHTTPSessionManager+MCRetryPolicy.h 进行重连，</li>
+</ol>
+<pre><code class="objectivec">// #import &quot;AFHTTPSessionManager+MCRetryPolicy.h&quot;
+- (NSURLSessionDataTask *)requestUrlWithRetryRemaining:(NSInteger)retryRemaining maxRetry:(NSInteger)maxRetry retryInterval:(NSTimeInterval)retryInterval progressive:(bool)progressive fatalStatusCodes:(NSArray&lt;NSNumber *&gt; *)fatalStatusCodes originalRequestCreator:(NSURLSessionDataTask *(^)(void (^)(NSURLSessionDataTask *, NSError *)))taskCreator originalFailure:(void(^)(NSURLSessionDataTask *task, NSError *))failure {
+   if (retryRemaining &gt; 0) {
+            void (^addRetryOperation)(void) = ^{
+                [self requestUrlWithRetryRemaining:retryRemaining - 1 maxRetry:maxRetry retryInterval:retryInterval progressive:progressive fatalStatusCodes:fatalStatusCodes originalRequestCreator:taskCreator originalFailure:failure];
+            };
+            if (retryInterval &gt; 0.0) {
+                dispatch_time_t delay;
+                if (progressive) {
+                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
+                    [self logMessage:@&quot;Delaying the next attempt by %.0f seconds …&quot;, retryInterval * pow(2, maxRetry - retryRemaining)];
+                } else {
+                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * NSEC_PER_SEC));
+                    [self logMessage:@&quot;Delaying the next attempt by %.0f seconds …&quot;, retryInterval];
+                }
+
+                // Not accurate because of &quot;Timer Coalescing and App Nap&quot; - which helps to reduce power consumption.
+                dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+                    addRetryOperation();
+                });
+
+            } else {
+                addRetryOperation();
+            }
+
+        } else {
+            [self logMessage:@&quot;No more attempts left! Will execute the failure block.&quot;];
+            failure(task, error);
+        }
+}
+</code></pre>
+<h3 id="问题定位"><a href="#问题定位" class="headerlink" title="问题定位"></a>问题定位</h3><p>埋点库 MCStatisticsManager 由于传递 protobuf 格式的数据，在上报埋点请求时其序列化的类型被设置为：MCRequestSerializerTypeProtobuf，响应序列化 serializer = [AFProtobufResponseSerializer serializer]; 而正常的非上报埋点请求的序列化为 MCRequestSerializerTypeJSON。所以当遇到弱网和非弱网访问时，会造成两种截然不同的处理结果：</p>
+<ul>
+<li>弱网情况下：</li>
+</ul>
+<p>因网络原因导致请求超时，会触发重连机制，在重新连接网络时，会 resume 重启之前被 suspend 暂停的网络请求 task，再次调用单例 MCNetworkManager 序列化方法，此时，由于是异步执行网络请求，在此之前，埋点上报 MCStatisticsManager已经将网络请求序列方式修改为MCRequestSerializerTypeProtobuf。  在调用非上报埋点的网络接口时，因其请求需要被序列化为 MCRequestSerializerTypeJSON，序列化类型与现有MCNetworkManager序列化类型不匹配，导致报错：</p>
+<pre><code>序列化失败 = Error Domain=com.alamofire.error.serialization.request Code=-1016 &quot;The `parameters` argument is not valid Protobuf.&quot; UserInfo={NSLocalizedFailureReason=The `parameters` argument is not valid Protobuf.}
+url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
+时间 = 2020-05-08 09:27:22 +0000
+</code></pre><p>此时，序列化错误 serializationError 会造成 task 请求返回 nil 的 NSURLSessionDataTask，</p>
+<pre><code class="objective-c">// #import &quot;AFHTTPSessionManager.h&quot;
+- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method
+                                       URLString:(NSString *)URLString
+                                      parameters:(id)parameters
+                                  uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgress
+                                downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgress
+                                         success:(void (^)(NSURLSessionDataTask *, id))success
+                                         failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
+{
+    NSError *serializationError = nil;
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&amp;serializationError];
+
+    NSLog(@&quot;\n序列化失败 = %@\nurl = %@\n时间 = %@\n&quot;, serializationError, URLString, [NSDate date]);
+    if (serializationError) {
+        if (failure) {
+            dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+                failure(nil, serializationError);
+            });
+        }
+
+        return nil;
+    }
+
+    __block NSURLSessionDataTask *dataTask = nil;
+    dataTask = [self dataTaskWithRequest:request
+                          uploadProgress:uploadProgress
+                        downloadProgress:downloadProgress
+                       completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+        NSLog(@&quot;\n网络回来了 = %@\n失败是什么 = %@\ndataTask = %@&quot;, URLString, error, dataTask);
+        if (error) {
+            if (failure) {
+                failure(dataTask, error);
+            }
+        } else {
+            if (success) {
+                success(dataTask, responseObject);
+            }
+        }
+    }];
+
+    return dataTask;
+}
+</code></pre>
+<p>当因序列化失败触发 failure 的 block 回调返回空的 NSURLSessionDataTask，</p>
+<pre><code class="objective-c">dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+      failure(nil, serializationError);
+});
+</code></pre>
+<p>该失败回调会触发最后一步 MCNetworkManager 中对应 post 请求的 failure 中的回调方法，</p>
+<pre><code class="objective-c">// #import &quot;MCNetworkManager.h&quot;
+- (void)executeDataTaskWithURL:(NSString *)url
+                    parameters:(id)parameters
+               timeoutInterval:(NSTimeInterval)timeoutInterval
+                   requestType:(MCRequestType)requestType
+         requestSerializerType:(MCRequestSerializerType)requestSerializerType
+                 requestHeader:(NSDictionary *)requestHeader
+        responseSerializerType:(MCResponseSerializerType)responseSerializerType
+                      progress:(NetworkProgressBlock)progress
+                       success:(NetworkSuccessBlock)success
+                       failure:(NetworkErrorBlock)failure
+                  repeatCancel:(BOOL)repeatCancel {
+
+
+case MCRequestTypePost: {
+            if (requestHeader.allKeys.count &gt; 0) {
+                for (NSString *key in requestHeader.allKeys) {
+                    id value = [requestHeader objectForKey:key];
+                    [self.manager.requestSerializer setValue:value forHTTPHeaderField:key];
+                }
+            }
+            task = [self.manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+
+            } success:^(NSURLSessionDataTask *task, id responseObject) {
+                [weakSelf removeExecutingTaskWithKey:url];
+                if (success) {
+                    success(responseObject);
+                }
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+
+//  NSLog(@&quot;task是 = %@ 错误原因 = %@ url是 = %@&quot;, task, error, url);
+                if (task.state == NSURLSessionTaskStateCompleted) {
+                    [weakSelf removeExecutingTaskWithKey:url];
+                    if (failure) {
+                        failure(error);
+                    }
+                }
+            } retryCount:MCNetworkRetryTimes retryInterval:0 progressive:false fatalStatusCodes:nil];
+        }
+            break;
+}
+</code></pre>
+<p>需要注意⚠️的是：该方法判断了传递过来的 task 的 state 是否为 NSURLSessionTaskStateCompleted才会返回最终的网络请求失败的 failure 回调，但是此时传递过来的 task 因为序列化失败而为 nil，这样就不会触发 failure 回调。因此，在弱网情况下，因接口请求超时，导致接口请求失败的 failure 回调方法中对失败处理的代码就不会执行了。造成弱网络启动时，因超时接口请求失败，模态首页无法在失败回调中移除。</p>
+<p>通过输出重连时，请求序列化不同类型的时间，对比同一接口在重连前后序列化成功或者失败的情况。</p>
+<pre><code class="objective-c">// #import &quot;MCNetworkManager.h&quot;
+- (AFHTTPRequestSerializer *)requestSerializerWithType:(MCRequestSerializerType)type timeoutInterval:(NSTimeInterval)timeoutInterval {
+    NSLog(@&quot;request 序列化 = %@, 类型为 = %@&quot;, [NSDate date], @(type));
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    if (type == MCRequestSerializerTypeJSON) {
+        serializer = [AFJSONRequestSerializer serializer];
+    }
+    else if (type == MCRequestSerializerTypePropertyList) {
+        serializer = [AFPropertyListRequestSerializer serializer];
+    } else if (type == MCRequestSerializerTypeProtobuf) {
+        serializer = [AFProtobufRequestSerializer serializer];
+    }
+    serializer.timeoutInterval = timeoutInterval;
+    return serializer;
+}
+</code></pre>
+<h3 id="对比重连机制序列化改变时间"><a href="#对比重连机制序列化改变时间" class="headerlink" title="对比重连机制序列化改变时间"></a>对比重连机制序列化改变时间</h3><p>输出 log 日志如下：</p>
+<pre><code>2020-05-08 17:25:35.770423+0800 MeicaiStore[69492:1057810] request 序列化 = 2020-05-08 09:25:35 +0000, 类型为 = 1
+</code></pre><pre><code>request 序列化 = 2020-05-08 09:25:35 +0000, 类型为 = 3
+request 序列化 = 2020-05-08 09:25:41 +0000, 类型为 = 3
+request 序列化 = 2020-05-08 09:25:49 +0000, 类型为 = 3
+</code></pre><pre><code>序列化失败 = (null)
+url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
+时间 = 2020-05-08 09:25:35 +0000
+</code></pre><pre><code>序列化失败 = Error Domain=com.alamofire.error.serialization.request Code=-1016 &quot;The `parameters` argument is not valid Protobuf.&quot; UserInfo={NSLocalizedFailureReason=The `parameters` argument is not valid Protobuf.}
+url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
+时间 = 2020-05-08 09:27:22 +0000
+</code></pre><ul>
+<li>在 09:25:35 时接口 auth/loginbytickets 的序列化类型为 1 即，MCRequestSerializerTypeJSON，此时，序列化成功未报错。</li>
+<li>在 09:25 时，序列化类型已经变为3，即，MCRequestSerializerTypeProtobuf</li>
+<li><p>在网络重连后的 09:27:22 时，序列化失败，此时  MCNetworkManager 序列化类型已经被改变，报parameters` argument is not valid Protobuf 序列化不匹配的错误。最终导致接口请求的 failure 回调不被执行。</p>
+</li>
+<li><p>非弱网情况下：<br>非弱网情况下，不会触发网络连接超时的重连机制。每个网络请求都对应当前设置的序列化类型</p>
+</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>在埋点库 — MCStatisticsManager 中重新初始化一个新的用于网络上报埋点的 MCNetworkManager，而不是之前的单例 [MCNetworkManager sharedInstance]，去执行上报埋点数据的网络请求。</p>
+<h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>超时时间设置为 20 秒，重连次数为 3 次。导致在弱网情况下，网络请求failure 回调处理等待时间过长的问题。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 解惑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> AFNetworking </tag>
+            
+            <tag> 弱网 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[iOS内存泄漏检测]]></title>
       <url>/2019/05/27/iOS%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%B5%8B/</url>
       <content type="html"><![CDATA[<p>最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。</p>
@@ -6091,12 +6319,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -6104,7 +6326,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x68;&#117;&#97;&#x68;&#117;&#x61;&#97;&#105;&#104;&#101;&#x68;&#101;&#x40;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#x6f;&#109;">&#x68;&#117;&#97;&#x68;&#117;&#x61;&#97;&#105;&#104;&#101;&#x68;&#101;&#x40;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x68;&#x75;&#x61;&#104;&#117;&#x61;&#x61;&#105;&#x68;&#101;&#104;&#101;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">&#x68;&#x75;&#x61;&#104;&#117;&#x61;&#x61;&#105;&#x68;&#101;&#104;&#101;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -6278,6 +6500,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
