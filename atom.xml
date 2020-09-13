@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2020-05-08T16:18:53.612Z</updated>
+  <updated>2020-09-13T15:51:41.856Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,6 +14,89 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Swift 与 OC 混编注意事项</title>
+    <link href="http://XibHe.github.io/2020/08/31/Swift%20%E4%B8%8E%20OC%20%E6%B7%B7%E7%BC%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>http://XibHe.github.io/2020/08/31/Swift 与 OC 混编注意事项/</id>
+    <published>2020-08-30T16:00:00.000Z</published>
+    <updated>2020-09-13T15:51:41.856Z</updated>
+    
+    <content type="html"><![CDATA[<p>OC 框架如何更好的为 Swift 提供服务<br>为了使 Objective-C 代码更好的符合 Swift 的使用习惯，主要有以下几种处理方式：</p>
+<ul>
+<li>遵循编译器的某些规则</li>
+<li>在头文件里进行特殊标注</li>
+<li>用 Swift 做中间层，重新封装原有代码</li>
+<li>根据自己的喜好进一步优化</li>
+</ul>
+<h3 id="快速查看-Xcode-基于-OC-代码生成的-Swift-接口"><a href="#快速查看-Xcode-基于-OC-代码生成的-Swift-接口" class="headerlink" title="快速查看 Xcode 基于 OC 代码生成的 Swift 接口"></a>快速查看 Xcode 基于 OC 代码生成的 Swift 接口</h3><p>在需要转换的 OC 类的 .h 头文件中，点击左上角的 Related Items 按钮，选择 Generated Interface 后，就会出现几种不同 Swift 版本的接口文件选择其中某个版本的 Swift 接口文件，最终自动生成对应版本的 Swift 接口 API</p>
+<h3 id="一些问题："><a href="#一些问题：" class="headerlink" title="一些问题："></a>一些问题：</h3><ol>
+<li>过多的隐式解析可选类型<br>默认情况下 Swift 会把 Objective-C 里的指针当做隐式解析可选类型，因为它认为这个值大部分情况下不会是 nil，但它也不完全确定。</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com" alt=""></p>
+<p>这样做会导致两个问题：</p>
+<ul>
+<li>大量的隐式解析可选类型让代码变得意图模糊</li>
+<li>隐式解析的存在，导致了容错能力的下降。只要服务端回传的参数中有一个空字段或者类型错误，就有可能引发 Crash</li>
+</ul>
+<p>解决以上问题的方式：在 OC 代码中使用 nonnull (不可为空)和 nullable (可为空)关键字，根据这两个关键字决定转换后的 Swift 是否使用隐式解析。除了 nonnull 和 nullable 以外，还有一对配合使用的宏 NS_ASSUME_NONNULL_BEGIN 和 NS_ASSUME_NONNULL_END 可以让我们的代码更清爽。(新建类会自带这一对宏)</p>
+<ol>
+<li>某些转换后的属性里 Any 定义过于模糊<br>可以通过在 OC 里添加 NSArray，NSDictionary 中存储的固定类来改善这个问题。例如，<br>-(void)setRecommendArray:(nullable NSArray<mchomegoodmodel *=""> *)recommendArray andSpace:(CGFloat)space andsectionInset:(UIEdgeInsets)sectionInse;</mchomegoodmodel></li>
+</ol>
+<p>转换为：</p>
+<p>open func setRecommendArray(_ recommendArray: [MCHomeGoodModel]?, andSpace space: CGFloat, andsectionInset sectionInse: UIEdgeInsets)</p>
+<ol>
+<li><p>一些初始化构造器或者方法命名不够优雅<br>Swift 和 Objective—C 的命名风格是有所不同，例如 Swift 的 API 是由基名（previousMissionsFlown）和参数标签（by）组成的，⽽ Objective—C 基本上只有参数标签(previousMissionsFlownByAstronaut)，没有单独的基名，所以基名的信息会包含在第⼀个参数标签⾥，这也导致了 Objective—C 的方法名会显得略长一些。</p>
+</li>
+<li><p>对于数字处理统一使用 Int (重要！！！)<br>NSUInteger 是无符号的，即没有负数。在 OC 中多以 NSUInteger 返回 index 或者设置枚举类型</p>
+</li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com" alt=""></p>
+<p>由于 NSUInteger 的大小会因架构不同而产生一些变化，Swift 采取的策略是在进⾏有符号运算时，要求开发者必须将⽆符号类型转换为有符号类型，如果 Swift 在处理⽆符号运算时，产⽣了负值，就会直接停⽌运算。</p>
+<p>对于 Apple 自己的框架，他们设置了一个白名单用于将 NSUInteger 转换为 Int。对于开发者而言，决定权在我们自己手里，我们可以⾃⾏选择是否使⽤ NSInteger，但 Apple 的工程强烈推荐你这么做。或许在 Objective-C ⾥⾯差距不是很⼤，但在 Swift ⾥⾯很重要！</p>
+<ol>
+<li>将字符串类型的常量变得更有条理<br>在 Swift ⾥通常会把这些常量变成⼀个具有字符串原始值的枚举或者结构体，然后改变函数的入参类型，使其接受相应的枚举或者结构体类型。不加任何处理的 OC 代码无法将设置的多个常量聚拢在一起，无法生成 Swift 中的结构体。</li>
+</ol>
+<p>在 typedef 后⾯加上 NS_STRING_ENUM 即可, 此时，原有的字符串常量将以结构体的⽅式导⼊到 Swift 中. (这条验证后没有效果)</p>
+<ol>
+<li>关于构造器的相关约定<br>这个约定的大体内容是这样的，将初始化器分为两类，designated 和 convenience。你需要覆盖所有 designated 初始化器，以便安全地继承 convenience 的初始化器。</li>
+</ol>
+<p>这个约定和 Swift 里面的构造器约定十分相似，但它们有个本质的区别！OC 的这种构造器约定不是语⾔级别的强制规则，更多的是⼀个开发者之间的约定，例如 convenience 必须选择⼀个 designated 的接口，但实际上很多 OC 的类并没这么做，这也意味着如果有⼦类的话，如何正确构造它会成为⼀个头⼤的问题！</p>
+<p>通常 designated 构造器会调⽤ [super init] 这个方法，而 convenience 构造器会调⽤⾃⾝的某个 designated 构造器。我们需要在 designated 构造器后面添加 NS_DESIGNATED_INITIALIZER, 对于 convenience 类型的构造器，你不需要做任何事情</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com" alt=""></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li><p>nonull 和 nullable 只能在方法和属性上使用，如果想拓展其使用场景，就需要直接调用这两关键字底层的内容，也就是 _Nonnull 和 _Nullable。</p>
+</li>
+<li><p>对于数字处理统一使用 Int，工程中混编 MCRollingNoticeView 中 index 转化后为 UInt  类型，因其 OC 中使用了 NSUInteger 类型。转化后可能导致的越界问题。(注意!!!)</p>
+</li>
+<li><p>除了关注父类的 designated 构造器，开发者也需要关注 convenience 类型的构造器。<br>总结<br>虽然查看编译器生成的 Swift 头文件是一个好的方法。但⽣ 成的接口并不是全部，真正重要的是使用者在实际使⽤过程中写出的调⽤代码。所以当我们在思考如何打造一个更适合 Swift 使用的接口是，不光要看看⽣成的接口。也应该考虑实际的使用场景。</p>
+</li>
+</ol>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://mp.weixin.qq.com/s/hPmL2fsAfQ-moeM5TjsliQ" target="_blank" rel="external">让 Objective-C 框架与 Swift 友好共存的秘籍</a></p>
+<p><a href="https://developer.apple.com/documentation/swift/objective-c_and_c_code_customization" target="_blank" rel="external">通过在 Objective-C 中设置 api 的特定宏来定制 Objective-C 代码并将其导入 Swift</a></p>
+<p><a href="https://developer.apple.com/videos/play/wwdc2020/10680/?time=863" target="_blank" rel="external">WWDC2020 Refine Objective-C frameworks for Swift</a></p>
+<p>–EOF–</p>
+<p>本篇文章主要参照了 <a href="https://mp.weixin.qq.com/s/hPmL2fsAfQ-moeM5TjsliQ" target="_blank" rel="external">让 Objective-C 框架与 Swift 友好共存的秘籍</a> 转载请保留原作者文章链接，谢谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;OC 框架如何更好的为 Swift 提供服务&lt;br&gt;为了使 Objective-C 代码更好的符合 Swift 的使用习惯，主要有以下几种处理方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;遵循编译器的某些规则&lt;/li&gt;
+&lt;li&gt;在头文件里进行特殊标注&lt;/li&gt;
+&lt;li&gt;用 Swift 
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="Swift" scheme="http://XibHe.github.io/tags/Swift/"/>
+    
+      <category term="混编" scheme="http://XibHe.github.io/tags/%E6%B7%B7%E7%BC%96/"/>
+    
+  </entry>
   
   <entry>
     <title>AFN弱网环境下接口请求超时或被 cancel 问题分析</title>
@@ -3980,105 +4063,6 @@ __deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&qu
     
     
       <category term="直播" scheme="http://XibHe.github.io/tags/%E7%9B%B4%E6%92%AD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(译)为何许多开发者仍然喜欢用Objective-C，而不是Swift</title>
-    <link href="http://XibHe.github.io/2017/10/10/SwiftUsageRate/"/>
-    <id>http://XibHe.github.io/2017/10/10/SwiftUsageRate/</id>
-    <published>2017-10-09T16:00:00.000Z</published>
-    <updated>2018-11-11T08:26:03.300Z</updated>
-    
-    <content type="html"><![CDATA[<p>iOS SDK已经发布很多年了，开发人员纷纷涌向Objective-C，他们力图通过开发会大卖应用程序而获得丰厚的回报。但那样的时代如今已不复存在了：Swift已经面世三年多了，与Objective-C相比，大大地获取了大家的关注度。</p>
-<p>Objective-C - 从应用程序开发世界冉冉升起的明星 - 沦为苹果生态系统中的二等公民。即使OC仍然会在WWDC的一两个板块中被提及，但世界各地的大部分会议都在谈论Swift，苹果正努力推动Swift在教育领域的应用，使用Swift作为主要的语言。</p>
-<p>但是如果你仍然在使用Objective-C，你并不孤单 - 许多开发者仍然喜欢使用Objective-C相对于Swift，并且有很好的理由。我与一些Objective-C开发者联系，询问他们是否感觉继续使用Objective-C开发会受到指责，下面的内容就是他们不得不说的…</p>
-<p>注意：这里表达的意见是个人意见，可能不代表雇主的意见; 人们按照他们回应的顺序列出; 一些回答在长度上进行了变更。</p>
-<h2 id="阻止你将Swift作为开发语言的主要原因是什么？"><a href="#阻止你将Swift作为开发语言的主要原因是什么？" class="headerlink" title="阻止你将Swift作为开发语言的主要原因是什么？"></a>阻止你将Swift作为开发语言的主要原因是什么？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：我有几个原因避免了Swift。 首先，我不喜欢使用它 - 我发现这个语言比ObjC更难阅读和解析，尤其是在循环和switch语句中的if-let变量赋值（这在Apple的体例中是混乱的，像ARKit一样)。我不是尝试各种不同语言为各种平台编写东西的新手，而且Swift绝对是我见到的可读性很低的语言。</p>
-<p>我还不相信苹果参与设计这个语言的初衷 - 四年之后，Swift并不用于iOS，OS或框架的重要部分（我在Twitter上保留了苹果公司的Swift应用程序，macOS很少采用它的新特性相对于iOS来说)。我明白为什么会这样（ABI的稳定性等），但如果苹果没有使用Swift，我不明白为什么我需要代表他们进行beta测试。在Swift准备好之前，我没有什么期待，而且在此期间我获得了Objective-C所带来的一切好处。</p>
-<blockquote>
-<p>我完全相信，只是因为苹果建立了一些东西，并说这是前进的道路并不意味着它是正确的选择。</p>
-</blockquote>
-<p>有趣的是，在最初的几年中，我曾经听说过苹果与Swift的任何人分开，苹果公司当然是大量的ObjC开发人员，而Swift对于许多人来说，对我们来说是一个惊喜。 而且我完全相信，只是因为苹果建立了一些东西，并表示这是前进的道路并不意味着它是正确的选择 - 我们已经看到了一大堆错误（DNS 解析服务 discoveryd，iOS 7，iOS 8）或’mehs ‘（macOS，Touch Bar）在过去几年里，而且看到如何摆脱这些不好因素带来的负面影响。</p>
-<p><strong>迈克尔·劳尔</strong>：我看不到激励。我在Objective-C方面非常有成效，我将语言视为非常优雅，简洁，富有表现力。如果Swift有一流的（异步）并发，我会高兴的跳起来。相比之下，我听说缓慢的编译时间，大量的运行时库重复，我还没有看到运行时性能的显着提升。</p>
-<p><strong>丹·莱弗斯</strong>：对于技术原型预演Demo或非常小的项目，我将使用Objective-C，纯粹为了在经过相当长的时间（通常可能与这些类型的客户端）之后的易于更新。我还为许多客户保留了Objective-C应用程序，而且没有时间（或将其切换到Swift的理由）。在Swift中构建这样的项目的代码通常会把它当做演示原型的Demo来简单使用。</p>
-<p><strong>彼得·莫尔纳尔</strong>：在3.0版本之前，我的主要障碍是缺少源代码兼容性，即使4.0之后，我还在等待ABI的稳定性。我认为这是剩下的唯一一个问题，如果源兼容性有效，我个人觉得这对我来说很重要。</p>
-<p><strong>托德·托马斯</strong>：Xcode对Swift的支持似乎很好笑。从大型项目的愚蠢长编译时间到重构和调试。Tweetbot for Mac是一个相当可观的项目，在2012款的Retina MBP上编译它需要44秒。这包括1个框架，1个库和应用程序本身。此外，Swift的ABI仍然不稳定 - 当我不需要使用我的应用程序包含的所有库被全部缓慢的构建为应用时。</p>
-<p><strong>伊恩·麦克道尔</strong>：我们有一大堆共享的C++代码，用于我们的业务逻辑，它与Windows和Android共享。我们在Objective-C中的本地UIKit/AppKit中编写我们的UI，并且有很多Objective-C++文件在两种语言之间桥接。至今，除了几个脚本和内部工具之外，我们还没有采用Swift。据使用Swift的其他团队说，编译时间比Objective-C / C ++慢。</p>
-<p>我们有数百个Xcode项目，最终编译成一个巨大的静态库，链接到每个应用程序二进制文件。这样做可以减少应用启动时间。我们花费大概6小时流畅的构建我们的应用，不会增加很多时间。</p>
-<p><strong>西蒙·沃尔夫</strong>：我的主要编码项目是一个客户端，它是一个已经发展了几年的大型代码库。虽然我也会引入一些Swift进去，因为我做的很多工作涉及到编辑现有的代码，它阻止我使用太多Swift。</p>
-<p>我也意识到作为一个开发者，每次有一个新的主要版本的Swift的更新，我都会将那些工作中可以用到拿来用，但这不是我真正需要的。</p>
-<p><strong>马科·阿门特</strong>：对我来说，这不是对Swift本身的判断，而是一个务实的决定：我已经是Objective-C的专家，在使用它方面极富生产力，而切换到Swift的好处并不足以说服我。</p>
-<p><strong>马塞尔·维赫尔</strong>：我最多的工作包括一些复杂的元编程和 C 进行部分混合的objective - C的动态消息部分。在使用Swift后所有的这些都会变得更加困难，例如，你无法在Swift中编写CoreData。还很纠结：我只是试图找到一些用Swift编写的Apple Pencil示例代码。结果浪费了我一天时间。</p>
-<h2 id="你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？"><a href="#你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？" class="headerlink" title="你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？"></a>你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：真的吗？使用ObjC非常不受欢迎，或者说你喜欢ObjC 胜过 Swift。Swift有一个真正大规模的炒作人群，这个是你无法阻止的。</p>
-<p>像任何充满激情的球迷一样，没有任何理由参与讨论。 Swift用户与我一样（或更多）了解其缺点，但是由于感知到的好处，他们很乐意做出妥协。我不是，也不觉得同样的好处。</p>
-<p><strong>迈克尔·劳尔</strong>： 实际上。我觉得我一直在为自己对Objective-C的认同而保卫自己不受外界的干扰。</p>
-<blockquote>
-<p>我相信艾米·沃洛尔在iOSDevUK上的关于Objective-C的演讲中，观众中有些动荡似乎是人们不理解造成的。</p>
-</blockquote>
-<p><strong>丹·莱弗斯</strong>：当然，有一个新的和有光泽的驱动器。这最终有多少的iOS社区呢，所以它不是完全不足为奇，仍然存在很多争议。我相信艾米·沃洛尔在iOSDevUK上的关于Objective-C的演讲中，观众中有些动荡似乎是人们不理解造成的。</p>
-<p><strong>彼得·莫尔纳尔</strong>：当我正在阅读职位和职位描述时，这种感觉更多，不一定在社交媒体上。大家现在正在寻找高级Swift开发人员。</p>
-<p><strong>托德·托马斯</strong>：我并没有太多的担心。这个应该让应用程序自己来决定。如果它是好的，用户不会在乎它是用什么语言编写的。</p>
-<p><strong>伊恩·麦克道尔</strong>：对于仍然使用Objective-C，我感觉到一些耻辱，但并不多。 我使用Swift为我的个人项目，并爱上它，并理解我们在工作中不使用它的原因。</p>
-<p><strong>西蒙·沃尔夫</strong>：有一点，因为我不相信Swift是坏的，Objective-C是一个真正的Cocoa语言，我不会避免对Swift的利弊的热烈争论。我也没有看到人们对Objective-C开发人员太粗鲁，但作为Mac开发人员，我倾向于处于iOS社区的边缘，这可能是大多数冲突的地方。我不认为Mac开发人员很乐意使用最新最好的。我们还在争为NSCell争论(NSTableView中的NSCel)。</p>
-<p><strong>马科·阿门特</strong>：这已经开始了，但是每个过渡都是这样发生的。Objective-C开发人员为Carbon开发人员开辟了乐趣。这只是一个自然的发展历程，每当你的语言不在当前考虑范围内的，只要你的语言不被视为“进步语言”。但是你仍然以务实的原因使用它。作为网络上的PHP开发人员，我习惯了这一点。</p>
-<h2 id="当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？"><a href="#当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？" class="headerlink" title="当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？"></a>当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：毫无感觉，一个只有Swift的会议是对我没有任何影响。在语言还未完善之前，以及苹果尚未大规模使用之前，我并不关心Swift最佳做法或设计模式。我不想整理十几个社区主导的设计模式，我等待苹果对于Swift的进一步完善。</p>
-<blockquote>
-<p>一个只有Swift的会议是对我没有任何影响。</p>
-</blockquote>
-<p>知道Swift是苹果发展的一个真正的“未来”，已经做了很多工作来推动我彻底远离应用程序; iOS 7 UI与Swift一对一转换的冲击让我觉得这不是我想要开发的平台。</p>
-<p><strong>迈克尔·劳尔</strong>：这是可悲的。当然，我可以翻译我看到的一切，但比以前付出了更多的努力。而且我拒绝在任何要求使用Swift例子的会议上谈论它。幸运的是，还可以参加一些除了Swift之外的会议。</p>
-<p><strong>丹·莱弗斯</strong>：至少他们大都一致！</p>
-<p><strong>彼得·莫尔纳尔</strong>：我认为这是演变的一部分，但它是真实的 - 在Objective-C周围没有太多的吸引力。Swift是新的，由于它不断变化，有很多话要说，显然这些新的话题也在快速过时。</p>
-<p><strong>托德·托马斯</strong>：我想如果你想要向前看，开发者会议应该谈论Swift。我不介意个人使用Swift，但也不要过度重视会议上对Swift的讨论。</p>
-<p><strong>伊恩·麦克道尔</strong>：我感觉很好，这是未来！</p>
-<p><strong>西蒙·沃尔夫</strong>：我不介意，我意识到Swift是新的闪亮的东西，因为我知道Swift足够好了解它，真的不用担心我。如果我把我的头埋在沙滩上，而不是继续学习Swift，那么我可能会被遗忘，然而我不认为这种做法有利于成为一个好的开发者。</p>
-<p><strong>马尔科·阿门特</strong>：它不打扰我。大多数会议组织者和与会者都比我做得更紧密，所以当然应该使用Swift。将Swift代码片段从会议，教程和StackOverflow转换为Objective-C，只是继续使用Objective-C的成本之一，迄今尚未证明特别繁重的。 但随着时间的推移，这种转换负担会增加。</p>
-<p><strong>马塞尔·维赫尔</strong>：我不得不承认，我发现很多Swift的讨论非常肤浅，经常因为不知情而被嘲笑，所以我感到失望。我知道这听起来很苛刻，而且有明显的例外，然而很仍然感到吃惊。</p>
-<h2 id="你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？"><a href="#你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？" class="headerlink" title="你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？"></a>你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：Swift对于Objective-C开发绝对是灾难性的; 对于任何新的API或功能，我不再具有示例代码，WWDC幻灯片，教程，GitHub或StackOverflow。无论StackOverflow千禧年的笑话，但是失去了对所有这些上下文和知识的访问是毁灭性的。在这方面，ObjC语言本身已经获得了一堆生活质量/语法糖功能，以帮助它更好地与Swift进行交互，所有这些都是梦幻般的。</p>
-<blockquote>
-<p>对于Objective-C开发，Swift绝对是灾难性的。</p>
-</blockquote>
-<p>我非常厌恶为了让Swift存活而使ObjC死去 - 如果两种语言可以彼此独立存在，对于像我这样的开发人员来说是非常好的，他们可以选择最适合手头任务的语言。Swift背后的激情，大规模的推广宣传，苹果停止为开发人员创建ObjC资源。</p>
-<p><strong>迈克尔·劳尔</strong>：使用Swift的主要好处，“我们”要感谢轻量级泛型和可空性，但这是关于它的。如果背后有相同的人力投入，我只会希望Objective-C能获得Swift这样的好处。</p>
-<p><strong>丹·莱弗斯</strong>：我认为这最初是有帮助的，但我现在强烈感觉到，这样的做法有些舍本逐末了。</p>
-<p><strong>托德·托马斯</strong>：我认为这有帮助。他们为Swift的语言添加了许多有用的东西，所以我们不能抱怨。</p>
-<p><strong>伊恩·麦克道尔</strong>：Objective-C已经从Swift获得了一些很好的功能，包括<font color="#C52950"><code>@available</code></font>语法和可空性说明符。这是一种稳定的语言，我没有想到它会改变任何事情。</p>
-<blockquote>
-<p>在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
-</blockquote>
-<p><strong>西蒙·沃尔夫</strong>：对于Swift导致的结果，Objective-C有一些变化和改进，这是有帮助的。另外，写一点Swift也鼓励我去看看我的Objective-C代码是否完美，而且我不太愿意让空对象去操作底层的一些东西。在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
-<p><strong>马尔科·阿门特</strong>：Swift已经有效地停止了Objective-C作为一种语言的开发。 这并不奇怪或不合理，但幸运的是Objective-C相当成熟。前几年Swift的引入带来了许多改进，应该保持Objective-C可用，直到我们大部分人都转移到Swift。</p>
-<p><strong>马塞尔·维赫尔</strong>：显然受到阻碍，即使Objective-C很好，但Swift的出现结束了Objective-C进一步的发展！</p>
-<p>更令人惊奇和不安的是，一些首选Swift作为语言编写的三方库中有很多明显的缺陷。<br>一些对Swift的改进被阻止，以使Swift看起来不错，虽然我很确定这不是怎么回事。</p>
-<p>然而，最大的负面影响就是那些可能阻止Swift后续发展的一系列做法。我们正在尽我们所能创造一种脱离控制的Swift，而苹果忽略了所有这一切。这是一个犯罪。</p>
-<h2 id="你怎么看？"><a href="#你怎么看？" class="headerlink" title="你怎么看？"></a>你怎么看？</h2><p>除了上述所有问题，我还问到人们使用Objective-C已经有多长时间了，因为我认为公平地说，在精通一门语言后，选择继续使用或这彻底放弃时总是很重要。</p>
-<p>听到大多数人说他们在iPhone SDK第一次启用或不久之后立即使用Objective-C，几个人已经使用了十多年，其中一个人27了——是的,27岁。我应该补充说，一位回应者表示他们最近开始使用Objective-C，所以也许还存在一些固执的人。</p>
-<p>另外还有一件事：去年，我写了一本名为<a href="https://www.hackingwithswift.com/store/objective-c-for-swift-developers" target="_blank" rel="external">Objective-C for Swift Developers</a>的书，在介绍中，我介绍了一个题为“我喜欢Objective-C”的部分，这里是我写的一些话：</p>
-<p>当我阅读本书的第一本完整的草稿时，我想到了自己，“哇，这看起来像是Snark的Objective-C指南”，因为几乎每一章都觉得是在抱怨。</p>
-<p>结果，我花了一些时间来编辑这本书，让它更加完美 - 不是因为我试图用人造光线向你呈现东西，而是因为我真的很喜欢用Objective-C编码。在Apple发布Swift时，我就开始使用Swift了，并且在早期就发布了一款Swift应用程序到App Store上。因此，在许多方面，和Swift相比Objective-C只是看起来很糟糕，我已经使用Swift很长时间了，再次使用Objective-C感觉有点像从长期生活的大城市回到老家过圣诞节一样。</p>
-<p>我不知道我是否喜欢Objective-C，因为我有斯德哥尔摩综合症，或者是因为苹果的API是如此强大。无论如何，我认为重要的是你意识到，一些令人惊奇的软件已经与Objective-C一起构建，许多人始终如一的爱着她。</p>
-<p>当你在这本书中发现让你感到沮丧的事情时，你要温柔一点：这是一种古老的语言，经历了坎坷的发展历程。它为我们提供了很好的服务。至少，在它慢慢远离人们视线时应该被尊重!</p>
-<p><strong>谢谢Steve 史蒂夫·特劳顿 - 史密斯，迈克尔·劳尔，丹·莱弗斯，彼得·莫尔纳尔，托德·托马斯，伊恩·麦克道尔，西蒙·沃尔夫，马尔科·阿门特，以及马塞尔·维赫尔，花时间对这篇文章发表观点。</strong></p>
-<p>现在结束了 - 如果你仍然喜欢在Swift上使用Objective-C，可以在<a href="https://twitter.com/twostraws" target="_blank" rel="external">Twitter</a>上联系我！</p>
-<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.hackingwithswift.com/articles/27/why-many-developers-still-prefer-objective-c-to-swift?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">Why many developers still prefer Objective-C to Swift</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;iOS SDK已经发布很多年了，开发人员纷纷涌向Objective-C，他们力图通过开发会大卖应用程序而获得丰厚的回报。但那样的时代如今已不复存在了：Swift已经面世三年多了，与Objective-C相比，大大地获取了大家的关注度。&lt;/p&gt;
-&lt;p&gt;Objective-C 
-    
-    </summary>
-    
-      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
-    
-    
-      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
-    
-      <category term="Swift" scheme="http://XibHe.github.io/tags/Swift/"/>
     
   </entry>
   
