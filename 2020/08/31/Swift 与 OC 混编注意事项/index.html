@@ -246,7 +246,7 @@
 
     
         <meta property="article:published_time" content="Mon Aug 31 2020 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Wed Sep 16 2020 00:28:24 GMT+0800">
+        <meta property="article:modified_time" content="Wed Sep 16 2020 00:32:00 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -269,7 +269,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2020/08/31/Swift 与 OC 混编注意事项/index.html",
     "headline": "Swift 与 OC 混编注意事项",
     "datePublished": "Mon Aug 31 2020 00:00:00 GMT+0800",
-    "dateModified": "Wed Sep 16 2020 00:28:24 GMT+0800",
+    "dateModified": "Wed Sep 16 2020 00:32:00 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -530,9 +530,12 @@
 <li>隐式解析的存在，导致了容错能力的下降。只要服务端回传的参数中有一个空字段或者类型错误，就有可能引发 Crash</li>
 </ul>
 <p>解决以上问题的方式：在 OC 代码中使用 nonnull (不可为空)和 nullable (可为空)关键字，根据这两个关键字决定转换后的 Swift 是否使用隐式解析。除了 nonnull 和 nullable 以外，还有一对配合使用的宏 NS_ASSUME_NONNULL_BEGIN 和 NS_ASSUME_NONNULL_END 可以让我们的代码更清爽。(新建类会自带这一对宏)</p>
-<h4 id="2-某些转换后的属性里-Any-定义过于模糊"><a href="#2-某些转换后的属性里-Any-定义过于模糊" class="headerlink" title="2. 某些转换后的属性里 Any 定义过于模糊"></a>2. 某些转换后的属性里 Any 定义过于模糊</h4><p>可以通过在 OC 里添加 NSArray，NSDictionary 中存储的固定类来改善这个问题。例如，<br>-(void)setRecommendArray:(nullable NSArray<mchomegoodmodel *=""> *)recommendArray andSpace:(CGFloat)space andsectionInset:(UIEdgeInsets)sectionInse;</mchomegoodmodel></p>
+<h4 id="2-某些转换后的属性里-Any-定义过于模糊"><a href="#2-某些转换后的属性里-Any-定义过于模糊" class="headerlink" title="2. 某些转换后的属性里 Any 定义过于模糊"></a>2. 某些转换后的属性里 Any 定义过于模糊</h4><p>可以通过在 OC 里添加 NSArray，NSDictionary 中存储的固定类来改善这个问题。例如，</p>
+<pre><code class="objectivec">-(void)setRecommendArray:(nullable NSArray&lt;MCHomeGoodModel *&gt; *)recommendArray andSpace:(CGFloat)space andsectionInset:(UIEdgeInsets)sectionInse;
+</code></pre>
 <p>转换为：</p>
-<p>open func setRecommendArray(_ recommendArray: [MCHomeGoodModel]?, andSpace space: CGFloat, andsectionInset sectionInse: UIEdgeInsets)</p>
+<pre><code class="swift">open func setRecommendArray(_ recommendArray: [MCHomeGoodModel]?, andSpace space: CGFloat, andsectionInset sectionInse: UIEdgeInsets)
+</code></pre>
 <h4 id="3-一些初始化构造器或者方法命名不够优雅"><a href="#3-一些初始化构造器或者方法命名不够优雅" class="headerlink" title="3. 一些初始化构造器或者方法命名不够优雅"></a>3. 一些初始化构造器或者方法命名不够优雅</h4><p>Swift 和 Objective—C 的命名风格是有所不同，例如 Swift 的 API 是由基名（previousMissionsFlown）和参数标签（by）组成的，⽽ Objective—C 基本上只有参数标签(previousMissionsFlownByAstronaut)，没有单独的基名，所以基名的信息会包含在第⼀个参数标签⾥，这也导致了 Objective—C 的方法名会显得略长一些。</p>
 <h4 id="4-对于数字处理统一使用-Int-重要！！！"><a href="#4-对于数字处理统一使用-Int-重要！！！" class="headerlink" title="4. 对于数字处理统一使用 Int (重要！！！)"></a>4. 对于数字处理统一使用 Int (重要！！！)</h4><p>NSUInteger 是无符号的，即没有负数。在 OC 中多以 NSUInteger 返回 index 或者设置枚举类型</p>
 <p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/OCForSwift/20200910144826.jpg" alt=""></p>
