@@ -621,7 +621,9 @@
             admin: ['xibhe'],
             // facebook-like distraction free mode
             distractionFreeMode: false,
-            id: 'Sun Jun 18 2017 21:25:10 GMT+0800'
+            // id: 'Sun Jun 18 2017 21:25:10 GMT+0800'
+            // 解决因文章标题过长无法初始评论的问题
+            id: (location.pathname).split("/").pop().substring(0, 49)
         })
    gitalk.render('gitalk-container')
 </script>

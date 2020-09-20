@@ -439,7 +439,7 @@
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#104;&#x75;&#x61;&#x68;&#117;&#97;&#97;&#x69;&#x68;&#101;&#104;&#x65;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#104;&#x75;&#x61;&#x68;&#117;&#97;&#97;&#x69;&#x68;&#101;&#104;&#x65;&#x40;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#104;&#117;&#x61;&#x68;&#x75;&#x61;&#x61;&#105;&#104;&#x65;&#104;&#101;&#x40;&#x67;&#x6d;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#109;">&#104;&#117;&#x61;&#x68;&#x75;&#x61;&#x61;&#105;&#104;&#x65;&#104;&#101;&#x40;&#x67;&#x6d;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
@@ -475,7 +475,9 @@
             admin: ['xibhe'],
             // facebook-like distraction free mode
             distractionFreeMode: false,
-            id: 'Sun Jan 15 2017 21:25:10 GMT+0800'
+            // id: 'Sun Jan 15 2017 21:25:10 GMT+0800'
+            // 解决因文章标题过长无法初始评论的问题
+            id: (location.pathname).split("/").pop().substring(0, 49)
         })
    gitalk.render('gitalk-container')
 </script>
