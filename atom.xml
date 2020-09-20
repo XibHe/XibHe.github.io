@@ -17,8 +17,8 @@
   
   <entry>
     <title>Swift 与 OC 混编注意事项</title>
-    <link href="http://XibHe.github.io/2020/08/31/Swift%20%E4%B8%8E%20OC%20%E6%B7%B7%E7%BC%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
-    <id>http://XibHe.github.io/2020/08/31/Swift 与 OC 混编注意事项/</id>
+    <link href="http://XibHe.github.io/2020/08/31/Swift_OC_mix/"/>
+    <id>http://XibHe.github.io/2020/08/31/Swift_OC_mix/</id>
     <published>2020-08-30T16:00:00.000Z</published>
     <updated>2020-09-15T16:33:20.038Z</updated>
     
@@ -87,8 +87,8 @@
   
   <entry>
     <title>AFN弱网环境下接口请求超时或被 cancel 问题分析</title>
-    <link href="http://XibHe.github.io/2020/05/08/AFN%E5%BC%B1%E7%BD%91%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%8E%A5%E5%8F%A3%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6%E6%88%96%E8%A2%AB%20cancel%20%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/"/>
-    <id>http://XibHe.github.io/2020/05/08/AFN弱网环境下接口请求超时或被 cancel 问题分析/</id>
+    <link href="http://XibHe.github.io/2020/05/08/AFN_error_cancel/"/>
+    <id>http://XibHe.github.io/2020/05/08/AFN_error_cancel/</id>
     <published>2020-05-07T16:00:00.000Z</published>
     <updated>2020-05-08T16:18:53.612Z</updated>
     
