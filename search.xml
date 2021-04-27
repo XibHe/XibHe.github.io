@@ -66,37 +66,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[React Native 父子组件间通信]]></title>
-      <url>/2020/05/17/RN%20%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/</url>
-      <content type="html"><![CDATA[<p>props</p>
-<p>父组件-&gt;子组件，父组件调用并传值给子组件</p>
-<p>父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，</p>
-<p><dishesleftlist ref="{this.leftListRef}" saleclasstwodata="{saleClassTwoData}" setsaleclasstwoid="{this.selectClassTwoClick.bind(this)}"><br>在子组件中解构获取 props 传递过来的值并赋给对应的组件</dishesleftlist></p>
-<p>render () {<br>   const { saleClassTwoData } = this.props<br>    return (<br>        <view style="{styles.container}"><br>            <flatlist data="{saleClassTwoData}" renderitem="{({" item,="" index="" })=""> this.renderItem(item, index)}<br>             keyExtractor={(item) =&gt; item.id}<br>            /&gt;<br>        </flatlist></view><br>    )<br>}<br>ref</p>
-<p>父组件可以通过使用 ref 来直接调用子组件实例的方法，</p>
-<p>在 constructor 定义一个全局变量，并创建 ref<br>this.leftListRef = React.createRef()<br>将 1 中定义的 this.leftListRef 以属性形式传递给子组件，</p>
-<p><dishesleftlist ref="{this.leftListRef}"><br>在父组件中通过 this.leftListRef 调用子组件中的函数并传递参数<br>refreshSKUListForSwitch = (position) =&gt; {<br>    const { saleClassOneData, saleClassTwoData } = this.state<br>     // 切换二级分类<br>    this.leftListRef.current.setSelectItem(this._classTwoIndex - 1)<br>}<br>其中，setSelectItem 为子组件 DishesLeftList 中定义的函数</dishesleftlist></p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 解惑 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> ReactNative </tag>
-            
-            <tag> RN 组件 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[AFN弱网环境下接口请求超时或被 cancel 问题分析]]></title>
       <url>/2020/05/08/AFN_error_cancel/</url>
       <content type="html"><![CDATA[<p>在弱网络环境下启动 App 进入首页，网络请求超时或者被 cancel 后，不会走网络请求失败的 failure 回调，导致该回调中隐藏假首页 (模态首页) 的代码不会执行，最终无法进入真正首页的问题。</p>
@@ -319,6 +288,37 @@ url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
             <tag> AFNetworking </tag>
             
             <tag> 弱网 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[React Native 父子组件间通信]]></title>
+      <url>/2019/06/20/RN%20%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/</url>
+      <content type="html"><![CDATA[<p>props</p>
+<p>父组件-&gt;子组件，父组件调用并传值给子组件</p>
+<p>父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，</p>
+<p><dishesleftlist ref="{this.leftListRef}" saleclasstwodata="{saleClassTwoData}" setsaleclasstwoid="{this.selectClassTwoClick.bind(this)}"><br>在子组件中解构获取 props 传递过来的值并赋给对应的组件</dishesleftlist></p>
+<p>render () {<br>   const { saleClassTwoData } = this.props<br>    return (<br>        <view style="{styles.container}"><br>            <flatlist data="{saleClassTwoData}" renderitem="{({" item,="" index="" })=""> this.renderItem(item, index)}<br>             keyExtractor={(item) =&gt; item.id}<br>            /&gt;<br>        </flatlist></view><br>    )<br>}<br>ref</p>
+<p>父组件可以通过使用 ref 来直接调用子组件实例的方法，</p>
+<p>在 constructor 定义一个全局变量，并创建 ref<br>this.leftListRef = React.createRef()<br>将 1 中定义的 this.leftListRef 以属性形式传递给子组件，</p>
+<p><dishesleftlist ref="{this.leftListRef}"><br>在父组件中通过 this.leftListRef 调用子组件中的函数并传递参数<br>refreshSKUListForSwitch = (position) =&gt; {<br>    const { saleClassOneData, saleClassTwoData } = this.state<br>     // 切换二级分类<br>    this.leftListRef.current.setSelectItem(this._classTwoIndex - 1)<br>}<br>其中，setSelectItem 为子组件 DishesLeftList 中定义的函数</dishesleftlist></p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 解惑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> ReactNative </tag>
+            
+            <tag> RN 组件 </tag>
             
         </tags>
         
@@ -6413,22 +6413,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[About Me]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
-<p>iOS 开发攻城狮一枚，<br> <br>现就职于一家移动电商公司。<br> <br>正在使用 React Native 进行移动端开发工作，<br> <br>希望每天都能进步，早日成为一名合格的前端工程师。</p>
-</blockquote>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
-<p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x75;&#97;&#x68;&#117;&#97;&#97;&#105;&#x68;&#x65;&#104;&#101;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">&#x68;&#x75;&#97;&#x68;&#117;&#97;&#97;&#105;&#x68;&#x65;&#104;&#101;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a></p>
-<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
-<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
-</blockquote>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
@@ -6593,6 +6577,22 @@ pod setup
 <blockquote>
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[About Me]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
+<p>iOS 开发攻城狮一枚，<br> <br>现就职于一家移动电商公司。<br> <br>正在使用 React Native 进行移动端开发工作，<br> <br>希望每天都能进步，早日成为一名合格的前端工程师。</p>
+</blockquote>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
+<p>微信：xibHe944588470</p>
+<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#104;&#x75;&#97;&#104;&#117;&#x61;&#97;&#x69;&#x68;&#x65;&#x68;&#x65;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;">&#104;&#x75;&#97;&#104;&#117;&#x61;&#97;&#x69;&#x68;&#x65;&#x68;&#x65;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;</a></p>
+<p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
+<p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
+</blockquote>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
 ]]></content>
     </entry>
     

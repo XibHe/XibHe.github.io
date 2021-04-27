@@ -86,42 +86,6 @@
   </entry>
   
   <entry>
-    <title>React Native 父子组件间通信</title>
-    <link href="http://XibHe.github.io/2020/05/17/RN%20%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/"/>
-    <id>http://XibHe.github.io/2020/05/17/RN 父子组件通信/</id>
-    <published>2020-05-16T16:00:00.000Z</published>
-    <updated>2021-04-27T00:16:27.916Z</updated>
-    
-    <content type="html"><![CDATA[<p>props</p>
-<p>父组件-&gt;子组件，父组件调用并传值给子组件</p>
-<p>父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，</p>
-<p><dishesleftlist ref="{this.leftListRef}" saleclasstwodata="{saleClassTwoData}" setsaleclasstwoid="{this.selectClassTwoClick.bind(this)}"><br>在子组件中解构获取 props 传递过来的值并赋给对应的组件</dishesleftlist></p>
-<p>render () {<br>   const { saleClassTwoData } = this.props<br>    return (<br>        <view style="{styles.container}"><br>            <flatlist data="{saleClassTwoData}" renderitem="{({" item,="" index="" })=""> this.renderItem(item, index)}<br>             keyExtractor={(item) =&gt; item.id}<br>            /&gt;<br>        </flatlist></view><br>    )<br>}<br>ref</p>
-<p>父组件可以通过使用 ref 来直接调用子组件实例的方法，</p>
-<p>在 constructor 定义一个全局变量，并创建 ref<br>this.leftListRef = React.createRef()<br>将 1 中定义的 this.leftListRef 以属性形式传递给子组件，</p>
-<p><dishesleftlist ref="{this.leftListRef}"><br>在父组件中通过 this.leftListRef 调用子组件中的函数并传递参数<br>refreshSKUListForSwitch = (position) =&gt; {<br>    const { saleClassOneData, saleClassTwoData } = this.state<br>     // 切换二级分类<br>    this.leftListRef.current.setSelectItem(this._classTwoIndex - 1)<br>}<br>其中，setSelectItem 为子组件 DishesLeftList 中定义的函数</dishesleftlist></p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;props&lt;/p&gt;
-&lt;p&gt;父组件-&amp;gt;子组件，父组件调用并传值给子组件&lt;/p&gt;
-&lt;p&gt;父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，&lt;/p&gt;
-&lt;p&gt;&lt;dishesleftl
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
-    
-      <category term="RN 组件" scheme="http://XibHe.github.io/tags/RN-%E7%BB%84%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
     <title>AFN弱网环境下接口请求超时或被 cancel 问题分析</title>
     <link href="http://XibHe.github.io/2020/05/08/AFN_error_cancel/"/>
     <id>http://XibHe.github.io/2020/05/08/AFN_error_cancel/</id>
@@ -349,6 +313,42 @@ url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
       <category term="AFNetworking" scheme="http://XibHe.github.io/tags/AFNetworking/"/>
     
       <category term="弱网" scheme="http://XibHe.github.io/tags/%E5%BC%B1%E7%BD%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>React Native 父子组件间通信</title>
+    <link href="http://XibHe.github.io/2019/06/20/RN%20%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/"/>
+    <id>http://XibHe.github.io/2019/06/20/RN 父子组件通信/</id>
+    <published>2019-06-19T16:00:00.000Z</published>
+    <updated>2021-04-27T00:19:42.992Z</updated>
+    
+    <content type="html"><![CDATA[<p>props</p>
+<p>父组件-&gt;子组件，父组件调用并传值给子组件</p>
+<p>父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，</p>
+<p><dishesleftlist ref="{this.leftListRef}" saleclasstwodata="{saleClassTwoData}" setsaleclasstwoid="{this.selectClassTwoClick.bind(this)}"><br>在子组件中解构获取 props 传递过来的值并赋给对应的组件</dishesleftlist></p>
+<p>render () {<br>   const { saleClassTwoData } = this.props<br>    return (<br>        <view style="{styles.container}"><br>            <flatlist data="{saleClassTwoData}" renderitem="{({" item,="" index="" })=""> this.renderItem(item, index)}<br>             keyExtractor={(item) =&gt; item.id}<br>            /&gt;<br>        </flatlist></view><br>    )<br>}<br>ref</p>
+<p>父组件可以通过使用 ref 来直接调用子组件实例的方法，</p>
+<p>在 constructor 定义一个全局变量，并创建 ref<br>this.leftListRef = React.createRef()<br>将 1 中定义的 this.leftListRef 以属性形式传递给子组件，</p>
+<p><dishesleftlist ref="{this.leftListRef}"><br>在父组件中通过 this.leftListRef 调用子组件中的函数并传递参数<br>refreshSKUListForSwitch = (position) =&gt; {<br>    const { saleClassOneData, saleClassTwoData } = this.state<br>     // 切换二级分类<br>    this.leftListRef.current.setSelectItem(this._classTwoIndex - 1)<br>}<br>其中，setSelectItem 为子组件 DishesLeftList 中定义的函数</dishesleftlist></p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;props&lt;/p&gt;
+&lt;p&gt;父组件-&amp;gt;子组件，父组件调用并传值给子组件&lt;/p&gt;
+&lt;p&gt;父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，&lt;/p&gt;
+&lt;p&gt;&lt;dishesleftl
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
+    
+      <category term="RN 组件" scheme="http://XibHe.github.io/tags/RN-%E7%BB%84%E4%BB%B6/"/>
     
   </entry>
   
