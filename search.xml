@@ -3,6 +3,31 @@
   
     
     <entry>
+      <title><![CDATA[直播业务集成及再开发]]></title>
+      <url>/2021/06/12/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90%E5%8F%8A%E5%86%8D%E5%BC%80%E5%8F%91/</url>
+      <content type="html"><![CDATA[<p>在项目中集成推拉流直播业务……</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 日常 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 直播 </tag>
+            
+            <tag> 推拉流 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Swift 与 OC 混编注意事项]]></title>
       <url>/2020/08/31/Swift_OC_mix/</url>
       <content type="html"><![CDATA[<p>为了使 Objective-C 代码更好的符合 Swift 的使用习惯，主要有以下几种处理方式：</p>
@@ -6413,6 +6438,12 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
@@ -6588,18 +6619,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#104;&#x75;&#97;&#104;&#117;&#x61;&#97;&#x69;&#x68;&#x65;&#x68;&#x65;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;">&#104;&#x75;&#97;&#104;&#117;&#x61;&#97;&#x69;&#x68;&#x65;&#x68;&#x65;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#104;&#x75;&#97;&#x68;&#117;&#97;&#97;&#105;&#x68;&#101;&#x68;&#x65;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;">&#104;&#x75;&#97;&#x68;&#117;&#97;&#97;&#105;&#x68;&#101;&#x68;&#x65;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
