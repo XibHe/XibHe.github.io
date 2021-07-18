@@ -5,7 +5,14 @@
     <entry>
       <title><![CDATA[直播业务集成及再开发]]></title>
       <url>/2021/06/12/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90%E5%8F%8A%E5%86%8D%E5%BC%80%E5%8F%91/</url>
-      <content type="html"><![CDATA[<p>在项目中集成推拉流直播业务……</p>
+      <content type="html"><![CDATA[<h3 id="业务流程（观众端）"><a href="#业务流程（观众端）" class="headerlink" title="业务流程（观众端）"></a>业务流程（观众端）</h3><p>观众端拉流播放功能，基于腾讯云直播基础版（Smart），基础版仅包含直播推流（TXLivePusher）和直播播放（TXLivePlayer）两项功能，对 App 的安装包体积增量最小，适合仅使用移动直播相关功能的客户。</p>
+<p>直播间主要包含四部分功能：</p>
+<ul>
+<li>直播拉流播放功能</li>
+<li>点播回放功能</li>
+<li>IM 消息收发展示及处理特殊自定义消息</li>
+<li>不同直播状态 UI 样式之间切换及展示</li>
+</ul>
 <p>–EOF–</p>
 <p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
 ]]></content>
@@ -6438,6 +6445,18 @@ pod setup
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -6445,18 +6464,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#104;&#117;&#97;&#x68;&#x75;&#97;&#x61;&#105;&#x68;&#101;&#104;&#x65;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#104;&#117;&#97;&#x68;&#x75;&#97;&#x61;&#105;&#x68;&#101;&#104;&#x65;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x68;&#x75;&#x61;&#x68;&#x75;&#97;&#97;&#x69;&#x68;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x68;&#x75;&#x61;&#x68;&#x75;&#97;&#97;&#x69;&#x68;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
@@ -6619,12 +6632,6 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
