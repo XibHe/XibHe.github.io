@@ -246,7 +246,7 @@
 
     
         <meta property="article:published_time" content="Sat Jun 12 2021 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sun Jul 18 2021 23:29:28 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jul 22 2021 23:46:39 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -269,7 +269,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2021/06/12/直播业务集成及再开发/index.html",
     "headline": "直播业务集成及再开发",
     "datePublished": "Sat Jun 12 2021 00:00:00 GMT+0800",
-    "dateModified": "Sun Jul 18 2021 23:29:28 GMT+0800",
+    "dateModified": "Thu Jul 22 2021 23:46:39 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -512,7 +512,16 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="业务流程（观众端）"><a href="#业务流程（观众端）" class="headerlink" title="业务流程（观众端）"></a>业务流程（观众端）</h3><p>观众端拉流播放功能，基于腾讯云直播基础版（Smart），基础版仅包含直播推流（TXLivePusher）和直播播放（TXLivePlayer）两项功能，对 App 的安装包体积增量最小，适合仅使用移动直播相关功能的客户。</p>
+        <p>视频直播，可以分为 采集，前处理，编码，传输，解码，渲染 这几个环节。</p>
+<ul>
+<li>推流端：采集、前处理、编码、推流</li>
+<li>服务端：转码、录制、截图、鉴黄</li>
+<li>播放器：拉流、解码、渲染</li>
+<li>互动：聊天室、礼物系统、赞等</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_01.png" alt="直播"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_02.png" alt="直播App架构"></p>
+<h3 id="业务流程（观众端）"><a href="#业务流程（观众端）" class="headerlink" title="业务流程（观众端）"></a>业务流程（观众端）</h3><p>观众端拉流播放功能，基于腾讯云直播基础版（Smart），基础版仅包含直播推流（TXLivePusher）和直播播放（TXLivePlayer）两项功能，对 App 的安装包体积增量最小，适合仅使用移动直播相关功能的客户。</p>
 <p>直播间主要包含四部分功能：</p>
 <ul>
 <li>直播拉流播放功能</li>

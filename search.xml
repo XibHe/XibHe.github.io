@@ -5,7 +5,16 @@
     <entry>
       <title><![CDATA[直播业务集成及再开发]]></title>
       <url>/2021/06/12/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90%E5%8F%8A%E5%86%8D%E5%BC%80%E5%8F%91/</url>
-      <content type="html"><![CDATA[<h3 id="业务流程（观众端）"><a href="#业务流程（观众端）" class="headerlink" title="业务流程（观众端）"></a>业务流程（观众端）</h3><p>观众端拉流播放功能，基于腾讯云直播基础版（Smart），基础版仅包含直播推流（TXLivePusher）和直播播放（TXLivePlayer）两项功能，对 App 的安装包体积增量最小，适合仅使用移动直播相关功能的客户。</p>
+      <content type="html"><![CDATA[<p>视频直播，可以分为 采集，前处理，编码，传输，解码，渲染 这几个环节。</p>
+<ul>
+<li>推流端：采集、前处理、编码、推流</li>
+<li>服务端：转码、录制、截图、鉴黄</li>
+<li>播放器：拉流、解码、渲染</li>
+<li>互动：聊天室、礼物系统、赞等</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_01.png" alt="直播"></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_02.png" alt="直播App架构"></p>
+<h3 id="业务流程（观众端）"><a href="#业务流程（观众端）" class="headerlink" title="业务流程（观众端）"></a>业务流程（观众端）</h3><p>观众端拉流播放功能，基于腾讯云直播基础版（Smart），基础版仅包含直播推流（TXLivePusher）和直播播放（TXLivePlayer）两项功能，对 App 的安装包体积增量最小，适合仅使用移动直播相关功能的客户。</p>
 <p>直播间主要包含四部分功能：</p>
 <ul>
 <li>直播拉流播放功能</li>
@@ -6445,14 +6454,14 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -6464,7 +6473,7 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x68;&#x75;&#x61;&#x68;&#x75;&#97;&#97;&#x69;&#x68;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x68;&#x75;&#x61;&#x68;&#x75;&#97;&#97;&#x69;&#x68;&#101;&#x68;&#x65;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#104;&#117;&#97;&#104;&#x75;&#97;&#x61;&#x69;&#x68;&#101;&#104;&#x65;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;">&#104;&#117;&#97;&#104;&#x75;&#97;&#x61;&#x69;&#x68;&#101;&#104;&#x65;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
