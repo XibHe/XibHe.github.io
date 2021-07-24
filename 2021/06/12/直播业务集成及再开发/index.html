@@ -246,7 +246,7 @@
 
     
         <meta property="article:published_time" content="Sat Jun 12 2021 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Sat Jul 24 2021 16:58:17 GMT+0800">
+        <meta property="article:modified_time" content="Sat Jul 24 2021 18:21:09 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -269,7 +269,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2021/06/12/直播业务集成及再开发/index.html",
     "headline": "直播业务集成及再开发",
     "datePublished": "Sat Jun 12 2021 00:00:00 GMT+0800",
-    "dateModified": "Sat Jul 24 2021 16:58:17 GMT+0800",
+    "dateModified": "Sat Jul 24 2021 18:21:09 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -647,10 +647,8 @@
 </li>
 </ul>
 <h3 id="直播推拉流"><a href="#直播推拉流" class="headerlink" title="直播推拉流"></a>直播推拉流</h3><ol>
-<li><p>推流端（主播端）小程序推流</p>
-</li>
-<li><p>拉流端（观众端）</p>
-</li>
+<li>推流端（主播端）小程序推</li>
+<li>拉流端（观众端）</li>
 </ol>
 <p>基于腾讯云直播 SDK 的二次开发。</p>
 <h3 id="IM-普通消息及自定义消息体处理"><a href="#IM-普通消息及自定义消息体处理" class="headerlink" title="IM 普通消息及自定义消息体处理"></a>IM 普通消息及自定义消息体处理</h3><p>&#124; 使用自定义消息体payload中的data字段来传输数据，data为字符串Json，约定cmd来做类型区分</p>
@@ -679,20 +677,13 @@
 </code></pre>
 <h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>iOS、Andriond、小程序三端进入直播间获取的实时在线人数不一致的问题；</p>
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li><p>iOS 集成腾讯云直播基础版，相比之下，直播专业版本继承了 <a href="https://cloud.tencent.com/product/trtc" target="_blank" rel="external">实时音视频 SDK</a>、<a href="https://cloud.tencent.com/product/player" target="_blank" rel="external">超级播放器（Player+）</a> 和 <a href="https://cloud.tencent.com/product/ugsv" target="_blank" rel="external">短视频（UGSV）</a>等音视频相关的核心功能。根据目前业务需求基础版完全够用了；</p>
-</li>
-<li><p>为避免 SDK 版本不一致导致功能性问题，iOS 与 Andriond 直播 SDK 版本固定为：pod ‘TXLiteAVSDK_Smart’, ‘8.7.10102’ 两端而 IM SDK 版本固定为： pod ‘TXIMSDK_iOS’, ‘5.1.62’；</p>
-</li>
-<li><p>TXIMSDK_iOS 中包含新旧两套 IM API，为了保证稳定性。iOS 和 Andriond 使用最新的 IM API。iOS 使用调用方法名以 V2TIMManager 为开头的新 API；</p>
-</li>
-<li><p>点播回放功能并没有集成腾讯单独提供的超级播放器(通过 pod ‘SuperPlayer’ 引入) 而是通过对TXLiteAVSDK_Smart 提供的 TXVodPlayer 点播播放器进行自定义。在 TXVodPlayer 基础之上按照 UI 设计稿样式自定义播放进度条实现；</p>
-</li>
-<li><p>未登录可以进入直播间，注意项目中未登录到登录状态的处理逻辑；</p>
-</li>
-<li><p>通过 CMS 列表商品从直播间跳转商品详情页的浮窗逻辑；</p>
-</li>
-<li><p>iOS 发布 App Store 需要经营范围包含“表演”或“网络表演”的<font color="#DC143C">《网络文化经营许可证》 </font></p>
-</li>
+<li>iOS 集成腾讯云直播基础版，相比之下，直播专业版本继承了 <a href="https://cloud.tencent.com/product/trtc" target="_blank" rel="external">实时音视频 SDK</a>、<a href="https://cloud.tencent.com/product/player" target="_blank" rel="external">超级播放器（Player+）</a> 和 <a href="https://cloud.tencent.com/product/ugsv" target="_blank" rel="external">短视频（UGSV）</a>等音视频相关的核心功能。根据目前业务需求基础版完全够用了；</li>
+<li>为避免 SDK 版本不一致导致功能性问题，iOS 与 Andriond 直播 SDK 版本固定为：pod ‘TXLiteAVSDK_Smart’, ‘8.7.10102’ 两端而 IM SDK 版本固定为： pod ‘TXIMSDK_iOS’, ‘5.1.62’；</li>
+<li>TXIMSDK_iOS 中包含新旧两套 IM API，为了保证稳定性。iOS 和 Andriond 使用最新的 IM API。iOS 使用调用方法名以 V2TIMManager 为开头的新 API；</li>
+<li>点播回放功能并没有集成腾讯单独提供的超级播放器(通过 pod ‘SuperPlayer’ 引入) 而是通过对TXLiteAVSDK_Smart 提供的 TXVodPlayer 点播播放器进行自定义。在 TXVodPlayer 基础之上按照 UI 设计稿样式自定义播放进度条实现；</li>
+<li>未登录可以进入直播间，注意项目中未登录到登录状态的处理逻辑；</li>
+<li>通过 CMS 列表商品从直播间跳转商品详情页的浮窗逻辑；</li>
+<li>iOS 发布 App Store 需要经营范围包含“表演”或“网络表演”的<font color="#DC143C">《网络文化经营许可证》 </font></li>
 </ol>
 <h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://cloud.tencent.com/document/product/454/7873" target="_blank" rel="external">腾讯云移动直播 SDK</a> </p>
 <p><a href="https://cloud.tencent.com/document/product/269/1616" target="_blank" rel="external">即时通讯 IM</a></p>
