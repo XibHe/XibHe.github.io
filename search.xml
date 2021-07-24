@@ -26,29 +26,21 @@
 <li>IM 消息收发展示及处理特殊自定义消息</li>
 <li>不同直播状态 UI 样式之间切换及展示</li>
 </ul>
-<h3 id="交互流程"><a href="#交互流程" class="headerlink" title="交互流程"></a>交互流程</h3><ol>
-<li>首先需要在 AppDelegate 中对腾讯云直播 SDK 和 IM 进行初始配置</li>
-</ol>
+<h3 id="交互流程"><a href="#交互流程" class="headerlink" title="交互流程"></a>交互流程</h3><p>####1. 首先需要在 AppDelegate 中对腾讯云直播 SDK 和 IM 进行初始配置</p>
 <pre><code class="objectivec">[TXLiveBase setLicenceURL:@&quot;&quot; key:@&quot;&quot;];
   // 腾讯云 IM SDK 初始化
   V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
   BOOL isinitSDK = [[V2TIMManager sharedInstance] initSDK: config:config listener:nil];
   NSLog(@&quot;isinitSDK = %@&quot;, isinitSDK ? @&quot;YES&quot; : @&quot;NO&quot;);
 </code></pre>
-<ol>
-<li><p>通过首页 CMS 或短信链接或者微信分享的直播链接打开包含 roomId 信息的路由链接。直播间新增直播间对应路由 eg. XXX://activity/live?roomId=1234568</p>
-</li>
-<li><p>进入直播间调用获取房间详情接口获取直播间信息，根据接口返回的直播状态决定是拉流播放还是点播回放，并展示不同状态的 UI 样式。目前共有101、103、106、108、110、115、206 等 7 种状态。通过返回字段 pullUrl 获取直播拉流地址，若直播状态为 101 则则直接进行拉流播放；否则，根据不同状态展示不同 UI 视图。</p>
-</li>
-</ol>
-<ol>
-<li>已登录情况下，进入直播间三步走：<ul>
+<p>####2. 通过首页 CMS 或短信链接或者微信分享的直播链接打开包含 roomId 信息的路由链接。直播间新增直播间对应路由 eg. XXX://activity/live?roomId=1234568</p>
+<p>####3. 进入直播间调用获取房间详情接口获取直播间信息，根据接口返回的直播状态决定是拉流播放还是点播回放，并展示不同状态的 UI 样式。目前共有101、103、106、108、110、115、206 等 7 种状态。通过返回字段 pullUrl 获取直播拉流地址，若直播状态为 101 则则直接进行拉流播放；否则，根据不同状态展示不同 UI 视图。</p>
+<p>####4. 已登录情况下，进入直播间三步走：</p>
+<ul>
 <li>调用接口 getUserSig 获取用户 Sig；</li>
 <li>拿着获取到的用户 Sig 登录 IM ；</li>
 <li>在 IM 登录成功后，调用加入直播间群组 API。</li>
 </ul>
-</li>
-</ol>
 <p>⚠️在以上三步成功走完后，就可以在直播间发送文本消息或者自定义点赞消息了。</p>
 <p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_04.png" alt="交互流程图"></p>
 <h3 id="直播后台推流及状态"><a href="#直播后台推流及状态" class="headerlink" title="直播后台推流及状态"></a>直播后台推流及状态</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_05.png" alt="推流状态"></p>
@@ -160,9 +152,7 @@
 <p>基于腾讯云直播 SDK 的二次开发。</p>
 <h3 id="IM-普通消息及自定义消息体处理"><a href="#IM-普通消息及自定义消息体处理" class="headerlink" title="IM 普通消息及自定义消息体处理"></a>IM 普通消息及自定义消息体处理</h3><p>&#124; 使用自定义消息体payload中的data字段来传输数据，data为字符串Json，约定cmd来做类型区分</p>
 <p>eg.<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_07.png" alt="示例"></p>
-<ol>
-<li>点赞</li>
-</ol>
+<p>####1. 点赞</p>
 <ul>
 <li>cmd: LIKE</li>
 <li>num：当前点赞了几次</li>
@@ -170,9 +160,7 @@
 <blockquote>
 <p>约定num字段来记录当前用户点赞点了几下，接收方会拿自己本地当前的点赞数累加该num</p>
 </blockquote>
-<ol>
-<li>删除 （只删除 user_id 不是自己的他人发送的消息）</li>
-</ol>
+<p>####2. 删除 （只删除 user_id 不是自己的他人发送的消息）</p>
 <blockquote>
 <p>由于小程序端消息体中的 messageId 与 iOS 及 Andriond 两端算法不一致，导致三端无法通过 messageId 删除特定消息体。因此，最后方案是：通过匹配字符串的方式，删除当前消息列表中的消息。</p>
 </blockquote>
@@ -189,20 +177,15 @@
 #define CMD_LIVE_STATUS_NOTICE @&quot;LIVE_STATUS_NOTICE&quot; // 主播端主动通知的状态
 </code></pre>
 <h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>iOS、Andriond、小程序三端进入直播间获取的实时在线人数不一致的问题；</p>
-<h3 id="遗留问题-1"><a href="#遗留问题-1" class="headerlink" title="遗留问题"></a>遗留问题</h3><ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
 <li><p>iOS 集成腾讯云直播基础版，相比之下，直播专业版本继承了 <a href="https://cloud.tencent.com/product/trtc" target="_blank" rel="external">实时音视频 SDK</a>、<a href="https://cloud.tencent.com/product/player" target="_blank" rel="external">超级播放器（Player+）</a> 和 <a href="https://cloud.tencent.com/product/ugsv" target="_blank" rel="external">短视频（UGSV）</a>等音视频相关的核心功能。根据目前业务需求基础版完全够用了；</p>
 </li>
 <li><p>为避免 SDK 版本不一致导致功能性问题，iOS 与 Andriond 直播 SDK 版本固定为：pod ‘TXLiteAVSDK_Smart’, ‘8.7.10102’ 两端而 IM SDK 版本固定为： pod ‘TXIMSDK_iOS’, ‘5.1.62’；</p>
 </li>
 <li><p>TXIMSDK_iOS 中包含新旧两套 IM API，为了保证稳定性。iOS 和 Andriond 使用最新的 IM API。iOS 使用调用方法名以 V2TIMManager 为开头的新 API；</p>
 </li>
-<li><p>点播回放功能并没有集成腾讯单独提供的超级播放器 </p>
+<li><p>点播回放功能并没有集成腾讯单独提供的超级播放器(通过 pod ‘SuperPlayer’ 引入) 而是通过对TXLiteAVSDK_Smart 提供的 TXVodPlayer 点播播放器进行自定义。在 TXVodPlayer 基础之上按照 UI 设计稿样式自定义播放进度条实现；</p>
 </li>
-</ol>
-<pre><code class="objectivec">pod &#39;SuperPlayer&#39;
-</code></pre>
-<p>而是通过对 TXLiteAVSDK_Smart 提供的 TXVodPlayer 点播播放器进行自定义。在 TXVodPlayer 基础之上按照 UI 设计稿样式自定义播放进度条实现；</p>
-<ol>
 <li><p>未登录可以进入直播间，注意项目中未登录到登录状态的处理逻辑；</p>
 </li>
 <li><p>通过 CMS 列表商品从直播间跳转商品详情页的浮窗逻辑；</p>
@@ -6646,18 +6629,6 @@ pod setup
   
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About Me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><blockquote>
@@ -6665,12 +6636,18 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#104;&#x75;&#97;&#104;&#x75;&#x61;&#97;&#x69;&#x68;&#101;&#104;&#x65;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;">&#104;&#x75;&#97;&#104;&#x75;&#x61;&#97;&#x69;&#x68;&#101;&#104;&#x65;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x68;&#117;&#97;&#104;&#x75;&#x61;&#x61;&#105;&#x68;&#101;&#x68;&#x65;&#64;&#x67;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;">&#x68;&#117;&#97;&#104;&#x75;&#x61;&#x61;&#105;&#x68;&#101;&#x68;&#x65;&#64;&#x67;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
@@ -6833,6 +6810,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
