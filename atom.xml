@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2021-10-19T15:55:05.800Z</updated>
+  <updated>2021-10-19T16:16:39.123Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://XibHe.github.io/2021/09/20/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     <id>http://XibHe.github.io/2021/09/20/直播业务性能优化/</id>
     <published>2021-09-19T16:00:00.000Z</published>
-    <updated>2021-10-19T15:55:05.800Z</updated>
+    <updated>2021-10-19T16:16:39.123Z</updated>
     
     <content type="html"><![CDATA[<p>在上一篇文章详细阐述了如何从 0 到 1 开发一个完整的直播功能。本篇接着上一篇，主要对直播中遇到的一些性能问题、交互体验问题的优化方案。</p>
 <p>–EOF–</p>

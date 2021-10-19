@@ -246,7 +246,7 @@
 
     
         <meta property="article:published_time" content="Mon Sep 20 2021 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Tue Oct 19 2021 23:55:05 GMT+0800">
+        <meta property="article:modified_time" content="Wed Oct 20 2021 00:16:39 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -269,7 +269,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2021/09/20/直播业务性能优化/index.html",
     "headline": "直播业务性能优化",
     "datePublished": "Mon Sep 20 2021 00:00:00 GMT+0800",
-    "dateModified": "Tue Oct 19 2021 23:55:05 GMT+0800",
+    "dateModified": "Wed Oct 20 2021 00:16:39 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -373,8 +373,17 @@
                 
     <!-- Paradox Post Header -->
     
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_thumbnail.jpg)">
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
     
             <p class="article-headline-p">
                 直播业务性能优化
