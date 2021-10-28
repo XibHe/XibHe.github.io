@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2021-10-25T15:12:21.002Z</updated>
+  <updated>2021-10-28T14:04:05.362Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -20,12 +20,35 @@
     <link href="http://XibHe.github.io/2021/09/20/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     <id>http://XibHe.github.io/2021/09/20/直播业务性能优化/</id>
     <published>2021-09-19T16:00:00.000Z</published>
-    <updated>2021-10-25T15:12:21.002Z</updated>
+    <updated>2021-10-28T14:04:05.362Z</updated>
     
     <content type="html"><![CDATA[<p>在上一篇文章详细阐述了如何从 0 到 1 开发一个完整的直播功能。本篇接着上一篇，主要对直播中遇到的一些性能问题、交互体验问题的优化方案。</p>
 <p>根据实际情况，导致直播过程中手机发热、卡顿等问题的原因大致分为以下几个方面：</p>
-<h3 id="CPU-高占用率"><a href="#CPU-高占用率" class="headerlink" title="CPU 高占用率"></a>CPU 高占用率</h3><h3 id="直播消息列表刷新频次"><a href="#直播消息列表刷新频次" class="headerlink" title="直播消息列表刷新频次"></a>直播消息列表刷新频次</h3><p>在直播间中，短时间内 UI 刷新次数过多，造成 CPU 压力过大。</p>
-<h3 id="GIF-图片加载无法释放"><a href="#GIF-图片加载无法释放" class="headerlink" title="GIF 图片加载无法释放"></a>GIF 图片加载无法释放</h3><h3 id="低端机型的适配"><a href="#低端机型的适配" class="headerlink" title="低端机型的适配"></a>低端机型的适配</h3><p>低端机型未适配不同分辨率，在高码率、高分辨率下导致 CPU 占用过高。视频分辨率、码率成正比，比如720P、1080P 视频更容易发热。这一点在低端机型上尤为明显</p>
+<h3 id="CPU-高占用率"><a href="#CPU-高占用率" class="headerlink" title="CPU 高占用率"></a>CPU 高占用率</h3><p>直播拉流需要不断的访问网络，网络活动会唤起需要长时间周期性供电的无线电模组。CPU 使用率超过 20% 就会快速耗干电池电量。因此，需要针对直播中实时获取的不同拉流状态进行区别处理。</p>
+<pre><code class="objectivec">[MCInfoGatherManager sharedInstance].livePlayerWrapper.playErrorBlock = ^(int event, NSString *msg) {
+        // 暂停中(或异常)
+        [MCLiteKitLoading mcStartLoadingInView:weakSelf.playToolBarView];
+        // 停止播放音视频流
+        [[MCInfoGatherManager sharedInstance].livePlayerWrapper stopPlay];
+};
+</code></pre>
+<ul>
+<li><p>直播，网络断连,且经多次重连抢救无效,可以放弃治疗</p>
+</li>
+<li><p>直播，获取加速拉流地址失败。这是由于您传给 (这是由于传给 liveplayer 的加速流地址中没有携带 txTime 和 txSecret 签名，或者是签名计算的不对。出现这个错误时，liveplayer 会放弃拉取加速流转而拉取 CDN 上的视频流，从而导致延迟很大)</p>
+</li>
+<li><p>其它直播异常情况</p>
+</li>
+</ul>
+<p>当出现以上几种直播异常情况时，进行停止播放音视频流的操作，不再反复尝试连接网络拉流。直至收到正常流播放状态的回调，才重新开始联网拉流播放。</p>
+<h3 id="直播消息列表刷新频次"><a href="#直播消息列表刷新频次" class="headerlink" title="直播消息列表刷新频次"></a>直播消息列表刷新频次</h3><p>在直播间中，短时间内 UI 刷新次数过多，造成 CPU 压力过大。</p>
+<h3 id="审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗"><a href="#审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗" class="headerlink" title="审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗"></a>审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗</h3><ul>
+<li><p>GIF 图片加载无法释放</p>
+</li>
+<li><p>轮播图自动滚动定时器未及时释放</p>
+</li>
+</ul>
+<h3 id="低端机型的适配"><a href="#低端机型的适配" class="headerlink" title="低端机型的适配"></a>低端机型的适配</h3><p>低端机型未适配不同分辨率，在高码率、高分辨率下导致 CPU 占用过高。视频分辨率、码率成正比，比如720P、1080P 视频更容易发热。这一点在低端机型上尤为明显</p>
 <h3 id="软解码-OR-硬解码"><a href="#软解码-OR-硬解码" class="headerlink" title="软解码 OR 硬解码"></a>软解码 OR 硬解码</h3><h3 id="点赞等高频动画"><a href="#点赞等高频动画" class="headerlink" title="点赞等高频动画"></a>点赞等高频动画</h3><h3 id="业务层不合理的设计"><a href="#业务层不合理的设计" class="headerlink" title="业务层不合理的设计"></a>业务层不合理的设计</h3><p>–EOF–</p>
 <p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
 ]]></content>
