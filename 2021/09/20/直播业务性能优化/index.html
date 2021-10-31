@@ -246,7 +246,7 @@
 
     
         <meta property="article:published_time" content="Mon Sep 20 2021 00:00:00 GMT+0800">
-        <meta property="article:modified_time" content="Thu Oct 28 2021 22:04:05 GMT+0800">
+        <meta property="article:modified_time" content="Sun Oct 31 2021 17:55:28 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -269,7 +269,7 @@
     "mainEntityOfPage": "http://XibHe.github.io/2021/09/20/直播业务性能优化/index.html",
     "headline": "直播业务性能优化",
     "datePublished": "Mon Sep 20 2021 00:00:00 GMT+0800",
-    "dateModified": "Thu Oct 28 2021 22:04:05 GMT+0800",
+    "dateModified": "Sun Oct 31 2021 17:55:28 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "XibHe",
@@ -363,7 +363,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CPU-高占用率"><span class="post-toc-number">1.</span> <span class="post-toc-text">CPU 高占用率</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#直播消息列表刷新频次"><span class="post-toc-number">2.</span> <span class="post-toc-text">直播消息列表刷新频次</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗"><span class="post-toc-number">3.</span> <span class="post-toc-text">审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#低端机型的适配"><span class="post-toc-number">4.</span> <span class="post-toc-text">低端机型的适配</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#软解码-OR-硬解码"><span class="post-toc-number">5.</span> <span class="post-toc-text">软解码 OR 硬解码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#点赞等高频动画"><span class="post-toc-number">6.</span> <span class="post-toc-text">点赞等高频动画</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#业务层不合理的设计"><span class="post-toc-number">7.</span> <span class="post-toc-text">业务层不合理的设计</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CPU-高占用率"><span class="post-toc-number">1.</span> <span class="post-toc-text">CPU 高占用率</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#直播消息列表刷新频次"><span class="post-toc-number">2.</span> <span class="post-toc-text">直播消息列表刷新频次</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗"><span class="post-toc-number">3.</span> <span class="post-toc-text">审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#低端机型的适配"><span class="post-toc-number">4.</span> <span class="post-toc-text">低端机型的适配</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#软解码-OR-硬解码"><span class="post-toc-number">5.</span> <span class="post-toc-text">软解码 OR 硬解码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#点赞等高频动画"><span class="post-toc-number">6.</span> <span class="post-toc-text">点赞等高频动画</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#业务层不合理的设计"><span class="post-toc-number">7.</span> <span class="post-toc-text">业务层不合理的设计</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#优化前后对比"><span class="post-toc-number">8.</span> <span class="post-toc-text">优化前后对比</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文档"><span class="post-toc-number">9.</span> <span class="post-toc-text">参考文档</span></a></li></ol>
     </ul>
     
 
@@ -512,7 +512,8 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>在上一篇文章详细阐述了如何从 0 到 1 开发一个完整的直播功能。本篇接着上一篇，主要对直播中遇到的一些性能问题、交互体验问题的优化方案。</p>
+        <p>在上一篇文章详细阐述了如何从 0 到 1 开发一个完整的直播功能。本篇接着上一篇，主要对直播中遇到的一些性能问题、交互体验问题的优化方案。在某些用户的手机上会出现电量消耗过快、提示手机温度过高。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LiveOptimize/liveOptimize_hotRemind.jpg" alt="手机温度过高提示"></p>
 <p>根据实际情况，导致直播过程中手机发热、卡顿等问题的原因大致分为以下几个方面：</p>
 <h3 id="CPU-高占用率"><a href="#CPU-高占用率" class="headerlink" title="CPU 高占用率"></a>CPU 高占用率</h3><p>直播拉流需要不断的访问网络，网络活动会唤起需要长时间周期性供电的无线电模组。CPU 使用率超过 20% 就会快速耗干电池电量。因此，需要针对直播中实时获取的不同拉流状态进行区别处理。</p>
 <pre><code class="objectivec">[MCInfoGatherManager sharedInstance].livePlayerWrapper.playErrorBlock = ^(int event, NSString *msg) {
@@ -531,15 +532,73 @@
 </li>
 </ul>
 <p>当出现以上几种直播异常情况时，进行停止播放音视频流的操作，不再反复尝试连接网络拉流。直至收到正常流播放状态的回调，才重新开始联网拉流播放。</p>
-<h3 id="直播消息列表刷新频次"><a href="#直播消息列表刷新频次" class="headerlink" title="直播消息列表刷新频次"></a>直播消息列表刷新频次</h3><p>在直播间中，短时间内 UI 刷新次数过多，造成 CPU 压力过大。</p>
-<h3 id="审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗"><a href="#审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗" class="headerlink" title="审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗"></a>审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗</h3><ul>
-<li><p>GIF 图片加载无法释放</p>
+<h3 id="直播消息列表刷新频次"><a href="#直播消息列表刷新频次" class="headerlink" title="直播消息列表刷新频次"></a>直播消息列表刷新频次</h3><p>在直播间中，短时间内直播间用户聊天信息达到一个峰值后，此时如果不做任何处理，就会大频率的去刷新 UITableView ，造成 CPU 占用过大。因此，需要结合多种刷新机制，对聊天列表进行优化：</p>
+<ul>
+<li>节流处理。即，直播间消息列表在收到新消息后，进行节流处理。</li>
+</ul>
+<blockquote>
+<p>所谓节流，就是规定在一个单位时间内，只能触发一次列表刷新函数。如果这个单位时间内触发多次函数，只有一次生效。这样就是降低了消息列表刷新及相关逻辑处理的频率。</p>
+</blockquote>
+<ul>
+<li><p>设置消息缓存机制。采用两个缓存池，一个是用于维护列表当前数据所存储的池，暂时叫 B 池；另一个用于接收处理好的 IM 数据缓存池，暂时叫 A 池；当有新 IM 消息过来时，把处理好的数据存入到 A 缓存池中。在结合后面会提到的数据加载及展示逻辑，把 A 缓存池中的数据合并到 B 缓存池中，然后，清空 A 缓存池数据。</p>
 </li>
-<li><p>轮播图自动滚动定时器未及时释放</p>
+<li><p>数据加载及展示逻辑。用户手动滑动消息列表，查看历史消息后收到新消息时的交互处理：监听或记录用户滑动屏幕的状态，是否正在滑动消息列表及消息列表是否正在滑动。如果正在滑动消息列表，此时无论是否收到新消息，都不滚动到列表底部；如果此时监听到滚动停止，则定时 3 秒后，此时，若缓存的消息数组中有新消息，则滚动到列表底部，缓存的消息数组中没有新消息，则不做处理。</p>
 </li>
 </ul>
-<h3 id="低端机型的适配"><a href="#低端机型的适配" class="headerlink" title="低端机型的适配"></a>低端机型的适配</h3><p>低端机型未适配不同分辨率，在高码率、高分辨率下导致 CPU 占用过高。视频分辨率、码率成正比，比如720P、1080P 视频更容易发热。这一点在低端机型上尤为明显</p>
-<h3 id="软解码-OR-硬解码"><a href="#软解码-OR-硬解码" class="headerlink" title="软解码 OR 硬解码"></a>软解码 OR 硬解码</h3><h3 id="点赞等高频动画"><a href="#点赞等高频动画" class="headerlink" title="点赞等高频动画"></a>点赞等高频动画</h3><h3 id="业务层不合理的设计"><a href="#业务层不合理的设计" class="headerlink" title="业务层不合理的设计"></a>业务层不合理的设计</h3><p>–EOF–</p>
+<p>在直播中点击进入沉浸式后，特殊处理 IM 消息列表，此时，存储新消息但不做新消息的高度计算、富文本样式设置、消息列表刷新等耗时操作，待下次关闭沉浸式后，统一处理前一次存储的消息及新收到的消息（默认当前消息列表最多插入 300 条消息，超出 300 条清除前 100 条数据）</p>
+<h3 id="审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗"><a href="#审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗" class="headerlink" title="审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗"></a>审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗</h3><ul>
+<li>GIF 图片加载尺寸过大的图片时，对 CPU 性能的消耗</li>
+</ul>
+<p>通过使用 Instruments 工具分析，定位到 App 首页 CMS 模块存在未能完全释放的对象，最后定位到 FLAnimatedImageView 三方图片展示库，在首页加载 gif 图片时，在 gif 过大的情况下，会牺牲 CPU 性能来保证内存的低占用率。 因此，要么限制上传 GIF 动图的大小；要么使用 SDWebImage 加载gif图片，但是用 SDWebImage 去加载缓存图片，会出现内存增多，SDWebImage 对多gif显示内存消耗过高，需要优化一下。gif播放其实就是一张一张图片返回去,我们要写一个方法,只要不断地取出当前的那一张图片,这样就可以有效的避免内存中存储了大量图片.那如何实现不断地去取呢,我们可以开一个定时器,定时器不断的去调用我们写的方法,不断获取图片并赋值给 imageView.</p>
+<ul>
+<li>轮播图自动滚动定时器未及时释放</li>
+</ul>
+<p>如果是从首页进入的直播间，此时，首页正好有正在滚动的轮播图。在进入直播间后，通过 Instruments 的 Allocations 工具定位到首页轮播图定时器有可能存在问题，在对比首页有轮播图与没有轮播图内存增长情况后发现，配置了轮播图的模块短时间内存增长更多。对象释放的不及时，会在内存中保留一段时间，导致内存的增长。因此，可以在需要页面消失时候停止定时器，在页面出现重新开启定时器，如果是 view 可以重写视图生命周期方法：</p>
+<pre><code class="objectivec">- (void)willMoveToWindow:(UIWindow *)newWindow {
+    [super willMoveToWindow:newWindow];
+    if (!newWindow) {
+        [self invalidateTimeEvent];
+    }  else {
+        [self startTimeEvent];
+    }
+}
+</code></pre>
+<pre><code class="objectivec">- (void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    [self handleAutoTimer];
+}
+
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    [self handleAutoTimer];
+}
+</code></pre>
+<p>在生命周期方法中做停止/开启逻辑。</p>
+<h3 id="低端机型的适配"><a href="#低端机型的适配" class="headerlink" title="低端机型的适配"></a>低端机型的适配</h3><p>低端机型未适配不同分辨率，在高码率、高分辨率下导致 CPU 占用过高。视频分辨率、码率成正比，比如720P、1080P 视频更容易发热。这一点在低端机型上尤为明显。可以在进入直播间时根据当前手机的型号、电量对某些低端机型做出特殊处理，如果判断为低端机型。就使用低分辨率的流程模式（360）。</p>
+<ol>
+<li><p>自动模式：如果您不太确定您的主要场景是什么，可以直接选择这个模式<br>把 TXLivePlayConfig 中的 setAutoAdjustCache 开关打开，即为自动模式。在该模式下播放器会根据当前网络情况，对延迟进行自动调节（默认情况下播放器会在1秒 - 5秒这个区间内自动调节延迟大小，您可以通过 setMinCacheTime 和 setMaxCacheTime 对默认值进行修改），以保证在足够流畅的情况下尽量降低观众跟主播端的延迟，确保良好的互动体验。</p>
+</li>
+<li><p>极速模式：主要适用于秀场直播等互动性高，并且对延迟要求比较苛刻的场景<br>极速模式设置方法是 setMinCacheTime = setMaxCacheTime = 1s，自动模式跟极速模式的差异只是 MaxCacheTime 有所不同 （极速模式的 MaxCacheTime 一般比较低，而自动模式的 MaxCacheTime 则相对较高 ），这种灵活性主要得益于 SDK 内部的自动调控技术，可以在不引入卡顿的情况下自动修正延时大小，而 MaxCacheTime 反应的就是调节速度：MaxCacheTime 的值越大，调控速度会越发保守，卡顿概率就会越低。</p>
+</li>
+<li><p>流畅模式：主要适用于游戏直播等大码率高清直播场景。<br>当把播放器中的 setAutoAdjustCache 开关关闭，即为流畅模式，在该模式下播放器采取的处理策略跟 Adobe Flash 内核的缓存策略如出一辙：当视频出现卡顿后，会进入 loading 状态直到缓冲区蓄满，之后进入 playing 状态，直到下一次遭遇无法抵御的网络波动。默认情况下缓冲大小为5秒，您可以通过 setCacheTime 进行更改。<br>在延迟要求不高的场景下，这种看似简单的模式会更加可靠，因为该模式本质上就是通过牺牲一点延迟来降低卡顿率。</p>
+</li>
+</ol>
+<h3 id="软解码-OR-硬解码"><a href="#软解码-OR-硬解码" class="headerlink" title="软解码 OR 硬解码"></a>软解码 OR 硬解码</h3><p>开启硬件加速，</p>
+<pre><code class="objectivec">    _player = [[TXLivePlayer alloc] init];
+    // 开启硬件加速(默认为 NO)
+    [_player setEnableHWAcceleration:YES];
+</code></pre>
+<h3 id="点赞等高频动画"><a href="#点赞等高频动画" class="headerlink" title="点赞等高频动画"></a>点赞等高频动画</h3><font color="#DC143C">未完待续……</font>
+
+<h3 id="业务层不合理的设计"><a href="#业务层不合理的设计" class="headerlink" title="业务层不合理的设计"></a>业务层不合理的设计</h3><h3 id="优化前后对比"><a href="#优化前后对比" class="headerlink" title="优化前后对比"></a>优化前后对比</h3><p>CPU 占用率，优化前</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LiveOptimize/liveOptimize_CPU01.png" alt="CPU 优化前"></p>
+<p>优化后，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LiveOptimize/liveOptimize_CPU02.png" alt="CPU 优化后"></p>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://blog.qiniu.com/archives/7463" target="_blank" rel="external">蘑菇街直播实践</a></p>
+<p><a href="https://www.open-open.com/lib/view/open1474444861619.html" target="_blank" rel="external">映客直播iOS App 性能优化实践</a></p>
+<p><a href="https://juejin.cn/post/6844903942573260814" target="_blank" rel="external">直播间聊天消息列表卡顿优化</a></p>
+<p><a href="https://juejin.cn/post/6935830669549371423#heading-2" target="_blank" rel="external">iOS 性能优化💡被压测卡爆的语音房间</a></p>
+<p>–EOF–</p>
 <p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
 
         
