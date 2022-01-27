@@ -839,6 +839,151 @@ free(coords);
     </entry>
     
     <entry>
+      <title><![CDATA[在工程中集成 React Native]]></title>
+      <url>/2019/03/18/%E5%9C%A8%E5%B7%A5%E7%A8%8B%E4%B8%AD%E9%9B%86%E6%88%90%20React%20Native/</url>
+      <content type="html"><![CDATA[<p>基于当前已经存在的工程集成 React Native（以下简称 RN），使现有工程具有跨平台能力。集成 RN 环境后的项目运行并不依赖于 RN 环境，默认运行时依赖的是 RN 编译产物 jsbundle 和工程中 node_module 里面的代码。</p>
+<p>这里主要讲的是集成 RN 后相关工程化的问题的解决及具体流程，RN 开发环境的搭建请移步 <a href="https://reactnative.cn/docs/environment-setup" target="_blank" rel="external">React Native 中文网</a></p>
+<h3 id="现有工程中集成-RN"><a href="#现有工程中集成-RN" class="headerlink" title="现有工程中集成 RN"></a>现有工程中集成 RN</h3><ul>
+<li>使用脚本配置 RN 环境</li>
+</ul>
+<pre><code>git clone -b develop_rn ssh://git@git.Test.com/Test.git
+
+if [ ! -d &quot;/Testreactnative/&quot; ];then
+  git clone -b develop_feature https://git.test.com/Testreactnative.git
+else
+echo &#39;wenjiancunzai&#39;
+fi
+
+cd ./mcreactnative/
+git pull
+
+rm -rf ./ios
+
+mv -f ../mall-ios/ ./ios
+#npm --registry=&#39;https://registrymnpm.test.com&#39; install
+npm install
+mkdir build
+rm -rf build/ios  build/map
+mkdir build/ios   build/map
+node node_modules/react-native/local-cli/cli.js bundle \
+    --reset-cache \
+    --platform ios \
+    --dev false \
+    --entry-file index.js  \
+    --bundle-output ./build/ios/index.ios.jsbundle \
+    --assets-dest ./build/ios \
+    --sourcemap-output ./build/map/index.ios.jsbundle.map
+rm -rf ./ios/MeicaiStore/rnsource/
+cp -r ./build/ios/. ./ios/MeicaiStore/rnsource/
+</code></pre><ul>
+<li>手动配置 RN 环境</li>
+</ul>
+<ol>
+<li>clone RN 工程 Testreactnative（包含 RN 环境及原生工程的壳工程）对应代码并切换至对应的开发分支</li>
+<li>在 Testreactnative 目录下的 ios 文件夹下重新 clone 原生工程代码或者将原生工程代码移动至该目录下</li>
+</ol>
+<h3 id="集成后工程目录结构"><a href="#集成后工程目录结构" class="headerlink" title="集成后工程目录结构"></a>集成后工程目录结构</h3><ul>
+<li>api：后端接口文件</li>
+<li>assets：静态资源</li>
+<li>components：业务组件</li>
+<li>store：mobx数据</li>
+<li>utils: 工具类</li>
+<li>views: 页面组件</li>
+</ul>
+<h3 id="调试运行及环境配置"><a href="#调试运行及环境配置" class="headerlink" title="调试运行及环境配置"></a>调试运行及环境配置</h3><p>工程依赖于 RN 两部分内容，一部分是 node_module 里面的原生组件，一部分是 RN 源代码(js文件)或者代码生成物(jsbundle文件)，工程 RN 环境默认为 release 环境，依赖的是 rnsource 文件夹下的文件，需要开发及调试 RN 代码的话，需要切换到 debug 环境，debug 依赖的是本地服务，运行前需要开启本地服务，下面会有具体讲解。</p>
+<ul>
+<li>release 环境</li>
+</ul>
+<ol>
+<li>在 ios 目录下切换到原生工程 .podfile 文件所在目录，并执行 pod install 链接 node_module 里面的原生组件；</li>
+<li>在原生工程的 info.plist文件中修改 MCRNDevBundle 属性下，MCRNStore 对应的 value修改为 0 （即，release 环境）</li>
+</ol>
+<ul>
+<li>debug 环境</li>
+</ul>
+<ol>
+<li>切换到壳工程 Testreactnative 下 package.json 文件所在目录，执行 npm install 或者 yarn 命令，更新 node_module 中的组件</li>
+<li>上一步成功后，执行 npm run dev:stage 命令，启动 stage 环境 (开发环境) 下的本地服务。或者使用 yarn start 运行 Metro 开启开发服务器。然后再使用 npx react-native run-ios 允许项目</li>
+<li>在原生工程的 info.plist文件中修改 MCRNDevBundle 属性下，MCRNStore 对应的 value修改为 1 （即，debug 环境）</li>
+<li>在 ios 目录下切换到原生工程 .podfile 文件所在目录，并执行 pod install</li>
+<li>打开 ios 目录下的原生工程，选择 pods 工程，修改 React-Core、MCRNAmp、MCRNBridge 下的预编译配置 Preprocessor Macros 项，选择对应的开发环境并新增 DEBUG=1 的编译配置。</li>
+<li>最后就是打开模拟器或真机所在的 RN 页面，开始开发调试。</li>
+</ol>
+<h3 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h3><p>遇到某个组件没有找到</p>
+<pre><code>Unable to resolve module `@mc/react-native-sentry` from `src/analytics/sentry.js`: @mc/react-native-sentry could not be found within the project.
+</code></pre><pre><code>Metro Bundler has encountered an error: ENOENT: no such file or directory, lstat &#39;/Users/meicai/Documents/SpruceProject/mcreactnative/node_modules/@mcrn/maple/node_modules/react-native-svg&#39;
+</code></pre><ol>
+<li>在终端清除： watchman watch-del-all</li>
+<li>删除 node_modules 目录下的所有文件: rm -rf node_modules and run yarn install</li>
+<li>重置缓存<br>对于 React Native 执行:<br>react-native start –reset-cache<br>对于 npm 执行:<br>npm start – –reset-cache</li>
+<li>删除缓存: rm -rf /tmp/metro-*</li>
+<li>重新运行 App</li>
+</ol>
+<pre><code>Unhandled JS Exception: Requiring unknown module &quot;25&quot;. If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+</code></pre><p>关闭工程所在终端并重新启动模拟器并运行。</p>
+<pre><code>Invariant Violation: Tried to register two views with the same name FastImageView
+</code></pre><p>查找工程中 FastImageView 组件的对应版本，找到所加载页面中名为 FastImageView 的组件，在终端输入命令：yarn why react-native-fast-image 明确 react-native-fast-image 的依赖关系。对比输入命令后终端的日志，发现 package.json 中依赖组件 react-native-fast-image 的版本为 8.3.4，而私有<br>基础组件库中 react-native-fast-image 的版本为 8.3.6，二者版本不一致导致同一个组件被注册两次。最后通过将 package.json 中的 react-native-fast-image 升级为 8.3.6 解决。</p>
+<h3 id="灰度策略"><a href="#灰度策略" class="headerlink" title="灰度策略"></a>灰度策略</h3><p>针对工程中新增的 RN 页面， 增加原生与 RN 页面可以相互切换的灰度开关及控制逻辑。</p>
+<p>灰度方案：</p>
+<ol>
+<li>增加全局 config 接口，存在多个入口的RN模块开关可以用这种全局接口方案。接口需要依赖tickets，可以在登录后请求此接口。app前后台切换重新请求此接口，更新开关数据</li>
+<li>只有一个入口的业务，直接在入口所在的接口中增加开关控制 (直接配置路由比较灵活，不单单配置bool变量)</li>
+</ol>
+<p>灰度字段：</p>
+<p>原有方案通过后端在对应接口中返回对应页面的路由，前端通过路由跳转原生/RN 页面。该方案需要后端维护一套路由地址，在服务器宕机、接口异常情况下需要原生额外容错，同时后端也不易维护。暂定为通过代表 0 或者 1 的开关字段控制。</p>
+<p>全局灰度接口更新频率：</p>
+<ol>
+<li>本地维护一个更新全局灰度接口的频率（每隔一天/每一周/每三天）或者服务器结合灰度策略定期更新；</li>
+<li>每次重新登录或者自动登录后调用全局灰度接口，获取灰度策略；</li>
+<li>每次 App 从后台挂起到到重新进入前台激活状态，再结合步骤 1 中的更新机制，同步更新灰度策略。</li>
+</ol>
+<p>备注：由于不同页面增加灰度控制字段增加了后端业务成本；同时糅合了后端原有业务。暂定灰度控制字段统一由新增的全局灰度接口配置</p>
+<h3 id="打包及发布"><a href="#打包及发布" class="headerlink" title="打包及发布"></a>打包及发布</h3><p>RN 代码打包分为两种：RN 应用包和热更新包，两种包的打包方式和生成物不同。</p>
+<ul>
+<li>RN 应用包</li>
+</ul>
+<pre><code>mkdir build
+rm -rf build/ios build/android build/map
+mkdir build/ios build/android build/android/res build/map
+
+# 进行IOS、安卓打包
+if [ &quot;$2&quot; == &quot;ios&quot; ]; then
+  node node_modules/react-native/local-cli/cli.js bundle \
+    --reset-cache \
+    --platform ios \
+    --dev false \
+    --entry-file index.js  \
+    --bundle-output ./build/ios/index.ios.jsbundle \
+    --assets-dest ./build/ios \
+    --sourcemap-output ./build/map/index.ios.jsbundle.map
+
+  cp -r ./build/ios/. ./ios/MeicaiStore/rnsource/
+</code></pre><ul>
+<li>RN 热更新包</li>
+</ul>
+<pre><code>npm run prod:stage
+生成物在bundles目录下
+</code></pre><h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://yarnpkg.top/Cliwhy.html" target="_blank" rel="external">yarn why</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 解惑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> ReactNative </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[React Native 原生模块与 JS 模块交互]]></title>
       <url>/2019/03/17/RN_Module/</url>
       <content type="html"><![CDATA[<p>最近使用 RN 时，需要在 RN 端实现调用系统相册上传选中照片的功能。需要原生模块与 RN 模块进行交互，主要步骤：</p>
@@ -6823,18 +6968,12 @@ pod setup
 </blockquote>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><blockquote>
 <p>微信：xibHe944588470</p>
-<p>邮箱：<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#104;&#x75;&#x61;&#104;&#x75;&#97;&#97;&#105;&#x68;&#x65;&#x68;&#x65;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#104;&#x75;&#x61;&#104;&#x75;&#97;&#97;&#105;&#x68;&#x65;&#x68;&#x65;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a></p>
+<p>邮箱：<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x68;&#x75;&#97;&#x68;&#117;&#97;&#97;&#x69;&#104;&#x65;&#x68;&#x65;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#x68;&#x75;&#97;&#x68;&#117;&#97;&#97;&#x69;&#104;&#x65;&#x68;&#x65;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#x6d;</a></p>
 <p>博客：<a href="http://xibhe.com" target="_blank" rel="external">http://xibhe.com</a></p>
 <p>GitHub：<a href="https://github.com/XibHe" target="_blank" rel="external">https://github.com/XibHe</a></p>
 </blockquote>
 <p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/WeChatContact.jpg?x-oss-process=style/image-WeChatContact" alt=""></p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
@@ -7003,6 +7142,12 @@ pod setup
 <p>登天难,求人更难；黄连苦,贫穷更苦；春冰薄,人情更薄；江湖险,人心更险。知其难,甘其苦，耐其薄,测其险，可以处世矣，可以应变矣</p>
 </blockquote>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   

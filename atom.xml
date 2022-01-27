@@ -877,6 +877,154 @@ free(coords);
   </entry>
   
   <entry>
+    <title>在工程中集成 React Native</title>
+    <link href="http://XibHe.github.io/2019/03/18/%E5%9C%A8%E5%B7%A5%E7%A8%8B%E4%B8%AD%E9%9B%86%E6%88%90%20React%20Native/"/>
+    <id>http://XibHe.github.io/2019/03/18/在工程中集成 React Native/</id>
+    <published>2019-03-17T16:00:00.000Z</published>
+    <updated>2022-01-27T15:32:43.474Z</updated>
+    
+    <content type="html"><![CDATA[<p>基于当前已经存在的工程集成 React Native（以下简称 RN），使现有工程具有跨平台能力。集成 RN 环境后的项目运行并不依赖于 RN 环境，默认运行时依赖的是 RN 编译产物 jsbundle 和工程中 node_module 里面的代码。</p>
+<p>这里主要讲的是集成 RN 后相关工程化的问题的解决及具体流程，RN 开发环境的搭建请移步 <a href="https://reactnative.cn/docs/environment-setup" target="_blank" rel="external">React Native 中文网</a></p>
+<h3 id="现有工程中集成-RN"><a href="#现有工程中集成-RN" class="headerlink" title="现有工程中集成 RN"></a>现有工程中集成 RN</h3><ul>
+<li>使用脚本配置 RN 环境</li>
+</ul>
+<pre><code>git clone -b develop_rn ssh://git@git.Test.com/Test.git
+
+if [ ! -d &quot;/Testreactnative/&quot; ];then
+  git clone -b develop_feature https://git.test.com/Testreactnative.git
+else
+echo &#39;wenjiancunzai&#39;
+fi
+
+cd ./mcreactnative/
+git pull
+
+rm -rf ./ios
+
+mv -f ../mall-ios/ ./ios
+#npm --registry=&#39;https://registrymnpm.test.com&#39; install
+npm install
+mkdir build
+rm -rf build/ios  build/map
+mkdir build/ios   build/map
+node node_modules/react-native/local-cli/cli.js bundle \
+    --reset-cache \
+    --platform ios \
+    --dev false \
+    --entry-file index.js  \
+    --bundle-output ./build/ios/index.ios.jsbundle \
+    --assets-dest ./build/ios \
+    --sourcemap-output ./build/map/index.ios.jsbundle.map
+rm -rf ./ios/MeicaiStore/rnsource/
+cp -r ./build/ios/. ./ios/MeicaiStore/rnsource/
+</code></pre><ul>
+<li>手动配置 RN 环境</li>
+</ul>
+<ol>
+<li>clone RN 工程 Testreactnative（包含 RN 环境及原生工程的壳工程）对应代码并切换至对应的开发分支</li>
+<li>在 Testreactnative 目录下的 ios 文件夹下重新 clone 原生工程代码或者将原生工程代码移动至该目录下</li>
+</ol>
+<h3 id="集成后工程目录结构"><a href="#集成后工程目录结构" class="headerlink" title="集成后工程目录结构"></a>集成后工程目录结构</h3><ul>
+<li>api：后端接口文件</li>
+<li>assets：静态资源</li>
+<li>components：业务组件</li>
+<li>store：mobx数据</li>
+<li>utils: 工具类</li>
+<li>views: 页面组件</li>
+</ul>
+<h3 id="调试运行及环境配置"><a href="#调试运行及环境配置" class="headerlink" title="调试运行及环境配置"></a>调试运行及环境配置</h3><p>工程依赖于 RN 两部分内容，一部分是 node_module 里面的原生组件，一部分是 RN 源代码(js文件)或者代码生成物(jsbundle文件)，工程 RN 环境默认为 release 环境，依赖的是 rnsource 文件夹下的文件，需要开发及调试 RN 代码的话，需要切换到 debug 环境，debug 依赖的是本地服务，运行前需要开启本地服务，下面会有具体讲解。</p>
+<ul>
+<li>release 环境</li>
+</ul>
+<ol>
+<li>在 ios 目录下切换到原生工程 .podfile 文件所在目录，并执行 pod install 链接 node_module 里面的原生组件；</li>
+<li>在原生工程的 info.plist文件中修改 MCRNDevBundle 属性下，MCRNStore 对应的 value修改为 0 （即，release 环境）</li>
+</ol>
+<ul>
+<li>debug 环境</li>
+</ul>
+<ol>
+<li>切换到壳工程 Testreactnative 下 package.json 文件所在目录，执行 npm install 或者 yarn 命令，更新 node_module 中的组件</li>
+<li>上一步成功后，执行 npm run dev:stage 命令，启动 stage 环境 (开发环境) 下的本地服务。或者使用 yarn start 运行 Metro 开启开发服务器。然后再使用 npx react-native run-ios 允许项目</li>
+<li>在原生工程的 info.plist文件中修改 MCRNDevBundle 属性下，MCRNStore 对应的 value修改为 1 （即，debug 环境）</li>
+<li>在 ios 目录下切换到原生工程 .podfile 文件所在目录，并执行 pod install</li>
+<li>打开 ios 目录下的原生工程，选择 pods 工程，修改 React-Core、MCRNAmp、MCRNBridge 下的预编译配置 Preprocessor Macros 项，选择对应的开发环境并新增 DEBUG=1 的编译配置。</li>
+<li>最后就是打开模拟器或真机所在的 RN 页面，开始开发调试。</li>
+</ol>
+<h3 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h3><p>遇到某个组件没有找到</p>
+<pre><code>Unable to resolve module `@mc/react-native-sentry` from `src/analytics/sentry.js`: @mc/react-native-sentry could not be found within the project.
+</code></pre><pre><code>Metro Bundler has encountered an error: ENOENT: no such file or directory, lstat &#39;/Users/meicai/Documents/SpruceProject/mcreactnative/node_modules/@mcrn/maple/node_modules/react-native-svg&#39;
+</code></pre><ol>
+<li>在终端清除： watchman watch-del-all</li>
+<li>删除 node_modules 目录下的所有文件: rm -rf node_modules and run yarn install</li>
+<li>重置缓存<br>对于 React Native 执行:<br>react-native start –reset-cache<br>对于 npm 执行:<br>npm start – –reset-cache</li>
+<li>删除缓存: rm -rf /tmp/metro-*</li>
+<li>重新运行 App</li>
+</ol>
+<pre><code>Unhandled JS Exception: Requiring unknown module &quot;25&quot;. If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+</code></pre><p>关闭工程所在终端并重新启动模拟器并运行。</p>
+<pre><code>Invariant Violation: Tried to register two views with the same name FastImageView
+</code></pre><p>查找工程中 FastImageView 组件的对应版本，找到所加载页面中名为 FastImageView 的组件，在终端输入命令：yarn why react-native-fast-image 明确 react-native-fast-image 的依赖关系。对比输入命令后终端的日志，发现 package.json 中依赖组件 react-native-fast-image 的版本为 8.3.4，而私有<br>基础组件库中 react-native-fast-image 的版本为 8.3.6，二者版本不一致导致同一个组件被注册两次。最后通过将 package.json 中的 react-native-fast-image 升级为 8.3.6 解决。</p>
+<h3 id="灰度策略"><a href="#灰度策略" class="headerlink" title="灰度策略"></a>灰度策略</h3><p>针对工程中新增的 RN 页面， 增加原生与 RN 页面可以相互切换的灰度开关及控制逻辑。</p>
+<p>灰度方案：</p>
+<ol>
+<li>增加全局 config 接口，存在多个入口的RN模块开关可以用这种全局接口方案。接口需要依赖tickets，可以在登录后请求此接口。app前后台切换重新请求此接口，更新开关数据</li>
+<li>只有一个入口的业务，直接在入口所在的接口中增加开关控制 (直接配置路由比较灵活，不单单配置bool变量)</li>
+</ol>
+<p>灰度字段：</p>
+<p>原有方案通过后端在对应接口中返回对应页面的路由，前端通过路由跳转原生/RN 页面。该方案需要后端维护一套路由地址，在服务器宕机、接口异常情况下需要原生额外容错，同时后端也不易维护。暂定为通过代表 0 或者 1 的开关字段控制。</p>
+<p>全局灰度接口更新频率：</p>
+<ol>
+<li>本地维护一个更新全局灰度接口的频率（每隔一天/每一周/每三天）或者服务器结合灰度策略定期更新；</li>
+<li>每次重新登录或者自动登录后调用全局灰度接口，获取灰度策略；</li>
+<li>每次 App 从后台挂起到到重新进入前台激活状态，再结合步骤 1 中的更新机制，同步更新灰度策略。</li>
+</ol>
+<p>备注：由于不同页面增加灰度控制字段增加了后端业务成本；同时糅合了后端原有业务。暂定灰度控制字段统一由新增的全局灰度接口配置</p>
+<h3 id="打包及发布"><a href="#打包及发布" class="headerlink" title="打包及发布"></a>打包及发布</h3><p>RN 代码打包分为两种：RN 应用包和热更新包，两种包的打包方式和生成物不同。</p>
+<ul>
+<li>RN 应用包</li>
+</ul>
+<pre><code>mkdir build
+rm -rf build/ios build/android build/map
+mkdir build/ios build/android build/android/res build/map
+
+# 进行IOS、安卓打包
+if [ &quot;$2&quot; == &quot;ios&quot; ]; then
+  node node_modules/react-native/local-cli/cli.js bundle \
+    --reset-cache \
+    --platform ios \
+    --dev false \
+    --entry-file index.js  \
+    --bundle-output ./build/ios/index.ios.jsbundle \
+    --assets-dest ./build/ios \
+    --sourcemap-output ./build/map/index.ios.jsbundle.map
+
+  cp -r ./build/ios/. ./ios/MeicaiStore/rnsource/
+</code></pre><ul>
+<li>RN 热更新包</li>
+</ul>
+<pre><code>npm run prod:stage
+生成物在bundles目录下
+</code></pre><h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://yarnpkg.top/Cliwhy.html" target="_blank" rel="external">yarn why</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;基于当前已经存在的工程集成 React Native（以下简称 RN），使现有工程具有跨平台能力。集成 RN 环境后的项目运行并不依赖于 RN 环境，默认运行时依赖的是 RN 编译产物 jsbundle 和工程中 node_module 里面的代码。&lt;/p&gt;
+&lt;p&gt;这里主要
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
+    
+  </entry>
+  
+  <entry>
     <title>React Native 原生模块与 JS 模块交互</title>
     <link href="http://XibHe.github.io/2019/03/17/RN_Module/"/>
     <id>http://XibHe.github.io/2019/03/17/RN_Module/</id>
@@ -4043,52 +4191,6 @@ didCompleteWithError:(NSError *)error
     
     
       <category term="AFNetworking" scheme="http://XibHe.github.io/tags/AFNetworking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(译)软件开发这份工作到了35岁之后就是尽头了吗</title>
-    <link href="http://XibHe.github.io/2017/11/19/dead-end%20job%20/"/>
-    <id>http://XibHe.github.io/2017/11/19/dead-end job /</id>
-    <published>2017-11-18T16:00:00.000Z</published>
-    <updated>2018-11-11T07:53:30.436Z</updated>
-    
-    <content type="html"><![CDATA[<p>我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：</p>
-<ol>
-<li>年龄歧视是软件开发行业中的问题吗？</li>
-<li>你应该把自己的职业转向管理角色，而不是个人开发者角色吗？</li>
-<li>软件开发个人开发者是一个死胡同吗？</li>
-</ol>
-<p>在Quora上关于这些问题的提问，每个问题都有详细的回答，其中细节如上所述，所以我将简要地讨论每个问题。</p>
-<p>对于年龄歧视，我不认为有人会否认这个行业有一定的年龄歧视。你可以看看几乎所有硅谷公司的新员工的平均年龄。我怀疑，大多数中等雇佣年龄远低于30。然而，这并不一定意味着官方的公司政策不会雇用超过一定年龄，种族，性别，性别偏好或其他特征的候选人。</p>
-<p>为什么在高科技产业中存在年龄歧视，原因是多方面的，并非是所有公司一起商量好不雇用年长员工。一方面，许多公司发现，使用新的大学毕业生（麻省理工学院和斯坦福大学等）作为招聘的主要对象是最容易的。新毕业生便宜。他们有一个稳定的质量。他们不受其他公司经验的束缚。他们是一张白纸，比较容易教他们企业文化，软件方法论，最佳实践，并与参与其他业务的新毕业相互配合工作。</p>
-<p>我认为，硅谷的任何人都不会认为，如果你有一个在相关技术方面拥有3年扎实编程经验的候选人（加上也是有名望的毕业生），不是一个好的候选人。事实上，我甚至可以说N年开发经验并不重要，没有确切的说明，有N年相关经验的候选人比N + 1年经验的候选人要好，所有其他因素是平等的，技能 以及与公司正在进行的业务相关的经验。</p>
-<p>对于工程师来说，保持相关性的技术变化太快的说法可能是一回事，但是构建网络的核心技术已经存在了几十年了。C语言早在七十年代末就出现了，已近有将近四十多年的历史了。Javascript语言，第一次出现在1997年，大概是20年前。这意味着几十年开发经验的工程师，他们的工作已经接近退休年龄，整个职业生涯一直专注于C和运行Unix服务器。这样的工程师非常少，有这么多的经验，但是我怀疑有谁会试图宣称刚刚毕业的22岁的人肯定比60岁的人好，相比之下，他们的一些人已近专研了40多年技术。当然，这些类型的工程师很少。</p>
-<p>因此，对于问题的另一方面，我不认为软件工程是一个死胡同的事业。我想说的是，在薪酬增长方面，在一定的时间之后，它会趋于稳定。部分原因就是工程师本质上是人为的商品。除非你是一个非常特别的工程师，事实上，你总是可以被其他人取代。与其他竞争性行业相比，我认为这有助于保持软件工程工资水平。不过，我几乎可以保证，对软件工程师的需求将超过应聘者中新毕业生或其他人的供应，所以你总能找到工作。不过，你可能不会每年收到那些10％的指数提升，就像你两三年前那样。</p>
-<p>最后，关于转为管理者是否是一个更好的选择，我想问为什么只考虑这个选项？当然有许多职业道路可供选择。你可以转换到另一个工程领域。例如，许多不喜欢创造产品的软件工程师会转移到其他角色，有时在同一个公司，例如运营，产品管理，项目管理，质量保证，或者更少的技术，如销售或行政职位。我也有一些完全改变职业的朋友，比如全职教学。</p>
-<p>最后让我说，以为自己为例，在和那些具有扎实工程背景的经理人员一起工作时，我很欣赏他们，最好是与公司相关技术的软件工程，所以请不要急于进入工程管理的职业道路。对于我们这些将来可能不得不与你打交道的人，作为开发者，可以获得5年或6年的良好工程实践经验。了解这个行业是如何运作的，作为一个经验丰富的开发者。只有这样，才能考虑把你的职业转向管理方向。就像你不会雇用花店来建造布鲁克林大桥。同样也不会聘请没有任何开发经验的人担任项目经理。</p>
-<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.quora.com/Is-software-development-really-a-dead-end-job-after-age-35-40/answer/Jeff-Nelson-32?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=website" target="_blank" rel="external">Is software development really a dead-end job after age 35-40?</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;年龄歧视是软件开发行业中的问题吗？&lt;/li&gt;
-&lt;li&gt;你应该把自己的职业转向管理角色，而不是个人开发者角色吗？&lt;/li&gt;
-&lt;li&gt;软件开发个人开发者是一个死胡同吗？&lt;/li&gt;
-
-    
-    </summary>
-    
-      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
-    
-    
-      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
-    
-      <category term="职业生涯" scheme="http://XibHe.github.io/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/"/>
     
   </entry>
   
