@@ -2292,7 +2292,7 @@ NSString * const LZPatientManageComponent_HealthRecordsViewBlock = @&quot;Health
     <link href="http://XibHe.github.io/2018/05/28/Compiling/"/>
     <id>http://XibHe.github.io/2018/05/28/Compiling/</id>
     <published>2018-05-27T16:00:00.000Z</published>
-    <updated>2018-11-11T07:19:40.503Z</updated>
+    <updated>2022-07-05T06:49:31.737Z</updated>
     
     <content type="html"><![CDATA[<p>遇到在 <strong>Release</strong> 模式下 <strong>80mm蓝牙打印机</strong> 无法打印的问题，最终的解决方式都是围绕 <strong>Debug</strong> 和 <strong>Release</strong> 这两种模式展开的。</p>
 <h3 id="可能打造无法打印的原因"><a href="#可能打造无法打印的原因" class="headerlink" title="可能打造无法打印的原因"></a>可能打造无法打印的原因</h3><h4 id="1-需要打印的处方药品过多，排列太过复杂造成"><a href="#1-需要打印的处方药品过多，排列太过复杂造成" class="headerlink" title="1.需要打印的处方药品过多，排列太过复杂造成"></a>1.需要打印的处方药品过多，排列太过复杂造成</h4><p>于是，构建一个最简单的打印模板，打印一行最简单的日期，将打印功能尽可能的简单化，看是否是由打印功能本身引起的。结果，仍然无法打印。</p>
@@ -2438,6 +2438,8 @@ Backtrace:
     
     
       <category term="编译器" scheme="http://XibHe.github.io/tags/%E7%BC%96%E8%AF%91%E5%99%A8/"/>
+    
+      <category term="蓝牙开发" scheme="http://XibHe.github.io/tags/%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91/"/>
     
       <category term="环境变量" scheme="http://XibHe.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
     
