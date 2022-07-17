@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://XibHe.github.io/"/>
-  <updated>2021-11-01T16:03:22.065Z</updated>
+  <updated>2018-11-05T06:13:35.697Z</updated>
   <id>http://XibHe.github.io/</id>
   
   <author>
@@ -14,1340 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>直播业务性能优化</title>
-    <link href="http://XibHe.github.io/2021/09/20/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    <id>http://XibHe.github.io/2021/09/20/直播业务性能优化/</id>
-    <published>2021-09-19T16:00:00.000Z</published>
-    <updated>2021-11-01T16:03:22.065Z</updated>
-    
-    <content type="html"><![CDATA[<p>在上一篇文章详细阐述了如何从 0 到 1 开发一个完整的直播功能。本篇接着上一篇，主要对直播中遇到的一些性能问题、交互体验问题的优化方案。在某些用户的手机上会出现电量消耗过快、提示手机温度过高。</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LiveOptimize/liveOptimize_hotRemind.jpg" alt="手机温度过高提示"></p>
-<p>根据实际情况，导致直播过程中手机发热、卡顿等问题的原因大致分为以下几个方面：</p>
-<h3 id="CPU-高占用率"><a href="#CPU-高占用率" class="headerlink" title="CPU 高占用率"></a>CPU 高占用率</h3><p>直播拉流需要不断的访问网络，网络活动会唤起需要长时间周期性供电的无线电模组。CPU 使用率超过 20% 就会快速耗干电池电量。因此，需要针对直播中实时获取的不同拉流状态进行区别处理。</p>
-<pre><code class="objectivec">[MCInfoGatherManager sharedInstance].livePlayerWrapper.playErrorBlock = ^(int event, NSString *msg) {
-        // 暂停中(或异常)
-        [MCLiteKitLoading mcStartLoadingInView:weakSelf.playToolBarView];
-        // 停止播放音视频流
-        [[MCInfoGatherManager sharedInstance].livePlayerWrapper stopPlay];
-};
-</code></pre>
-<ul>
-<li><p>直播，网络断连,且经多次重连抢救无效,可以放弃治疗</p>
-</li>
-<li><p>直播，获取加速拉流地址失败。这是由于您传给 (这是由于传给 liveplayer 的加速流地址中没有携带 txTime 和 txSecret 签名，或者是签名计算的不对。出现这个错误时，liveplayer 会放弃拉取加速流转而拉取 CDN 上的视频流，从而导致延迟很大)</p>
-</li>
-<li><p>其它直播异常情况</p>
-</li>
-</ul>
-<p>当出现以上几种直播异常情况时，进行停止播放音视频流的操作，不再反复尝试连接网络拉流。直至收到正常流播放状态的回调，才重新开始联网拉流播放。</p>
-<h3 id="直播消息列表刷新频次"><a href="#直播消息列表刷新频次" class="headerlink" title="直播消息列表刷新频次"></a>直播消息列表刷新频次</h3><p>在直播间中，短时间内直播间用户聊天信息达到一个峰值后，此时如果不做任何处理，就会大频率的去刷新 UITableView ，造成 CPU 占用过大。因此，需要结合多种刷新机制，对聊天列表进行优化：</p>
-<ul>
-<li>节流处理。即，直播间消息列表在收到新消息后，进行节流处理。</li>
-</ul>
-<blockquote>
-<p>所谓节流，就是规定在一个单位时间内，只能触发一次列表刷新函数。如果这个单位时间内触发多次函数，只有一次生效。这样就是降低了消息列表刷新及相关逻辑处理的频率。</p>
-</blockquote>
-<ul>
-<li><p>设置消息缓存机制。采用两个缓存池，一个是用于维护列表当前数据所存储的池，暂时叫 B 池；另一个用于接收处理好的 IM 数据缓存池，暂时叫 A 池；当有新 IM 消息过来时，把处理好的数据存入到 A 缓存池中。在结合后面会提到的数据加载及展示逻辑，把 A 缓存池中的数据合并到 B 缓存池中，然后，清空 A 缓存池数据。</p>
-</li>
-<li><p>数据加载及展示逻辑。用户手动滑动消息列表，查看历史消息后收到新消息时的交互处理：监听或记录用户滑动屏幕的状态，是否正在滑动消息列表及消息列表是否正在滑动。如果正在滑动消息列表，此时无论是否收到新消息，都不滚动到列表底部；如果此时监听到滚动停止，则定时 3 秒后，此时，若缓存的消息数组中有新消息，则滚动到列表底部，缓存的消息数组中没有新消息，则不做处理。</p>
-</li>
-</ul>
-<p>在直播中点击进入沉浸式后，特殊处理 IM 消息列表，此时，存储新消息但不做新消息的高度计算、富文本样式设置、消息列表刷新等耗时操作，待下次关闭沉浸式后，统一处理前一次存储的消息及新收到的消息（默认当前消息列表最多插入 300 条消息，超出 300 条清除前 100 条数据）</p>
-<h3 id="审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗"><a href="#审查项目代码并借助-Instruments-工具监测内存、时间探查、电量消耗" class="headerlink" title="审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗"></a>审查项目代码并借助 Instruments 工具监测内存、时间探查、电量消耗</h3><ul>
-<li>GIF 图片加载尺寸过大的图片时，对 CPU 性能的消耗</li>
-</ul>
-<p>通过使用 Instruments 工具分析，定位到 App 首页 CMS 模块存在未能完全释放的对象，最后定位到 FLAnimatedImageView 三方图片展示库，在首页加载 gif 图片时，在 gif 过大的情况下，会牺牲 CPU 性能来保证内存的低占用率。 因此，要么限制上传 GIF 动图的大小；要么使用 SDWebImage 加载gif图片，但是用 SDWebImage 去加载缓存图片，会出现内存增多，SDWebImage 对多gif显示内存消耗过高，需要优化一下。gif播放其实就是一张一张图片返回去,我们要写一个方法,只要不断地取出当前的那一张图片,这样就可以有效的避免内存中存储了大量图片.那如何实现不断地去取呢,我们可以开一个定时器,定时器不断的去调用我们写的方法,不断获取图片并赋值给 imageView.</p>
-<ul>
-<li>轮播图自动滚动定时器未及时释放</li>
-</ul>
-<p>如果是从首页进入的直播间，此时，首页正好有正在滚动的轮播图。在进入直播间后，通过 Instruments 的 Allocations 工具定位到首页轮播图定时器有可能存在问题，在对比首页有轮播图与没有轮播图内存增长情况后发现，配置了轮播图的模块短时间内存增长更多。对象释放的不及时，会在内存中保留一段时间，导致内存的增长。因此，可以在需要页面消失时候停止定时器，在页面出现重新开启定时器，如果是 view 可以重写视图生命周期方法：</p>
-<pre><code class="objectivec">- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    if (!newWindow) {
-        [self invalidateTimeEvent];
-    }  else {
-        [self startTimeEvent];
-    }
-}
-</code></pre>
-<pre><code class="objectivec">- (void)didMoveToSuperview {
-    [super didMoveToSuperview];
-    [self handleAutoTimer];
-}
-
-- (void)didMoveToWindow {
-    [super didMoveToWindow];
-    [self handleAutoTimer];
-}
-</code></pre>
-<p>在生命周期方法中做停止/开启逻辑。</p>
-<h3 id="低端机型的适配"><a href="#低端机型的适配" class="headerlink" title="低端机型的适配"></a>低端机型的适配</h3><p>低端机型未适配不同分辨率，在高码率、高分辨率下导致 CPU 占用过高。视频分辨率、码率成正比，比如720P、1080P 视频更容易发热。这一点在低端机型上尤为明显。可以在进入直播间时根据当前手机的型号、电量对某些低端机型做出特殊处理，如果判断为低端机型。就使用低分辨率的流程模式（360）。</p>
-<ol>
-<li><p>自动模式：如果您不太确定您的主要场景是什么，可以直接选择这个模式<br>把 TXLivePlayConfig 中的 setAutoAdjustCache 开关打开，即为自动模式。在该模式下播放器会根据当前网络情况，对延迟进行自动调节（默认情况下播放器会在1秒 - 5秒这个区间内自动调节延迟大小，您可以通过 setMinCacheTime 和 setMaxCacheTime 对默认值进行修改），以保证在足够流畅的情况下尽量降低观众跟主播端的延迟，确保良好的互动体验。</p>
-</li>
-<li><p>极速模式：主要适用于秀场直播等互动性高，并且对延迟要求比较苛刻的场景<br>极速模式设置方法是 setMinCacheTime = setMaxCacheTime = 1s，自动模式跟极速模式的差异只是 MaxCacheTime 有所不同 （极速模式的 MaxCacheTime 一般比较低，而自动模式的 MaxCacheTime 则相对较高 ），这种灵活性主要得益于 SDK 内部的自动调控技术，可以在不引入卡顿的情况下自动修正延时大小，而 MaxCacheTime 反应的就是调节速度：MaxCacheTime 的值越大，调控速度会越发保守，卡顿概率就会越低。</p>
-</li>
-<li><p>流畅模式：主要适用于游戏直播等大码率高清直播场景。<br>当把播放器中的 setAutoAdjustCache 开关关闭，即为流畅模式，在该模式下播放器采取的处理策略跟 Adobe Flash 内核的缓存策略如出一辙：当视频出现卡顿后，会进入 loading 状态直到缓冲区蓄满，之后进入 playing 状态，直到下一次遭遇无法抵御的网络波动。默认情况下缓冲大小为5秒，您可以通过 setCacheTime 进行更改。<br>在延迟要求不高的场景下，这种看似简单的模式会更加可靠，因为该模式本质上就是通过牺牲一点延迟来降低卡顿率。</p>
-</li>
-</ol>
-<h3 id="软解码-OR-硬解码"><a href="#软解码-OR-硬解码" class="headerlink" title="软解码 OR 硬解码"></a>软解码 OR 硬解码</h3><p>开启硬件加速，</p>
-<pre><code class="objectivec">    _player = [[TXLivePlayer alloc] init];
-    // 开启硬件加速(默认为 NO)
-    [_player setEnableHWAcceleration:YES];
-</code></pre>
-<h3 id="点赞等高频动画"><a href="#点赞等高频动画" class="headerlink" title="点赞等高频动画"></a>点赞等高频动画</h3><p>控制点赞频率，尤其是收到自定义点赞消息时，由于是连续的触发点赞。此时，若不去控制点赞动画绘制的次数，就会连续不停的触发点赞动画，消耗性能。因此，这里需要做一个针对点赞动效的频率控制逻辑，同时需要将下发的点赞消息依次触发，以实现连续不断的点赞效果。</p>
-<pre><code class="objectivec">- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        // 1.创建一个串行队列，保证for循环依次执行
-        _serialQueue = dispatch_queue_create(&quot;animationSerialQueue&quot;, DISPATCH_QUEUE_SERIAL);
-        // 2.创建一个数目为1的信号量，用于“卡”for循环，等上次循环结束在执行下一次的for循环
-        _sema = dispatch_semaphore_create(1);
-    }
-    return self;
-}
-</code></pre>
-<pre><code class="objectivec">#pragma mark - 点赞消息
-- (void)messagePraiseWithLikeCount:(NSInteger)likeCount animationCount:(NSInteger)animationCount likeTitle:(NSString *)likeTitle {
-  if (animationCount &gt; 0) {
-        MCWeakSelf
-        // 3.异步执行任务
-        dispatch_async(_serialQueue, ^{
-            // 客户端当接收到点赞通知时，判断数量num是否大于20，如果小于等于20，则绘制动画num次，如果大于20次，则只绘制20
-            for (NSInteger i = 0; i &lt; animationCount; i++) {
-
-                MCStrongSelf
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongSelf showLikeHeartStartRect:strongSelf.likeButton.frame animationKey:@&quot;HearLikeMessage&quot; withStartBlock:^{
-                        NSLog(@&quot;本次耗时操作完成，信号量+1 %@\n&quot;,[NSThread currentThread]);
-                        // 5.本次for循环的异步任务执行完毕，这时候要发一个信号，若不发，下次操作将永远不会触发
-                        dispatch_semaphore_signal(self-&gt;_sema);
-                    }];
-                });
-
-                // 4.开始执行for循环，让信号量-1，这样下次操作须等信号量&gt;=0才会继续,否则下次操作将永久停止
-                dispatch_semaphore_wait(self-&gt;_sema, DISPATCH_TIME_FOREVER);
-                NSLog(@&quot;信号量等待中\n&quot;);
-            }
-        });
-    }
-}
-</code></pre>
-<ol>
-<li><p>创建一个串行队列，保证for循环依次执行</p>
-</li>
-<li><p>创建一个数目为 1 的信号量，用于“卡”for循环，等上次循环结束在执行下一次的for循环</p>
-</li>
-<li><p>基于一个串行队列，异步执行任务</p>
-</li>
-<li><p>开始执行for循环，让信号量-1，这样下次操作须等信号量 &gt;=0 才会继续,否则下次操作将永久停止</p>
-</li>
-<li><p>本次 for 循环的异步任务执行完毕，这时候要发一个信号，若不发，下次操作将永远不会触发</p>
-</li>
-</ol>
-<p>客户端当接收到点赞通知时，判断数量 num 是否大于 20，如果小于等于20，则绘制动画 num 次，如果大于 20 次，则最多绘制 20 次点赞动画。</p>
-<h3 id="业务层不合理的设计"><a href="#业务层不合理的设计" class="headerlink" title="业务层不合理的设计"></a>业务层不合理的设计</h3><ul>
-<li><p>直播间管理器与聊天消息管理器分割开，二者可以合并为一套统一的直播间消息管理器，以处理直播间各种消息（IM 登录直播间、加入直播群组、加入直播间、点赞消息、普通消息、其它自定义消息）</p>
-</li>
-<li><p>生成的直播播放器管理工具，未能将播放状态、异常的处理逻辑彻底聚合在一起，需要进一步完善。</p>
-</li>
-</ul>
-<h3 id="优化前后对比"><a href="#优化前后对比" class="headerlink" title="优化前后对比"></a>优化前后对比</h3><p>CPU 占用率，优化前</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LiveOptimize/liveOptimize_CPU01.png" alt="CPU 优化前"></p>
-<p>优化后，</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LiveOptimize/liveOptimize_CPU02.png" alt="CPU 优化后"></p>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://blog.qiniu.com/archives/7463" target="_blank" rel="external">蘑菇街直播实践</a></p>
-<p><a href="https://www.open-open.com/lib/view/open1474444861619.html" target="_blank" rel="external">映客直播iOS App 性能优化实践</a></p>
-<p><a href="https://juejin.cn/post/6844903942573260814" target="_blank" rel="external">直播间聊天消息列表卡顿优化</a></p>
-<p><a href="https://juejin.cn/post/6935830669549371423#heading-2" target="_blank" rel="external">iOS 性能优化💡被压测卡爆的语音房间</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在上一篇文章详细阐述了如何从 0 到 1 开发一个完整的直播功能。本篇接着上一篇，主要对直播中遇到的一些性能问题、交互体验问题的优化方案。在某些用户的手机上会出现电量消耗过快、提示手机温度过高。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://xibhe.oss-cn-b
-    
-    </summary>
-    
-      <category term="优化" scheme="http://XibHe.github.io/categories/%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="性能优化" scheme="http://XibHe.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-      <category term="直播" scheme="http://XibHe.github.io/tags/%E7%9B%B4%E6%92%AD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>直播业务集成及再开发</title>
-    <link href="http://XibHe.github.io/2021/06/12/%E7%9B%B4%E6%92%AD%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90%E5%8F%8A%E5%86%8D%E5%BC%80%E5%8F%91/"/>
-    <id>http://XibHe.github.io/2021/06/12/直播业务集成及再开发/</id>
-    <published>2021-06-11T16:00:00.000Z</published>
-    <updated>2021-07-24T10:21:09.758Z</updated>
-    
-    <content type="html"><![CDATA[<p>在项目中集成直播功能，提高运营端营销效率、下单转化率、增加营销方式并成为客户沉淀的重要手段。</p>
-<h3 id="直播技术点"><a href="#直播技术点" class="headerlink" title="直播技术点"></a>直播技术点</h3><p>视频直播，可以分为 采集，前处理，编码，传输，解码，渲染 这几个环节。</p>
-<ul>
-<li>推流端：采集、前处理、编码、推流</li>
-<li>服务端：转码、录制、截图、鉴黄</li>
-<li>观众端（播放器）：拉流、解码、渲染</li>
-<li>互动：聊天室、礼物系统、点赞、弹幕等</li>
-</ul>
-<p>直播技术点：</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_01.png" alt="直播技术点"></p>
-<p>直播 App 架构：</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_02.png" alt="直播App架构"></p>
-<h3 id="业务流程（观众端）"><a href="#业务流程（观众端）" class="headerlink" title="业务流程（观众端）"></a>业务流程（观众端）</h3><p>观众端拉流播放功能，基于腾讯云直播基础版（Smart），基础版仅包含直播推流（TXLivePusher）和直播播放（TXLivePlayer）两项功能，对 App 的安装包体积增量最小，适合仅使用移动直播相关功能的客户。</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_03.png" alt="直播间流程图"></p>
-<p>直播间主要包含四部分功能：</p>
-<ul>
-<li>直播拉流播放功能</li>
-<li>点播回放功能</li>
-<li>IM 消息收发展示及处理特殊自定义消息</li>
-<li>不同直播状态 UI 样式之间切换及展示</li>
-</ul>
-<h3 id="交互流程"><a href="#交互流程" class="headerlink" title="交互流程"></a>交互流程</h3><h4 id="1-首先需要在-AppDelegate-中对腾讯云直播-SDK-和-IM-进行初始配置"><a href="#1-首先需要在-AppDelegate-中对腾讯云直播-SDK-和-IM-进行初始配置" class="headerlink" title="1. 首先需要在 AppDelegate 中对腾讯云直播 SDK 和 IM 进行初始配置"></a>1. 首先需要在 AppDelegate 中对腾讯云直播 SDK 和 IM 进行初始配置</h4><pre><code class="objectivec">[TXLiveBase setLicenceURL:@&quot;&quot; key:@&quot;&quot;];
-  // 腾讯云 IM SDK 初始化
-  V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
-  BOOL isinitSDK = [[V2TIMManager sharedInstance] initSDK: config:config listener:nil];
-  NSLog(@&quot;isinitSDK = %@&quot;, isinitSDK ? @&quot;YES&quot; : @&quot;NO&quot;);
-</code></pre>
-<h4 id="2-通过首页-CMS-或短信链接或者微信分享的直播链接打开包含-roomId-信息的路由链接。直播间新增直播间对应路由-eg-XXX-activity-live-roomId-1234568"><a href="#2-通过首页-CMS-或短信链接或者微信分享的直播链接打开包含-roomId-信息的路由链接。直播间新增直播间对应路由-eg-XXX-activity-live-roomId-1234568" class="headerlink" title="2. 通过首页 CMS 或短信链接或者微信分享的直播链接打开包含 roomId 信息的路由链接。直播间新增直播间对应路由 eg. XXX://activity/live?roomId=1234568"></a>2. 通过首页 CMS 或短信链接或者微信分享的直播链接打开包含 roomId 信息的路由链接。直播间新增直播间对应路由 eg. XXX://activity/live?roomId=1234568</h4><h4 id="3-进入直播间调用获取房间详情接口获取直播间信息，根据接口返回的直播状态决定是拉流播放还是点播回放，并展示不同状态的-UI-样式。目前共有101、103、106、108、110、115、206-等-7-种状态。通过返回字段-pullUrl-获取直播拉流地址，若直播状态为-101-则则直接进行拉流播放；否则，根据不同状态展示不同-UI-视图。"><a href="#3-进入直播间调用获取房间详情接口获取直播间信息，根据接口返回的直播状态决定是拉流播放还是点播回放，并展示不同状态的-UI-样式。目前共有101、103、106、108、110、115、206-等-7-种状态。通过返回字段-pullUrl-获取直播拉流地址，若直播状态为-101-则则直接进行拉流播放；否则，根据不同状态展示不同-UI-视图。" class="headerlink" title="3. 进入直播间调用获取房间详情接口获取直播间信息，根据接口返回的直播状态决定是拉流播放还是点播回放，并展示不同状态的 UI 样式。目前共有101、103、106、108、110、115、206 等 7 种状态。通过返回字段 pullUrl 获取直播拉流地址，若直播状态为 101 则则直接进行拉流播放；否则，根据不同状态展示不同 UI 视图。"></a>3. 进入直播间调用获取房间详情接口获取直播间信息，根据接口返回的直播状态决定是拉流播放还是点播回放，并展示不同状态的 UI 样式。目前共有101、103、106、108、110、115、206 等 7 种状态。通过返回字段 pullUrl 获取直播拉流地址，若直播状态为 101 则则直接进行拉流播放；否则，根据不同状态展示不同 UI 视图。</h4><h4 id="4-已登录情况下，进入直播间三步走："><a href="#4-已登录情况下，进入直播间三步走：" class="headerlink" title="4. 已登录情况下，进入直播间三步走："></a>4. 已登录情况下，进入直播间三步走：</h4><ul>
-<li>调用接口 getUserSig 获取用户 Sig；</li>
-<li>拿着获取到的用户 Sig 登录 IM ；</li>
-<li>在 IM 登录成功后，调用加入直播间群组 API。</li>
-</ul>
-<p>⚠️在以上三步成功走完后，就可以在直播间发送文本消息或者自定义点赞消息了。</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_04.png" alt="交互流程图"></p>
-<h3 id="直播后台推流及状态"><a href="#直播后台推流及状态" class="headerlink" title="直播后台推流及状态"></a>直播后台推流及状态</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_05.png" alt="推流状态"></p>
-<ul>
-<li><p>103  暂停中(或异常): 若上一个状态为 106 待开播，则提示：主播正在赶来的路上，请稍候，否则，提示：主播暂时离开，请稍候。并展示“点击重试” 按钮。可以提过该按钮，触发重试拉流逻辑。</p>
-</li>
-<li><p>106 待开播，该状态展示开播倒计时（开播时间戳为xxx分钟xxx秒、xxx秒触发倒计时）及展示“开播提醒”按钮，点击会调用订阅及提醒接口 </p>
-</li>
-<li><p>108 已结束，回放生成中，展示已结束提示：“直播已结束”、“回放生成中” 并触发商品弹窗（固定位置且不可关闭）</p>
-</li>
-<li><p>110 云点播(回放)，根据回放地址播放视频，展示自定义播放进度控制条、商品按钮、分享</p>
-</li>
-<li><p>115 已结束，无回放。展示已结束提示：“直播已结束” 并触发商品弹窗（固定位置且不可关闭）</p>
-</li>
-<li><p>206 禁播。展示“主播暂时离开，请稍候”及 “看看其他直播”按钮。</p>
-</li>
-</ul>
-<p>⚠️由状态 101 到 108 需要更新“xxxx人观看”视图，而直接为 108 不需要，即，展示“xxxx人观看”</p>
-<h3 id="直播-SDK-推流状态"><a href="#直播-SDK-推流状态" class="headerlink" title="直播 SDK 推流状态"></a>直播 SDK 推流状态</h3><p>腾讯云直播</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_06.png" alt="腾讯云直播SDK状态"></p>
-<p>拉流端异常处理：基于直播 SDK 状态码 2003、2004、2006、-2301 等对直播异常状态进行特殊处理。</p>
-<ul>
-<li>-2301 及其他导致连接失败的异常：此时，更新后台推流状态码为 103 暂停中(或异常) 触发异常逻辑</li>
-</ul>
-<pre><code class="objectivec">weakSelf.livePlayerWrapper.playErrorBlock = ^(int event, NSString *msg) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-//      [weakSelf.livePlayer pause];
-//      [MCToast hideLoadingToastInView:weakSelf.playToolBarView];
-      [MCKitLoading mcStopLoadingInView:weakSelf.playToolBarView];
-      // 暂停中(或异常)
-      [weakSelf.livePlayer removeVideoWidget];
-      [weakSelf.roomInfoDict mcSetInteger:103 forKey:@&quot;liveStatus&quot;];
-      [weakSelf.playToolBarView handleRoomId:weakSelf.roomId roomInfo:weakSelf.roomInfoDict];
-      [weakSelf.playToolBarView.liteStatusView configRetryTitle];
-
-//      MCStrongSelf
-//      weakSelf.playToolBarView.liteStatusView.retryBlock = ^{
-////        [MCToast showLoadingToastInView:strongSelf.view];
-//        NSString *pullUrl = [strongSelf.roomInfoDict mcObjectForKey:@&quot;pullUrl&quot;];
-//        [strongSelf startPlayWithView:strongSelf.videoPlayerView pullUrl:pullUrl];
-//      };
-    });
-  };
-</code></pre>
-<ul>
-<li>2003、2004、2006 这三种状态，主要用来处理由播放异常到开始播放或者播放结束的过度状态。对应不同的服务端播放状态及 UI 处理逻辑。</li>
-</ul>
-<pre><code class="objectivec">// 播放事件回调
-  weakSelf.livePlayerWrapper.playEventBlock = ^(int event, NSDictionary * _Nonnull param) {
-
-    switch (event) {
-      case EVT_RENDER_FIRST_I_FRAME: {
-        // 渲染首个视频数据包（IDR）
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [MCKitLoading mcStopLoadingInView:weakSelf.playToolBarView];
-          [weakSelf.roomInfoDict mcSetInteger:101 forKey:@&quot;liveStatus&quot;];
-          [weakSelf.playToolBarView handleRoomId:weakSelf.roomId roomInfo:weakSelf.roomInfoDict];
-        });
-      }
-        break;
-      case EVT_VIDEO_PLAY_BEGIN: {
-        // 视频播放开始
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [MCKitLoading mcStopLoadingInView:weakSelf.playToolBarView];
-        });
-      }
-        break;
-
-//      case EVT_VIDEO_PLAY_PROGRESS: {
-//        // 视频播放进度
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//          [MCKitLoading mcStopLoadingInView:weakSelf.playToolBarView];
-//        });
-//      }
-//        break;;
-      case EVT_VIDEO_PLAY_END: {
-        // 视频播放结束
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [MCKitLoading mcStopLoadingInView:weakSelf.playToolBarView];
-          [weakSelf.roomInfoDict mcSetInteger:108 forKey:@&quot;liveStatus&quot;];
-          [weakSelf.playToolBarView handleRoomId:weakSelf.roomId roomInfo:weakSelf.roomInfoDict];
-        });
-      }
-        break;
-      default:
-        break;
-    }
-</code></pre>
-<p>⚠️：原有直播开始回调逻辑，在从异常中断到再次连接开始播放过渡时，不是每次都百分百调用。因此，才需要在 playEventBlock 中处理多种过度状态。</p>
-<h3 id="iOS-直播功能目录结构及对应类："><a href="#iOS-直播功能目录结构及对应类：" class="headerlink" title="iOS 直播功能目录结构及对应类："></a>iOS 直播功能目录结构及对应类：</h3><p>主要分为三部分：直播间管理类及IM 消息管理类、直播间控制器、直播不同状态 UI 视图。</p>
-<ul>
-<li>直播间管理类及 IM 消息管理类： XXX 主要处理直播间普通及自定义 IM 消息，包括 IM 登录、加入群组、普通或自定义消息接收及处理、群消息接收、收到强制关闭直播的消息 (1: 后台强制结束 2: 主播涉黄 3: 超时被强制结束 4: 超时未开播)、获取在线人数、退出直播间 (退出 IM 群组)、删除消息</li>
-</ul>
-<pre><code class="objectivec">// 收到强制关闭直播的消息 (1: 后台强制结束 2: 主播涉黄 3: 超时被强制结束)
-- (void)onRecvRESTRoomID:(NSString *)roomID status:(int)status;
-</code></pre>
-<ul>
-<li><p>观众播放主控制器，处理直播间不同的直播状态、IM 消息、监听主播端推流状态、配置直播间</p>
-</li>
-<li><p>View 目录下为直播间 UI：IM 消息列表、点赞、分享、商品等所在的观众播放页面工具视图（点赞、评论、分享、点播时的进度条）、顶部视图 （展示观看人数等信息)、直播状态视图、回到直播间悬浮、新的直播间商品弹窗等 UI 视图。</p>
-</li>
-</ul>
-<h3 id="直播推拉流"><a href="#直播推拉流" class="headerlink" title="直播推拉流"></a>直播推拉流</h3><ol>
-<li>推流端（主播端）小程序推</li>
-<li>拉流端（观众端）</li>
-</ol>
-<p>基于腾讯云直播 SDK 的二次开发。</p>
-<h3 id="IM-普通消息及自定义消息体处理"><a href="#IM-普通消息及自定义消息体处理" class="headerlink" title="IM 普通消息及自定义消息体处理"></a>IM 普通消息及自定义消息体处理</h3><p>&#124; 使用自定义消息体payload中的data字段来传输数据，data为字符串Json，约定cmd来做类型区分</p>
-<p>eg.<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LitePlay/liteLive_07.png" alt="示例"></p>
-<h4 id="1-点赞"><a href="#1-点赞" class="headerlink" title="1. 点赞"></a>1. 点赞</h4><ul>
-<li>cmd: LIKE</li>
-<li>num：当前点赞了几次</li>
-</ul>
-<blockquote>
-<p>约定num字段来记录当前用户点赞点了几下，接收方会拿自己本地当前的点赞数累加该num</p>
-</blockquote>
-<h4 id="2-删除-（只删除-user-id-不是自己的他人发送的消息）"><a href="#2-删除-（只删除-user-id-不是自己的他人发送的消息）" class="headerlink" title="2. 删除 （只删除 user_id 不是自己的他人发送的消息）"></a>2. 删除 （只删除 user_id 不是自己的他人发送的消息）</h4><blockquote>
-<p>由于小程序端消息体中的 messageId 与 iOS 及 Andriond 两端算法不一致，导致三端无法通过 messageId 删除特定消息体。因此，最后方案是：通过匹配字符串的方式，删除当前消息列表中的消息。</p>
-</blockquote>
-<ul>
-<li>cmd: DELETE_MESSAGE</li>
-<li>msg_text: 当前消息的文本</li>
-<li>user_id: 当前消息体的发送方id</li>
-</ul>
-<p>IM 管理类 MCTXIMManager 中定义的消息体的不同 CMD，用以区分不同的自定义消息体</p>
-<pre><code class="objectivec">#define CMD_PUSHER_CHANGE   @&quot;notifyPusherChange&quot;
-#define CMD_CUSTOM_TEXT_MSG  @&quot;CustomTextMsg&quot;
-#define CMD_CUSTOM_LIKE      @&quot;LIKE&quot;       // 点赞
-#define CMD_DELETE_MESSAGE   @&quot;DELETE_MESSAGE&quot;  // 删除消息
-#define CMD_LIVE_STATUS_NOTICE @&quot;LIVE_STATUS_NOTICE&quot; // 主播端主动通知的状态
-</code></pre>
-<h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>iOS、Andriond、小程序三端进入直播间获取的实时在线人数不一致的问题；</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li>iOS 集成腾讯云直播基础版，相比之下，直播专业版本继承了 <a href="https://cloud.tencent.com/product/trtc" target="_blank" rel="external">实时音视频 SDK</a>、<a href="https://cloud.tencent.com/product/player" target="_blank" rel="external">超级播放器（Player+）</a> 和 <a href="https://cloud.tencent.com/product/ugsv" target="_blank" rel="external">短视频（UGSV）</a>等音视频相关的核心功能。根据目前业务需求基础版完全够用了；</li>
-<li>为避免 SDK 版本不一致导致功能性问题，iOS 与 Andriond 直播 SDK 版本固定为：pod ‘TXLiteAVSDK_Smart’, ‘8.7.10102’ 两端而 IM SDK 版本固定为： pod ‘TXIMSDK_iOS’, ‘5.1.62’；</li>
-<li>TXIMSDK_iOS 中包含新旧两套 IM API，为了保证稳定性。iOS 和 Andriond 使用最新的 IM API。iOS 使用调用方法名以 V2TIMManager 为开头的新 API；</li>
-<li>点播回放功能并没有集成腾讯单独提供的超级播放器(通过 pod ‘SuperPlayer’ 引入) 而是通过对TXLiteAVSDK_Smart 提供的 TXVodPlayer 点播播放器进行自定义。在 TXVodPlayer 基础之上按照 UI 设计稿样式自定义播放进度条实现；</li>
-<li>未登录可以进入直播间，注意项目中未登录到登录状态的处理逻辑；</li>
-<li>通过 CMS 列表商品从直播间跳转商品详情页的浮窗逻辑；</li>
-<li>iOS 发布 App Store 需要经营范围包含“表演”或“网络表演”的<font color="#DC143C">《网络文化经营许可证》 </font></li>
-</ol>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://cloud.tencent.com/document/product/454/7873" target="_blank" rel="external">腾讯云移动直播 SDK</a> </p>
-<p><a href="https://cloud.tencent.com/document/product/269/1616" target="_blank" rel="external">即时通讯 IM</a></p>
-<p><a href="https://im.sdk.qcloud.com/doc/zh-cn/interfaceV2TIMManager.html#a38c42943046acdaf615915c9422af07c" target="_blank" rel="external">IMSDK （V2TIMManager 版）</a></p>
-<p><a href="https://cloud.tencent.com/document/product/269/44499#.E7.BE.A4.E7.BB.84.E7.9B.B8.E5.85.B3.E6.8E.A5.E5.8F.A3" target="_blank" rel="external">即时通讯客户端 SDK API</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在项目中集成直播功能，提高运营端营销效率、下单转化率、增加营销方式并成为客户沉淀的重要手段。&lt;/p&gt;
-&lt;h3 id=&quot;直播技术点&quot;&gt;&lt;a href=&quot;#直播技术点&quot; class=&quot;headerlink&quot; title=&quot;直播技术点&quot;&gt;&lt;/a&gt;直播技术点&lt;/h3&gt;&lt;p&gt;视频直播
-    
-    </summary>
-    
-      <category term="日常" scheme="http://XibHe.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
-    
-    
-      <category term="直播" scheme="http://XibHe.github.io/tags/%E7%9B%B4%E6%92%AD/"/>
-    
-      <category term="推拉流" scheme="http://XibHe.github.io/tags/%E6%8E%A8%E6%8B%89%E6%B5%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Swift 与 OC 混编注意事项</title>
-    <link href="http://XibHe.github.io/2020/08/31/Swift_OC_mix/"/>
-    <id>http://XibHe.github.io/2020/08/31/Swift_OC_mix/</id>
-    <published>2020-08-30T16:00:00.000Z</published>
-    <updated>2020-09-15T16:33:20.038Z</updated>
-    
-    <content type="html"><![CDATA[<p>为了使 Objective-C 代码更好的符合 Swift 的使用习惯，主要有以下几种处理方式：</p>
-<ul>
-<li>遵循编译器的某些规则</li>
-<li>在头文件里进行特殊标注</li>
-<li>用 Swift 做中间层，重新封装原有代码</li>
-<li>根据自己的喜好进一步优化</li>
-</ul>
-<h3 id="快速查看-Xcode-基于-OC-代码生成的-Swift-接口"><a href="#快速查看-Xcode-基于-OC-代码生成的-Swift-接口" class="headerlink" title="快速查看 Xcode 基于 OC 代码生成的 Swift 接口"></a>快速查看 Xcode 基于 OC 代码生成的 Swift 接口</h3><p>在需要转换的 OC 类的 .h 头文件中，点击左上角的 Related Items 按钮，选择 Generated Interface 后，就会出现几种不同 Swift 版本的接口文件选择其中某个版本的 Swift 接口文件，如下图所示：</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/OCForSwift/20200909185036.jpg" alt=""></p>
-<p>选择其中某个版本的 Swift 接口文件，最终自动生成对应版本的 Swift 接口 API</p>
-<h3 id="Objective-C-与-Swift-混编的一些问题："><a href="#Objective-C-与-Swift-混编的一些问题：" class="headerlink" title="Objective-C 与 Swift 混编的一些问题："></a>Objective-C 与 Swift 混编的一些问题：</h3><h4 id="1-过多的隐式解析可选类型"><a href="#1-过多的隐式解析可选类型" class="headerlink" title="1. 过多的隐式解析可选类型"></a>1. 过多的隐式解析可选类型</h4><p>默认情况下 Swift 会把 Objective-C 里的指针当做隐式解析可选类型，因为它认为这个值大部分情况下不会是 nil，但它也不完全确定。</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/OCForSwift/20200910142407.jpg" alt=""></p>
-<p>这样做会导致两个问题：</p>
-<ul>
-<li>大量的隐式解析可选类型让代码变得意图模糊</li>
-<li>隐式解析的存在，导致了容错能力的下降。只要服务端回传的参数中有一个空字段或者类型错误，就有可能引发 Crash</li>
-</ul>
-<p>解决以上问题的方式：在 OC 代码中使用 nonnull (不可为空)和 nullable (可为空)关键字，根据这两个关键字决定转换后的 Swift 是否使用隐式解析。除了 nonnull 和 nullable 以外，还有一对配合使用的宏 NS_ASSUME_NONNULL_BEGIN 和 NS_ASSUME_NONNULL_END 可以让我们的代码更清爽。(新建类会自带这一对宏)</p>
-<h4 id="2-某些转换后的属性里-Any-定义过于模糊"><a href="#2-某些转换后的属性里-Any-定义过于模糊" class="headerlink" title="2. 某些转换后的属性里 Any 定义过于模糊"></a>2. 某些转换后的属性里 Any 定义过于模糊</h4><p>可以通过在 OC 里添加 NSArray，NSDictionary 中存储的固定类来改善这个问题。例如，</p>
-<pre><code class="objectivec">-(void)setRecommendArray:(nullable NSArray&lt;MCHomeGoodModel *&gt; *)recommendArray andSpace:(CGFloat)space andsectionInset:(UIEdgeInsets)sectionInse;
-</code></pre>
-<p>转换为：</p>
-<pre><code class="swift">open func setRecommendArray(_ recommendArray: [MCHomeGoodModel]?, andSpace space: CGFloat, andsectionInset sectionInse: UIEdgeInsets)
-</code></pre>
-<h4 id="3-一些初始化构造器或者方法命名不够优雅"><a href="#3-一些初始化构造器或者方法命名不够优雅" class="headerlink" title="3. 一些初始化构造器或者方法命名不够优雅"></a>3. 一些初始化构造器或者方法命名不够优雅</h4><p>Swift 和 Objective—C 的命名风格是有所不同，例如 Swift 的 API 是由基名（previousMissionsFlown）和参数标签（by）组成的，⽽ Objective—C 基本上只有参数标签(previousMissionsFlownByAstronaut)，没有单独的基名，所以基名的信息会包含在第⼀个参数标签⾥，这也导致了 Objective—C 的方法名会显得略长一些。</p>
-<h4 id="4-对于数字处理统一使用-Int-重要！！！"><a href="#4-对于数字处理统一使用-Int-重要！！！" class="headerlink" title="4. 对于数字处理统一使用 Int (重要！！！)"></a>4. 对于数字处理统一使用 Int (重要！！！)</h4><p>NSUInteger 是无符号的，即没有负数。在 OC 中多以 NSUInteger 返回 index 或者设置枚举类型</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/OCForSwift/20200910144826.jpg" alt=""></p>
-<p>由于 NSUInteger 的大小会因架构不同而产生一些变化，Swift 采取的策略是在进⾏有符号运算时，要求开发者必须将⽆符号类型转换为有符号类型，如果 Swift 在处理⽆符号运算时，产⽣了负值，就会直接停⽌运算。</p>
-<p>对于 Apple 自己的框架，他们设置了一个白名单用于将 NSUInteger 转换为 Int。对于开发者而言，决定权在我们自己手里，我们可以⾃⾏选择是否使⽤ NSInteger，但 Apple 的工程强烈推荐你这么做。或许在 Objective-C ⾥⾯差距不是很⼤，但在 Swift ⾥⾯很重要！</p>
-<h4 id="5-将字符串类型的常量变得更有条理"><a href="#5-将字符串类型的常量变得更有条理" class="headerlink" title="5. 将字符串类型的常量变得更有条理"></a>5. 将字符串类型的常量变得更有条理</h4><p>在 Swift ⾥通常会把这些常量变成⼀个具有字符串原始值的枚举或者结构体，然后改变函数的入参类型，使其接受相应的枚举或者结构体类型。不加任何处理的 OC 代码无法将设置的多个常量聚拢在一起，无法生成 Swift 中的结构体。</p>
-<p>在 typedef 后⾯加上 NS_STRING_ENUM 即可, 此时，原有的字符串常量将以结构体的⽅式导⼊到 Swift 中. (这条验证后没有效果)</p>
-<h4 id="6-关于构造器的相关约定"><a href="#6-关于构造器的相关约定" class="headerlink" title="6. 关于构造器的相关约定"></a>6. 关于构造器的相关约定</h4><p>这个约定的大体内容是这样的，将初始化器分为两类，designated 和 convenience。你需要覆盖所有 designated 初始化器，以便安全地继承 convenience 的初始化器。</p>
-<p>这个约定和 Swift 里面的构造器约定十分相似，但它们有个本质的区别！OC 的这种构造器约定不是语⾔级别的强制规则，更多的是⼀个开发者之间的约定，例如 convenience 必须选择⼀个 designated 的接口，但实际上很多 OC 的类并没这么做，这也意味着如果有⼦类的话，如何正确构造它会成为⼀个头⼤的问题！</p>
-<p>通常 designated 构造器会调⽤ [super init] 这个方法，而 convenience 构造器会调⽤⾃⾝的某个 designated 构造器。我们需要在 designated 构造器后面添加 NS_DESIGNATED_INITIALIZER, 对于 convenience 类型的构造器，你不需要做任何事情</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/OCForSwift/20200910160144.jpg" alt=""></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><h4 id="1-nonull-和-nullable-只能在方法和属性上使用，如果想拓展其使用场景，就需要直接调用这两关键字底层的内容，也就是-Nonnull-和-Nullable。"><a href="#1-nonull-和-nullable-只能在方法和属性上使用，如果想拓展其使用场景，就需要直接调用这两关键字底层的内容，也就是-Nonnull-和-Nullable。" class="headerlink" title="1. nonull 和 nullable 只能在方法和属性上使用，如果想拓展其使用场景，就需要直接调用这两关键字底层的内容，也就是 _Nonnull 和 _Nullable。"></a>1. nonull 和 nullable 只能在方法和属性上使用，如果想拓展其使用场景，就需要直接调用这两关键字底层的内容，也就是 _Nonnull 和 _Nullable。</h4><h4 id="2-对于数字处理统一使用-Int，工程中混编-MCRollingNoticeView-中-index-转化后为-UInt-类型，因其-OC-中使用了-NSUInteger-类型。转化后可能导致的越界问题。-注意"><a href="#2-对于数字处理统一使用-Int，工程中混编-MCRollingNoticeView-中-index-转化后为-UInt-类型，因其-OC-中使用了-NSUInteger-类型。转化后可能导致的越界问题。-注意" class="headerlink" title="2. 对于数字处理统一使用 Int，工程中混编 MCRollingNoticeView 中 index 转化后为 UInt  类型，因其 OC 中使用了 NSUInteger 类型。转化后可能导致的越界问题。(注意!!!)"></a>2. 对于数字处理统一使用 Int，工程中混编 MCRollingNoticeView 中 index 转化后为 UInt  类型，因其 OC 中使用了 NSUInteger 类型。转化后可能导致的越界问题。(注意!!!)</h4><h4 id="3-除了关注父类的-designated-构造器，开发者也需要关注-convenience-类型的构造器。"><a href="#3-除了关注父类的-designated-构造器，开发者也需要关注-convenience-类型的构造器。" class="headerlink" title="3. 除了关注父类的 designated 构造器，开发者也需要关注 convenience 类型的构造器。"></a>3. 除了关注父类的 designated 构造器，开发者也需要关注 convenience 类型的构造器。</h4><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>虽然查看编译器生成的 Swift 头文件是一个好的方法。但⽣ 成的接口并不是全部，真正重要的是使用者在实际使⽤过程中写出的调⽤代码。所以当我们在思考如何打造一个更适合 Swift 使用的接口时，不光要看看⽣成的接口。也应该考虑实际的使用场景。</p>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://mp.weixin.qq.com/s/hPmL2fsAfQ-moeM5TjsliQ" target="_blank" rel="external">让 Objective-C 框架与 Swift 友好共存的秘籍</a></p>
-<p><a href="https://developer.apple.com/documentation/swift/objective-c_and_c_code_customization" target="_blank" rel="external">通过在 Objective-C 中设置 api 的特定宏来定制 Objective-C 代码并将其导入 Swift</a></p>
-<p><a href="https://developer.apple.com/videos/play/wwdc2020/10680/?time=863" target="_blank" rel="external">WWDC2020 Refine Objective-C frameworks for Swift</a></p>
-<p>–EOF–</p>
-<p>本篇文章主要参照了 <a href="https://mp.weixin.qq.com/s/hPmL2fsAfQ-moeM5TjsliQ" target="_blank" rel="external">让 Objective-C 框架与 Swift 友好共存的秘籍</a> 转载请保留原作者文章链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;为了使 Objective-C 代码更好的符合 Swift 的使用习惯，主要有以下几种处理方式：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;遵循编译器的某些规则&lt;/li&gt;
-&lt;li&gt;在头文件里进行特殊标注&lt;/li&gt;
-&lt;li&gt;用 Swift 做中间层，重新封装原有代码&lt;/li&gt;
-&lt;li&gt;根据自
-    
-    </summary>
-    
-      <category term="探索" scheme="http://XibHe.github.io/categories/%E6%8E%A2%E7%B4%A2/"/>
-    
-    
-      <category term="Swift" scheme="http://XibHe.github.io/tags/Swift/"/>
-    
-      <category term="混编" scheme="http://XibHe.github.io/tags/%E6%B7%B7%E7%BC%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AFN弱网环境下接口请求超时或被 cancel 问题分析</title>
-    <link href="http://XibHe.github.io/2020/05/08/AFN_error_cancel/"/>
-    <id>http://XibHe.github.io/2020/05/08/AFN_error_cancel/</id>
-    <published>2020-05-07T16:00:00.000Z</published>
-    <updated>2020-05-08T16:18:53.612Z</updated>
-    
-    <content type="html"><![CDATA[<p>在弱网络环境下启动 App 进入首页，网络请求超时或者被 cancel 后，不会走网络请求失败的 failure 回调，导致该回调中隐藏假首页 (模态首页) 的代码不会执行，最终无法进入真正首页的问题。</p>
-<h3 id="测试流程"><a href="#测试流程" class="headerlink" title="测试流程"></a>测试流程</h3><ol>
-<li>弱网环境 （可以使用 iPhone 的开发者模式或者通过 Charles 模拟弱网环境）</li>
-<li>建议使用真机测试</li>
-<li>建议使用生产环境数据进行测试</li>
-</ol>
-<h3 id="模拟弱网环境测试"><a href="#模拟弱网环境测试" class="headerlink" title="模拟弱网环境测试"></a>模拟弱网环境测试</h3><p>项目中网络请求框架对超时时间和重连次数的设置：<br>当前 AFNetworking 的超时时间 MCNetworkRequestTimeoutInterval = 20.f，<br>重连次数 MCNetworkRetryTimes = 3</p>
-<ol>
-<li>开发者 —&gt; Network Link Conditioner —&gt; Very Bad Network<br>失败接口，error.code == -999，Error Domain=NSURLErrorDomain Code=-999 “已取消”。对应接口以下 6 个接口：</li>
-</ol>
-<ul>
-<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/ad/get}" target="_blank" rel="external">https://test.com/api/ad/get}</a></li>
-<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com.com/mall_trade/api/cart/list}" target="_blank" rel="external">https://test.com.com/mall_trade/api/cart/list}</a></li>
-<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/account/salesinfo}" target="_blank" rel="external">https://test.com/api/account/salesinfo}</a></li>
-<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/cms/getmodulesbyroute}" target="_blank" rel="external">https://test.com/api/cms/getmodulesbyroute}</a></li>
-<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/cms/gettabbar}" target="_blank" rel="external">https://test.com/api/cms/gettabbar}</a></li>
-<li>UserInfo={NSErrorFailingURLStringKey=<a href="https://test.com/api/im/getgroupinfo}" target="_blank" rel="external">https://test.com/api/im/getgroupinfo}</a></li>
-</ul>
-<p>需要注意的是：在该 Very Bad Network 环境下，所有进入失败的接口请求都为 -999，即，已被取消的接口请求。具体代码如下：</p>
-<pre><code class="objectivec"> } failure:^(NSError *error) {        
-        if (error.code == -999) {
-            //request cancel. nothing todo
-        } else {
-            //网络不通
-            if (failure) {
-                failure(error);
-            }
-        }
-    } repeatCancel:repeatCancel];
-</code></pre>
-<p>此网络状态下，超时重连后会正常回调 failure 的的方法。</p>
-<ol>
-<li>开发者 —&gt; Network Link Conditioner —&gt;90% Loss (自定义 In Packet Loss 90，Out Packet Loss 0)<br>触发网络框架的重连机制，通过网络框架中的扩展方法 AFHTTPSessionManager+MCRetryPolicy.h 进行重连，</li>
-</ol>
-<pre><code class="objectivec">// #import &quot;AFHTTPSessionManager+MCRetryPolicy.h&quot;
-- (NSURLSessionDataTask *)requestUrlWithRetryRemaining:(NSInteger)retryRemaining maxRetry:(NSInteger)maxRetry retryInterval:(NSTimeInterval)retryInterval progressive:(bool)progressive fatalStatusCodes:(NSArray&lt;NSNumber *&gt; *)fatalStatusCodes originalRequestCreator:(NSURLSessionDataTask *(^)(void (^)(NSURLSessionDataTask *, NSError *)))taskCreator originalFailure:(void(^)(NSURLSessionDataTask *task, NSError *))failure {
-   if (retryRemaining &gt; 0) {
-            void (^addRetryOperation)(void) = ^{
-                [self requestUrlWithRetryRemaining:retryRemaining - 1 maxRetry:maxRetry retryInterval:retryInterval progressive:progressive fatalStatusCodes:fatalStatusCodes originalRequestCreator:taskCreator originalFailure:failure];
-            };
-            if (retryInterval &gt; 0.0) {
-                dispatch_time_t delay;
-                if (progressive) {
-                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
-                    [self logMessage:@&quot;Delaying the next attempt by %.0f seconds …&quot;, retryInterval * pow(2, maxRetry - retryRemaining)];
-                } else {
-                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * NSEC_PER_SEC));
-                    [self logMessage:@&quot;Delaying the next attempt by %.0f seconds …&quot;, retryInterval];
-                }
-
-                // Not accurate because of &quot;Timer Coalescing and App Nap&quot; - which helps to reduce power consumption.
-                dispatch_after(delay, dispatch_get_main_queue(), ^(void){
-                    addRetryOperation();
-                });
-
-            } else {
-                addRetryOperation();
-            }
-
-        } else {
-            [self logMessage:@&quot;No more attempts left! Will execute the failure block.&quot;];
-            failure(task, error);
-        }
-}
-</code></pre>
-<h3 id="问题定位"><a href="#问题定位" class="headerlink" title="问题定位"></a>问题定位</h3><p>埋点库 MCStatisticsManager 由于传递 protobuf 格式的数据，在上报埋点请求时其序列化的类型被设置为：MCRequestSerializerTypeProtobuf，响应序列化 serializer = [AFProtobufResponseSerializer serializer]; 而正常的非上报埋点请求的序列化为 MCRequestSerializerTypeJSON。所以当遇到弱网和非弱网访问时，会造成两种截然不同的处理结果：</p>
-<ul>
-<li>弱网情况下：</li>
-</ul>
-<p>因网络原因导致请求超时，会触发重连机制，在重新连接网络时，会 resume 重启之前被 suspend 暂停的网络请求 task，再次调用单例 MCNetworkManager 序列化方法，此时，由于是异步执行网络请求，在此之前，埋点上报 MCStatisticsManager已经将网络请求序列方式修改为MCRequestSerializerTypeProtobuf。  在调用非上报埋点的网络接口时，因其请求需要被序列化为 MCRequestSerializerTypeJSON，序列化类型与现有MCNetworkManager序列化类型不匹配，导致报错：</p>
-<pre><code>序列化失败 = Error Domain=com.alamofire.error.serialization.request Code=-1016 &quot;The `parameters` argument is not valid Protobuf.&quot; UserInfo={NSLocalizedFailureReason=The `parameters` argument is not valid Protobuf.}
-url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
-时间 = 2020-05-08 09:27:22 +0000
-</code></pre><p>此时，序列化错误 serializationError 会造成 task 请求返回 nil 的 NSURLSessionDataTask，</p>
-<pre><code class="objective-c">// #import &quot;AFHTTPSessionManager.h&quot;
-- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method
-                                       URLString:(NSString *)URLString
-                                      parameters:(id)parameters
-                                  uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgress
-                                downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgress
-                                         success:(void (^)(NSURLSessionDataTask *, id))success
-                                         failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
-{
-    NSError *serializationError = nil;
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&amp;serializationError];
-
-    NSLog(@&quot;\n序列化失败 = %@\nurl = %@\n时间 = %@\n&quot;, serializationError, URLString, [NSDate date]);
-    if (serializationError) {
-        if (failure) {
-            dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
-                failure(nil, serializationError);
-            });
-        }
-
-        return nil;
-    }
-
-    __block NSURLSessionDataTask *dataTask = nil;
-    dataTask = [self dataTaskWithRequest:request
-                          uploadProgress:uploadProgress
-                        downloadProgress:downloadProgress
-                       completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
-        NSLog(@&quot;\n网络回来了 = %@\n失败是什么 = %@\ndataTask = %@&quot;, URLString, error, dataTask);
-        if (error) {
-            if (failure) {
-                failure(dataTask, error);
-            }
-        } else {
-            if (success) {
-                success(dataTask, responseObject);
-            }
-        }
-    }];
-
-    return dataTask;
-}
-</code></pre>
-<p>当因序列化失败触发 failure 的 block 回调返回空的 NSURLSessionDataTask，</p>
-<pre><code class="objective-c">dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
-      failure(nil, serializationError);
-});
-</code></pre>
-<p>该失败回调会触发最后一步 MCNetworkManager 中对应 post 请求的 failure 中的回调方法，</p>
-<pre><code class="objective-c">// #import &quot;MCNetworkManager.h&quot;
-- (void)executeDataTaskWithURL:(NSString *)url
-                    parameters:(id)parameters
-               timeoutInterval:(NSTimeInterval)timeoutInterval
-                   requestType:(MCRequestType)requestType
-         requestSerializerType:(MCRequestSerializerType)requestSerializerType
-                 requestHeader:(NSDictionary *)requestHeader
-        responseSerializerType:(MCResponseSerializerType)responseSerializerType
-                      progress:(NetworkProgressBlock)progress
-                       success:(NetworkSuccessBlock)success
-                       failure:(NetworkErrorBlock)failure
-                  repeatCancel:(BOOL)repeatCancel {
-
-
-case MCRequestTypePost: {
-            if (requestHeader.allKeys.count &gt; 0) {
-                for (NSString *key in requestHeader.allKeys) {
-                    id value = [requestHeader objectForKey:key];
-                    [self.manager.requestSerializer setValue:value forHTTPHeaderField:key];
-                }
-            }
-            task = [self.manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
-
-            } success:^(NSURLSessionDataTask *task, id responseObject) {
-                [weakSelf removeExecutingTaskWithKey:url];
-                if (success) {
-                    success(responseObject);
-                }
-            } failure:^(NSURLSessionDataTask *task, NSError *error) {
-
-//  NSLog(@&quot;task是 = %@ 错误原因 = %@ url是 = %@&quot;, task, error, url);
-                if (task.state == NSURLSessionTaskStateCompleted) {
-                    [weakSelf removeExecutingTaskWithKey:url];
-                    if (failure) {
-                        failure(error);
-                    }
-                }
-            } retryCount:MCNetworkRetryTimes retryInterval:0 progressive:false fatalStatusCodes:nil];
-        }
-            break;
-}
-</code></pre>
-<p>需要注意⚠️的是：该方法判断了传递过来的 task 的 state 是否为 NSURLSessionTaskStateCompleted才会返回最终的网络请求失败的 failure 回调，但是此时传递过来的 task 因为序列化失败而为 nil，这样就不会触发 failure 回调。因此，在弱网情况下，因接口请求超时，导致接口请求失败的 failure 回调方法中对失败处理的代码就不会执行了。造成弱网络启动时，因超时接口请求失败，模态首页无法在失败回调中移除。</p>
-<p>通过输出重连时，请求序列化不同类型的时间，对比同一接口在重连前后序列化成功或者失败的情况。</p>
-<pre><code class="objective-c">// #import &quot;MCNetworkManager.h&quot;
-- (AFHTTPRequestSerializer *)requestSerializerWithType:(MCRequestSerializerType)type timeoutInterval:(NSTimeInterval)timeoutInterval {
-    NSLog(@&quot;request 序列化 = %@, 类型为 = %@&quot;, [NSDate date], @(type));
-    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
-    if (type == MCRequestSerializerTypeJSON) {
-        serializer = [AFJSONRequestSerializer serializer];
-    }
-    else if (type == MCRequestSerializerTypePropertyList) {
-        serializer = [AFPropertyListRequestSerializer serializer];
-    } else if (type == MCRequestSerializerTypeProtobuf) {
-        serializer = [AFProtobufRequestSerializer serializer];
-    }
-    serializer.timeoutInterval = timeoutInterval;
-    return serializer;
-}
-</code></pre>
-<h3 id="对比重连机制序列化改变时间"><a href="#对比重连机制序列化改变时间" class="headerlink" title="对比重连机制序列化改变时间"></a>对比重连机制序列化改变时间</h3><p>输出 log 日志如下：</p>
-<pre><code>2020-05-08 17:25:35.770423+0800 MeicaiStore[69492:1057810] request 序列化 = 2020-05-08 09:25:35 +0000, 类型为 = 1
-</code></pre><pre><code>request 序列化 = 2020-05-08 09:25:35 +0000, 类型为 = 3
-request 序列化 = 2020-05-08 09:25:41 +0000, 类型为 = 3
-request 序列化 = 2020-05-08 09:25:49 +0000, 类型为 = 3
-</code></pre><pre><code>序列化失败 = (null)
-url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
-时间 = 2020-05-08 09:25:35 +0000
-</code></pre><pre><code>序列化失败 = Error Domain=com.alamofire.error.serialization.request Code=-1016 &quot;The `parameters` argument is not valid Protobuf.&quot; UserInfo={NSLocalizedFailureReason=The `parameters` argument is not valid Protobuf.}
-url = https://mallapi-stage.yunshanmeicai.com/api/auth/loginbytickets
-时间 = 2020-05-08 09:27:22 +0000
-</code></pre><ul>
-<li>在 09:25:35 时接口 auth/loginbytickets 的序列化类型为 1 即，MCRequestSerializerTypeJSON，此时，序列化成功未报错。</li>
-<li>在 09:25 时，序列化类型已经变为3，即，MCRequestSerializerTypeProtobuf</li>
-<li><p>在网络重连后的 09:27:22 时，序列化失败，此时  MCNetworkManager 序列化类型已经被改变，报parameters` argument is not valid Protobuf 序列化不匹配的错误。最终导致接口请求的 failure 回调不被执行。</p>
-</li>
-<li><p>非弱网情况下：<br>非弱网情况下，不会触发网络连接超时的重连机制。每个网络请求都对应当前设置的序列化类型</p>
-</li>
-</ul>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>在埋点库 — MCStatisticsManager 中重新初始化一个新的用于网络上报埋点的 MCNetworkManager，而不是之前的单例 [MCNetworkManager sharedInstance]，去执行上报埋点数据的网络请求。</p>
-<h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>超时时间设置为 20 秒，重连次数为 3 次。导致在弱网情况下，网络请求failure 回调处理等待时间过长的问题。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在弱网络环境下启动 App 进入首页，网络请求超时或者被 cancel 后，不会走网络请求失败的 failure 回调，导致该回调中隐藏假首页 (模态首页) 的代码不会执行，最终无法进入真正首页的问题。&lt;/p&gt;
-&lt;h3 id=&quot;测试流程&quot;&gt;&lt;a href=&quot;#测试流程&quot; c
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="AFNetworking" scheme="http://XibHe.github.io/tags/AFNetworking/"/>
-    
-      <category term="弱网" scheme="http://XibHe.github.io/tags/%E5%BC%B1%E7%BD%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>React Native 父子组件间通信</title>
-    <link href="http://XibHe.github.io/2019/06/20/RN%20%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/"/>
-    <id>http://XibHe.github.io/2019/06/20/RN 父子组件通信/</id>
-    <published>2019-06-19T16:00:00.000Z</published>
-    <updated>2021-11-02T00:51:34.630Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="props"><a href="#props" class="headerlink" title="props"></a>props</h3><p>父组件-&gt;子组件，父组件调用并传值给子组件</p>
-<p>父组件通过 props 把数据传给子组件，子组件通过 this.props 去使用相应的数据。例如，在父组件标签中定义 props 及对应的值，</p>
-<pre><code class="js">&lt;DishesLeftList
-    ref={this.leftListRef}
-    saleClassTwoData={saleClassTwoData}
-    setSaleClassTwoId={this.selectClassTwoClick.bind(this)}
-/&gt;
-</code></pre>
-<p>在子组件中解构获取 props 传递过来的值并赋给对应的组件</p>
-<pre><code class="js">render () {
-   const { saleClassTwoData } = this.props
-    return (
-        &lt;View style={styles.container}&gt;
-            &lt;FlatList
-             data={saleClassTwoData}
-             renderItem={({ item, index }) =&gt; this.renderItem(item, index)}
-             keyExtractor={(item) =&gt; item.id}
-            /&gt;
-        &lt;/View&gt;
-    )
-}
-</code></pre>
-<h3 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h3><p>父组件可以通过使用 ref 来直接调用子组件实例的方法，</p>
-<ol>
-<li>在 constructor 定义一个全局变量，并创建 ref</li>
-</ol>
-<pre><code class="js">this.leftListRef = React.createRef()
-</code></pre>
-<ol>
-<li>将 1 中定义的 this.leftListRef 以属性形式传递给子组件，</li>
-</ol>
-<pre><code class="js">&lt;DishesLeftList
-    ref={this.leftListRef}
-/&gt;
-</code></pre>
-<ol>
-<li>在父组件中通过 this.leftListRef 调用子组件中的函数并传递参数</li>
-</ol>
-<pre><code class="js">refreshSKUListForSwitch = (position) =&gt; {
-    const { saleClassOneData, saleClassTwoData } = this.state
-     // 切换二级分类
-    this.leftListRef.current.setSelectItem(this._classTwoIndex - 1)
-}
-</code></pre>
-<p>其中，setSelectItem 为子组件 DishesLeftList 中定义的函数。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;props&quot;&gt;&lt;a href=&quot;#props&quot; class=&quot;headerlink&quot; title=&quot;props&quot;&gt;&lt;/a&gt;props&lt;/h3&gt;&lt;p&gt;父组件-&amp;gt;子组件，父组件调用并传值给子组件&lt;/p&gt;
-&lt;p&gt;父组件通过 props 把数据传给子组件，子组件通过
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
-    
-      <category term="RN 组件" scheme="http://XibHe.github.io/tags/RN-%E7%BB%84%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS内存泄漏检测</title>
-    <link href="http://XibHe.github.io/2019/05/27/iOS%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%B5%8B/"/>
-    <id>http://XibHe.github.io/2019/05/27/iOS内存泄漏检测/</id>
-    <published>2019-05-26T16:00:00.000Z</published>
-    <updated>2019-06-02T09:52:59.845Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。</p>
-<p>内存泄漏排查，三步走：</p>
-<ol>
-<li><em>Analyzer</em>（静态分析） </li>
-<li><em>MLeaksFinder</em> (第三方工具) </li>
-<li><em>Instruments Leaks</em> (动态检测)</li>
-</ol>
-<h3 id="Analyaer"><a href="#Analyaer" class="headerlink" title="Analyaer"></a>Analyaer</h3><p>不需要运行程序，通过 <em>Product-&gt;Analyze</em> 或快捷键 <em>command+shift+B</em> 进行代码分析。</p>
-<p>分析代码上下文的语法结构和内存情况，找出代码中潜在错误 <em>Analyzer</em>主要分析四种问题：</p>
-<ol>
-<li>逻辑错误：访问空指针或未初始化的变量等；</li>
-<li>内存管理错误：如内存泄漏等；</li>
-<li>声明错误：从未使用过的变量；</li>
-<li><em>API</em> 调用错误：未包含使用的库和框架。</li>
-</ol>
-<p>后面提到的 <em>CoreLocation</em> 框架的需要手动释放问题，就是通过 <em>Analyzer</em> 检测出来的。</p>
-<p>说明： Analyzer由于是编译器根据代码进行的判断, 做出的判断不一定会准确, 因此如果遇到提示, 应该去结合代码上文检查一下；还有某些造成内存泄漏的循环引用通过Analyzer分析不出来。</p>
-<h3 id="MLeaksFinder"><a href="#MLeaksFinder" class="headerlink" title="MLeaksFinder"></a>MLeaksFinder</h3><p>通过 </p>
-<p><code>pod &#39;MLeaksFinder&#39;</code></p>
-<p>或将下载的 <em>MLeaksFinder</em>  文件导入工程中，</p>
-<p>在 <em>MLeaksFinder.h</em> 中 设置是否开启内存泄漏检测，以及是在模拟器中开始还是在真机中开启。</p>
-<pre><code class="objectivec">//***内存泄漏控制开关，注释该行代码打开内存泄漏工具，打开该行代码关闭内存泄漏****
-//#define MEMORY_LEAKS_FINDER_ENABLED 0
-
-#ifdef MEMORY_LEAKS_FINDER_ENABLED
-
-#define _INTERNAL_MLF_ENABLED MEMORY_LEAKS_FINDER_ENABLED
-
-#else
-
-//仅在模拟器打开内存泄漏检测
-#if TARGET_IPHONE_SIMULATOR  //模拟器
-    #define _INTERNAL_MLF_ENABLED DEBUG
-#elif TARGET_OS_IPHONE      //真机
-
-#endif//TARGET_IPHONE_SIMULATOR
-
-#endif//_INTERNAL_MLF_ENABLED MEMORY_LEAKS_FINDER_ENABLED
-</code></pre>
-<p>具体操作步骤：<br>不断重复 <em>push</em> 和 <em>pop</em> 同一个 <em>UIViewController</em>，一旦有疑似内存泄漏的地方，就会弹出提示框，控制台也会输出调用栈的层级信息：</p>
-<pre><code class="objectivec">[文件:MLeaksMessenger.m   行数:36] Memory Leak: (
-    MCLocateAddressViewController,
-    UIView,
-    BMKMapView,
-    BMKInternalMapView,
-    BMKTapDetectingView,
-    BMKAnnotationContainer
-)
-
-[文件:NSObject+MemoryLeak.m   行数:54] Possibly Memory Leak.
-In case that BMKAnnotationContainer should not be dealloced, override -willDealloc in BMKAnnotationContainer by returning NO.
-View-ViewController stack: (
-    MCLocateAddressViewController,
-    UIView,
-    BMKMapView,
-    BMKInternalMapView,
-    BMKTapDetectingView,
-    BMKAnnotationContainer
-)
-</code></pre>
-<p>展示视图自上而下的调用层级，这里需要注意一些三方 <em>SDK</em> 控件导致的疑似泄漏，可能会因其内部的 <em>cache</em> 机制或者释放不及时而被误判为内存泄漏。</p>
-<h3 id="Instruments-Leaks"><a href="#Instruments-Leaks" class="headerlink" title="Instruments Leaks"></a>Instruments Leaks</h3><p>这里使用最新版 Xcode 10.3 进行 leaks 检测。</p>
-<h4 id="1-Xcode-中-按住-command-I-或者菜单栏-Product-–-Profile"><a href="#1-Xcode-中-按住-command-I-或者菜单栏-Product-–-Profile" class="headerlink" title="1. Xcode 中 按住 command + I 或者菜单栏 Product – Profile"></a>1. <em>Xcode</em> 中 按住 <em>command + I</em> 或者菜单栏 <em>Product – Profile</em></h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_01.jpg" alt=""></p>
-<h4 id="2-双击-Leaks-或者按-choose，打开-Leaks-面板"><a href="#2-双击-Leaks-或者按-choose，打开-Leaks-面板" class="headerlink" title="2. 双击 Leaks 或者按 choose，打开 Leaks 面板"></a>2. 双击 <em>Leaks</em> 或者按 <em>choose</em>，打开 <em>Leaks</em> 面板</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_02.jpg" alt=""></p>
-<h4 id="3-在显示的-Leaks-面板中，点击左上角红色点，即可运行内存检测"><a href="#3-在显示的-Leaks-面板中，点击左上角红色点，即可运行内存检测" class="headerlink" title="3. 在显示的 Leaks 面板中，点击左上角红色点，即可运行内存检测"></a>3. 在显示的 <em>Leaks</em> 面板中，点击左上角红色点，即可运行内存检测</h4><h4 id="4-在运行过程中如果发现Leak-Checks（如图）出现红色X说明检测到内存泄露-将鼠标点击Leak-Checks，在下方即可看到内存泄漏的相关信息"><a href="#4-在运行过程中如果发现Leak-Checks（如图）出现红色X说明检测到内存泄露-将鼠标点击Leak-Checks，在下方即可看到内存泄漏的相关信息" class="headerlink" title="4. 在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息"></a>4. 在运行过程中如果发现Leak Checks（如图）出现红色X说明检测到内存泄露,将鼠标点击Leak Checks，在下方即可看到内存泄漏的相关信息</h4><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_03.jpg" alt=""></p>
-<h4 id="5-定位内存泄漏代码位置"><a href="#5-定位内存泄漏代码位置" class="headerlink" title="5. 定位内存泄漏代码位置"></a>5. 定位内存泄漏代码位置</h4><h5 id="1-选择-Leaks-有时候默认是-Run-lssues，这时需要将其切换为-Leaks"><a href="#1-选择-Leaks-有时候默认是-Run-lssues，这时需要将其切换为-Leaks" class="headerlink" title="1. 选择 Leaks 有时候默认是 Run lssues，这时需要将其切换为 Leaks"></a>1. 选择 <em>Leaks</em> 有时候默认是 <em>Run lssues</em>，这时需要将其切换为 <em>Leaks</em></h5><h5 id="2-选择-call-Three"><a href="#2-选择-call-Three" class="headerlink" title="2. 选择 call Three"></a>2. 选择 <em>call Three</em></h5><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_04.jpg" alt=""></p>
-<h5 id="3-此时，仍然看不到具体的代码位置，需要选择底部的-Call-Tree，在弹窗中选择-Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码"><a href="#3-此时，仍然看不到具体的代码位置，需要选择底部的-Call-Tree，在弹窗中选择-Invert-Call-Tree-和-Hide-System-Libraries，即可显示出具体内存泄漏的代码" class="headerlink" title="3. 此时，仍然看不到具体的代码位置，需要选择底部的 Call Tree，在弹窗中选择 Invert Call Tree 和 Hide System Libraries，即可显示出具体内存泄漏的代码"></a>3. 此时，仍然看不到具体的代码位置，需要选择底部的 <em>Call Tree</em>，在弹窗中选择 <em>Invert Call Tree</em> 和 <em>Hide System Libraries</em>，即可显示出具体内存泄漏的代码</h5><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_05.jpg" alt=""></p>
-<p><em>Call Tree</em> 四种选项具体含义：</p>
-<p><font color="#DC143C">Separate by Thread：</font>按线程分开做分析，这样更容易揪出那些吃资源的问题线程。特别是对于主线程，它要处理和渲染所有的接口数据，一旦受到阻塞，程序必然卡顿或停止响应。</p>
-<p><font color="#DC143C">Invert Call Tree：</font>反向输出调用树。把调用层级最深的方法显示在最上面，更容易找到最耗时的操作。</p>
-<p><font color="#DC143C">Hide System Libraries：</font>隐藏系统库文件。过滤掉各种系统调用，只显示自己的代码调用。</p>
-<p><font color="#DC143C">Flattern Recursion：</font>拼合递归。将同一递归函数产生的多条堆栈（因为递归函数会调用自己）合并为一条。</p>
-<h5 id="4-双击选中行，即可跳转-Instrument-中具体的代码"><a href="#4-双击选中行，即可跳转-Instrument-中具体的代码" class="headerlink" title="4. 双击选中行，即可跳转 Instrument 中具体的代码"></a>4. 双击选中行，即可跳转 <em>Instrument</em> 中具体的代码</h5><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_06.jpg" alt=""></p>
-<h5 id="5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码"><a href="#5-点击右侧-Xcode-图标跳转至-Xcode-中定位的内存未回收的代码" class="headerlink" title="5. 点击右侧 Xcode 图标跳转至 Xcode 中定位的内存未回收的代码"></a>5. 点击右侧 <em>Xcode</em> 图标跳转至 <em>Xcode</em> 中定位的内存未回收的代码</h5><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_07.jpg" alt=""></p>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><h4 id="1-注意-Core-Foundation-等底层操作它们不支持-ARC，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法："><a href="#1-注意-Core-Foundation-等底层操作它们不支持-ARC，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法：" class="headerlink" title="1. 注意 Core Foundation 等底层操作它们不支持 ARC，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法："></a>1. 注意 <em>Core Foundation</em> 等底层操作它们不支持 <em>ARC</em>，还需要手动内存管理对象的创建和释放。例如，美菜到家中绘制地图覆盖物的方法：</h4><pre><code class="objectivec">// 根据范围数组 border 的个数初始化定位坐标
-CLLocationCoordinate2D *coords = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * borderCount);
-BMKPolygon  *polygon = [BMKPolygon polygonWithCoordinates:coords count:borderCount];
-free(coords);
-</code></pre>
-<p><em>CLLocationCoordinate2D</em> 是 系统框架 <em>CoreLocation</em> 中 一个 <em>C</em> 的 结构体，包含经度和纬度两个值 (<em>CLLocation</em> 是一个 objc 的 对象)，需要通过 <em>free</em> 手动释放。这里需要注意以 <em>Core</em> 开头的系统框架的内存管理。</p>
-<h4 id="2-如果第五步不出现定位箭头，无法定位到具体代码，则"><a href="#2-如果第五步不出现定位箭头，无法定位到具体代码，则" class="headerlink" title="2. 如果第五步不出现定位箭头，无法定位到具体代码，则"></a>2. 如果第五步不出现定位箭头，无法定位到具体代码，则</h4><p>点击项目工程文件-Buidl Setting-All-搜索Debug Information Format-Debug里选择DWARF with dSYM File（如图）</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/Instrument/Instrument_08.jpg" alt=""></p>
-<p>默认情况下，只有 <em>release</em> 环境下为 <em>DWARF with dSYM File</em>，其他环境均为 <em>DWARF</em>。当 <em>Debug Information Format</em> 为 <em>DWARF with dSYM File</em> 的时候，构建过程中多了一步 <em>Generate dSYM File</em>，最终产出的文件也多了一个 <em>dSYM</em> 文件。然后，重新编译启动 <em>Instruments Leaks</em>，重复以上步骤即可定位到具体代码。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://wereadteam.github.io/2016/02/22/MLeaksFinder/" target="_blank" rel="external">MLeaksFinder：精准 iOS 内存泄露检测工具</a></p>
-<p><a href="http://wereadteam.github.io/2016/07/20/MLeaksFinder2/" target="_blank" rel="external">MLeaksFinder 新特性</a></p>
-<p><a href="https://github.com/Tencent/MLeaksFinder" target="_blank" rel="external">Tencent/MLeaksFinder</a></p>
-<p><a href="https://juejin.im/entry/5965f8856fb9a06bad654502" target="_blank" rel="external">浅谈 iOS Crash</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近对项目中存在的内存泄露问题的检测做了一些总结，一些检测工具的使用及简单内存泄露问题的处理。&lt;/p&gt;
-&lt;p&gt;内存泄漏排查，三步走：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;em&gt;Analyzer&lt;/em&gt;（静态分析） &lt;/li&gt;
-&lt;li&gt;&lt;em&gt;MLeaksFinder&lt;/em&gt; (
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="Instruments" scheme="http://XibHe.github.io/tags/Instruments/"/>
-    
-      <category term="内存泄露" scheme="http://XibHe.github.io/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在工程中集成 React Native</title>
-    <link href="http://XibHe.github.io/2019/03/18/%E5%9C%A8%E5%B7%A5%E7%A8%8B%E4%B8%AD%E9%9B%86%E6%88%90%20React%20Native/"/>
-    <id>http://XibHe.github.io/2019/03/18/在工程中集成 React Native/</id>
-    <published>2019-03-17T16:00:00.000Z</published>
-    <updated>2022-01-27T15:32:43.474Z</updated>
-    
-    <content type="html"><![CDATA[<p>基于当前已经存在的工程集成 React Native（以下简称 RN），使现有工程具有跨平台能力。集成 RN 环境后的项目运行并不依赖于 RN 环境，默认运行时依赖的是 RN 编译产物 jsbundle 和工程中 node_module 里面的代码。</p>
-<p>这里主要讲的是集成 RN 后相关工程化的问题的解决及具体流程，RN 开发环境的搭建请移步 <a href="https://reactnative.cn/docs/environment-setup" target="_blank" rel="external">React Native 中文网</a></p>
-<h3 id="现有工程中集成-RN"><a href="#现有工程中集成-RN" class="headerlink" title="现有工程中集成 RN"></a>现有工程中集成 RN</h3><ul>
-<li>使用脚本配置 RN 环境</li>
-</ul>
-<pre><code>git clone -b develop_rn ssh://git@git.Test.com/Test.git
-
-if [ ! -d &quot;/Testreactnative/&quot; ];then
-  git clone -b develop_feature https://git.test.com/Testreactnative.git
-else
-echo &#39;wenjiancunzai&#39;
-fi
-
-cd ./mcreactnative/
-git pull
-
-rm -rf ./ios
-
-mv -f ../mall-ios/ ./ios
-#npm --registry=&#39;https://registrymnpm.test.com&#39; install
-npm install
-mkdir build
-rm -rf build/ios  build/map
-mkdir build/ios   build/map
-node node_modules/react-native/local-cli/cli.js bundle \
-    --reset-cache \
-    --platform ios \
-    --dev false \
-    --entry-file index.js  \
-    --bundle-output ./build/ios/index.ios.jsbundle \
-    --assets-dest ./build/ios \
-    --sourcemap-output ./build/map/index.ios.jsbundle.map
-rm -rf ./ios/MeicaiStore/rnsource/
-cp -r ./build/ios/. ./ios/MeicaiStore/rnsource/
-</code></pre><ul>
-<li>手动配置 RN 环境</li>
-</ul>
-<ol>
-<li>clone RN 工程 Testreactnative（包含 RN 环境及原生工程的壳工程）对应代码并切换至对应的开发分支</li>
-<li>在 Testreactnative 目录下的 ios 文件夹下重新 clone 原生工程代码或者将原生工程代码移动至该目录下</li>
-</ol>
-<h3 id="集成后工程目录结构"><a href="#集成后工程目录结构" class="headerlink" title="集成后工程目录结构"></a>集成后工程目录结构</h3><ul>
-<li>api：后端接口文件</li>
-<li>assets：静态资源</li>
-<li>components：业务组件</li>
-<li>store：mobx数据</li>
-<li>utils: 工具类</li>
-<li>views: 页面组件</li>
-</ul>
-<h3 id="调试运行及环境配置"><a href="#调试运行及环境配置" class="headerlink" title="调试运行及环境配置"></a>调试运行及环境配置</h3><p>工程依赖于 RN 两部分内容，一部分是 node_module 里面的原生组件，一部分是 RN 源代码(js文件)或者代码生成物(jsbundle文件)，工程 RN 环境默认为 release 环境，依赖的是 rnsource 文件夹下的文件，需要开发及调试 RN 代码的话，需要切换到 debug 环境，debug 依赖的是本地服务，运行前需要开启本地服务，下面会有具体讲解。</p>
-<ul>
-<li>release 环境</li>
-</ul>
-<ol>
-<li>在 ios 目录下切换到原生工程 .podfile 文件所在目录，并执行 pod install 链接 node_module 里面的原生组件；</li>
-<li>在原生工程的 info.plist文件中修改 MCRNDevBundle 属性下，MCRNStore 对应的 value修改为 0 （即，release 环境）</li>
-</ol>
-<ul>
-<li>debug 环境</li>
-</ul>
-<ol>
-<li>切换到壳工程 Testreactnative 下 package.json 文件所在目录，执行 npm install 或者 yarn 命令，更新 node_module 中的组件</li>
-<li>上一步成功后，执行 npm run dev:stage 命令，启动 stage 环境 (开发环境) 下的本地服务。或者使用 yarn start 运行 Metro 开启开发服务器。然后再使用 npx react-native run-ios 允许项目</li>
-<li>在原生工程的 info.plist文件中修改 MCRNDevBundle 属性下，MCRNStore 对应的 value修改为 1 （即，debug 环境）</li>
-<li>在 ios 目录下切换到原生工程 .podfile 文件所在目录，并执行 pod install</li>
-<li>打开 ios 目录下的原生工程，选择 pods 工程，修改 React-Core、MCRNAmp、MCRNBridge 下的预编译配置 Preprocessor Macros 项，选择对应的开发环境并新增 DEBUG=1 的编译配置。</li>
-<li>最后就是打开模拟器或真机所在的 RN 页面，开始开发调试。</li>
-</ol>
-<h3 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h3><p>遇到某个组件没有找到</p>
-<pre><code>Unable to resolve module `@mc/react-native-sentry` from `src/analytics/sentry.js`: @mc/react-native-sentry could not be found within the project.
-</code></pre><pre><code>Metro Bundler has encountered an error: ENOENT: no such file or directory, lstat &#39;/Users/meicai/Documents/SpruceProject/mcreactnative/node_modules/@mcrn/maple/node_modules/react-native-svg&#39;
-</code></pre><ol>
-<li>在终端清除： watchman watch-del-all</li>
-<li>删除 node_modules 目录下的所有文件: rm -rf node_modules and run yarn install</li>
-<li>重置缓存<br>对于 React Native 执行:<br>react-native start –reset-cache<br>对于 npm 执行:<br>npm start – –reset-cache</li>
-<li>删除缓存: rm -rf /tmp/metro-*</li>
-<li>重新运行 App</li>
-</ol>
-<pre><code>Unhandled JS Exception: Requiring unknown module &quot;25&quot;. If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-</code></pre><p>关闭工程所在终端并重新启动模拟器并运行。</p>
-<pre><code>Invariant Violation: Tried to register two views with the same name FastImageView
-</code></pre><p>查找工程中 FastImageView 组件的对应版本，找到所加载页面中名为 FastImageView 的组件，在终端输入命令：yarn why react-native-fast-image 明确 react-native-fast-image 的依赖关系。对比输入命令后终端的日志，发现 package.json 中依赖组件 react-native-fast-image 的版本为 8.3.4，而私有<br>基础组件库中 react-native-fast-image 的版本为 8.3.6，二者版本不一致导致同一个组件被注册两次。最后通过将 package.json 中的 react-native-fast-image 升级为 8.3.6 解决。</p>
-<h3 id="灰度策略"><a href="#灰度策略" class="headerlink" title="灰度策略"></a>灰度策略</h3><p>针对工程中新增的 RN 页面， 增加原生与 RN 页面可以相互切换的灰度开关及控制逻辑。</p>
-<p>灰度方案：</p>
-<ol>
-<li>增加全局 config 接口，存在多个入口的RN模块开关可以用这种全局接口方案。接口需要依赖tickets，可以在登录后请求此接口。app前后台切换重新请求此接口，更新开关数据</li>
-<li>只有一个入口的业务，直接在入口所在的接口中增加开关控制 (直接配置路由比较灵活，不单单配置bool变量)</li>
-</ol>
-<p>灰度字段：</p>
-<p>原有方案通过后端在对应接口中返回对应页面的路由，前端通过路由跳转原生/RN 页面。该方案需要后端维护一套路由地址，在服务器宕机、接口异常情况下需要原生额外容错，同时后端也不易维护。暂定为通过代表 0 或者 1 的开关字段控制。</p>
-<p>全局灰度接口更新频率：</p>
-<ol>
-<li>本地维护一个更新全局灰度接口的频率（每隔一天/每一周/每三天）或者服务器结合灰度策略定期更新；</li>
-<li>每次重新登录或者自动登录后调用全局灰度接口，获取灰度策略；</li>
-<li>每次 App 从后台挂起到到重新进入前台激活状态，再结合步骤 1 中的更新机制，同步更新灰度策略。</li>
-</ol>
-<p>备注：由于不同页面增加灰度控制字段增加了后端业务成本；同时糅合了后端原有业务。暂定灰度控制字段统一由新增的全局灰度接口配置</p>
-<h3 id="打包及发布"><a href="#打包及发布" class="headerlink" title="打包及发布"></a>打包及发布</h3><p>RN 代码打包分为两种：RN 应用包和热更新包，两种包的打包方式和生成物不同。</p>
-<ul>
-<li>RN 应用包</li>
-</ul>
-<pre><code>mkdir build
-rm -rf build/ios build/android build/map
-mkdir build/ios build/android build/android/res build/map
-
-# 进行IOS、安卓打包
-if [ &quot;$2&quot; == &quot;ios&quot; ]; then
-  node node_modules/react-native/local-cli/cli.js bundle \
-    --reset-cache \
-    --platform ios \
-    --dev false \
-    --entry-file index.js  \
-    --bundle-output ./build/ios/index.ios.jsbundle \
-    --assets-dest ./build/ios \
-    --sourcemap-output ./build/map/index.ios.jsbundle.map
-
-  cp -r ./build/ios/. ./ios/MeicaiStore/rnsource/
-</code></pre><ul>
-<li>RN 热更新包</li>
-</ul>
-<pre><code>npm run prod:stage
-生成物在bundles目录下
-</code></pre><h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://yarnpkg.top/Cliwhy.html" target="_blank" rel="external">yarn why</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本篇文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;基于当前已经存在的工程集成 React Native（以下简称 RN），使现有工程具有跨平台能力。集成 RN 环境后的项目运行并不依赖于 RN 环境，默认运行时依赖的是 RN 编译产物 jsbundle 和工程中 node_module 里面的代码。&lt;/p&gt;
-&lt;p&gt;这里主要
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>React Native 原生模块与 JS 模块交互</title>
-    <link href="http://XibHe.github.io/2019/03/17/RN_Module/"/>
-    <id>http://XibHe.github.io/2019/03/17/RN_Module/</id>
-    <published>2019-03-16T16:00:00.000Z</published>
-    <updated>2019-03-17T13:52:26.078Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近使用 RN 时，需要在 RN 端实现调用系统相册上传选中照片的功能。需要原生模块与 RN 模块进行交互，主要步骤：</p>
-<ol>
-<li>调用原生系统相；</li>
-<li>将选取的照片存到本地沙盒；</li>
-<li>再将沙盒路径传给 RN。</li>
-</ol>
-<p><font color="#DC143C">注意：</font> 这里之所以需要将获取的照片存到沙盒下，再将沙盒路径传递给 RN 是因为 RN 端不支持 iOS 中 NSData 二进制流的数据传输格式。而是通过 multipart/form-data 这种表单方式上传文件。</p>
-<blockquote>
-<p>FormData 对象用以将数据编译成键值对，以便用XMLHttpRequest来发送数据。其主要用于发送表单数据，但亦可用于发送带键数据(keyed data)，而独立于表单使用。</p>
-</blockquote>
-<p>在原生与 RN 交互的过程中尝试了几种传递数据的不同方式，这里记录一下，其本质上都是通过实现 RCTBridgeModule 的协议来进行数据交互的。</p>
-<p>为了实现 RCTBridgeModule 协议，你的类需要包含 RCT_EXPORT_MODULE() 宏。这个宏也可以添加一个参数用来指定在 Javascript 中访问这个模块的名字。你必须明确的声明要给 Javascript 导出的方法，否则 RN 不会导出任何方法。</p>
-<p>按传递数据的不同方式，分为以下三种：</p>
-<ol>
-<li>Callbacks 回调函数；</li>
-<li>原生模块使用 promise 简化代码；</li>
-<li>RCTEventEmitter — 向 JS 模块发送事件。</li>
-</ol>
-<h3 id="Callbacks"><a href="#Callbacks" class="headerlink" title="Callbacks"></a>Callbacks</h3><p>提供一个函数把返回值传回给 JavaScript</p>
-<p>在原生模块中，</p>
-<pre><code class="objectivec">RCT_EXPORT_METHOD(testCallback:(RCTResponseSenderBlock)callback)
-{
-    NSArray *items = @[@&quot;callback &quot;, @&quot;test &quot;, @&quot;array&quot;];
-    callback(@events);
-}
-</code></pre>
-<p>RCTResponseSenderBlock 只接受一个参数 — 传递给 JavaScript 回调函数的参数数组。</p>
-<p>在 RN 中调用，</p>
-<pre><code class="js">testBack.testCallback((items) =&gt; {
-   this.setState({items: items});
-})
-</code></pre>
-<p>原生模块通常只应调用回调函数一次。但是，它可以保存 callback 并在将来调用。如果你想传递一个 Error 类型的对象给 Javascript，可以用 RCTUtils.h提供的 RCTMakeError 函数。</p>
-<h3 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h3><p>promise 涉及 ES6 的语法，搭配 ES2016(ES7) 标准的async/await语法则效果更佳。具体使用，桥接原生方法的最后两个参数是 RCTPromiseResolveBlock 和RCTPromiseRejectBlock，则对应的 JS 方法就会返回一个 Promise 对象。</p>
-<pre><code class="objectivec">RCT_EXPORT_METHOD(getState:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject){
-    SEPrinterManager *manager = [SEPrinterManager sharedInstance];
-    CBCentralManager *central = [manager valueForKey:@&quot;centralManager&quot;];
-    resolve([self successMessage:@{ @&quot;state&quot;: @(central.state == CBCentralManagerStatePoweredOn)}]);
-}
-
-- (NSDictionary *)successMessage:(id)data{
-    NSMutableDictionary *response = [NSMutableDictionary dictionary];
-    response[@&quot;code&quot;] = @(kBluetoohSuccessCode);
-    response[@&quot;data&quot;] = data;
-    return response;
-}
-</code></pre>
-<p>现在 JavaScript 端的方法会返回一个 Promise。</p>
-<pre><code class="js">import { NativeModules } from &#39;react-native&#39;;
-
-class ConnectBLEPrinter extends Component {
-
- NativeModules.MCRNBlueTooth.getState.then(res =&gt; {
-     console.log(&#39;BLE state:&#39; + res. state);
- }).catch((error) =&gt; {
-
- });
-}
-</code></pre>
-<p>通过 Callbacks 和通过 Promises 的方式，都可以向 JS 模块传递数据，但都是只能传递一次。如果需要多次向 JS 模块传递数据，可以尝试 RCTEventEmitter 的方式。</p>
-<h3 id="RCTEventEmitter"><a href="#RCTEventEmitter" class="headerlink" title="RCTEventEmitter"></a>RCTEventEmitter</h3><p>发送事件的方法 sendEvent 定义在 原生 module 类中，在需要发送事件的地方调用 sendEvent 方法就可以将事件通知发给 RN 端。类似于 iOS 中的通知方法的是实现。 iOS 端与 Android 不同，不使用 DeviceEventEmitter 做监听，而是用 NativeEventEmitter。具体实现方案如下：</p>
-<p>自定义的模块类头文件要继承自 RCTEventEmitter，</p>
-<pre><code class="objectivec">#import &lt;React/RCTEventEmitter.h&gt;
-#import &lt;React/RCTBridgeModule.h&gt;
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface MJTBlueToothManager : RCTEventEmitter &lt;RCTBridgeModule&gt;
-
-@end
-
-NS_ASSUME_NONNULL_END
-</code></pre>
-<p>声明事件，</p>
-<pre><code class="objectivec">RCT_EXPORT_METHOD(scanBLEList){
-
-    SEPrinterManager *manager = [SEPrinterManager sharedInstance];
-    [manager startScanPerpheralTimeout:10 Success:^(NSArray&lt;CBPeripheral *&gt; *perpherals,BOOL isTimeout) {
-        NSLog(@&quot;Test-----------&quot;);
-        self.deviceArray = perpherals;
-    } failure:^(SEScanError error) {
-        NSLog(@&quot;请检查蓝牙状态&quot;, nil);
-    }];
-
-    // 触发事件（不断将扫描到的外设列表传递给 RN 页面）
-    [self sendEventWithName:@&quot;scanBLEList&quot; body:self.deviceArray];
-}
-</code></pre>
-<p>RN 端监听事件，</p>
-<pre><code class="js">import { NativeModules, NativeEventEmitter } from &#39;react-native&#39;;
-const NativeModule = new NativeEventEmitter(NativeModules.MCRNBlueTooth);
-
-class ConnectBLEPrinter extends Component {
-
-componentDidMount () {
-        // 获取当前设备列表
-        MCRNBlueTooth.scanBLEList();
-
-       this.listener = NativeModule.addListener(&#39;scanBLEList&#39;,(data) =&gt; {
-            console.log(&#39;输出 test&#39; + data.list);
-            this.setState({ perpheralList: data.list });
-        });
-
-       // 检测蓝牙是否开启
-       NativeModules.MCRNBlueTooth.getState.then(res =&gt; {
-        console.log(&#39;BLE state:&#39; + res. state);
-       }).catch((error) =&gt; {
-
-       });
-    }
-}
-
-// 移除监听
-componentWillUnmount() {
-    NativeEventEmitter.removeListener(&#39;scanBLEList&#39;,this.listener);
-}
-</code></pre>
-<p>为避免原生模块发出事件后，RN 中多次收到该事件。需要在 RN 页面声明周期结束后移除对事件的监听。</p>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>最开始与原生交互使用的是 promise 的方式，但在扫描蓝牙外设的场景下通过 promise 不断将扫描（设置 10 秒的扫描超时时间）出的设备列表传递给 RN 时，RN 页面报错：</p>
-<pre><code class="js">Illegal callback invocation from native module. This callback type only permits a single invocation from native code.
-</code></pre>
-<p>正如上文所说，Callbacks 和 Promises 只能传递一次数据。调用一次后就会被立即释放掉。使用 RCTEventEmitter 固然可以实现扫描外设，多次调用方法回传数据。但为了统一项目中数据的调用方式为 Promises，需要修改 Promises 调用方法中的逻辑。 可以在扫描完成后，先停止扫描，再将当前扫描结果返回给 RN 。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://reactnative.cn/docs/native-modules-ios/" target="_blank" rel="external">docs/native-modules-ios</a></p>
-<p><a href="https://github.com/crazycodeboy/RNStudyNotes/blob/master/React%20Native%E5%8E%9F%E7%94%9F%E6%A8%A1%E5%9D%97%E5%90%91JS%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/React%20Native%E5%8E%9F%E7%94%9F%E6%A8%A1%E5%9D%97%E5%90%91JS%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F.md" target="_blank" rel="external">React Native原生模块向JS传递数据的几种方式</a></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/Using_FormData_Objects" target="_blank" rel="external">FormData 对象的使用
-</a></p>
-<p><a href="https://www.jianshu.com/p/4245b4844a49" target="_blank" rel="external">在React Native Module数据多次回调</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近使用 RN 时，需要在 RN 端实现调用系统相册上传选中照片的功能。需要原生模块与 RN 模块进行交互，主要步骤：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;调用原生系统相；&lt;/li&gt;
-&lt;li&gt;将选取的照片存到本地沙盒；&lt;/li&gt;
-&lt;li&gt;再将沙盒路径传给 RN。&lt;/li&gt;
-&lt;/ol&gt;
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
-    
-      <category term="Module" scheme="http://XibHe.github.io/tags/Module/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TextInput 二三事</title>
-    <link href="http://XibHe.github.io/2019/01/04/RN_TextInput/"/>
-    <id>http://XibHe.github.io/2019/01/04/RN_TextInput/</id>
-    <published>2019-01-03T16:00:00.000Z</published>
-    <updated>2019-03-03T12:24:46.431Z</updated>
-    
-    <content type="html"><![CDATA[<p>记录下这两天使用 <strong>TextInput</strong> 时遇到的问题及一些注意事项。</p>
-<h3 id="TextInput-键盘遮挡视图"><a href="#TextInput-键盘遮挡视图" class="headerlink" title="TextInput 键盘遮挡视图"></a>TextInput 键盘遮挡视图</h3><ol>
-<li>KeyboardAvoidingView</li>
-</ol>
-<pre><code class="js">import { KeyboardAvoidingView, ScrollView } from &#39;react-native&#39;;
-
-&lt;View style={[styles.container]}&gt;
-  &lt;KeyboardAvoidingView behavior=&quot;padding&quot; style={{ flex: 1 }}&gt;
-    &lt;ScrollView
-        style={[styles.scrollViewStyle]}
-        keyboardShouldPersistTaps=&quot;handled&quot;
-    &gt;
-    // 视图布局
-   &lt;/ScrollView&gt;
-  &lt;/KeyboardAvoidingView&gt;
-&lt;/View&gt;
-</code></pre>
-<p>这里单纯的添加 <strong>KeyboardAvoidingView</strong> 只会移动 <strong>TextInput</strong> 的坐标，但输入框下面还有其他视图，为了不遮挡其他视图，在将整个布局放到<br><strong>ScrollView</strong> 中。</p>
-<ol>
-<li><a href="https://github.com/APSL/react-native-keyboard-aware-scroll-view" target="_blank" rel="external">react-native-keyboard-aware-scroll-view</a></li>
-</ol>
-<h3 id="TextInput-中一些需要注意的属性"><a href="#TextInput-中一些需要注意的属性" class="headerlink" title="TextInput 中一些需要注意的属性"></a>TextInput 中一些需要注意的属性</h3><ol>
-<li><p>某些属性 iOS 与 Android 的取值或展示样式的差异</p>
-<p><strong>TextInput</strong> 在安卓上默认有一个底边框，同时会有一些 padding。如果要想使其看起来和iOS上尽量一致，则需要设置padding: 0，同时设置</p>
-<pre><code class="js">underlineColorAndroid=&quot;transparent&quot;
-</code></pre>
-<p>来去掉底边框。</p>
-</li>
-<li><p>keyboardShouldPersistTaps 操作键盘</p>
-<p>如果当前界面有软键盘，那么点击 <strong>scrollview</strong> 后是否收起键盘，取决于本属性的设置。（<font color="#DC143C">注意：</font>很多人反应 <strong>TextInput</strong> 无法自动失去焦点/需要点击多次切换到其他组件等等问题，其关键都是需要将 <strong>TextInput</strong> 放到<strong>ScrollView</strong>中再设置本属性）</p>
-</li>
-<li><p>keyboardType 的不同取值，iOS 和 Android 不同之处    </p>
-</li>
-</ol>
-<h3 id="无法通过在-TextInput-标签中定义-ref-调用-clear"><a href="#无法通过在-TextInput-标签中定义-ref-调用-clear" class="headerlink" title="无法通过在 TextInput 标签中定义 ref 调用 clear( )"></a>无法通过在 TextInput 标签中定义 ref 调用 clear( )</h3><p>通过 <strong>ref</strong> 在 <strong>TextInput</strong> 标签中定义不同的引用类型，然后发现无法根据 定义的 <strong>ref</strong> 调用 <strong>TextInput</strong> 的 <strong>clear( )</strong> 方法。</p>
-<p>react-native info 为：</p>
-<pre><code class="js">Environment:
-  OS: macOS High Sierra 10.13.6
-  Node: 8.6.0
-  Yarn: 1.12.3
-  npm: 5.3.0
-  Watchman: 4.9.0
-  Xcode: Xcode 10.1 Build version 10B61
-  Android Studio: 3.2 AI-181.5540.7.32.5014246
-
-Packages: (wanted =&gt; installed)
-  react: 16.3.1
-  react-native: 0.55.3
-</code></pre>
-<p>代码如下：</p>
-<pre><code class="js"> export class LoginSceneComponent extends Component {
-  constructor(props) {
-      super(props)
-      this.codeTextInputRef = React.createRef()
-  }
-
-  changeLoginType = () =&gt; {
-   this.codeTextInputRef.current.clear()
-  }
-
-  render () {
-    return (
-       &lt;ScrollView
-        style={[styles.scrollViewStyle]}
-        keyboardShouldPersistTaps=&quot;handled&quot;
-       &gt;
-          &lt;TextInput
-            ref={this.codeTextInputRef}
-            style={[styles.inputStyle]}
-            secureTextEntry={this.state.loginTypeFlag}
-            value={this.state.passWord}
-            onChangeText={text =&gt; this.setState({ passWord: text })}
-           /&gt;
-       &lt;/ScrollView&gt;
-    )  
-  }
- }
-</code></pre>
-<p>最终通过在 </p>
-<pre><code class="js">onChangeText={txt =&gt; this.setState({ passWord: txt })}
-</code></pre>
-<p>方法中重新 setState 参数清除了输入框中内容。</p>
-<p><font color="#DC143C">注意：</font> React 16.3 更新了 创建 <strong>Ref</strong> 的方法。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://reactnative.cn/docs/textinput/" target="_blank" rel="external">textinput</a></p>
-<p><a href="https://reactnative.cn/docs/keyboardavoidingview/" target="_blank" rel="external">keyboardavoidingview</a></p>
-<p><a href="https://github.com/facebook/react-native/issues/18843" target="_blank" rel="external">facebook/react-native/issues/18843</a></p>
-<p><a href="https://github.com/facebook/react-native/issues/18272" target="_blank" rel="external">facebook/react-native/issues/18272</a></p>
-<p><a href="https://reactjs.org/docs/refs-and-the-dom.html" target="_blank" rel="external">refs-and-the-dom</a></p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;记录下这两天使用 &lt;strong&gt;TextInput&lt;/strong&gt; 时遇到的问题及一些注意事项。&lt;/p&gt;
-&lt;h3 id=&quot;TextInput-键盘遮挡视图&quot;&gt;&lt;a href=&quot;#TextInput-键盘遮挡视图&quot; class=&quot;headerlink&quot; title=&quot;Te
-    
-    </summary>
-    
-      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
-    
-    
-      <category term="ReactNative" scheme="http://XibHe.github.io/tags/ReactNative/"/>
-    
-      <category term="TextInput" scheme="http://XibHe.github.io/tags/TextInput/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>回望2018</title>
-    <link href="http://XibHe.github.io/2018/12/31/2018year-endsummary/"/>
-    <id>http://XibHe.github.io/2018/12/31/2018year-endsummary/</id>
-    <published>2018-12-30T16:00:00.000Z</published>
-    <updated>2019-01-05T08:51:58.640Z</updated>
-    
-    <content type="html"><![CDATA[<p>2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。曾经，好好安放；未来，一步步来! </p>
-<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>10月份从干了两年多的公司离职，月底入职新公司。从提出离职到入职新公司中间不超过一周，也就是休息了一个周末后就到新公司上班了。这是我代码生涯中第一次以这样一种方式转变。想来没有什么比 <a href="https://zh.wikipedia.org/wiki/熱插拔" target="_blank" rel="external">热插拔</a> 这个计算机用语更合适的词来形容了。</p>
-<p>入职新公司，终于有机会学习自己一直想深入理解的 <code class="highlighter-rouge">React Native</code> 跨平台开发技术。可以学习团队最近几年在混合开发领域不断积累的技术沉淀，不用再自己摸石头过河，是一件多么幸运的事情啊！顺便推广一波我们团队在掘金的技术博客 —  <a href="https://juejin.im/user/5b3f46c2e51d451925626977" target="_blank" rel="external">WirelessSprucetec</a> </p>
-<p>原生客户端开发的关注点应该放在移动设备 <code class="highlighter-rouge">Web</code> 应用程序上（例如使用 <code class="highlighter-rouge">PWA</code>）和 <code class="highlighter-rouge">React Native</code>，<code class="highlighter-rouge">Flutter</code> 等引领的混合开发领域。</p>
-<blockquote>
-<p>种一棵树最好的时间是十年前。其次是现在。</p>
-</blockquote>
-<p>学习新技术总是要亲手敲一敲，多踩踩坑才能有自己的一番理解，也只有将遇到的坑填平才能有所收获，自己这两年的技术提升也正是建立在解决问题之上的。</p>
-<h2 id="总结与收获"><a href="#总结与收获" class="headerlink" title="总结与收获"></a>总结与收获</h2><p>回想最近这两年的经历，心中百感交集。再次审视自己之前写的代码，其中不乏有闪光的地方，这些代码多少为解决某些棘手的问题而做的优化或者特殊处理。比如：</p>
-<ul>
-<li><a href="https://xibhe.com/2018/02/03/WKWebView-disabuse/" target="_blank" rel="external">使用WKWebView进行性能调优</a></li>
-<li><a href="https://xibhe.com/2018/04/18/SQLOptimize/" target="_blank" rel="external">从一个数据量过多的优化说起</a></li>
-<li><a href="https://xibhe.com/2018/05/28/Compiling/" target="_blank" rel="external">https://xibhe.com/2018/05/28/Compiling/</a></li>
-</ul>
-<p>技术上的提升也是建立在解决某些疑难问题上的，有时觉得这些需要花费很多时间才能解决的问题，甚至根本不算是问题。因为产生这些疑难 <code class="highlighter-rouge">bug</code> 的根本原因是：自己没有将知识点掌握通透。</p>
-<blockquote>
-<p>学习的第一步是知道自己学习的这个知识问题是什么，答案是什么，然后找到这些问题和答案之间的关系，这个关系是我们需要学习的东西，最后能把这个关系通过通俗易懂的语言输出出来，那么这个知识你就学会了。</p>
-</blockquote>
-<p>2019年将继续总结自己在开发中遇到的问题，将心得体会写成博客分享出来。同时，也发现以往博客的一些问题，要么是在某一方面将操作步骤写的特别细致，但又没有触及到问题的本质；要么在某一点上一笔带过，没有罗列出具体流程。同时，研究的技术点比较分散，没有形成一个前后呼应的体系。今年，一定要尝试将不同的技术点分析清楚，形成一个完整的技术体系。</p>
-<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>认识到目前的不足之处：<code class="highlighter-rouge"> HTML </code>、<code class="highlighter-rouge">CSS</code> 和 <code class="highlighter-rouge">JavaScript</code> 是必须掌握的，需要补足前端基础的短板。既然选择了前端开发相关的技术栈就需要制定一个学习周期和学习计划。</p>
-<h2 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h2><p>技能 — 深入学习前端 <code class="highlighter-rouge"> HTML </code>、<code class="highlighter-rouge">CSS</code> 和 <code class="highlighter-rouge">JavaScript</code> 等前端基础技术。</p>
-<p>心态 — 放松 + 自我激励。</p>
-<p>工具 — 前端开发工具（<code class="highlighter-rouge">IDE</code>）的熟练使用。</p>
-<h2 id="共勉"><a href="#共勉" class="headerlink" title="共勉"></a>共勉</h2><p>不怕路长，就怕心老！</p>
-<p>保持好奇，继续热爱！</p>
-<p>自己重新定位，选择真正适合自己的方向，重新出发，发现更好的自己。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;2018转眼间就要过去，回首这一年的经历，在这里做个总结，让自己审视（Review、复盘）自己的表现，以决定下一步要怎么做。曾经，好好安放；未来，一步步来! &lt;/p&gt;
-&lt;h2 id=&quot;新工作&quot;&gt;&lt;a href=&quot;#新工作&quot; class=&quot;headerlink&quot; title=
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://XibHe.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="年终总结" scheme="http://XibHe.github.io/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
   
   <entry>
     <title>离线与同步</title>
@@ -3458,74 +2124,6 @@ _wkWebView = [LZWKWebKitSupport createSharableWKWebView:YES isShowNav:YES];
   </entry>
   
   <entry>
-    <title>2017年度总结</title>
-    <link href="http://XibHe.github.io/2017/12/30/2017deadline/"/>
-    <id>http://XibHe.github.io/2017/12/30/2017deadline/</id>
-    <published>2017-12-29T16:00:00.000Z</published>
-    <updated>2018-12-31T14:08:55.938Z</updated>
-    
-    <content type="html"><![CDATA[<p>转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来了。</p>
-<h2 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h2><p>对我这个年龄来说，结婚的很少，更别提孩子了。但我已经为人夫，为人父了！似乎用两三年的时间走完了别人十几年的路。太过年轻的我，总会时不时忘记自己身为父亲的责任，我媳妇(花花)总会不厌其烦的唤起我作为父亲该承担的责任。家里的大事小情，在花花的安排下井井有条。孩子的奶粉，尿不湿也不用我来操心，为了分担我的压力，花花早早给儿子断了母乳，离家挣钱。对花花我即心疼又愧疚，我不能一直用年轻作为借口，逃避身为男人的责任。<strong>家庭永远是第一位</strong>！</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2017deadline_1.jpg" alt=""></p>
-<blockquote>
-<p>每个人都有属于自己的人生遥控器，它无时无刻不掌握在你自己的手中，你可以随时按快进键让时间从你的手中逃走，你也可以按回退键，想想自己曾经的错过与失误，你也可以按跳过键，它的另外一个名字叫做逃避…… 从前有个精灵一直在寻找彩虹那端的金罐，但最后，他发现那只是一罐麦片。</p>
-</blockquote>
-<h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><p>年初给自己定下了一个目标：每周至少写一篇博客。到目前为止，算上这篇，一共是25篇。这25篇文章中，有5篇是译文，5篇是个人感悟，剩下15篇是技术上的分享。技术上的分享有些很肤浅，和大咖们由浅入深的技术文章比起来有些相形见绌。但我还是会坚持写下去的，须知泰山非一日之功。</p>
-<p>写一篇鞭辟入里的爽文真的很费时间，前期需要阅读大量的相关文章，技术文档。最难得还是将所要描述的知识点与实际的代码，产品需求结合起来。因此，当你在自己的项目中解决了一个棘手的bug，或者实现了一个复杂的产品需求时，你再将这些解决问题的方案写成博客，就会有一种“下笔如有神”的感觉。就好比最近写了一篇名为<a href="http://xibhe.com/2017/11/06/JenKins-Continuous-Integration/" target="_blank" rel="external">利用JenKins持续集成iOS项目时遇到的问题</a>博文，通篇写下爱特别顺畅。因为这些流程都是我切身经历过得，在这里也只是再复述一篇操作流程而已。</p>
-<p>相比之下这篇文章 — <a href="http://xibhe.com/2017/11/26/AF3.x/" target="_blank" rel="external">AFNetworking到底做了什么？</a> 写起来就不那么顺利，自己没有切实经历过，整个<strong>AFNetworking</strong>的源码，马马虎虎的读了两遍，不能透彻理解其中的精髓。也只能转载别人的观点。</p>
-<p>自从给自己定下了一周至少写一篇博客的目标后，每到周末就特纠结，搜肠刮肚的想着如何结合实际开发构思出一篇好博文。有时实在没有好的点子，就翻译<strong>Medium</strong>和<strong>湾区日报</strong>上推荐的英文文章，或者写一些个人心得体会。</p>
-<p>今年写的一些技术性文章也有不尽如人意的地方，有些文章，写的很粗浅，没有刨根问底追溯到本质上。有些文章是迫于一周要写一篇博文而拼凑成的，今年不会如此只求量而不求质了。但以文字的形式记录分享开发心得的习惯，一旦养成，就不会轻易舍弃，这算是2017年一个明显的收获吧！</p>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><p>今年看完了<font size="4" face="黑体">《图解HTTP》</font>、<font size="4" face="黑体">《黑客与画家》</font>、<font size="4" face="黑体">《软技能:代码之外的生存指南》</font>。正在看的有<font size="4" face="黑体">《人类简史》</font>、<font size="4" face="黑体">《啊哈!算法》</font>。看<font size="4" face="黑体">《啊哈!算法》</font>时，看的快忘得也快，还是没有结合实践，将书上的算法，用代码实现一遍。</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/hacker-artist.jpg" alt="黑客与画家"></p>
-<p>在这些书中，<font size="4" face="黑体">《黑客与画家》</font>这本书书对我启发最大，里面很多论述让我有种醍醐灌顶的感觉。现在回想起来，书中很多内容已经忘得差不多了，唯一记得的是：编程和绘画一样，是需要走心的，需要绞尽脑汁去构思的。</p>
-<p>偶然在知乎上看到<strong><a href="https://www.zhihu.com/question/32039257" target="_blank" rel="external">你是怎么看完《JavaScript权威指南》《JavaScript高级程序设计》等这类厚书的？</a></strong>的提问，摘录其中一个赞同数最高的回答：</p>
-<blockquote>
-<p>与其说看书不如说看目录，从目录里找到感兴趣的章节，看掉，看到中途没兴趣了，就放下下次再看。工作中碰到什么问题不明白需要参考了，还是看目录，才大概会在什么章节里，探索一番，中间如果碰到感兴趣的，看掉，看到中间没兴趣了，放下，下次再看。要不了多久，整本书的70%-80%都翻遍了，其中有20%-30%翻了不止一遍，这些往往是核心的知识；至于剩下的20%没看过的，以后或许有机会的，没机会也不要紧，很多时候自己已经通过各种机缘学到了。</p>
-<p>所以看技术厚书不在于多块或多慢，而是从容。</p>
-</blockquote>
-<p>其中，我认为结合书中知识点，<strong>理论联系实践</strong>是最为有效的掌握知识点的方法。读一些非技术的书籍，最重要的是能够让自己心安。</p>
-<blockquote>
-<p>此心安处是吾乡</p>
-</blockquote>
-<p>关于买书，今年没有买一本书。因为去年买的书，大概有七八本吧！只看完了三本，还有向公司申请采购的3本技术书籍，手中库存的书足够我看了。2018年在此立一个flag：<strong>看完6本书！</strong></p>
-<h2 id="新部门"><a href="#新部门" class="headerlink" title="新部门"></a>新部门</h2><p>今年12月份时被调到一个新部门，开始接触到公司最为核心的项目。想想就有些小激动啊！因此，也会给自己提出更高的要求，写功能模块时要注意与其他功能的耦合性，兼顾需要考虑程序的性能，容错机制的相应。现有的开发模式，耦合性太高，如何实现高可用的组件化，降低功能模块间的耦合性？将是我们这个团队在18年需要重点考录的问题。希望能为这次项目模块的优化重构尽自己的一份力量。</p>
-<h2 id="新技术"><a href="#新技术" class="headerlink" title="新技术"></a>新技术</h2><p>9月初接触微信小程序，和部门另外两个H5一起开发公司的一款小程序。中间吃了小程序产品原型还是是基于原生App思维而设计的亏，同时，也由于自己没有完全吃透小程序开发文档，在实现一些功能时踩了<a href="http://xibhe.com/2017/09/25/wx-mini-AppSummary/" target="_blank" rel="external">坑</a>。</p>
-<p>这次小程序开发经历使我意识到自己的技术短板，陷入对技术的狂热之中。因为崇拜某项特定的技术，只是因为自己熟悉这种技术。我很自然的会相信自己选择的是最好的，然后这会让我经常忽略一些与之相悖的意见。由于不了解其他技术，就倾向于选择自己最熟悉的技术并先入为主的认为它是最好的。因此陷入了对自己熟悉技术的狂热之中而无法自拔。这样只会使我们变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
-<blockquote>
-<p>请勿陷入对技术的狂热之中</p>
-</blockquote>
-<p>若是早已习惯了这种堆代码、堆逻辑的开发流程，渐渐麻木，在技术上不再积极进取，不再学习新技术。这种开发者被称为“码农”，“搬砖工”。很不幸，我自己就是这样的“码农”。</p>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/introspect2.jpg" alt=""></p>
-<p>2018年，新的一年，要在原有技术的基础之上找到突破口，将自己以前囫囵吞枣的知识点再好好品味一番。同时，也不能仅仅局限于iOS一方面的技术。</p>
-<p>今年最直观的感觉是自己对于新技术的渴望，缺少那种如饥食渴的痴迷感。苹果开发者大会上的ARKit，CoreML，SiriKit这些新技术，对于我这个iOS开发者竟然毫无吸引力可言。这是我身上存在的一个大的缺陷，也是程序员堕落，不思进取的开始。<strong>对于程序员来说，最大的悲哀并不是35岁后被华为辞退，也不是42岁后跳楼。</strong> 而是：</p>
-<blockquote>
-<p>不再向往新技术。</p>
-</blockquote>
-<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2017deadline_3.jpg" alt=""></p>
-<blockquote>
-<p>stay hungry，stay foolish.</p>
-</blockquote>
-<h2 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h2><p>家人朋友身体健康，自己技术日臻成熟。</p>
-<p>–EOF–</p>
-<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;转眼间2017就要结束了，回首过去的一年，有过彷徨，有过不安，也有收获的感动与喜悦。过完17年我就拥有四年开发经验了，一直觉得四到五年的阶段是区别高级开发与初中级开发的分水岭。但这并不使我感到高兴，我深知这四年时光中一多半是在蹉跎中度过的。往之不谏，来者可追！2018！我来
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://XibHe.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="2017" scheme="http://XibHe.github.io/tags/2017/"/>
-    
-      <category term="年度总结" scheme="http://XibHe.github.io/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
     <title>(译)创业就是要发起一场思想运动</title>
     <link href="http://XibHe.github.io/2017/12/09/Build%20a%20Movement/"/>
     <id>http://XibHe.github.io/2017/12/09/Build a Movement/</id>
@@ -4193,6 +2791,1165 @@ didCompleteWithError:(NSError *)error
     
     
       <category term="AFNetworking" scheme="http://XibHe.github.io/tags/AFNetworking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(译)软件开发这份工作到了35岁之后就是尽头了吗</title>
+    <link href="http://XibHe.github.io/2017/11/19/dead-end%20job%20/"/>
+    <id>http://XibHe.github.io/2017/11/19/dead-end job /</id>
+    <published>2017-11-18T16:00:00.000Z</published>
+    <updated>2018-11-11T07:53:30.436Z</updated>
+    
+    <content type="html"><![CDATA[<p>我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：</p>
+<ol>
+<li>年龄歧视是软件开发行业中的问题吗？</li>
+<li>你应该把自己的职业转向管理角色，而不是个人开发者角色吗？</li>
+<li>软件开发个人开发者是一个死胡同吗？</li>
+</ol>
+<p>在Quora上关于这些问题的提问，每个问题都有详细的回答，其中细节如上所述，所以我将简要地讨论每个问题。</p>
+<p>对于年龄歧视，我不认为有人会否认这个行业有一定的年龄歧视。你可以看看几乎所有硅谷公司的新员工的平均年龄。我怀疑，大多数中等雇佣年龄远低于30。然而，这并不一定意味着官方的公司政策不会雇用超过一定年龄，种族，性别，性别偏好或其他特征的候选人。</p>
+<p>为什么在高科技产业中存在年龄歧视，原因是多方面的，并非是所有公司一起商量好不雇用年长员工。一方面，许多公司发现，使用新的大学毕业生（麻省理工学院和斯坦福大学等）作为招聘的主要对象是最容易的。新毕业生便宜。他们有一个稳定的质量。他们不受其他公司经验的束缚。他们是一张白纸，比较容易教他们企业文化，软件方法论，最佳实践，并与参与其他业务的新毕业相互配合工作。</p>
+<p>我认为，硅谷的任何人都不会认为，如果你有一个在相关技术方面拥有3年扎实编程经验的候选人（加上也是有名望的毕业生），不是一个好的候选人。事实上，我甚至可以说N年开发经验并不重要，没有确切的说明，有N年相关经验的候选人比N + 1年经验的候选人要好，所有其他因素是平等的，技能 以及与公司正在进行的业务相关的经验。</p>
+<p>对于工程师来说，保持相关性的技术变化太快的说法可能是一回事，但是构建网络的核心技术已经存在了几十年了。C语言早在七十年代末就出现了，已近有将近四十多年的历史了。Javascript语言，第一次出现在1997年，大概是20年前。这意味着几十年开发经验的工程师，他们的工作已经接近退休年龄，整个职业生涯一直专注于C和运行Unix服务器。这样的工程师非常少，有这么多的经验，但是我怀疑有谁会试图宣称刚刚毕业的22岁的人肯定比60岁的人好，相比之下，他们的一些人已近专研了40多年技术。当然，这些类型的工程师很少。</p>
+<p>因此，对于问题的另一方面，我不认为软件工程是一个死胡同的事业。我想说的是，在薪酬增长方面，在一定的时间之后，它会趋于稳定。部分原因就是工程师本质上是人为的商品。除非你是一个非常特别的工程师，事实上，你总是可以被其他人取代。与其他竞争性行业相比，我认为这有助于保持软件工程工资水平。不过，我几乎可以保证，对软件工程师的需求将超过应聘者中新毕业生或其他人的供应，所以你总能找到工作。不过，你可能不会每年收到那些10％的指数提升，就像你两三年前那样。</p>
+<p>最后，关于转为管理者是否是一个更好的选择，我想问为什么只考虑这个选项？当然有许多职业道路可供选择。你可以转换到另一个工程领域。例如，许多不喜欢创造产品的软件工程师会转移到其他角色，有时在同一个公司，例如运营，产品管理，项目管理，质量保证，或者更少的技术，如销售或行政职位。我也有一些完全改变职业的朋友，比如全职教学。</p>
+<p>最后让我说，以为自己为例，在和那些具有扎实工程背景的经理人员一起工作时，我很欣赏他们，最好是与公司相关技术的软件工程，所以请不要急于进入工程管理的职业道路。对于我们这些将来可能不得不与你打交道的人，作为开发者，可以获得5年或6年的良好工程实践经验。了解这个行业是如何运作的，作为一个经验丰富的开发者。只有这样，才能考虑把你的职业转向管理方向。就像你不会雇用花店来建造布鲁克林大桥。同样也不会聘请没有任何开发经验的人担任项目经理。</p>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.quora.com/Is-software-development-really-a-dead-end-job-after-age-35-40/answer/Jeff-Nelson-32?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=website" target="_blank" rel="external">Is software development really a dead-end job after age 35-40?</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我想你会问3个不同的问题，也许应该修改一下这个问题。我们来分解一下吧：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;年龄歧视是软件开发行业中的问题吗？&lt;/li&gt;
+&lt;li&gt;你应该把自己的职业转向管理角色，而不是个人开发者角色吗？&lt;/li&gt;
+&lt;li&gt;软件开发个人开发者是一个死胡同吗？&lt;/li&gt;
+
+    
+    </summary>
+    
+      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
+    
+    
+      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
+    
+      <category term="职业生涯" scheme="http://XibHe.github.io/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>凌冬将至</title>
+    <link href="http://XibHe.github.io/2017/11/11/introspect/"/>
+    <id>http://XibHe.github.io/2017/11/11/introspect/</id>
+    <published>2017-11-10T16:00:00.000Z</published>
+    <updated>2018-11-11T07:56:58.586Z</updated>
+    
+    <content type="html"><![CDATA[<p>至此光棍节来临之际，祝各位光棍们节日快乐，年年无今日，岁岁无今朝，早日脱单。最近一个月不是很忙，之前做的项目在8月中旬停了下来，项目是停了下来，但整个项目组却闲不下来。九月份接手了一个新需求，为公司的另一个项目开发录入药品的小程序。工期算上测试、发布大概是二十天。这中间虽然是第一次接触小程序开发，最后，跌跌撞撞的总算是顺利上线了。</p>
+<p>开发小程序的这段时间，总是有些难熬，自己之前并没有HTML、CSS、JavaScript的基础，在w3cschool上看了两天的HTML、CSS基础，就硬着头皮上了。不过还好有一个前端老司机带着，一起踩踩小程序的坑。在前两年前端很火的时候，我就很想跟风学习一下了，但总是给自己找各种理由。最后，学习计划就不了了之了。这次的学习动机来的如此强烈，看来只有<strong>将自己的学习动力与工作中的业务需求捆绑起来，才能迈出这第一步</strong>。</p>
+<p>随着开发的深入，不得不惊讶于小程序<strong>“用完即走”</strong>的设计理念。与移动端APP相比，小程序真的很小，开发成本小的多。不得不感慨，移动开发的凌冬将至，或许早已来临了。苹果的光环正在消退，不只是iOS开发，没有哪种技术是长盛不衰的，对所有的与技术相关的开发者而言:</p>
+<blockquote>
+<p>请勿陷入对技术的狂热之中</p>
+</blockquote>
+<p>自从今年以来，发现了自己的技术短板。因为崇拜某项特定的技术，只是因为自己熟悉这种技术。我很自然的会相信自己选择的是最好的，然后这会让我经常忽略一些与之相悖的意见。由于不了解其他技术，就倾向于选择自己最熟悉的技术并先入为主的认为它是最好的。因此陷入了对自己熟悉技术的狂热之中而无法自拔。这样只会使我们变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
+<p>最近两年以来，互联网的发展不再像早期那样粗放了，对各种技术人员的需求趋于稳定。<strong>“一招鲜，吃遍天”</strong>的时代终会落幕，全栈会成为一种趋势。不只贫穷会限制我们的想象力，作为一名开发者，我们因对某项技术的狂热崇拜也会限制我们在业务需求上的想象力。应戒之，慎之。</p>
+<p>但无论如何增加知识广度的同时，先扪心自问自己所擅长技术是否全面掌握了。拿我自己来说，也有四年多 iOS 开发经验了，但做的项目都是很普通的那种。这里并不是说普通项目不能提高开发水平，相对于那些业务逻辑复杂的项目，其复杂的关联业务、交互设计会早早的暴露出性能方面的问题，因此，开发者不得不从各方面考虑，最终深入研究这些技术点，并形成最终的优化方案。而普通应用很少遇到性能上的瓶颈，开发者也早已习惯了这种堆代码、堆逻辑的开发流程，渐渐麻木，在技术上不在积极进取。我管这种开发者叫“码农”，“搬砖工”。很不幸，我自己就是这样的“码农”。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/introspect1.png" alt=""></p>
+<p>这也是很多初级中级 iOS 开发者的共性，没有深入某一具体的方向解决对应的问题，没有自己的技术深度。当我们被全栈开发这种趋势追赶着拼命向前奔命，花费时间、精力学习那些新技术时，需要反思自己有没有达到所擅长领域的技术深度，对掌握的知识，是肤浅还是真正的精通。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/introspect2.jpg" alt=""></p>
+<p>互联网发展非常快，每天每个月都有很多的新技术面世。在我们朝着全栈一路狂奔时，需要思考为什么要用这个技术？它能解决什么问题？有什么弊端吗？为了技术而技术，考虑问题的全面性就会差很多。裹足不前不行，盲目追新亦是不行，这里很考验我们对新技术的判断，最终这些技术都要对应业务场景，或许多经历几次因业务需求变化而导致的通宵加班，彻夜上线才会让开发者有所反思，经历几次痛苦的重构才会刻骨铭心吧！</p>
+<p>但无论如何，凌冬将至，大家过冬的粮食都储备充足了吗？</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;至此光棍节来临之际，祝各位光棍们节日快乐，年年无今日，岁岁无今朝，早日脱单。最近一个月不是很忙，之前做的项目在8月中旬停了下来，项目是停了下来，但整个项目组却闲不下来。九月份接手了一个新需求，为公司的另一个项目开发录入药品的小程序。工期算上测试、发布大概是二十天。这中间虽然
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://XibHe.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="自省" scheme="http://XibHe.github.io/tags/%E8%87%AA%E7%9C%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用JenKins持续集成iOS项目时遇到的问题</title>
+    <link href="http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/"/>
+    <id>http://XibHe.github.io/2017/11/06/JenKins-Continuous-Integration/</id>
+    <published>2017-11-05T16:00:00.000Z</published>
+    <updated>2019-01-04T06:58:02.249Z</updated>
+    
+    <content type="html"><![CDATA[<p>持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团队开发更加快捷。</p>
+<p>CI是一种开发实践。实践应该包含3个基本模块，一个可以自动构建的过程，自动编译代码，可以自动分发，部署和测试。一个代码仓库，SVN或者Git。最后一个是一个持续集成的服务器。通过持续集成，可以让我们通过自动化等手段高频率地去获取产品反馈并响应反馈的过程。</p>
+<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
+<ul>
+<li>2017 年 11 月，第一版。</li>
+<li>2018 年 01 月，替换一些图片，增加上传ipa包到FTP。</li>
+</ul>
+<h2 id="持续集成的优点"><a href="#持续集成的优点" class="headerlink" title="持续集成的优点"></a>持续集成的优点</h2><ol>
+<li>缩减开发周期，快速迭代版本</li>
+<li>自动化流水线操作带来的高效</li>
+<li>随时可部署</li>
+<li>极大程度避免低级错误</li>
+</ol>
+<h2 id="持续化集成工具—JenKins"><a href="#持续化集成工具—JenKins" class="headerlink" title="持续化集成工具—JenKins"></a>持续化集成工具—JenKins</h2><p>Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。</p>
+<p>JenKins的用途:</p>
+<ol>
+<li>构建项目自动化打包可以省去开发人员好多时间，重要的是，Jenkins为我们维护了一套高质量可用的代码，而且保证了一个纯净的环境。</li>
+<li>可以用来自动化测试，在本地生成大批的测试用例，每天利用服务器不断的跑这些用例。</li>
+<li>静态代码分析，可以检测出很多代码的问题，比如潜在的内存泄露的问题。</li>
+<li>随时部署，Jenkins在打包完成之后可以设定之后的操作，这个时候往往就是提交app到跑测试用例的系统，或者部署到内测平台生成二维码。</li>
+</ol>
+<h3 id="开始安装JenKins"><a href="#开始安装JenKins" class="headerlink" title="开始安装JenKins"></a>开始安装JenKins</h3><p>方法一: <a href="https://jenkins.io" target="_blank" rel="external">直接下载安装包</a></p>
+<p>注意：此时有两种安装方式是</p>
+<ul>
+<li>标准安装，如下图</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration11.png" alt=""></p>
+<ul>
+<li>自定义安装，此时应该取消<strong>Start at boot as “jenkins”</strong>勾选，如下图</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration12.png" alt=""></p>
+<p>安装完成后在Terminal中输入,</p>
+<blockquote>
+<p>open /Applications/Jenkins/jenkins.war</p>
+</blockquote>
+<p>即可打开Jenkins</p>
+<p>方法二: 使用命令行安装<br>安装JenKins，</p>
+<blockquote>
+<p>$ brew install jenkins</p>
+</blockquote>
+<p>若brew无效？则需要安装homebrew，</p>
+<blockquote>
+<p>$ ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="external">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”</p>
+</blockquote>
+<p>启动JenKins，</p>
+<blockquote>
+<p>$ jenkins</p>
+</blockquote>
+<p>启动JenKins后使用浏览器访问JenKins，</p>
+<p>地址为: <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a></p>
+<p>使用安装包安装后会自动打开，如果端口冲突那么请修改端口</p>
+<blockquote>
+<p>defaults write /Library/Preferences/org.jenkins-ci httpPort 7070</p>
+</blockquote>
+<font color="ff6d55"><strong>强烈推荐使用方法二安装JenKins，使用命令行可以避免后面构建项目时，报一些莫名其妙的权限错误。</strong> </font>
+
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>若使用git做源码管理，则需要安装</p>
+<ul>
+<li>GIT plugin</li>
+<li>GitHub plugin</li>
+</ul>
+<p>这两个插件，为了方便管理打包证书，需要安装插件</p>
+<ul>
+<li>Keychains and Provisioning Profiles Management</li>
+</ul>
+<p>由于需要使用Xcode编译环境，因此必须要安装插件 (<strong>当然，也可以不安装Xcode integration插件，使用shell脚本命令进行打包</strong>)</p>
+<ul>
+<li>Xcode integration</li>
+</ul>
+<p>若最后构建生成的ipa包，需要上传到FTP，则需要安装上传FTP的插件</p>
+<ul>
+<li>FTP publisher plugin</li>
+</ul>
+<p>我们需要依次选择 <strong>系统管理-&gt;管理插件</strong>，在<strong>“可选插件”</strong>中选中<strong>“Keychains and Provisioning Profiles Management”</strong>和<strong>“FTP publisher plugin”</strong>这两项，然后安装。如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration13.png" alt=""></p>
+<h2 id="配置构建环境"><a href="#配置构建环境" class="headerlink" title="配置构建环境"></a>配置构建环境</h2><p>在配置构建环境前，我们先来导入一下打包证书，点击系统管理，找到刚才添加的插件<font color="ff6d55">Keychains and Provisioning Profiles Management</font>，点击选取文件，导入名为<font color="ff6d55">login.keychain</font>的钥匙串文件。</p>
+<blockquote>
+<p>这个Keychain其实在<strong>/Users/管理员用户名/Library/keychains/login.keychain</strong>,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到<strong>/Users/管理员用户名/.jenkins/workspace/项目目录名称</strong>，(.jenkins是隐藏文件)。</p>
+</blockquote>
+<p>如图所示，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration1.png" alt=""></p>
+<p>其中，Keychains中的Identities输入项，对应的是刚才点击<font color="ff6d55">Upload</font>后钥匙串中的测试证书名称，发布证书名称(需要输入证书名称)。</p>
+<p>Provisioning Profiles中对应的是刚才上传的证书配置文件。这些配置文件的存放路径为:<font color="ff6d55">/Users/管理员用户名/Library/MobileDevice/Provisioning Profiles</font></p>
+<p>这样Adhoc证书和签名文件就在Jenkins中配置好了，接下来我们只需要在项目的构建配置中指定相关文件即可。</p>
+<p><font color="ff6d55" size="4">注意</font>: 有些升级了最新的Mac OS系统后，<font color="ff6d55">/Users/管理员用户名/Library/keychains</font>目录下没有<strong>login.keychain</strong>文件，有的是一个名为<strong>login.keychain-db</strong>的文件，这是需要将login.keychain-db文件copy到桌面，修改成文件名为<strong>login.keychain</strong>。点击”<strong>选取文件</strong>“，选取并上传这个修改名称后的<strong>login.keychain</strong>文件。</p>
+<p>导入证书后需要在”<strong>系统管理</strong>“–&gt;”<strong>系统设置</strong>“里再设置”<strong>Xcode Builder</strong>“时，访问证书的全局路径。如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration6.png" alt=""></p>
+<p>“<strong>Keychain path</strong>“为钥匙串的本地路径，”<strong>Keychain password</strong>“为访问钥匙串的密码。设置完成后不要忘记点击”<strong>保存</strong>“。</p>
+<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>新建 -&gt; 输入项目名称 -&gt; 选择“<strong>构建一个自由风格的软件项目</strong>” -&gt; 点击ok就行了。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/1194012-b52d3d102c21f004.png" alt=""></p>
+<h3 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h3><p>如图所示，<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration2.png" alt=""></p>
+<p>其中，Repository URL对应的是svn的路径，Credentials为登录svn时的用户账号密码，点击”Add”按钮添加即可。Check-out Strategy最好选择每次update最新代码前都revert下，而不是“Use ‘svn update’ as much as possible” ，因为我使用的是CocoaPods管理的第三方，每次打包运行pod install会修改了工程配置文件，如果下次自动打包前不先revert再update的话会出现冲突。</p>
+<h3 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h3><p>这里是设置自动化测试的地方。涉及的内容很多，暂不做深入研究，这里先不设置，有自动化测试需求的可以好好研究这里的设置。</p>
+<ul>
+<li><p>Poll SCM (poll source code management) 轮询源码管理<br>需要设置源码的路径才能起到轮询的效果。一般设置为类似结果： 0/5 <em> </em> <em> </em> 每5分钟轮询一次</p>
+</li>
+<li><p>Build periodically (定时build)<br>一般设置为类似： 00 20 <em> </em> * 每天 20点执行定时build 。当然两者的设置都是一样可以通用的。</p>
+</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration14.png" alt=""></p>
+<h3 id="构建环境"><a href="#构建环境" class="headerlink" title="构建环境"></a>构建环境</h3><p>勾选“<strong>Keychains andProvisioning Profiles Management</strong>”和“<strong>Mobile Provisioning Profiles</strong>”。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2367707-b8668d49ff828810.png" alt=""></p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/2367707-e86675d8dc8c675e.png" alt=""></p>
+<p>这里的<strong>Code Signing Identity</strong>和<strong>Provisioning Profile</strong>选项中对应上文<font color="ff6d55">Keychains and Provisioning Profiles Management</font>插件中导入的钥匙串文件中的证书及证书的配置文件。当然也可以不勾选Mobile Provisioning Profiles。</p>
+<h3 id="构建-构建步骤"><a href="#构建-构建步骤" class="headerlink" title="构建(构建步骤)"></a>构建(构建步骤)</h3><p>点击”增加构建步骤”选项，因为我使用的是CocoaPods管理的第三方，打包前先运行<br><strong>pod install –verbose –no-repo-update</strong>安装下第三方库。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration3.png" alt=""></p>
+<p><font color="ff6d55" size="5">注意:</font>执行pod install命令时，需要cd到pod文件所在的目录，<font color="ff6d55">${WORKSPACE}</font>是项目在JenKins中的工作目录，而我的项目由于多套了一层目录BusinessMall，因此需要加上这层目录<font color="ff6d55">${WORKSPACE}/BusinessMall</font>，否则，在构建时就会报:</p>
+<blockquote>
+<p>[!] No `Podfile’ found in the project directory.</p>
+<p>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>的错误。在执行完<strong>pod install</strong>后，就可以使用Xcode构建项目打包环境了。</p>
+<p><strong>添加构建步骤</strong>-&gt; <strong>Xcode</strong></p>
+<p>在”<strong>General build settings</strong>“中，点击”<strong>Settings</strong>“按钮设置相关参数。</p>
+<blockquote>
+<p>Target要与Xcode项目中Target的名字对应</p>
+<p>Clean before build设置为YES</p>
+</blockquote>
+<p>勾选”<strong>Pack application，build and sign .ipa？</strong>“的复选框，会弹出设置生成ipa包的几个参数项。如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration7.png" alt=""></p>
+<blockquote>
+<p>Export method，ipa的类型(‘development’, ‘ad-hoc’, ‘enterprise’ or ‘app-store’) </p>
+<p>.ipa filename pattern，ipa的名称。</p>
+<p>Output directory，输出ipa的文件路径。</p>
+</blockquote>
+<p><font color="ff6d55">注意:</font>这里如果<strong>Xcode的版本低于9.0</strong>，就可以正常输出ipa包。如果<strong>Xcode版本不低于9.0</strong>，就会由于<font color="ff6d55">Xcode 9.0不在允许你访问钥匙串里的内容</font>，而输出ipa失败。具体的解决方法请参照后面”<strong>构建项目时遇到的几个问题</strong>“中具体的解决方法。</p>
+<p>继续设置”<strong>Code signing &amp; OS X keychain options</strong>“证书信息，如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration4.png" alt=""></p>
+<p>其中，Development Team ID为开发团队ID,可以在钥匙串中的证书详情里查看。勾选Unlock Keychain，显示为之前上传的login.keychain文件。</p>
+<p>如果项目使用了<strong>cocoaPods</strong>,需要配置<strong>Advanced Xcode build options</strong>,设置</p>
+<ol>
+<li>Xcode Schema File，设为Xcode项目中的schema</li>
+<li>Xcode Workspace File，这里设置绝对路径，不需要带上.xcworkspace后缀。如果项目中没有workspace后缀，那就在“Xcode Project File”上填.xcodeproj文件的路径。</li>
+<li>Build output directory，设为<strong>${WORKSPACE}/build/</strong></li>
+</ol>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration5.png" alt=""></p>
+<p><font color="ff6d55">注意:</font>Xcode Workspace File为绝对路径，也就是Jenkins用于构建项目的workspace目录中，.xcworkspace文件所在目录的路径。</p>
+<p>如果路径不正确，则在构建项目时，会报:</p>
+<blockquote>
+<p>open BusinessMall.xcworkspace</p>
+<p>The file /Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall.xcworkspace does not exist.</p>
+<p>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>的错误。</p>
+<h3 id="构建后操作"><a href="#构建后操作" class="headerlink" title="构建后操作"></a>构建后操作</h3><ul>
+<li>添加构建后操作步骤，使用脚本将生成的ipa包上传到fir或者蒲公英等三方平台，扫码下载安装。</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration10.png" alt=""></p>
+<p>参考<a href="http://blog.fir.im/jenkins/" target="_blank" rel="external">http://blog.fir.im/jenkins/</a>使用官方工具<a href="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin-1.9.5.hpi" target="_blank" rel="external">fir-plugin-1.9.5.hpi</a>插件上传ipa包到fir。</p>
+<ul>
+<li>将ipa包上传到FTP服务器</li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration15.png" alt=""></p>
+<p>如图，选择<strong>“Publish artiffacts to FTP”</strong>，其中，<strong>FTP site</strong>就是在<strong>系统管理-&gt;系统设置</strong>中，增加的一项名为<strong>“FTP repository hosts”</strong>的配置里已经设置好的host和端口。<strong>Source</strong>为构建生成的ipa包的存放路径。</p>
+<h2 id="构建项目时遇到的几个问题"><a href="#构建项目时遇到的几个问题" class="headerlink" title="构建项目时遇到的几个问题"></a>构建项目时遇到的几个问题</h2><h3 id="1-pod-command-not-found"><a href="#1-pod-command-not-found" class="headerlink" title="1. pod: command not found"></a>1. pod: command not found</h3><blockquote>
+<p>pod install<br>/var/folders/gn/rqsybgtn7f50w67111kj1hhw0000gn/T/hudson3821369083140563198.sh: line 2: pod: command not found<br>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>解决方法: 在系统管理–&gt;系统设置，增加”全局属性”，勾选Environment variables，增加键值对列表。如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration16.png" alt=""></p>
+<p>其中，PATH是固定的，值是在终端输入:</p>
+<blockquote>
+<p>$echo $PATH</p>
+</blockquote>
+<p>命令获取，将输入命令后得到的值粘贴过来就可以了。</p>
+<h3 id="2-ruby-executable-hooks-No-such-file-or-directory"><a href="#2-ruby-executable-hooks-No-such-file-or-directory" class="headerlink" title="2. ruby_executable_hooks: No such file or directory"></a>2. ruby_executable_hooks: No such file or directory</h3><blockquote>
+<p>Pod: env: ruby_executable_hooks: No such file or directory<br>Build step ‘Execute shell’ marked build as failure</p>
+</blockquote>
+<p>从jekyll有时也会报这个错误得到启示，可能是由于执行pod命令的路径粗存在问题。在终端使用命令:</p>
+<blockquote>
+<p>$ which pod</p>
+</blockquote>
+<p>查看pod的安装路径为: <font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>，而执行pod install的shell的环境变量中可能没有该路径。于是使用命令:</p>
+<blockquote>
+<p>$ gem env</p>
+</blockquote>
+<p>查看SHELL PATH:，发现列表中没有<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。查阅了一些资料(<a href="https://coolestguidesontheplanet.com/add-shell-path-osx/" target="_blank" rel="external">What it is and How to Modify the Shell Path in macOS Sierra and OSX using Terminal</a>)后，发现可以在根目录的.bash_profile中增加永久的路径。在终端输入命令:</p>
+<blockquote>
+<p>$ sudo vi ~/.bash_profile</p>
+</blockquote>
+<p>打开根目录下的.bash_profile文件，将路径<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>插入:</p>
+<blockquote>
+<p>export PATH:”/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod:$PATH”<br>结束编辑esc后，输入:wq保存。在终端输入命令:</p>
+<p>$ source ～/.bash_profile </p>
+</blockquote>
+<p>让这个配置文件在修改后立即生效。此时，再查看gem env发现SHELL PATH:列表中，增加了<font color="ff6d55">/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod</font>这条路径。</p>
+<h3 id="3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException"><a href="#3-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a-Gem-GemNotFoundException" class="headerlink" title="3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)"></a>3. `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)</h3><blockquote>
+<p> /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/ruby/         site_ruby/2.2.0/rubygems.rb:271:in <code>find_spec_for_exe&#39;: can&#39;t  find gem cocoapods (&gt;= 0.a) (Gem::GemNotFoundException)
+    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/lib/  ruby/site_ruby/2.2.0/rubygems.rb:299:in</code>activate_bin_path’<br>    from /Users/zyjk_imac-penghe/.rvm/rubies/ruby-2.2.0/bin/pod:  23:in <code>&lt;main&gt;&#39;
+    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in</code>eval’<br>    from /Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>‘<br> Build step ‘Execute shell’ marked build as failure</main></p>
+</blockquote>
+<p>子所以在构建项目时出现这个错误，是因为看到一篇文章(<a href="http://www.jianshu.com/p/d64f12577be8" target="_blank" rel="external">cocoapods插件GEM_PATH的配置</a>)，说是修改Xcode中CocoaPods插件的GEM_PATH:中的路径与SHELL PATH:中路径一致就能解决:</p>
+<blockquote>
+<p>env: ruby_executable_hooks: No such file or directory</p>
+</blockquote>
+<p>这个错误。于是就在~/.bash_profile文件中增加了一条GEM路径</p>
+<blockquote>
+<p>export GEM_PATH=”/Users/zyjk_imac-penghe/.rvm/gems/ruby-2.2.0/bin/pod”</p>
+</blockquote>
+<p>构建项目后就会报上面的错误，仔细看看，觉得是多了一条无效的执行路径导致的。于是，就删除了那条新添的GEM_PATH，再次构建就不报这个错误了。</p>
+<h3 id="4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a"><a href="#4-in-find-spec-for-exe’-can’t-find-gem-cocoapods-gt-0-a" class="headerlink" title="4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a)"></a>4. in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a)</h3><blockquote>
+<p>in `find_spec_for_exe’: can’t find gem cocoapods (&gt;= 0.a) </p>
+</blockquote>
+<p>更新一下gem版本，终端命令如下；</p>
+<blockquote>
+<p>$ sudo gem update –system</p>
+</blockquote>
+<p>有时在输入命令后会出现ssh相关的网络错误提示，可以在终端输入命令:</p>
+<blockquote>
+<p>gem sources -a <a href="http://gems.ruby-china.org/" target="_blank" rel="external">http://gems.ruby-china.org/</a></p>
+</blockquote>
+<p>将源地址换为ruby-china。</p>
+<h3 id="5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误"><a href="#5-报xcodebuild-error-The-workspace-‘Project’-does-not-contain-a-scheme-named-‘Project’-的错误" class="headerlink" title="5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误"></a>5. 报xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.的错误</h3><blockquote>
+<p>Going to invoke xcodebuild:, scheme: Project, sdk: DEFAULT, workspace: Project, configuration: Debug, clean: YES, archive:NO, symRoot: DEFAULT, configurationBuildDir: /Users/ignat/.jenkins/workspace/Project/build, codeSignIdentity: DEFAULT<br>[Project] $ /usr/bin/xcodebuild -scheme Project -workspace Project.xcworkspace -configuration Debug clean build CONFIGURATION_BUILD_DIR=/Users/ignat/.jenkins/workspace/Project/build<br>Build settings from command line:<br>    CONFIGURATION_BUILD_DIR = /Users/ignat/.jenkins/workspace/Project/build</p>
+<p>xcodebuild: error: The workspace ‘Project’ does not contain a scheme named ‘Project’.<br>FATAL: Build directory does not exist at /Users/ignat/.jenkins/workspace/Project/build. Potential configuration issue.<br>Build step ‘Xcode’ marked build as failure<br>Finished: FAILURE</p>
+</blockquote>
+<p>在Xcode中，选择Manage Scheme，勾选对应的<font color="ff6d55">Shared</font>。</p>
+<h3 id="6-构建时报-NSLocalizedRecoverySuggestion-Add-a-profile-to-the-“provisioningProfiles”-dictionary-in-your-Export-Options-property-list"><a href="#6-构建时报-NSLocalizedRecoverySuggestion-Add-a-profile-to-the-“provisioningProfiles”-dictionary-in-your-Export-Options-property-list" class="headerlink" title="6. 构建时报 NSLocalizedRecoverySuggestion=Add a profile to the “provisioningProfiles” dictionary in your Export Options property list."></a>6. 构建时报 NSLocalizedRecoverySuggestion=Add a profile to the “provisioningProfiles” dictionary in your Export Options property list.</h3><blockquote>
+<p>Error Domain=IDEProvisioningErrorDomain Code=9 “”BusinessMall.app” requires a provisioning profile with the Push Notifications feature.” UserInfo={NSLocalizedDescription=”BusinessMall.app” requires a provisioning profile with the Push Notifications feature., NSLocalizedRecoverySuggestion=Add a profile to the “provisioningProfiles” dictionary in your Export Options property list.}</p>
+<p><strong> EXPORT FAILED </strong></p>
+</blockquote>
+<p>最后错误提示，<strong>EXPORT FAILED</strong>，可知是导出ipa包时出的错。根据提示”<strong>provisioningProfiles” dictionary in your Export Options property list.</strong>在网上搜了一下这个plist文件的用处，发现原来新版的<strong>Xcode 9</strong>将不会允许你访问钥匙串里的内容，除非设置<strong>allowProvisioningUpdates</strong>。</p>
+<p>具体的<a href="http://www.jianshu.com/p/b3f883b51be3" target="_blank" rel="external">解决方式</a>是: 自己动手写脚本替代插件（插件本质是帮助我们生成打包脚本代码）。于是，在JenKins里，点击项目的”<strong>配置</strong>“选项，在”<strong>构建</strong>“中，添加xcodebuild -archivePath，<br>xcodebuild -exportArchive -archivePath的脚本命令，输出ipa包。如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration8.png" alt=""></p>
+<p>具体的脚本命令如下:</p>
+<pre><code>xcodebuild -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/output/debug/BusinessMall.xcarchive&quot; -workspace BusinessMall.xcworkspace -sdk iphoneos -scheme &quot;BusinessMall&quot; -configuration &quot;Release&quot; archive
+xcodebuild -exportArchive -archivePath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/output/debug/BusinessMall.xcarchive&quot; -exportPath &quot;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/ipa/debug/&quot; -exportOptionsPlist &#39;/Users/zyjk_imac-penghe/.jenkins/workspace/BusinessMall/BusinessMall/ipa/debug/ExportOptions.plist&#39; -allowProvisioningUpdates
+</code></pre><p>脚本中的构建路径为JenKins下对应的archivePath，ipa包的输出路径。其中，需要特别注意的是<font color="ff6d55">ExportOptions.plist</font>的存放路径。手写ExportOptions.plist文件过于麻烦，不如让XCode帮我们生成。使用XCode 9打包并导出后的文件夹里就有这样一份文件可以直接拿过来用。修改后的plist文件，如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/JenKins-Continuous-Integration9.png" alt=""></p>
+<p>之后就在项目所在的目录下，新建一个名为ipa/debug/的目录，将修改后的<strong>ExportOptions.plist</strong>文件放在这个目录下。在Jenkins中使用SVN管理源码，因此，我需要将这个新增的文件上传SVN，这样在我每次构建项目，输出ipa时就能直接从SVN上拉取这个plist文件，通过设置<strong>ExportOptions.plist’ -allowProvisioningUpdates</strong>就能访问钥匙串中的打包证书，输出ipa包了。</p>
+<p><font color="ff6d55">注意:</font>设置了<strong>allowProvisioningUpdates</strong>字段后，在打包过程中会弹出是否允许访问钥匙串内容的弹窗，这时需要多次点击“<strong>始终允许</strong>”按钮。</p>
+<h3 id="7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format"><a href="#7-构建时报error-exportArchive-The-data-couldn’t-be-read-because-it-isn’t-in-the-correct-format" class="headerlink" title="7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format."></a>7. 构建时报error: exportArchive: The data couldn’t be read because it isn’t in the correct format.</h3><blockquote>
+<p>error: exportArchive: The data couldn’t be read because it isn’t in the correct format.<br><strong> EXPORT FAILED </strong></p>
+</blockquote>
+<p>关掉bitcode重新打包就可以了……</p>
+<p>参考<a href="https://forums.developer.apple.com/thread/21193" target="_blank" rel="external">https://forums.developer.apple.com/thread/21193</a></p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>中间使用过命令:</p>
+<blockquote>
+<p>sudo gem install -n /usr/local/bin cocoapods –pre</p>
+</blockquote>
+<p>重装过CocoaPods，目前CocoaPods的版本为: <font color="ff6d55">1.4.0.beta.2</font>。也可以输入命令:</p>
+<blockquote>
+<p>$ sudo gem install cocoapods -v 0.39.0</p>
+</blockquote>
+<p>安装特定版本的CocoaPods。</p>
+<p>由于给iOS项目构建版本时必须依赖于xcodebuild环境。现在是在一台Windows上部署Jenkins环境，可以配置节点，在另一台Mac电脑上打包。具体操作，可以参考这篇文章—<a href="http://blog.csdn.net/syg90178aw/article/details/52221765" target="_blank" rel="external">Jenkins自动打包 配置mac slave节点</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.w3cschool.cn/jenkins/" target="_blank" rel="external">w3cschool Jenkins</a></p>
+<p><a href="https://stackoverflow.com/questions/26247926/how-to-solve-usr-bin-env-ruby-executable-hooks-no-such-file-or-directory" target="_blank" rel="external">How to solve “/usr/bin/env: ruby_executable_hooks: No such file or directory”?
+</a></p>
+<p><a href="https://github.com/openbakery/gradle-xcodePlugin/issues/308" target="_blank" rel="external">/usr/local/bin/pod No such file or directory</a></p>
+<p><a href="https://stackoverflow.com/questions/2975206/how-to-delete-a-gem-path" target="_blank" rel="external">How to delete a gem path?</a></p>
+<p><a href="https://coolestguidesontheplanet.com/add-shell-path-osx/" target="_blank" rel="external">What it is and How to Modify the Shell Path in macOS Sierra and OSX using Terminal</a></p>
+<p><a href="http://www.jianshu.com/p/41ecb06ae95f" target="_blank" rel="external">手把手教你利用Jenkins持续集成iOS项目</a></p>
+<p><a href="http://www.jianshu.com/p/d64f12577be8" target="_blank" rel="external">cocoapods插件GEM_PATH的配置</a></p>
+<p><a href="http://blog.csdn.net/hong1595/article/details/74010620" target="_blank" rel="external">cocoaPods安装2017 以及遇到的坑</a></p>
+<p><a href="https://stackoverflow.com/questions/25689967/xcodebuild-fails-in-jenkins-with-cocoapods" target="_blank" rel="external">Xcodebuild fails in jenkins with cocoapods
+</a></p>
+<p><a href="https://stackoverflow.com/questions/13500793/xcodebuild-commands-give-different-results-when-run-from-the-command-line-than-w" target="_blank" rel="external">xcodebuild commands give different results when run from the command line than when run from within Jenkins</a></p>
+<p><a href="http://blog.csdn.net/syg90178aw/article/details/52221765" target="_blank" rel="external">Jenkins自动打包 配置mac slave节点</a></p>
+<p><a href="http://www.jianshu.com/p/b3f883b51be3" target="_blank" rel="external">Jenkins+XCode9自动打包错误处理</a></p>
+<p><a href="https://github.com/fastlane/fastlane/issues/9589" target="_blank" rel="external">xcode 9 beta export options not working #9589</a></p>
+<p><a href="https://forums.developer.apple.com/thread/21193" target="_blank" rel="external">Xcode 7 Enterprise Distribution not working</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;持续集成(Continuous Integration，简称CI)是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团
+    
+    </summary>
+    
+      <category term="解惑" scheme="http://XibHe.github.io/categories/%E8%A7%A3%E6%83%91/"/>
+    
+    
+      <category term="持续化集成" scheme="http://XibHe.github.io/tags/%E6%8C%81%E7%BB%AD%E5%8C%96%E9%9B%86%E6%88%90/"/>
+    
+      <category term="JenKins" scheme="http://XibHe.github.io/tags/JenKins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>直播那些事</title>
+    <link href="http://XibHe.github.io/2017/10/31/live/"/>
+    <id>http://XibHe.github.io/2017/10/31/live/</id>
+    <published>2017-10-30T16:00:00.000Z</published>
+    <updated>2018-11-11T08:23:49.301Z</updated>
+    
+    <content type="html"><![CDATA[<p>直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！</p>
+<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><p>更新记录:</p>
+<ul>
+<li>2017 年 10 月，第一版。</li>
+<li>2017 年 11 月 11 日，增加相关说明。</li>
+<li>2017 年 11 月 13 日，增加直播原理。</li>
+</ul>
+<h2 id="直播原理"><a href="#直播原理" class="headerlink" title="直播原理"></a>直播原理</h2><h3 id="1-一个完整直播app实现流程"><a href="#1-一个完整直播app实现流程" class="headerlink" title="1. 一个完整直播app实现流程"></a>1. 一个完整直播app实现流程</h3><p>1.采集、2.滤镜处理、3.编码、4.推流、5.CDN分发、6.拉流、7.解码、8.播放、9.聊天互动</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live6.png" alt="6"></p>
+<h3 id="2-一个完整直播app架构"><a href="#2-一个完整直播app架构" class="headerlink" title="2. 一个完整直播app架构"></a>2. 一个完整直播app架构</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live7.png" alt="7"></p>
+<h3 id="3-一个完整直播app技术点"><a href="#3-一个完整直播app技术点" class="headerlink" title="3. 一个完整直播app技术点"></a>3. 一个完整直播app技术点</h3><p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live8.jpeg" alt="8"></p>
+<h3 id="4-流媒体相关参数"><a href="#4-流媒体相关参数" class="headerlink" title="4. 流媒体相关参数"></a>4. 流媒体相关参数</h3><p><strong>帧:</strong> 每帧代表一副静止的图像。</p>
+<p><strong>帧率:</strong> 每秒显示的图片数。影响画面流畅度，与画面流畅度成正比:帧率越大，画面越流畅；帧率越小，画面越有跳动感。</p>
+<p>由于人类眼睛的特殊生理结构，如果所看画面之帧率高于16的时候，就会认为是连贯的，此现象称之为视觉暂留。并且当帧速达到一定数值后，再增长的话，人眼也不容易察觉到有明显的流畅度提升了。</p>
+<p><strong>码率：</strong>图片进行压缩后每秒显示的数据量。</p>
+<p><strong>分辨率：</strong>（矩形）图片的长度和宽度，即图片的尺寸<br>压缩前的每秒数据量: 帧率X分辨率(单位应该是若干个字节)<br>压缩比: 压缩前的每秒数据量/码率 （对于同一个视频源并采用同一种视频编码算法，则：压缩比越高，画面质量越差。）　</p>
+<p><strong>视频文件格式：</strong>文件的后缀，比如.wmv,.mov,.mp4,.mp3,.avi,<br>主要用处，根据文件格式，系统会自动判断用什么软件打开,<br>注意: 随意修改文件格式，对文件的本身不会造成太大的影响，比如把avi改成mp4,文件还是avi.</p>
+<p><strong>视频封装格式：</strong>一种储存视频信息的容器，流式封装可以有TS、FLV等，索引式的封装有MP4,MOV,AVI等，<br><strong>主要作用：</strong>一个视频文件往往会包含图像和音频，还有一些配置信息(如图像和音频的关联，如何解码它们等)：这些内容需要按照一定的规则组织、封装起来.<br>注意：会发现封装格式跟文件格式一样，因为一般视频文件格式的后缀名即采用相应的视频封装格式的名称,所以视频文件格式就是视频封装格式。</p>
+<p><strong>视频封装格式和视频压缩编码标准：</strong>就好像项目工程和编程语言，封装格式就是一个项目的工程，视频编码方式就是编程语言，一个项目工程可以用不同语言开发。</p>
+<h2 id="对比几种不同的直播SDK"><a href="#对比几种不同的直播SDK" class="headerlink" title="对比几种不同的直播SDK"></a>对比几种不同的直播SDK</h2><p>对比市面上常用的直播平台，这里分别是：阿里云、zego、七牛云、腾讯云。<br>这里根据业务需求，对比以上四个平台的指标为：支持的最大连麦上限，是否提供实时视频通话的解决方案，是否提供聊天室功能(IM)，可拓展性等。</p>
+<h3 id="阿里云直播"><a href="#阿里云直播" class="headerlink" title="阿里云直播"></a><a href="https://www.aliyun.com/product/live?spm=5176.8413026.765261.324.1M5955" target="_blank" rel="external">阿里云直播</a></h3><p>阿里云直播中有提供连麦功能，但连麦上限最终确认4人（不能添加上限），不符合公司功能需求。视同阿里云提供的连麦demo，如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live1.png" alt="1"><br>超过三个连麦观众时会提示：连麦观众不能超过3个。</p>
+<p>在阿里云提交工单后，得到了最终的反馈，如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live2.png" alt="2"></p>
+<p>最后，联系了技术支持，连麦上限最终为4人。</p>
+<h3 id="zego直播"><a href="#zego直播" class="headerlink" title="zego直播"></a><a href="https://www.zego.im" target="_blank" rel="external">zego直播</a></h3><p>zego直播中提供实时视频通话、连麦互动直播和即时通讯功能，实时视频场景的典型使用案例是同一房间内的成员（如微信群视屏），进行实时视频对话同一房间中的用户均可发起视频通话。连麦功能支持20个连麦观众。</p>
+<p>提供了实时视频通话的解决方案，如图<br><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live3.png" alt="3"></p>
+<h3 id="七牛云直播"><a href="#七牛云直播" class="headerlink" title="七牛云直播"></a><a href="https://www.qiniu.com/?hmsr=biaoti&amp;hmpl=pinzhuan&amp;hmcu=biaoti&amp;hmkw=&amp;hmci=" target="_blank" rel="external">七牛云直播</a></h3><p>七牛云提供强大的直播以及连麦服务，有提供强大的连麦功能，且无上限，受限于客户端的总体带宽，建议8路以下。</p>
+<h3 id="腾讯云直播"><a href="#腾讯云直播" class="headerlink" title="腾讯云直播"></a><a href="https://cloud.tencent.com/product/LVB" target="_blank" rel="external">腾讯云直播</a></h3><p>腾讯云分为直播、互动直播、移动直播多种视频服务，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live4.png" alt="4"></p>
+<p>互动直播(ILVB)多对多连麦，最多支持8人同时连麦。移动直播(MLVB)提供即时通讯等一体化直播的解决方案，但最多同时支持3人连麦(见工单)。这二者都是在直播(LVB)基础之上做的延伸拓展。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/live5.png" alt="5"></p>
+<p>最后，对比以上四种直播，单从技术上考虑，zego以其一体化的解决方案，超出20路的连麦数，做工精良并频繁更新的Demo被重点考虑。从价格上考虑，阿里云和腾讯云的价格比较有优势。最后暂时选择了阿里云，原因可能是公司的云服务器用的是阿里云吧！</p>
+<h2 id="关于demo"><a href="#关于demo" class="headerlink" title="关于demo"></a>关于demo</h2><p>该demo为整理后的阿里云直播连麦demo，添加了一些注释，为了突出直播所需的主功能，demo只集成直播所需的基本的API。通过对demo添加Tag，区别不同的功能。其中，Tag为<strong>V0.1</strong>的版本集成最基本的直播推拉流功能，Tag为<strong>V0.2</strong>的版本集成连麦功能。<a href="https://github.com/XibHe/AliyunLiveDemo" target="_blank" rel="external">点击下载链接</a></p>
+<p><font color="ff6d55">注意:</font>阿里云的连麦demo中并未集成聊天室功能，在引入的SDK中，有一个名为<strong>AlivcLiveChatRoom.framework</strong>。该SDK暴露的AlivcLiveClient.h文件中，注明了聊天室相关的API，但创建聊天室和发送聊天消息的方法都加了__deprecated_msg的注释：</p>
+<pre><code class="objectivec">- (void)createChatRoomWithName:(NSString *)chatRoomName success:(void(^)())successBlock error:(void (^)(NSError *error))errorBlock
+__deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&quot;);
+
+- (AlivcLiveChatMessage *)sendMessage:(AlivcLiveConversationType)conversationType content:(NSString *)content success:(void (^)(long messageId))successBlock error:(void (^)(NSError *error, long messageId))errorBlock
+__deprecated_msg(&quot;暂未开放,请勿使用,参考Demo与appServer交互&quot;);
+</code></pre>
+<p>在阿里云提交工单，工程师回复目前阿里云直播SDK不再提供聊天室功能了。不过通过阿里云DEMO接口文档中所列出的错误码，其中，有返回2040，2050的错误码，</p>
+<blockquote>
+<p>2040 创建环信聊天室失败</p>
+<p>2050 消息发送到环信失败</p>
+</blockquote>
+<p>可见，阿里云聊天室之前是环信即时通讯方案，只是现在移除了。接口详情见:</p>
+<p><a href="https://help.aliyun.com/document_detail/56125.html?spm=5176.doc55703.6.743.2DsJze" target="_blank" rel="external">DEMO接口文档</a></p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这篇关于直播的文章写得很粗浅，只是记录了阿里云直播SDK的使用。没有详细系统的描述直播原理、主要直播技术及其实现。下面几篇文章对直播做了系统的介绍:</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/ed9eb96afa78" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【服务器搭建+推流】</a></li>
+<li><a href="http://www.jianshu.com/p/b2674fc2ac35" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【原理篇】</a></li>
+<li><a href="http://www.jianshu.com/p/099c2c875524" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【采集篇 】</a></li>
+<li><a href="http://www.jianshu.com/p/f5a41b9ec05f" target="_blank" rel="external">如何开发出一款仿映客直播APP项目实践篇 -【播放篇】</a></li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.jianshu.com/p/bd42bacbe4cc" target="_blank" rel="external">【如何快速的开发一个完整的iOS直播app】(原理篇)</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;直播技术经过近两年的迅速发展，已经很成熟了。从十月份开始接触与直播相关的技术，中间花了一周左右的时间，对市面上几种流行的三方直播SDK做了调研和对比。今天是月末最后一天，就做一个阶段性的总结吧！&lt;/p&gt;
+&lt;h2 id=&quot;更新说明&quot;&gt;&lt;a href=&quot;#更新说明&quot; class
+    
+    </summary>
+    
+      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
+    
+    
+      <category term="直播" scheme="http://XibHe.github.io/tags/%E7%9B%B4%E6%92%AD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(译)为何许多开发者仍然喜欢用Objective-C，而不是Swift</title>
+    <link href="http://XibHe.github.io/2017/10/10/SwiftUsageRate/"/>
+    <id>http://XibHe.github.io/2017/10/10/SwiftUsageRate/</id>
+    <published>2017-10-09T16:00:00.000Z</published>
+    <updated>2018-11-11T08:26:03.300Z</updated>
+    
+    <content type="html"><![CDATA[<p>iOS SDK已经发布很多年了，开发人员纷纷涌向Objective-C，他们力图通过开发会大卖应用程序而获得丰厚的回报。但那样的时代如今已不复存在了：Swift已经面世三年多了，与Objective-C相比，大大地获取了大家的关注度。</p>
+<p>Objective-C - 从应用程序开发世界冉冉升起的明星 - 沦为苹果生态系统中的二等公民。即使OC仍然会在WWDC的一两个板块中被提及，但世界各地的大部分会议都在谈论Swift，苹果正努力推动Swift在教育领域的应用，使用Swift作为主要的语言。</p>
+<p>但是如果你仍然在使用Objective-C，你并不孤单 - 许多开发者仍然喜欢使用Objective-C相对于Swift，并且有很好的理由。我与一些Objective-C开发者联系，询问他们是否感觉继续使用Objective-C开发会受到指责，下面的内容就是他们不得不说的…</p>
+<p>注意：这里表达的意见是个人意见，可能不代表雇主的意见; 人们按照他们回应的顺序列出; 一些回答在长度上进行了变更。</p>
+<h2 id="阻止你将Swift作为开发语言的主要原因是什么？"><a href="#阻止你将Swift作为开发语言的主要原因是什么？" class="headerlink" title="阻止你将Swift作为开发语言的主要原因是什么？"></a>阻止你将Swift作为开发语言的主要原因是什么？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：我有几个原因避免了Swift。 首先，我不喜欢使用它 - 我发现这个语言比ObjC更难阅读和解析，尤其是在循环和switch语句中的if-let变量赋值（这在Apple的体例中是混乱的，像ARKit一样)。我不是尝试各种不同语言为各种平台编写东西的新手，而且Swift绝对是我见到的可读性很低的语言。</p>
+<p>我还不相信苹果参与设计这个语言的初衷 - 四年之后，Swift并不用于iOS，OS或框架的重要部分（我在Twitter上保留了苹果公司的Swift应用程序，macOS很少采用它的新特性相对于iOS来说)。我明白为什么会这样（ABI的稳定性等），但如果苹果没有使用Swift，我不明白为什么我需要代表他们进行beta测试。在Swift准备好之前，我没有什么期待，而且在此期间我获得了Objective-C所带来的一切好处。</p>
+<blockquote>
+<p>我完全相信，只是因为苹果建立了一些东西，并说这是前进的道路并不意味着它是正确的选择。</p>
+</blockquote>
+<p>有趣的是，在最初的几年中，我曾经听说过苹果与Swift的任何人分开，苹果公司当然是大量的ObjC开发人员，而Swift对于许多人来说，对我们来说是一个惊喜。 而且我完全相信，只是因为苹果建立了一些东西，并表示这是前进的道路并不意味着它是正确的选择 - 我们已经看到了一大堆错误（DNS 解析服务 discoveryd，iOS 7，iOS 8）或’mehs ‘（macOS，Touch Bar）在过去几年里，而且看到如何摆脱这些不好因素带来的负面影响。</p>
+<p><strong>迈克尔·劳尔</strong>：我看不到激励。我在Objective-C方面非常有成效，我将语言视为非常优雅，简洁，富有表现力。如果Swift有一流的（异步）并发，我会高兴的跳起来。相比之下，我听说缓慢的编译时间，大量的运行时库重复，我还没有看到运行时性能的显着提升。</p>
+<p><strong>丹·莱弗斯</strong>：对于技术原型预演Demo或非常小的项目，我将使用Objective-C，纯粹为了在经过相当长的时间（通常可能与这些类型的客户端）之后的易于更新。我还为许多客户保留了Objective-C应用程序，而且没有时间（或将其切换到Swift的理由）。在Swift中构建这样的项目的代码通常会把它当做演示原型的Demo来简单使用。</p>
+<p><strong>彼得·莫尔纳尔</strong>：在3.0版本之前，我的主要障碍是缺少源代码兼容性，即使4.0之后，我还在等待ABI的稳定性。我认为这是剩下的唯一一个问题，如果源兼容性有效，我个人觉得这对我来说很重要。</p>
+<p><strong>托德·托马斯</strong>：Xcode对Swift的支持似乎很好笑。从大型项目的愚蠢长编译时间到重构和调试。Tweetbot for Mac是一个相当可观的项目，在2012款的Retina MBP上编译它需要44秒。这包括1个框架，1个库和应用程序本身。此外，Swift的ABI仍然不稳定 - 当我不需要使用我的应用程序包含的所有库被全部缓慢的构建为应用时。</p>
+<p><strong>伊恩·麦克道尔</strong>：我们有一大堆共享的C++代码，用于我们的业务逻辑，它与Windows和Android共享。我们在Objective-C中的本地UIKit/AppKit中编写我们的UI，并且有很多Objective-C++文件在两种语言之间桥接。至今，除了几个脚本和内部工具之外，我们还没有采用Swift。据使用Swift的其他团队说，编译时间比Objective-C / C ++慢。</p>
+<p>我们有数百个Xcode项目，最终编译成一个巨大的静态库，链接到每个应用程序二进制文件。这样做可以减少应用启动时间。我们花费大概6小时流畅的构建我们的应用，不会增加很多时间。</p>
+<p><strong>西蒙·沃尔夫</strong>：我的主要编码项目是一个客户端，它是一个已经发展了几年的大型代码库。虽然我也会引入一些Swift进去，因为我做的很多工作涉及到编辑现有的代码，它阻止我使用太多Swift。</p>
+<p>我也意识到作为一个开发者，每次有一个新的主要版本的Swift的更新，我都会将那些工作中可以用到拿来用，但这不是我真正需要的。</p>
+<p><strong>马科·阿门特</strong>：对我来说，这不是对Swift本身的判断，而是一个务实的决定：我已经是Objective-C的专家，在使用它方面极富生产力，而切换到Swift的好处并不足以说服我。</p>
+<p><strong>马塞尔·维赫尔</strong>：我最多的工作包括一些复杂的元编程和 C 进行部分混合的objective - C的动态消息部分。在使用Swift后所有的这些都会变得更加困难，例如，你无法在Swift中编写CoreData。还很纠结：我只是试图找到一些用Swift编写的Apple Pencil示例代码。结果浪费了我一天时间。</p>
+<h2 id="你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？"><a href="#你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？" class="headerlink" title="你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？"></a>你有没有觉得开发人员可能会对使用Objective-C或者在社交媒体上谈论鄙视？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：真的吗？使用ObjC非常不受欢迎，或者说你喜欢ObjC 胜过 Swift。Swift有一个真正大规模的炒作人群，这个是你无法阻止的。</p>
+<p>像任何充满激情的球迷一样，没有任何理由参与讨论。 Swift用户与我一样（或更多）了解其缺点，但是由于感知到的好处，他们很乐意做出妥协。我不是，也不觉得同样的好处。</p>
+<p><strong>迈克尔·劳尔</strong>： 实际上。我觉得我一直在为自己对Objective-C的认同而保卫自己不受外界的干扰。</p>
+<blockquote>
+<p>我相信艾米·沃洛尔在iOSDevUK上的关于Objective-C的演讲中，观众中有些动荡似乎是人们不理解造成的。</p>
+</blockquote>
+<p><strong>丹·莱弗斯</strong>：当然，有一个新的和有光泽的驱动器。这最终有多少的iOS社区呢，所以它不是完全不足为奇，仍然存在很多争议。我相信艾米·沃洛尔在iOSDevUK上的关于Objective-C的演讲中，观众中有些动荡似乎是人们不理解造成的。</p>
+<p><strong>彼得·莫尔纳尔</strong>：当我正在阅读职位和职位描述时，这种感觉更多，不一定在社交媒体上。大家现在正在寻找高级Swift开发人员。</p>
+<p><strong>托德·托马斯</strong>：我并没有太多的担心。这个应该让应用程序自己来决定。如果它是好的，用户不会在乎它是用什么语言编写的。</p>
+<p><strong>伊恩·麦克道尔</strong>：对于仍然使用Objective-C，我感觉到一些耻辱，但并不多。 我使用Swift为我的个人项目，并爱上它，并理解我们在工作中不使用它的原因。</p>
+<p><strong>西蒙·沃尔夫</strong>：有一点，因为我不相信Swift是坏的，Objective-C是一个真正的Cocoa语言，我不会避免对Swift的利弊的热烈争论。我也没有看到人们对Objective-C开发人员太粗鲁，但作为Mac开发人员，我倾向于处于iOS社区的边缘，这可能是大多数冲突的地方。我不认为Mac开发人员很乐意使用最新最好的。我们还在争为NSCell争论(NSTableView中的NSCel)。</p>
+<p><strong>马科·阿门特</strong>：这已经开始了，但是每个过渡都是这样发生的。Objective-C开发人员为Carbon开发人员开辟了乐趣。这只是一个自然的发展历程，每当你的语言不在当前考虑范围内的，只要你的语言不被视为“进步语言”。但是你仍然以务实的原因使用它。作为网络上的PHP开发人员，我习惯了这一点。</p>
+<h2 id="当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？"><a href="#当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？" class="headerlink" title="当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？"></a>当你看到开发者会议上大多数时间都在讨论Swift的使用时，你的感受是什么？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：毫无感觉，一个只有Swift的会议是对我没有任何影响。在语言还未完善之前，以及苹果尚未大规模使用之前，我并不关心Swift最佳做法或设计模式。我不想整理十几个社区主导的设计模式，我等待苹果对于Swift的进一步完善。</p>
+<blockquote>
+<p>一个只有Swift的会议是对我没有任何影响。</p>
+</blockquote>
+<p>知道Swift是苹果发展的一个真正的“未来”，已经做了很多工作来推动我彻底远离应用程序; iOS 7 UI与Swift一对一转换的冲击让我觉得这不是我想要开发的平台。</p>
+<p><strong>迈克尔·劳尔</strong>：这是可悲的。当然，我可以翻译我看到的一切，但比以前付出了更多的努力。而且我拒绝在任何要求使用Swift例子的会议上谈论它。幸运的是，还可以参加一些除了Swift之外的会议。</p>
+<p><strong>丹·莱弗斯</strong>：至少他们大都一致！</p>
+<p><strong>彼得·莫尔纳尔</strong>：我认为这是演变的一部分，但它是真实的 - 在Objective-C周围没有太多的吸引力。Swift是新的，由于它不断变化，有很多话要说，显然这些新的话题也在快速过时。</p>
+<p><strong>托德·托马斯</strong>：我想如果你想要向前看，开发者会议应该谈论Swift。我不介意个人使用Swift，但也不要过度重视会议上对Swift的讨论。</p>
+<p><strong>伊恩·麦克道尔</strong>：我感觉很好，这是未来！</p>
+<p><strong>西蒙·沃尔夫</strong>：我不介意，我意识到Swift是新的闪亮的东西，因为我知道Swift足够好了解它，真的不用担心我。如果我把我的头埋在沙滩上，而不是继续学习Swift，那么我可能会被遗忘，然而我不认为这种做法有利于成为一个好的开发者。</p>
+<p><strong>马尔科·阿门特</strong>：它不打扰我。大多数会议组织者和与会者都比我做得更紧密，所以当然应该使用Swift。将Swift代码片段从会议，教程和StackOverflow转换为Objective-C，只是继续使用Objective-C的成本之一，迄今尚未证明特别繁重的。 但随着时间的推移，这种转换负担会增加。</p>
+<p><strong>马塞尔·维赫尔</strong>：我不得不承认，我发现很多Swift的讨论非常肤浅，经常因为不知情而被嘲笑，所以我感到失望。我知道这听起来很苛刻，而且有明显的例外，然而很仍然感到吃惊。</p>
+<h2 id="你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？"><a href="#你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？" class="headerlink" title="你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？"></a>你认为Swift的引入有助于或阻碍Objective-C作为一种语言的发展吗？</h2><p><strong>史蒂夫·特劳顿 - 史密斯</strong>：Swift对于Objective-C开发绝对是灾难性的; 对于任何新的API或功能，我不再具有示例代码，WWDC幻灯片，教程，GitHub或StackOverflow。无论StackOverflow千禧年的笑话，但是失去了对所有这些上下文和知识的访问是毁灭性的。在这方面，ObjC语言本身已经获得了一堆生活质量/语法糖功能，以帮助它更好地与Swift进行交互，所有这些都是梦幻般的。</p>
+<blockquote>
+<p>对于Objective-C开发，Swift绝对是灾难性的。</p>
+</blockquote>
+<p>我非常厌恶为了让Swift存活而使ObjC死去 - 如果两种语言可以彼此独立存在，对于像我这样的开发人员来说是非常好的，他们可以选择最适合手头任务的语言。Swift背后的激情，大规模的推广宣传，苹果停止为开发人员创建ObjC资源。</p>
+<p><strong>迈克尔·劳尔</strong>：使用Swift的主要好处，“我们”要感谢轻量级泛型和可空性，但这是关于它的。如果背后有相同的人力投入，我只会希望Objective-C能获得Swift这样的好处。</p>
+<p><strong>丹·莱弗斯</strong>：我认为这最初是有帮助的，但我现在强烈感觉到，这样的做法有些舍本逐末了。</p>
+<p><strong>托德·托马斯</strong>：我认为这有帮助。他们为Swift的语言添加了许多有用的东西，所以我们不能抱怨。</p>
+<p><strong>伊恩·麦克道尔</strong>：Objective-C已经从Swift获得了一些很好的功能，包括<font color="#C52950"><code>@available</code></font>语法和可空性说明符。这是一种稳定的语言，我没有想到它会改变任何事情。</p>
+<blockquote>
+<p>在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
+</blockquote>
+<p><strong>西蒙·沃尔夫</strong>：对于Swift导致的结果，Objective-C有一些变化和改进，这是有帮助的。另外，写一点Swift也鼓励我去看看我的Objective-C代码是否完美，而且我不太愿意让空对象去操作底层的一些东西。在Swift中打包可能是一个痛苦，但它帮助我在Objective-C中采用更好的打包方式。</p>
+<p><strong>马尔科·阿门特</strong>：Swift已经有效地停止了Objective-C作为一种语言的开发。 这并不奇怪或不合理，但幸运的是Objective-C相当成熟。前几年Swift的引入带来了许多改进，应该保持Objective-C可用，直到我们大部分人都转移到Swift。</p>
+<p><strong>马塞尔·维赫尔</strong>：显然受到阻碍，即使Objective-C很好，但Swift的出现结束了Objective-C进一步的发展！</p>
+<p>更令人惊奇和不安的是，一些首选Swift作为语言编写的三方库中有很多明显的缺陷。<br>一些对Swift的改进被阻止，以使Swift看起来不错，虽然我很确定这不是怎么回事。</p>
+<p>然而，最大的负面影响就是那些可能阻止Swift后续发展的一系列做法。我们正在尽我们所能创造一种脱离控制的Swift，而苹果忽略了所有这一切。这是一个犯罪。</p>
+<h2 id="你怎么看？"><a href="#你怎么看？" class="headerlink" title="你怎么看？"></a>你怎么看？</h2><p>除了上述所有问题，我还问到人们使用Objective-C已经有多长时间了，因为我认为公平地说，在精通一门语言后，选择继续使用或这彻底放弃时总是很重要。</p>
+<p>听到大多数人说他们在iPhone SDK第一次启用或不久之后立即使用Objective-C，几个人已经使用了十多年，其中一个人27了——是的,27岁。我应该补充说，一位回应者表示他们最近开始使用Objective-C，所以也许还存在一些固执的人。</p>
+<p>另外还有一件事：去年，我写了一本名为<a href="https://www.hackingwithswift.com/store/objective-c-for-swift-developers" target="_blank" rel="external">Objective-C for Swift Developers</a>的书，在介绍中，我介绍了一个题为“我喜欢Objective-C”的部分，这里是我写的一些话：</p>
+<p>当我阅读本书的第一本完整的草稿时，我想到了自己，“哇，这看起来像是Snark的Objective-C指南”，因为几乎每一章都觉得是在抱怨。</p>
+<p>结果，我花了一些时间来编辑这本书，让它更加完美 - 不是因为我试图用人造光线向你呈现东西，而是因为我真的很喜欢用Objective-C编码。在Apple发布Swift时，我就开始使用Swift了，并且在早期就发布了一款Swift应用程序到App Store上。因此，在许多方面，和Swift相比Objective-C只是看起来很糟糕，我已经使用Swift很长时间了，再次使用Objective-C感觉有点像从长期生活的大城市回到老家过圣诞节一样。</p>
+<p>我不知道我是否喜欢Objective-C，因为我有斯德哥尔摩综合症，或者是因为苹果的API是如此强大。无论如何，我认为重要的是你意识到，一些令人惊奇的软件已经与Objective-C一起构建，许多人始终如一的爱着她。</p>
+<p>当你在这本书中发现让你感到沮丧的事情时，你要温柔一点：这是一种古老的语言，经历了坎坷的发展历程。它为我们提供了很好的服务。至少，在它慢慢远离人们视线时应该被尊重!</p>
+<p><strong>谢谢Steve 史蒂夫·特劳顿 - 史密斯，迈克尔·劳尔，丹·莱弗斯，彼得·莫尔纳尔，托德·托马斯，伊恩·麦克道尔，西蒙·沃尔夫，马尔科·阿门特，以及马塞尔·维赫尔，花时间对这篇文章发表观点。</strong></p>
+<p>现在结束了 - 如果你仍然喜欢在Swift上使用Objective-C，可以在<a href="https://twitter.com/twostraws" target="_blank" rel="external">Twitter</a>上联系我！</p>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://www.hackingwithswift.com/articles/27/why-many-developers-still-prefer-objective-c-to-swift?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">Why many developers still prefer Objective-C to Swift</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;iOS SDK已经发布很多年了，开发人员纷纷涌向Objective-C，他们力图通过开发会大卖应用程序而获得丰厚的回报。但那样的时代如今已不复存在了：Swift已经面世三年多了，与Objective-C相比，大大地获取了大家的关注度。&lt;/p&gt;
+&lt;p&gt;Objective-C 
+    
+    </summary>
+    
+      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
+    
+    
+      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
+    
+      <category term="Swift" scheme="http://XibHe.github.io/tags/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>小程序开发总结</title>
+    <link href="http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/"/>
+    <id>http://XibHe.github.io/2017/09/25/wx-mini-AppSummary/</id>
+    <published>2017-09-24T16:00:00.000Z</published>
+    <updated>2018-11-11T08:43:23.414Z</updated>
+    
+    <content type="html"><![CDATA[<p>小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？</p>
+<p>之前一直从事iOS开发，对web前端没有过多了解。单凭一腔热血去开发小程序，初识比较迷茫，纠结于html和css的样式，js的数据交互等基础知识。但项目周期短，任务重，需要与pc，平板进行数据同步。就没有太多时间去理会前端基础知识，都是现学现用。</p>
+<p>就是产品有些坑，设计的小程序产品原型还是是基于原生App的思维。因此，设计出的UI效果图，页面数据展示效果多数是原生App的效果，有些设计甚至与小程序组件相悖。为了实现与UI设计一致的效果，就需要花费很多时间自定义数据交互组件。</p>
+<p>开发时没有完全吃透小程序开发文档，在实现某个功能时一直拿不定主意。以下是踩过的一些坑:</p>
+<ul>
+<li>小程序页面路径只能是五层，请尽量避免多层级的交互方式。</li>
+<li>页面之间传递数据和变量的方式需要统一，不统一传参方式，一旦出现数据展示问题，会增加调试的难度。</li>
+<li>一定要将多次调用的功能或样式封装起来，否则，重复相同功能代码会增加.js文件的代码量，使代码不易读。</li>
+<li>使用swiper滑块视图容器时，一定要将滑块控制的页面抽离成单独的页面，放在一个页面中，当处理不同页面的数据交互时，会对其他不相干的页面数据造成干扰。</li>
+<li>读取页面定义的变量时，不要忘记使用that关键字，把this对象复制到临时变量that，否则会找不到原来的对象。</li>
+<li>wx.showToast吐司，当title文字超出限制，不会自适应宽高，需要自定义弹出框。</li>
+<li>注意navigator 组件的几种跳转方式的不同之处。</li>
+<li>小程序变量不支持下划线命名，若使用下划线命名会造成变量无法赋值。</li>
+<li>避免快速点击，多次触发bindtap事件，造成打开多个相同页面。</li>
+</ul>
+<p>小程序写着还是很纠结的，这是内心的真实想法。</p>
+<p>通过这次开发小程序的机会，发现了自己的知识短板，正是这些短板让自己裹足不前。以下是短板高发区:</p>
+<ul>
+<li>在哪些工作上花费时间最多?</li>
+<li>可以改进的重复性劳动</li>
+<li>自己没有完全理解的东西</li>
+<li>你回答不出来的面试题</li>
+</ul>
+<p>对比以上几点快速找出你的技术短板，然后消除它。你必须要确切知道自己需要学什么，保证焦点正确。不要让这些短板成为你的“痛点”。</p>
+<p>我是否陷入了对技术的狂热之中？因为崇拜某项特定的技术，只是因为自己熟悉这种技术。我很自然的会相信自己选择的是最好的，然后这会让我经常忽略一些与之相悖的意见。由于不了解其他技术，就倾向于选择自己最熟悉的技术并先入为主的认为它是最好的。</p>
+<blockquote>
+<p>人生多艰，无暇他顾。</p>
+</blockquote>
+<p>于是我局限在自己的世界中，变得自以为是，固步自封，墨守成规。自以为找到所有答案，却只是裹足不前。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;小程序开发结束已经两天了，这是第一个我参与的小程序项目。回顾开发过程中踩过的种种坑，剖析项目中的痛点，需要优化的地方。以后如何避免这样的问题？是否从此入坑H5了？自己的知识短板是什么？&lt;/p&gt;
+&lt;p&gt;之前一直从事iOS开发，对web前端没有过多了解。单凭一腔热血去开发小程序
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="总结" scheme="http://XibHe.github.io/tags/%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>小程序页面跳转</title>
+    <link href="http://XibHe.github.io/2017/09/16/wx.navigateTo/"/>
+    <id>http://XibHe.github.io/2017/09/16/wx.navigateTo/</id>
+    <published>2017-09-15T16:00:00.000Z</published>
+    <updated>2018-11-11T08:45:46.594Z</updated>
+    
+    <content type="html"><![CDATA[<p>微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有任何反应。</p>
+<h1 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h1><p>更新记录:</p>
+<ul>
+<li>2017 年 9 月，第一版。</li>
+<li>2017 年 10 月，增加页面跳转流程图及跳转说明。</li>
+</ul>
+<h2 id="小程序中页面导航的API"><a href="#小程序中页面导航的API" class="headerlink" title="小程序中页面导航的API"></a>小程序中页面导航的API</h2><p>为了避免发生超过五级页面而无法跳转的悲剧，首先要了解清楚小程序中页面导航的API。小程序中页面导航API有五个，两个跳转新页面的API分别为wx.navigateTo和wx.redirectTo，一个用来做重置操作的API为wx.reLaunch，一个用于跳转到tabBar的API为wx.switchTab，还有一个API名为wx.navigateBack，用于返回页面。</p>
+<p><strong>wx.navigateBack 在小程序的初始版本中只能回到上一个页面，在最新版本的更新中给 navigateBack 添加了一个参数 delta，用于决定需要返回几层页面，返回的页面数，如果delta大于现有页面数，则返回首页。</strong></p>
+<h2 id="几种跳转方式的不同之处"><a href="#几种跳转方式的不同之处" class="headerlink" title="几种跳转方式的不同之处"></a>几种跳转方式的不同之处</h2><p>navigator 组件的默认跳转方式与 wx.navigateTo 相同，而如果添加 redirect 属性，则与 wx.redirectTo 的跳转方式相同。</p>
+<p>navigateTo 在官方文档中描述如下：</p>
+<blockquote>
+<p>保留当前页面，跳转到应用内的某个页面，使用 wx.navigateBack 可以返回到原页面。</p>
+</blockquote>
+<p>通过 navigateTo 跳转后，可点击左上角的按钮返回上一个页面。而如果多次调用 navigateTo 之后，就需要返回多次才能回到初始页面。因此，官方在此处有一个限制。</p>
+<blockquote>
+<p>注意：为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。</p>
+</blockquote>
+<p>不过上述五层的限制只是针对 navigateTo，redirectTo 则无此限制。因为 redirectTo 的行为是：</p>
+<blockquote>
+<p>关闭当前页面，跳转到应用内的某个页面。</p>
+</blockquote>
+<p><font color="#FA8072">注意:</font> 使用redirectTo跳转到一个之前加载过的页面，不会再次调用该页面的onLoad方法。</p>
+<p>通过 redirectTo 跳转后，则无法返回跳转前的页面。但并不是无法调用 navigateBack，而是调用之后，会回到使用 redirectTo 跳转前的上一个页面。</p>
+<p>页面栈可以通过 getCurrentPages 方法获取：</p>
+<blockquote>
+<p>getCurrentPages() 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。</p>
+</blockquote>
+<p>上述的「页面路径」可以对应为页面栈中的元素，页面栈中的最后一个元素就是当前显示的页面，页面跳转就是新页面入栈的过程。</p>
+<p>上述三种页面 API 的区别在于：</p>
+<ul>
+<li>navigateTo 不会将旧页面出栈；</li>
+<li>redirectTo 会将旧页面出栈，再将需要跳转到的页面入栈；</li>
+<li>navigateBack 则是将页面栈最后一个元素出栈，因此倒数第二个元素会成为最后一个元素，即变成「当前页面」。</li>
+</ul>
+<p>结合下面这个例子，如图，</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wxnavigateTo_flow.png" alt="跳转流程"></p>
+<p>小程序包含 A、B、C、D 四个页面，A 页面为首页。小程序启动后，在 A 页面中，我们通过 navigateTo 跳转到 B 页面，然后在 B 页面中再通过 navigateTo 跳转到 C 页面。</p>
+<p>如果通过navigateTo跳转到 D 页面，则在D页面调用navigateBack会返回到C页面；<br>如果通过redirectTo跳转到 D 页面，则在D页面调用navigateBack会发现不是返回C 页面，而是返回到了 B 页面。</p>
+<p>因为调用redirectTo 跳转到 D 页面，redirectTo 会将当前页面出栈，即将 C 页面出栈，再将 D 页面入栈，这时候，页面栈中的元素则会变为 A、B、D。</p>
+<ul>
+<li>navigateTo 不会将旧页面出栈，因此通过 navigateTo 跳转后，页面栈中元素个数会加一，因此在页面栈中元素个数达到 5 之后再调用 navigateTo 会失败，出现无法跳转的错误。</li>
+<li>redirectTo 会在将旧页面出栈后，再将新页面入栈，因此通过 redirectTo 跳转，页面栈中元素个数会保持不变，所以即使在页面栈中元素达到 5 个之后再调用 redirectTo 也能成功跳转。</li>
+</ul>
+<h2 id="实际业务流程"><a href="#实际业务流程" class="headerlink" title="实际业务流程"></a>实际业务流程</h2><p>业务流程:<br>点击主页面的“扫码录入”按钮，页面跳转微信扫一扫页面，通过扫描条形码读取商品信息，若扫码到该商品信息存在数据库中，则获取数据库中的信息并将这些商品信息带至至“商品信息”页面，可以在商品信息页面对商品信息进行编辑。编辑结束后，点击商品信息页面底部的保存按钮，保存该条商品的最新信息。</p>
+<p>为了在点击页面底部的“保存”按钮后直接跳转至微信扫一扫页面，达到快速扫码录入商品信息的目的。解决方案:</p>
+<blockquote>
+<ol>
+<li>直接返回主界面，点击“扫码录入”按钮，跳转至微信扫一扫页面；</li>
+<li>点击底部“保存”按钮后，立即调用wx.scanCode打开扫一扫页面；</li>
+</ol>
+</blockquote>
+<p>方案1直接被否定了，原因是用户会频繁调用扫一扫进行商品信息的录入。如果在用户录入一天商品信息后，返回到主页面，再一次点击“扫码录入”按钮跳转至扫一扫页面进行商品录入或查询。会使得录入这一操作的连续性被打断，降低录入操作整体流畅度。</p>
+<p>方案2在点击保存按钮后直接打开扫一扫固然可以保证操作的连贯性，但此时若在扫一扫页面不做扫码操作，而是点击扫一扫左上角的返回按钮，则返回到上个页面—商品信息保存页面。此时，如果点击“保存”按钮会对商品信息进行重复保存。</p>
+<p>那么，能否在微信扫一扫页面做相应处理呢？比如，点击扫一扫左上角的返回按钮时，直接返回到首页。由于扫一扫页面是直接调用wx.scanCode而来的，其并不是以压栈的方式出现在页面控制的层级中。因此，无法通过getCurrentPages()函数获取对应的层级关系。</p>
+<p>另外一种方式，针对方案2的问题，需要在点击“商品信息”页的“保存”按钮后做出特别处理，于是在点击保存绑定的事件中设置:</p>
+<pre><code class="js">saveTap: function (res) {
+   wx.request({
+      url: requestUrl.LookForGoodsUrl
+      data: {
+        &quot;userId&quot;: userId,
+        &quot;goodsId&quot;: numResult,
+        &quot;name&quot;: name,
+        &quot;factory&quot;: factory,
+      },
+      header: {
+        &#39;content-type&#39;: &#39;application/json&#39;
+      },
+      success: function (res) {
+        if (res.data.code == &#39;0000&#39;) {
+            // 保存成功
+           wx.redirectTo({
+              url: &#39;../homePage/homePage&#39;
+           })
+        }  
+      }
+   })
+}
+</code></pre>
+<p>将最新商品信息上传至服务器，关闭当前页面，跳转到应用内的某个页面。再调用:</p>
+<pre><code class="js">wx.scanCode({
+  var numResult = res.result;
+  if (numResult.substring(0, 2) == &#39;69&#39;) {
+     wx.request({
+        url: requestUrl.LookForGoodsUrl
+        data: {
+           &quot;userId&quot;: userId,
+           &quot;goodsId&quot;: numResult,
+         },
+        header: {
+           &#39;content-type&#39;: &#39;application/json&#39;
+        },
+        success: function (res) {
+            if (res.data.state == &#39;1&#39;) {
+               // 存在该商品
+               wx.redirectTo({
+                   url: &#39;../goodsInfo/goodsInfo?goodsChart=&#39; + goodsChart + &#39;&amp;goodsId=&#39; + goodsId,
+               })
+            }
+        }
+     })
+  }
+})
+</code></pre>
+<p>调用扫一扫，获取商品条码，将获取的条码作为参数上传服务器得到服务器返回的商品信息。再将这些信息传递并跳转至“商品信息”页，展示这些信息。再次扫描商品条码时，重复以上操作。</p>
+<p>但是为了在商品信息页面点击“保存”按钮时关闭当前页面，使用了wx.redirectTo，会先返回到首页（homePage），然后再调出扫一扫页面。这期间会出现短暂（大概2~3秒钟）的停顿，停顿期间页面(homePage)仍然可以操作，会误触页面上的其他点击事件。最后，即使在该页面(homePage)加上loading，以防止误触。仍然无法回避短暂停顿后再跳转扫一扫页面的问题。</p>
+<p>最后的解决方案是: 点击商品信息页的“保存”按钮后，将该按钮隐藏。这样当从扫一扫页面返回商品信息页时就不会出现重复保存数据的问题了。</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;微信小程序页面跳转API时需要注意，官方文档中强调：“为了不让用户在使用小程序时造成困扰，我们规定页面路径只能是五层，请尽量避免多层级的交互方式。” 也就是说在连续使用navigateTo进行页面跳转时，若当前页面若正好是第5级，则点击该页面任何绑定触发事件的控件，都不会有
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="wx.navigateTo" scheme="http://XibHe.github.io/tags/wx-navigateTo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>爱之初体验 - 小程序</title>
+    <link href="http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/"/>
+    <id>http://XibHe.github.io/2017/09/01/wx-mini-AppBlindDate/</id>
+    <published>2017-08-31T16:00:00.000Z</published>
+    <updated>2018-11-11T08:47:56.262Z</updated>
+    
+    <content type="html"><![CDATA[<p>开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。</p>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>小程序由视图层，逻辑层，渲染层三部分组成的一整套框架。框架使用自己的视图层描述语言WXML(.WXML文件中使用的是view标签构建视图，相当于CSS中的div标签。)和WXSS，逻辑层是基于JavaScript框架。视图层和逻辑层间微信提供了用于数据交互，事件绑定的丰富组件和API。</p>
+<p>框架的核心是一个响应的数据绑定系统。整个系统分为两块: 视图层(View) 和逻辑层(App Service)。框架可以让数据与视图非常简单地保持同步。当做数据修改的时候，只需要在逻辑层修改数据，视图层就会发生相应的更新。</p>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><p>框架为开发者提供了一系列基础组件，开发者可以通过组合这些基础组件进行快速开发。什么是组件: </p>
+<ul>
+<li>组件是视图层的基本组成单元。</li>
+<li>组件自带一些功能与微信风格的样式。</li>
+<li>一个组件通常包括开始标签和结束标签，属性用来修饰这个组件，内容在两个标签之内。</li>
+</ul>
+<p>但使用起来还是有些不足，很多组件的风格与微信风格类似，不想使用这种风格的组件就需要自定义组件，而自定义需要花费一些额外的时间，就算自定义成功了，仍需要经过仔细的测试，确保该自定义组件在交互上不会与基础组件产生偏差。</p>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p>框架提供了丰富的微信原生API，可以方便的调起微信提供的能力，如获取用户信息，本地存储，支付功能等。</p>
+<p>说明：</p>
+<ul>
+<li>wx.on 开头的 API 是监听某个事件发生的API接口，接受一个 CALLBACK 函数作 为参数。当该事件触发时，会调用 CALLBACK 函数。</li>
+<li>如未特殊约定，其他 API 接口都接受一个OBJECT作为参数。</li>
+<li>OBJECT中可以指定success, fail, complete来接收接口调用结果。<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1></li>
+</ul>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/wx-mini-AppPits_IDE.png" alt="IDE"></p>
+<p>在原有的公众号网页调试工具的基础上，推出了全新的微信开发者工具，集成了公众号网页调试和小程序调试两种开发模式。</p>
+<p>在8月30日和8月31日，对开发工具进行了很大的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html" target="_blank" rel="external">更新</a>。全新的视觉和交互体验，新增了申请<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/monkey-test.html" target="_blank" rel="external">测试报告</a>功能，新增<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxs/" target="_blank" rel="external">WXS</a>功能。</p>
+<h1 id="开发中填的坑"><a href="#开发中填的坑" class="headerlink" title="开发中填的坑"></a>开发中填的坑</h1><p><a href="https://github.com/XibHe/WXAppPits" target="_blank" rel="external">微信小程序填坑记录</a><br>希望对你有帮助。</p>
+<h1 id="学习心得"><a href="#学习心得" class="headerlink" title="学习心得"></a>学习心得</h1><blockquote>
+<p>多看官方文档，多看几遍，遇到问题时再看，没有问题时继续看；</p>
+<p>关注<a href="http://www.wxapp-union.com" target="_blank" rel="external">论坛</a>最新动态； </p>
+<p>基础知识一定要过关（小程序的框架，组成部分，运行机制，自身限制）；</p>
+<p>不要眼高手低，人家的demo下载下来跑起来，看懂之后一定要自己尝试写一遍；</p>
+<p>找一个自己熟悉的逻辑，开始模仿（结合实际的项目需求，一步一步解决遇到的问题）。</p>
+</blockquote>
+<h1 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h1><p>模态窗体上的textarea多行输入框，当滑动整个页面时，会将textarea里输入的内容一起滑动至输入框外部，随着滑动的方向一起滑动。官方文档中备注了关于textarea的一个tip:</p>
+<blockquote>
+<p>textarea组件是由客户端创建的原生组件，它的层级是最高的。</p>
+</blockquote>
+<p>或许正是由于textarea是最高层级导致的滑动问题。</p>
+<h1 id="demo下载"><a href="#demo下载" class="headerlink" title="demo下载"></a>demo下载</h1><p><a href="https://github.com/XibHe/wxModeList" target="_blank" rel="external">wxModeList</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/" target="_blank" rel="external">微信公众平台 | 小程序</a></p>
+<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1509" target="_blank" rel="external">小程序中的循环列表，在点击时改变当前项的背景颜色</a></p>
+<p><a href="http://www.mntuku.cn/index.php/article/show/id-7141" target="_blank" rel="external">小程序操作按钮悬浮固定在底部</a></p>
+<p><a href="http://www.wxapp-union.com/portal.php?mod=view&amp;aid=1261" target="_blank" rel="external">动态的显示或隐藏控件</a></p>
+<p><a href="http://www.jianshu.com/p/aa8254b23847" target="_blank" rel="external">微信小程序从子页面退回父页面时的数据传递</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;开发小程序已经有两周了，从最开始踌躇满志到现在喜忧参半。这中间经历了许多波折，好像又回到了第一次初恋时的感觉，迫切，含蓄，喜悦，又苦于不能迅速了解对方的方方面面，而感到沮丧。但随着一步步的接触，由浅入深，终会瓜熟蒂落，水到渠成。&lt;/p&gt;
+&lt;h1 id=&quot;框架&quot;&gt;&lt;a hre
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://XibHe.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="小程序" scheme="http://XibHe.github.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="初体验" scheme="http://XibHe.github.io/tags/%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二次筛选功能开发心得</title>
+    <link href="http://XibHe.github.io/2017/08/23/FilterError/"/>
+    <id>http://XibHe.github.io/2017/08/23/FilterError/</id>
+    <published>2017-08-22T16:00:00.000Z</published>
+    <updated>2018-11-11T08:51:51.600Z</updated>
+    
+    <content type="html"><![CDATA[<p>一个类似于京东搜索结果页的筛选功能，侧边栏条件筛选器，根据不同的数据类型进行条件筛选及筛选条件的排列展示。</p>
+<h1 id="构建原理及使用到的技术点"><a href="#构建原理及使用到的技术点" class="headerlink" title="构建原理及使用到的技术点"></a>构建原理及使用到的技术点</h1><blockquote>
+<p>RunTime<br>继承<br>组合</p>
+</blockquote>
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><blockquote>
+<p>筛选列表距离顶部状态栏距离过近<br>筛选列表展示<br>选中数量限制<br>替换二次筛选结果页数据源<br>循环移除数组元素报错<br>在筛选更多，跳转的搜索页面进行搜索调用两次接口请求</p>
+</blockquote>
+<h1 id="解决的方式"><a href="#解决的方式" class="headerlink" title="解决的方式"></a>解决的方式</h1><h2 id="替换二次筛选结果页数据源"><a href="#替换二次筛选结果页数据源" class="headerlink" title="替换二次筛选结果页数据源"></a>替换二次筛选结果页数据源</h2><p>需求中要求替换筛选条件的数据源,表述如下:</p>
+<blockquote>
+<p>选中的选项需要在二次筛选条件选择页中显示，选中的选项为默认展开的选项时，无需变更选项的位置，若选中的不是默认展开的选项，需要将选中的选项放到二次筛选条件选择页中，并代替筛选条件选择页中没被选择的默认展开的选项的位置，按照选中的时间顺序正序占据页面中的默认展开的选项的位置（举例说明：筛选条件选择页中的默认展开的选项是1、2、3、4、5，默认展开的选项选中的是2和4,然后用户点击查看更多的选项，先选了11然后又选了9的选项,根据逻辑，筛选条件选择页中显示的选项依次显示的是：11、2、9、4、5），若选中的选项被取消选择，选项的位置按照选中时的位置显示，不更改选项的位置。</p>
+</blockquote>
+<p>如图，二次筛选结果页和生产厂家搜索列表页</p>
+<center><br>    <img src="https://xibhe.oss-cn-beijing.aliyuncs.com/filterError_1.PNG?imageView/4/w/300"><br>    <img src="https://xibhe.oss-cn-beijing.aliyuncs.com/filterError_2.PNG?imageView/4/w/300"><br></center>
+
+<p>当生产厂家筛选数据源大于6项时，只展示5个生产厂家，并显示“更多生产厂家 &gt;”的跳转提示。点击跳转至生产厂家搜索列表页面，在搜索页面会根据搜索关键字展示所有的生产厂家列表信息。该列表会展示上个页面勾选的生产厂家，并将其置于列表最前面。现在需要做的是: <font color="#DC143C">当勾选列表页中一个或多个生产厂家，该生产厂家是二次筛选结果页(上一个页面)中，默认展示5个生产厂家中从未出现的一个，是一个新的生产厂家。则需要替换掉二次筛选结果页，生产厂家一栏中未被勾选的一个或多个生产厂家，直到全部替换完成。</font></p>
+<blockquote>
+<p>方案一: 进行多层嵌套循环遍历，判断如果对象的selected属性为YES，则跳出当前循环并做一个标记，再从新进行外层循环。这样就需要设置至少两个以上的标记在循环遍历的基础之上再进行循环遍历。增加了逻辑判断的复杂性，也使代码变得不易读。</p>
+</blockquote>
+<p>针对方案一不足之处，将方案一中的杂糅在一起的逻辑判断抽离成不同的情况，形成方案二。</p>
+<blockquote>
+<p>方案二: 需要定义两个可变数组，_dataList(二次筛选结果页，生产厂家数据源)，_selectList(生产厂家搜索页，所有勾选的生产厂家数据源)。对二者进行嵌套循环遍历，需要考录到三种不同情况，并对这三种情况进行一一判断。<br>① _dataList全部包含了_selectList中的元素；<br>② _dataList不包含_selectList中的元素；<br>③ _dataList包含部分_selectList中的元素。</p>
+</blockquote>
+<p>针对以上三种情况对应的具体步骤: </p>
+<ul>
+<li>① 遍历找到_dataList中的_selectList元素，变更生产厂家Model中selected状态，将这些选中的元素放到_dataList中元素位置的最前面；</li>
+<li>② 直接将_selectList插入到_dataList的最前面；</li>
+<li>③ 先替换，再插入新元素到_dataList中，最后再将生产厂家Model中selected为YES的元素前置到_dataList的最前面位置。</li>
+</ul>
+<p>方案二仍需要进行大量的判断，操作起来仍旧复杂。那么，有没有简单粗暴，提刀就干的方案呢？下面就要说说方案三了。</p>
+<blockquote>
+<p>方案三: 在生产厂家搜索列表页面直接进行操作。在二次筛选结果页点击跳转至生产厂家搜索页时，传入已经选中生产厂家的数组_selectList，生产厂家搜索结果列表页的数据源_datalist(包含当前已选中生产厂家的数组_selectList和所有未选中的生产厂家)。点击”确定“按钮时，去除_datalist中已选中的生产厂家的Model，然后使用block反向将去除后的_datalist和_selectList传给二次筛选结果页。</p>
+</blockquote>
+<p>这样在二次筛选结果页就能直接操作已经处理过的筛选数据了，不用再进行复杂的逻辑判断了。总的来说，这种替换原有页面数据源的操作，以后还是在可以对数据源进行修改的页面进行处理，避免最后需要进行复杂的逻辑判断。</p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://github.com/liuzhiyi1992/ZYSideSlipFilter" target="_blank" rel="external">ZYSideSlipFilter</a></p>
+<p><a href="https://stackoverflow.com/questions/8834031/objective-c-nsmutablearray-mutated-while-being-enumerated" target="_blank" rel="external">Objective-C NSMutableArray mutated while being enumerated?
+</a></p>
+<p><a href="https://stackoverflow.com/questions/32865704/collection-nsarraym-0x7fa1f2711910-was-mutated-while-being-enumerated" target="_blank" rel="external">Collection <__nsarraym: 0x7fa1f2711910=""> was mutated while being enumerated
+</__nsarraym:></a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一个类似于京东搜索结果页的筛选功能，侧边栏条件筛选器，根据不同的数据类型进行条件筛选及筛选条件的排列展示。&lt;/p&gt;
+&lt;h1 id=&quot;构建原理及使用到的技术点&quot;&gt;&lt;a href=&quot;#构建原理及使用到的技术点&quot; class=&quot;headerlink&quot; title=&quot;构建原理及使用
+    
+    </summary>
+    
+      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
+    
+    
+      <category term="二次筛选" scheme="http://XibHe.github.io/tags/%E4%BA%8C%E6%AC%A1%E7%AD%9B%E9%80%89/"/>
+    
+      <category term="NSArray enumerate" scheme="http://XibHe.github.io/tags/NSArray-enumerate/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>重构webView页面间跳转逻辑</title>
+    <link href="http://XibHe.github.io/2017/08/07/reconsiderUrlPush/"/>
+    <id>http://XibHe.github.io/2017/08/07/reconsiderUrlPush/</id>
+    <published>2017-08-06T16:00:00.000Z</published>
+    <updated>2018-11-11T08:53:14.232Z</updated>
+    
+    <content type="html"><![CDATA[<p>在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webView页面。</p>
+<h1 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h1><p>点击商品进入到“商品详情”页(GoodInforH5WebViewController)，点击店铺进入“店铺详情”页(ShopInfoH5WebViewController)，其中(“商品详情”页和”店铺详情”页均为webView)。其中，店铺详情页和商品详情页可以相互跳转。</p>
+<h1 id="当前逻辑"><a href="#当前逻辑" class="headerlink" title="当前逻辑"></a>当前逻辑</h1><p>在继承于UINavigationController的自定义导航控制器MyNavigationController里做判断，重写方法:</p>
+<pre><code class="objectivec">- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (self.viewControllers.count &gt; 0)
+    {
+        if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)])
+        {
+            self.interactivePopGestureRecognizer.delegate = nil;
+        }
+        viewController.hidesBottomBarWhenPushed = YES;
+        if ([viewController isKindOfClass:[GoodInforH5WebViewController class]] || [viewController isKindOfClass:[ShopInfoH5WebViewController class]]) {
+            viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(backRootViewController) image:@&quot;navigation_back&quot; highlightImage:@&quot;navigation_back&quot;];
+        }
+    }     
+   [super pushViewController:viewController animated:YES];
+}
+</code></pre>
+<p>重写GoodInforH5WebViewController和ShopInfoH5WebViewController的返回事件。即，backRootViewController。在backRootViewController方法里做相应页面的跳转操作。</p>
+<p>在GoodInforH5WebViewController页面的viewWillAppear方法里进行页面跳转逻辑的判断。如下:</p>
+<font color="#DC143C"> 前方高能预警!!! </font>
+
+<pre><code class="objectivec">- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+
+    //[_webView reload];
+    CLog(@&quot;self.navigationController.viewControllers count = %ld&quot;,[self.navigationController.viewControllers count]);
+    CLog(@&quot;self.navigationController.viewControllers = %@&quot;,self.navigationController.viewControllers);
+    // 若是经首页;分类列表页面;订单中心;商业店铺列表页;我的收藏,且viewControllers&lt;5,则设置pop回上一页的标识;商家促销,且viewControllers&lt;5,则设置pop回上一页的标识
+    if ([_fromWebUrl isEqualToString:@&quot;home_bussinessUrl&quot;] || ([_fromWebUrl isEqualToString:@&quot;assortment_searchByCate&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5) ||
+        [_fromWebUrl isEqualToString:@&quot;sellOrderCenter_buyOrders&quot;] || 
+        ([_fromWebUrl isEqualToString:@&quot;My_collectionListUrl&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5) ||
+         [_fromWebUrl isEqualToString:@&quot;businessShopSearchList_goodInfo&quot;] ||  
+         ([_fromWebUrl isEqualToString:@&quot;ActivityViewController&quot;] &amp;&amp; 
+         [self.navigationController.viewControllers count] &lt; 5)  || ([_fromWebUrl isEqualToString:@&quot;BusinessPromoteViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5)) {
+        [[NSUserDefaults standardUserDefaults] setObject:@&quot;1&quot; forKey:KPopHomeIndentify];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else if (([_fromWebUrl isEqualToString:@&quot;GoodsListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 5) || [_fromWebUrl isEqualToString:@&quot;search_searchByKey&quot;] || [_fromWebUrl isEqualToString:@&quot;business_shopSearch&quot;] || ([_fromWebUrl isEqualToString:@&quot;home_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 6) || [_fromWebUrl isEqualToString:@&quot;businessShopSearchList_shopInfo&quot;] || ([_fromWebUrl isEqualToString:@&quot;home_productDetailUrl&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 4) || ([_fromWebUrl isEqualToString:@&quot;ShopCarListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 4)){
+        // 从GoodsListViewController跳转至原生商品详情页面;从顶部搜索等页面跳转至原生商品详情页面; 从商业店铺搜索结果列表页跳转,点击返回至self.viewControllers[2]的页面;若是从搜索首页，分类的搜索结果页跳转而来,返回搜索商品列表页;若是从商业店铺列表页跳转而来，则返回到店铺详情的H5页面;从首页商品--&gt;商品详情--&gt;店铺详情--&gt;商品详情，并且viewControllers&gt;=4，则返回店铺详情页;从原生购物车跳转而来,且viewControllers&gt;=4，则返回店铺详情页;
+        [[NSUserDefaults standardUserDefaults] setObject:@&quot;2&quot; forKey:KPopHomeIndentify];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else if (([_fromWebUrl isEqualToString:@&quot;shopInfor_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &lt; 7) || ([_fromWebUrl isEqualToString:@&quot;assortment_searchByCate&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 5) || ([_fromWebUrl isEqualToString:@&quot;My_collectionListUrl&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 5) || ([_fromWebUrl isEqualToString:@&quot;ActivityViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 5) || ([_fromWebUrl isEqualToString:@&quot;GoodsListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] == 5)) {
+        // 若是从商业店铺详情搜索跳转而来;若是从分类列表页跳转而来;若是从我的收藏跳转而来，且viewControllers&gt;=5，则返回店铺详情页面。
+        [[NSUserDefaults standardUserDefaults] setObject:@&quot;3&quot; forKey:KPopHomeIndentify];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else if (([_fromWebUrl isEqualToString:@&quot;home_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 6) || ([_fromWebUrl isEqualToString:@&quot;GoodsListViewController&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 6)) {
+        // 从搜索商品列表--&gt;商品详情--&gt;店铺详情--&gt;商品详情,且viewControllers&gt;=6，则返回店铺详情页；从订单详情页--&gt;商品详情--&gt;店铺详情--&gt;商品详情,且viewControllers&gt;=6，则返回店铺详情页；
+        [[NSUserDefaults standardUserDefaults] setObject:@&quot;4&quot; forKey:KPopHomeIndentify];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else if ([_fromWebUrl isEqualToString:@&quot;shopInfor_searchVC&quot;] &amp;&amp; [self.navigationController.viewControllers count] &gt;= 7) {
+        // 从搜索商品列表--&gt;商品详情--&gt;店铺详情--&gt;商品详情,且viewControllers&gt;=7，则返回店铺详情页。
+        [[NSUserDefaults standardUserDefaults] setObject:@&quot;5&quot; forKey:KPopHomeIndentify];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else {
+        [[NSUserDefaults standardUserDefaults] setObject:@&quot;0&quot; forKey:KPopHomeIndentify];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+</code></pre>
+<p>这里是通过设置一个名为KPopHomeIndentify的NSUserDefaults对象用于存储navigationController中，当前页面的层级。通过设置一个名为_fromWebUrl的字符串，用于判断是哪个页面跳转而来的。二者结合起来，设置经过GoodInforH5WebViewController页面的返回逻辑。</p>
+<p>当触发商品详情页的跳转链接时，需要在webView的shouldStartLoadWithRequest代理方法里做判断，当request的绝对地址中包含店铺详情的路径时，则push到店铺详情页。如下:</p>
+<pre><code class="objectivec">#pragma mark - UIWebViewDelegate
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    _absoluteUrl = [request.URL absoluteString];
+
+    // push到店铺详情页面
+    if ([_absoluteUrl rangeOfString:@&quot;appLink/showBusyInfo?&quot;].location != NSNotFound) {
+
+        ShopInfoH5WebViewController *shopInforH5WebVC = [[ShopInfoH5WebViewController alloc] init];
+        shopInforH5WebVC.webUrl = _absoluteUrl;
+        shopInforH5WebVC.fromWebUrl = _fromWebUrl;
+        [self.navigationController pushViewController:shopInforH5WebVC animated:YES];
+
+        return NO;
+    } else {
+        return YES;
+    }
+}
+</code></pre>
+<p>再回到自定义导航控制器MyNavigationController重写的返回事件中:</p>
+<pre><code class="objectivec">- (void)backRootViewController
+{
+    CLog(@&quot;self.viewControllers = %@&quot;,self.viewControllers);
+    NSString *popIndentify = [[NSUserDefaults standardUserDefaults] objectForKey:KPopHomeIndentify];
+    UIViewController *viewCtl;
+    if ([popIndentify isEqualToString:@&quot;0&quot;]) {
+        viewCtl = self.viewControllers[0];
+    } else if ([popIndentify isEqualToString:@&quot;1&quot;]) {
+        viewCtl = self.viewControllers[1];
+    } else if ([popIndentify isEqualToString:@&quot;2&quot;]) {
+        viewCtl = self.viewControllers[2];
+    } else if ([popIndentify isEqualToString:@&quot;3&quot;]) {
+        viewCtl = self.viewControllers[3];
+    } else if ([popIndentify isEqualToString:@&quot;4&quot;]) {
+        viewCtl = self.viewControllers[4];
+    } else if ([popIndentify isEqualToString:@&quot;5&quot;]) {
+        viewCtl = self.viewControllers[5];
+    }
+    [self popToViewController:viewCtl animated:YES];
+}
+</code></pre>
+<p>同样是结合GoodInforH5WebViewController中设置好的KPopHomeIndentify进行判断。根据KPopHomeIndentify存储的导航控制器中的页面层级，在导航控制器中通过这些层级获取到对应的页面viewController，最后popToViewController到这些页面中。</p>
+<h1 id="重构原因"><a href="#重构原因" class="headerlink" title="重构原因"></a>重构原因</h1><p>看了上面那一片高能预警的代码逻辑，重构原因就不言而喻了。</p>
+<blockquote>
+<p>*逻辑判断复杂，每次新增与商品详情，店铺详情相关页面时，都需要新增一系列对应页面层级的判断逻辑；</p>
+<p>*给调试造成困难，与商品详情，店铺详情关联的页面很多，需要进行多场景的关联测试；</p>
+<p>*最重要的一点:每次从商品详情页跳转到店铺详情都需要重新重新alloc一个新的ShopInfoH5WebViewController对象，耗费了很多资源。</p>
+</blockquote>
+<h1 id="重构逻辑"><a href="#重构逻辑" class="headerlink" title="重构逻辑"></a>重构逻辑</h1><p>通过设置NSUserDefaults存储页面层级方式进行页面跳转的逻辑，不易操纵，并且非常的不合理，也降低了代码的可读性。设想一下，这里之所以明确不同跳转页面在navigationController中的层级关系，是为了返回操作能回退到指定页面。而导致该冗余代码的罪魁祸首是:每次触发商品详情页或店铺详情页的跳转链接时，都会重新alloc一个新的对象。在进行多次跳转操作后，navigationController中控制的层级就会一直增加，若想在pop操作时跳转到指定页面，就必须明确所要跳转页面在导航控制器中的层级。</p>
+<p>那接下来的操作就很明确了，首先移除GoodInforH5WebViewController中viewWillAppear里的一堆判断代码；然后，在webView的代理方法shouldStartLoadWithRequest中增加跳转判断，如下:</p>
+<pre><code class="objectivec">#pragma mark - UIWebViewDelegate
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    _absoluteUrl = [request.URL absoluteString];
+    CLog(@&quot;_absoluteUrl = %@&quot;,_absoluteUrl);
+        // push到商业店铺详情页面
+    if ([_absoluteUrl rangeOfString:@&quot;appLink/showBusyInfo?&quot;].location != NSNotFound) {
+        UIViewController *shopInfoH5WebViewController;
+        for (shopInfoH5WebViewController in self.navigationController.viewControllers) {
+            if ([shopInfoH5WebViewController isKindOfClass:[ShopInfoH5WebViewController class]]) {
+                //                addExtractBankCardVCIndex = [self.navigationController.viewControllers indexOfObject:addExtractBankCardVC];
+                [self.navigationController popToViewController:shopInfoH5WebViewController animated:YES];
+                break;
+            } else if ([shopInfoH5WebViewController isKindOfClass:[GoodInforH5WebViewController class]]) {
+                ShopInfoH5WebViewController *shopInforH5WebVC = [[ShopInfoH5WebViewController alloc] init];
+                shopInforH5WebVC.webUrl = _absoluteUrl;
+                shopInforH5WebVC.fromWebUrl = _fromWebUrl;
+                [self.navigationController pushViewController: shopInforH5WebVC animated:YES];
+                break;
+            }
+       }       
+       return NO;  
+   } else {
+       return YES;
+   }    
+}
+</code></pre>
+<p>这里遍历navigationController.viewControllers中所有视图控制器。如果存在店铺详情(ShopInfoH5WebViewController)对象类，则直接popToViewController到该控制器中；如果不存在，则alloc一个新的店铺详情(ShopInfoH5WebViewController)，并pushViewController到该页面。</p>
+<p>最后仍然需要在自定义导航控制器MyNavigationController重写的返回事件（backRootViewController）中做跳转的逻辑判断。如下:</p>
+<pre><code class="objectivec">- (void)backRootViewController
+{
+    CLog(@&quot;self.viewControllers = %@&quot;,self.viewControllers);
+    // 当前视图控制器
+    UIViewController *currentVC = [self.viewControllers lastObject];
+    // 视图控制器的层级
+    NSInteger currentVCIndex = [self.viewControllers indexOfObject:currentVC];
+    // 上一个页面的视图控制器
+    UIViewController *previousVC = self.viewControllers[currentVCIndex - 1];
+    if ([currentVC isKindOfClass:[GoodInforH5WebViewController class]]) {
+        if ([previousVC isKindOfClass:[ShopInfoH5WebViewController class]]) {
+            [self popToViewController:previousVC animated:YES];
+        } else {
+            [self popViewControllerAnimated:YES];
+        }
+    } else if ([currentVC isKindOfClass:[ShopInfoH5WebViewController class]]) {
+    // 其他会跳转到店铺页面视图的跳转逻辑
+        UIViewController *previoussLastVC;
+        if ((currentVCIndex - 2) &gt;= 0) {
+           previoussLastVC = self.viewControllers[currentVCIndex - 2];
+        } else {
+            previoussLastVC = [self.viewControllers firstObject];
+        }
+        if ([previousVC isKindOfClass:[GoodInforH5WebViewController class]] ) {
+            // 我的积分跳转
+            if ([previoussLastVC isKindOfClass:[OrderDetailsViewController class]]) {
+                [self popToViewController:previoussLastVC animated:YES];
+            }
+            // 我的收藏
+            else if ([previoussLastVC isKindOfClass:[MyCollectionViewController class]]) {
+                [self popToViewController:previoussLastVC animated:YES];
+            }
+            // 分类
+            else if ([previoussLastVC isKindOfClass:[LonchH5WebController class]] &amp;&amp; [self.viewControllers[0] isKindOfClass:[AssortmentViewController class]]) {
+                [self popToViewController:previoussLastVC animated:YES];
+            }
+            // 首页，分类搜索结果页
+            else if ([previoussLastVC isKindOfClass:[SearchResultViewController class]]) {
+                [self popToViewController:previoussLastVC animated:YES];
+            }
+            else {
+                [self popToRootViewControllerAnimated:YES];
+            }
+        } else {
+            [self popViewControllerAnimated:YES];
+        }
+     }      
+}
+</code></pre>
+<p>这里通过获取当前页面层级，以及当前页面上一个页面的层级，通过这些层级做相应的跳转操作:</p>
+<blockquote>
+<p>如果当前页面是商品详情页(GoodInforH5WebViewController)，再进一步判断它的上个页面是否为店铺详情页(ShopInfoH5WebViewController)，若是则popToViewController到上个页面，否则直接popViewControllerAnimated；</p>
+<p>如果当前页面是店铺详情页(ShopInfoH5WebViewController)，则需要判断当前视图层级是否越界(当前页面层级currentVCIndex不会超过3级，可能会遇到导航控制器中只有1个视图控制器的情况)，这里与商品详情页不同的是:增加了其它会跳转到店铺页面视图的跳转逻辑。需要对这些页面（积分、我的收藏、分类、搜索结果页）的跳转进行判断。</p>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>事不过三，过则重构!</p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在处理webView页面内的跳转逻辑时，需要在当前webView中点击某个按钮push到另一个webView页，在这个新的webView页中仍然可以操作页面上的点击事件，跳转到其他webView页面。于是，这些webView页面可以相互跳转，不断跳转新的或者之前的webVi
+    
+    </summary>
+    
+      <category term="Objective-C" scheme="http://XibHe.github.io/categories/Objective-C/"/>
+    
+    
+      <category term="重构" scheme="http://XibHe.github.io/tags/%E9%87%8D%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(译)一个给iOS App瘦身的奇怪窍门</title>
+    <link href="http://XibHe.github.io/2017/07/23/One%20Weird%20Trick%20to%20Lose%20Size/"/>
+    <id>http://XibHe.github.io/2017/07/23/One Weird Trick to Lose Size/</id>
+    <published>2017-07-22T16:00:00.000Z</published>
+    <updated>2018-11-11T08:56:24.322Z</updated>
+    
+    <content type="html"><![CDATA[<p>流行的社交网络应用程序超过400M。每周更新一次，每年你下载的应用总量接近20G。</p>
+<p>自从我们推出了<a href="https://halide.cam" target="_blank" rel="external">Halide</a>，我们听到的最令人意想不到的赞美就是它的大小。 在11M，我们将在一年内推出较少数据的更新，而不是社交网络应用进行频繁更新。</p>
+<p><img src="https://xibhe.oss-cn-beijing.aliyuncs.com/LoseSizeMajor.png" alt=""><br>一个朋友问道：“所以你没有使用Swift。” 毕竟，Swift将其标准库捆绑到你的应用程序中，使应用大小增大。 Halide几乎完全是使用Swift编写的。</p>
+<p>我们是怎么做的？ 我们从技术位开始吧。 <a href="https://developer.apple.com/library/content/qa/qa1795/_index.html" target="_blank" rel="external">这里</a>有很多关于如何减少App大小的重要评论。</p>
+<h2 id="测量，不要猜"><a href="#测量，不要猜" class="headerlink" title="测量，不要猜"></a>测量，不要猜</h2><p>从Xcode导出版本构建。 选择“Save for Ad Hoc deployment.”。假设你的应用程序支持<a href="https://developer.apple.com/videos/play/wwdc2015/404/" target="_blank" rel="external">app thinning</a>（此时真的应该这样做），请选择“Export for Specific Devices.”。确保选中“<font size="4" face="黑体"> Rebuild from bitcode </font>”。</p>
+<p>你不仅可以获得最终包的大小，还可以获得App Thinning报告。检查你的应用程序包，找到最大存储空间的占用者。</p>
+<h2 id="使用-Asset-Catalogs"><a href="#使用-Asset-Catalogs" class="headerlink" title="使用 Asset Catalogs"></a>使用 Asset Catalogs</h2><p>将资源保存在资源目录中。当你上传应用程序时，Apple将其分解为特定设备的版本，因此具有2x屏幕的设备不会获得3x资源，反之亦然。</p>
+<h2 id="运行-PNG-crush"><a href="#运行-PNG-crush" class="headerlink" title="运行 PNG-crush"></a>运行 PNG-crush</h2><p>将资源放入目录之前，请运行pngcrush。 根据<a href="https://developer.apple.com/library/content/qa/qa1681/_index.html" target="_blank" rel="external">QA1681</a>，Xcode将自动压缩资源目录之外的PNG资源。</p>
+<h2 id="尝试JPEG格式照片"><a href="#尝试JPEG格式照片" class="headerlink" title="尝试JPEG格式照片"></a>尝试JPEG格式照片</h2><p>由于UI资源格式限制以及PNG格式资源更加精细。这可能构成了你应用程序中大部分资源，但如果你有照片，请尝试使用JPEG格式。这样做会有些压力。</p>
+<h1 id="现在进入到一个困难步骤的实现"><a href="#现在进入到一个困难步骤的实现" class="headerlink" title="现在进入到一个困难步骤的实现"></a>现在进入到一个困难步骤的实现</h1><p>经过这么辛苦的工作，你只能删掉一个100M项目中几M的文件。我不知道如何告诉你，但你需要更少的代码。</p>
+<h2 id="选择正确的方式"><a href="#选择正确的方式" class="headerlink" title="选择正确的方式"></a>选择正确的方式</h2><p>Halide有大概15000行用Swift编写的代码。这包括一个实时视频处理器，一系列自定义控件，以及我们控制AVFoundation的平台。有趣的是我并没有写代码。</p>
+<p>通过使用自动布局，我绘制了数千条样板。许多开发人员仍然坚持手工布局。也许他们不明白自动布局，也许他们听到朋友的朋友关于自动布局如何缓慢的言论。（事实并非如此。）</p>
+<p>我看到太多的开发人员 - 特别是在大型公司 - 发明内部布局引擎。这简直太疯狂了。当Apple在操作系统上捆绑一个精细的布局引擎时，不要用自己定制的框架来增大应用程序。</p>
+<p>我们可以通过删除Interface Builder来减少100k。用户手册和设置几乎完全是具有约束条件的IB。相机UI的高级布置也类似如此。但我们认为短期内开发进度是值得肯定的。</p>
+<h2 id="避免Library过大"><a href="#避免Library过大" class="headerlink" title="避免Library过大"></a>避免Library过大</h2><p>检查许多大型应用程序的包，你会发现几十个第三方框架，大小从100k到几兆。</p>
+<p>我不使第三方库。这虽然有点极端，但我们有一个独特的情况。</p>
+<p>很多第三方库不具备我们所需要的功能。iOS开发社区拥有大量的JSON映射器，但对于DNG文件的低级操作没有任何意义。</p>
+<p>但是我之前提到的视频处理呢？我可以听到你大声喊叫，“GPUImage是可扩展的！你的做法太疯狂了!”</p>
+<p>从我对Periscope的堆栈的<a href="https://news.realm.io/news/building-periscope-sketches-ios/" target="_blank" rel="external">经验</a>来看，我们看到从GPUImage到内部解决方案的巨大收益。如果实时图像处理不是你业务的一部分，GPUImage就会很好。但是鉴于我们对Halide的长期愿景，以及实时渲染的作用，重要的是能掌控这样的组件。</p>
+<p>由于文件太大，我从未引入过GPUImage。但是作为自己疯狂的结果，我避免了在我们的应用程序中捆绑125个未使用的过的滤镜。</p>
+<p>PSPDFKit具有相似的<a href="https://pspdfkit.com/blog/2017/pspdfkit-ios-6-8/" target="_blank" rel="external">成功经验</a>，取代了太大的框架：</p>
+<blockquote>
+<p>我们很高兴地告诉你，使用PSPDFKit 6.8 for iOS，我们重写了数字签名实施的核心，以改进检测，验证和更好的错误报告。因此，我们也设法完全放弃了对OpenSSL的依赖，从而减少了二进制文件的大小。</p>
+</blockquote>
+<p>不要感染 Not-Invented-Here 综合征，有<a href="https://sandofsky.com/blog/third-party-libraries.html" target="_blank" rel="external">很多理由</a>来避免使用三方库。</p>
+<h2 id="不要在分析和A-B测试中浪费资源"><a href="#不要在分析和A-B测试中浪费资源" class="headerlink" title="不要在分析和A / B测试中浪费资源"></a>不要在分析和A / B测试中浪费资源</h2><p>我们不会使用任何第三方分析或崩溃报告服务。首先，我们不是很乐意将用户数据发送给广告公司。让我们暂停这样的想法。</p>
+<p>数据不是免费的。在大型应用中，每个动作都会记录一个分析事件。大型应用程序需要日志记录基础设施 - 唯一标识用户，重复数据删除请求，缓存日志，重试失败等。这些操作都会进行叠加。</p>
+<p>A / B测试更糟糕。你的典型社交网络应用程序由于没有人使用而死在的A / B测试上。</p>
+<p>我们出于代码膨胀的考虑避免了分析和A / B测试。这只是我们的产品理念。知道太多的数据会扭曲你的想法。你发现自己在优化某个不存在的特殊场景，而不是真的去关注用户实际会不会有这样的需求。</p>
+<p>所以我们使用苹果分析。它只是简单的记录，没有任何代码更改。并且免费。它尊重用户的隐私，需要选择加入。我们的选择加入率为32％，这对我们的需求是很好的。</p>
+<p>有分析的时间和地点。我们不确定我们的最优价格，所以我们可以在那里进行实验。然而，我们在业务驱动的分析和产品开发之间保持隔离。</p>
+<h1 id="你需要一致的目标"><a href="#你需要一致的目标" class="headerlink" title="你需要一致的目标"></a>你需要一致的目标</h1><p>我们是一个两个人的开发团队。我们通过销售产品赚钱。我们顺其自然的成长。当用户高兴时，他们会向朋友们推荐我们。小应用让我们开心，我们认为用户也很开心。</p>
+<p>我们的建议并不能帮助应用程序包很大的App。社交网络通过广告赚钱，广告客户需要详细的分析广告定位。</p>
+<p>大型应用程序拥有数百名开发人员，组成数十个团队，每个团队都有独立的季度目标。 你走的越快，你达成的目标越多，你的晋升越有可能。</p>
+<p>想想这是可以理解的，“这个三方库节省了我们一个星期的开发时间，但是在我们的应用程序中增加了1M。那么我们的App已经是几百M了，还有其它办法吗？”</p>
+<p>大型组织充满带来意想不到后果的合理想法。</p>
+<p>据说工程师想得到提升。输送功能不会让你达到目的。建立一个新的布局引擎。该公司甚至获得了工程博客的招聘诱饵。</p>
+<p>唯一的解决方案是高层领导宣布：“我们将减少我们的应用程序大小。”不幸的是，科技CEO们不会使用8G的储存空间的iPhone，他们不会生活在网速受限的地区。</p>
+<p>这不是一个毫不费力的努力。自从Halide发布以来，我们收到了来自世界各地的大量消息，感谢我们努力保持App的小巧。</p>
+<p>减小App安装包大小真的有一个奇怪的伎俩：专注于你的客户。</p>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="https://blog.halide.cam/one-weird-trick-to-lose-size-c0a4013de331" target="_blank" rel="external">One Weird Trick to Lose Size</a></p>
+<p>–EOF–</p>
+<p>若无特别说明，本站文章均为原创，转载请保留链接，谢谢</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;流行的社交网络应用程序超过400M。每周更新一次，每年你下载的应用总量接近20G。&lt;/p&gt;
+&lt;p&gt;自从我们推出了&lt;a href=&quot;https://halide.cam&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Halide&lt;/a&gt;，我们听到的最令人意想
+    
+    </summary>
+    
+      <category term="译文" scheme="http://XibHe.github.io/categories/%E8%AF%91%E6%96%87/"/>
+    
+    
+      <category term="译文" scheme="http://XibHe.github.io/tags/%E8%AF%91%E6%96%87/"/>
+    
+      <category term="App瘦身" scheme="http://XibHe.github.io/tags/App%E7%98%A6%E8%BA%AB/"/>
     
   </entry>
   
