@@ -4391,9 +4391,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 待办事项提醒 </tag>
-            
             <tag> 开源 </tag>
+            
+            <tag> 待办事项提醒 </tag>
             
         </tags>
         
@@ -4482,9 +4482,9 @@ context[@&quot;jsObject&quot;] = self;
         
         <tags>
             
-            <tag> 开源 </tag>
-            
             <tag> 待办事项 </tag>
+            
+            <tag> 开源 </tag>
             
         </tags>
         
@@ -5610,6 +5610,12 @@ pod setup
     </entry>
     
     <entry>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[引述]]></title>
       <url>/quotes/index.html</url>
       <content type="html"><![CDATA[<h3 id="2018-05-24"><a href="#2018-05-24" class="headerlink" title="2018/05/24"></a>2018/05/24</h3><blockquote>
@@ -5784,12 +5790,6 @@ pod setup
 <p>GitHub：</p>
 </blockquote>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
