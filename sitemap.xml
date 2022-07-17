@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://XibHe.github.io/about/index.html</loc>
+    
+    <lastmod>2022-07-17T09:29:06.636Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://XibHe.github.io/2018/05/28/Compiling/</loc>
     
     <lastmod>2022-07-05T06:49:31.737Z</lastmod>
@@ -117,13 +124,6 @@
     <loc>http://XibHe.github.io/2017/12/30/2017deadline/</loc>
     
     <lastmod>2018-12-31T14:08:55.938Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://XibHe.github.io/about/index.html</loc>
-    
-    <lastmod>2018-12-31T13:20:46.122Z</lastmod>
     
   </url>
   
